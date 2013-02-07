@@ -565,6 +565,25 @@
           $(this).select();
         });
 
+
+        function addMidRoll(screenName, start, end) {
+          var $lastRangeCombo = $(".midrolls .name_range_combo").not("#name_range_combo_template").last();
+          $lastRangeCombo.find("input[name=screen_name]").focus().val(screenName).keyup().blur();
+          $lastRangeCombo.find("input[name=start]").focus().val(start).keyup().blur();
+          $lastRangeCombo.find("input[name=end]").focus().val(end).keyup().blur();
+        }
+
+        // Set up examples.
+        $("#source_embed_code").focus().val("<iframe src=\"http://fast.wistia.net/embed/iframe/jquk4v6joi?controlsVisibleOnLoad=true&playerColor=38a8f2&version=v1&videoHeight=360&videoWidth=640\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"640\" height=\"360\"></iframe>").keyup().blur();
+        
+        addMidRoll("jeffvincent", 0, 11);
+        addMidRoll("DanMillsMusic", 12, 18);
+        addMidRoll("adamzais", 19, 27);
+        addMidRoll("jringenberg", 32, 41);
+        addMidRoll("DanMillsMusic", 54, 70);
+
+        $("#screen_name").focus().val("Wistia").keyup().blur();
+
       }(jQuery));
     </script>
 
