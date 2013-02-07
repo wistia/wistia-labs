@@ -1,0 +1,572 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+	<head>
+		<title>Twitter Follow Lab</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://wistia.github.com/demobin/javascripts/jquery.example.min.js"></script>
+    <script src="http://fast.wistia.com/static/app-jquery-jquery_jamjar.js"></script>
+    <script src="http://fast.wistia.com/static/E-v1.js"></script>
+    <script src="../lib/labtools.js"></script>
+		<style>
+
+      @font-face {
+        font-family: "interstate";
+        src: url("http://fast.wistia.com/fonts/interstate-light/interstate-light.eot");
+        src: url("http://fast.wistia.com/fonts/interstate-light/interstate-light.eot?#iefix") format("embedded-opentype"), url("http://fast.wistia.com/fonts/interstate-light/interstate-light.woff") format("woff"), url("http://fast.wistia.com/fonts/interstate-light/interstate-light.ttf") format("truetype"), url("http://fast.wistia.com/fonts/interstate-light/interstate-light.svg#interstate-light") format("svg");
+        font-weight: 400; }
+
+      @font-face {
+        font-family: "interstate";
+        src: url("http://fast.wistia.com/fonts/interstate-regular/interstate-regular.eot");
+        src: url("http://fast.wistia.com/fonts/interstate-regular/interstate-regular.eot?#iefix") format("embedded-opentype"), url("http://fast.wistia.com/fonts/interstate-regular/interstate-regular.woff") format("woff"), url("http://fast.wistia.com/fonts/interstate-regular/interstate-regular.ttf") format("truetype"), url("http://fast.wistia.com/fonts/interstate-regular/interstate-regular.svg#interstate-regular") format("svg");
+        font-weight: 700; }
+
+      @font-face {
+        font-family: "interstate";
+        src: url("http://fast.wistia.com/fonts/interstate-bold/interstate-bold.eot");
+        src: url("http://fast.wistia.com/fonts/interstate-bold/interstate-bold.eot?#iefix") format("embedded-opentype"), url("http://fast.wistia.com/fonts/interstate-bold/interstate-bold.woff") format("woff"), url("http://fast.wistia.com/fonts/interstate-bold/interstate-bold.ttf") format("truetype"), url("http://fast.wistia.com/fonts/interstate-bold/interstate-bold.svg#interstate-bold") format("svg");
+        font-weight: 900; }
+
+      @font-face {
+        font-family: "interstate";
+        src: url("http://fast.wistia.com/fonts/interstate-light-italic/interstate-lightitalic.eot");
+        src: url("http://fast.wistia.com/fonts/interstate-light-italic/interstate-lightitalic.eot?#iefix") format("embedded-opentype"), url("http://fast.wistia.com/fonts/interstate-light-italic/interstate-lightitalic.woff") format("woff"), url("http://fast.wistia.com/fonts/interstate-light-italic/interstate-lightitalic.ttf") format("truetype"), url("http://fast.wistia.com/fonts/interstate-light-italic/interstate-lightitalic.svg#interstate-lightitalic") format("svg");
+        font-style: italic; }
+
+      html {
+        height: 100%;
+      }
+
+      body {
+        background: #f7f6f4;
+        color: #404040;
+        font-family: Interstate, Helvetica, Arial, Sans-Serif;
+        font-size: 16px;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+      }
+			
+      textarea, input {
+        border: 1px dotted #a5a5a5;
+        font-family: Interstate, Helvetica, Arial, Sans-Serif;
+        font-size: 14px;
+        outline: 0;
+        padding: 6px 8px;
+      }
+
+      textarea.example, input.example {
+        color: #ccc;
+      }
+
+      #nonfooter {
+        height: 100%;
+        min-height: 100%;
+        position: relative;
+      }
+
+      #footerpad {
+        height: 0;
+        padding-bottom: 0;
+        font-size: 0;
+        line-height: 0;
+      }
+
+      * html #nonfooter {
+        height: 100%;
+      }
+
+      #footer {
+        clear: both;
+        height: 0;
+        background: white;
+        margin-top: 0;
+      }
+
+      .jamjar {
+        color: #666666;
+        font-family: Interstate, Helvetica, Arial, sans-serif;
+        margin-bottom: 18px;
+      }
+
+      .jamjar_head {
+        background: #56ADF8;
+        color: white;
+        position: relative; }
+
+      .jamjar_title {
+        background: transparent url(http://fast.wistia.com/images/zebra/elements/expanded_arrow_white.gif) no-repeat 12px 17px;
+        color: white;
+        cursor: pointer;
+        font-size: 20px;
+        padding: 10px 10px 10px 31px; }
+
+      .jamjar_help {
+        background: url(http://fast.wistia.com/images/zebra/elements/questionhelp_light.png);
+        cursor: pointer;
+        display: inline-block;
+        *display: inline;
+        height: 26px;
+        opacity: 0.5;
+        position: absolute;
+        right: 10px;
+        text-indent: -99999em;
+        top: 8px;
+        vertical-align: top;
+        width: 26px;
+        zoom: 1; }
+        .jamjar_help:hover {
+          opacity: 1; }
+
+      .jamjar_subhead {
+        padding: 8px 10px 8px 31px; }
+
+      .jamjar_body {
+        background: white;
+        font-size: 14px;
+        padding: 18px; }
+
+      .jamjar_foot {
+        background: #469DE8;
+        font-size: 0;
+        height: 5px;
+        line-height: 0; }
+
+      .jamjar_closed .jamjar_title {
+        background-image: url(http://fast.wistia.com/images/zebra/elements/collapsed_arrow_white.gif);
+        background-position: 15px 15px; }
+      .jamjar_closed .jamjar_subhead {
+        display: none; }
+      .jamjar_closed .jamjar_body {
+        display: none; }
+
+      .jamjar_no_control .jamjar_title {
+        background-image: none;
+        cursor: default;
+        padding-left: 10px; }
+
+      .paste_embed_code .jamjar_head {
+        background-color: #55C6FF;
+      }
+
+      .paste_embed_code .jamjar_foot {
+        background-color: #45B6FF;
+      }
+
+      .midroll .jamjar_head {
+        background-color: #0092D1;
+      }
+
+      .midroll .jamjar_foot {
+        background-color: #0082C1;
+      }
+
+      .screen_name .jamjar_head {
+        background-color: #005E8B;
+      }
+
+      .screen_name .jamjar_foot {
+        background-color: #004E7B;
+      }
+
+      .col {
+        display: inline-block;
+        *display: inline;
+        vertical-align: top;
+        zoom: 1;
+      }
+
+      .col1 {
+        background: #f1efeb;
+        color: #696969;
+        height: 100%;
+        padding: 60px 30px 0 30px;
+        position: relative;
+        width: 306px;
+      }
+
+      .col2 {
+        padding: 60px 30px;
+      }
+
+      h1 {
+        font-weight: normal;
+        margin-top: 0;
+      }
+
+      .checkbox_field_pair {
+        margin-bottom: 10px;
+      }
+      .checkbox_field_pair.last {
+        margin-bottom: 0;
+      }
+
+      .screen_name_field_pair {
+        position: relative;
+      }
+
+      .screen_name_field_pair .at {
+        color: #ccc;
+        font-size: 16px;
+        left: 6px;
+        position: absolute;
+        top: 10px;
+      }
+      .screen_name_field_pair .at.dark {
+        color: #404040;
+      }
+
+      #configure .screen_name_field_pair input[type=text] {
+        background: transparent;
+        padding-left: 23px;
+        position: relative;
+        width: 235px;
+      }
+
+
+      #new_embed_code {
+        font-family: Courier;
+        font-size: 13px;
+        height: 112px;
+        width: 585px;
+      }
+
+      #configure input[type=text] {
+        width: 250px;
+      }
+
+      #configure textarea {
+        height: 112px;
+        width: 250px;
+      }
+
+      #results {
+        padding-top: 68px;
+      }
+
+      #results label {
+        display: block;
+        margin: 1em 0;
+      }
+
+      #placeholder_preview {
+        border: 1px dotted #a5a5a5;
+        height: 350px;
+        line-height: 360px;
+        text-align: center;
+        width: 600px;
+      }
+
+      #configure .midrolls input[name=start], #configure .midrolls input[name=end] {
+        text-align: center;
+        width: 35px;
+      }
+
+      #configure .midrolls input[name=screen_name] {
+        background: transparent;
+        padding-left: 23px;
+        position: relative;
+        width: 115px;
+      }
+
+      .name_range_combo {
+        position: relative;
+      }
+
+      .name_range_combo .at {
+        color: #ccc;
+        font-size: 16px;
+        position: absolute;
+        left: 6px;
+        top: 10px;
+      }
+
+      .name_range_combo .at.dark {
+        color: #404040;
+      }
+
+      .midrolls label {
+        display: inline-block;
+        *display: inline;
+        vertical-align: top;
+        zoom: 1;
+      }
+
+      .midrolls label.screen_name {
+        padding-left: 1px;
+        width: 148px;
+      }
+
+      .midrolls label.start, .midrolls label.end {
+        text-align: center;
+        width: 52px;
+      }
+
+      .more_options {
+        margin-top: 1em;
+      }
+			
+		</style>
+	</head>
+	<body>
+
+    <div id="nonfooter">
+      <div class="col1 col">
+        <div id="configure">
+          <h1>Twitter Follow Lab</h1>
+
+          <div class="jamjar paste_embed_code">
+            <div class="jamjar_head">
+              <div class="jamjar_title">Paste Embed Code</div>
+            </div>
+            <div class="jamjar_body">
+              <div class="source_embed_code_field_pair field_pair">
+                <div class="note" style="margin-bottom:1em;">Get it from the SuperEmbed Builder.</div>
+                <textarea name="source_embed_code" id="source_embed_code"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="jamjar midrolls">
+            <div class="jamjar_head">
+              <div class="jamjar_title">Mid-Rolls</div>
+            </div>
+            <div class="jamjar_body">
+              <div id="name_range_combo_template" class="name_range_combo" style="display:none;">
+                <div class="at">@</div>
+                <input type="text" name="screen_name" />
+                <input type="text" name="start" />
+                <input type="text" name="end" />
+              </div>
+              <div class="note" style="margin-bottom:1em;">
+                Start and end are measured in seconds.
+              </div>
+              <label class="screen_name">Twitter Handle</label>
+              <label class="start">Start</label>
+              <label class="end">End</label>
+              <div class="name_range_combos"></div>
+
+              <div class="more_options">
+                <div class="checkbox_field_pair field_pair">
+                  <label>
+                    <input type="checkbox" name="postroll_recap" id="postroll_recap" />
+                    Recap names at end
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="jamjar screen_name">
+            <div class="jamjar_head">
+              <div class="jamjar_title">Post-Rolls</div>
+            </div>
+            <div class="jamjar_body">
+              <div class="screen_name_field_pair field_pair">
+                <div class="note" style="margin-bottom:1em;">
+                  <p style="margin-top:0;">Choose a follow button to end on. </p>
+                </div>
+                <div class="screen_name_field_pair field_pair">
+                  <div class="at">@</div>
+                  <input type="text" name="screen_name" id="screen_name" />
+                </div>
+              </div>
+
+              <div class="more_options">
+                <div class="checkbox_field_pair field_pair">
+                  <label>
+                    <input type="checkbox" name="show_screen_name" id="show_screen_name" checked="checked" />
+                    Show Twitter Handle
+                  </label>
+                </div>
+              </div>
+
+              <div class="note" style="margin-bottom:1em;">
+                <p>If your video already has a post-roll, you'll see this instead.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div><div class="col2 col">
+        <div id="results">
+          
+          <label>Your new embed code</label>
+          <textarea id="new_embed_code"></textarea><br/>
+          
+          <label>Here's how it will look</label>
+          <div id="preview">
+            <div id="placeholder_preview">Your video here</div>
+          </div>
+          
+        </div>
+      </div>
+      <div id="footerpad">&nbsp;</div>
+    </div>
+    <div id="footer">&nbsp;</div>
+
+    <script>
+      (function($) {
+        function postRollOptionsFromPage() {
+          return {
+            screenName: $("#screen_name").val().replace(/^@/, ""),
+            showScreenName: $("#show_screen_name").is(":checked") ? true : false
+          };
+        }
+
+        function midrollDataFromPage() {
+          var result = [];
+          $(".midrolls .name_range_combo").each(function() {
+            var $this = $(this);
+            var screenName = $this.find("input[name=screen_name]").val();
+            var start = $this.find("input[name=start]").val();
+            var end = $this.find("input[name=end]").val();
+            if (screenName && start && end) {
+              result.push({
+                screenName: screenName,
+                start: parseInt(start, 10),
+                end: parseInt(end, 10)
+              });
+            }
+          });
+          return result;
+        }
+
+        function newEmbedCodeFromPage() {
+          var postRollOptions = postRollOptionsFromPage();
+          var newEmbed = window.sourceEmbed = Wistia.EmbedCode.parse($("#source_embed_code").val());
+
+          if ($.trim(postRollOptions.screenName)) {
+            newEmbed.setOption('plugin.wistiafollows.postRoll', postRollOptions);
+            newEmbed.removeOption('plugin.postRoll');
+            newEmbed.removeOption('plugin.postRoll-v1');
+          }
+
+          var midRollData = midrollDataFromPage();
+          if (midRollData.length > 0) {
+            newEmbed.setOption('plugin.wistiafollows.people', midRollData);
+            if ($("#postroll_recap").is(":checked")) {
+              var recapDataHash = {};
+              for (var i = 0; i < midRollData.length; i++) {
+                var personData = Wistia.extend({}, midRollData[i]);
+                delete personData.start;
+                delete personData.end;
+                recapDataHash[personData.screenName] = personData;
+              }
+              var recapData = [];
+              for (var key in recapDataHash) {
+                if (recapDataHash.hasOwnProperty(key)) {
+                  recapData.push(recapDataHash[key]);
+                }
+              }
+              newEmbed.setOption('plugin.wistiafollows.recap', recapData);
+            }
+          }
+
+          if (Wistia.obj.get(newEmbed.options(), 'plugin.wistiafollows')) {
+            newEmbed.setOption('plugin.wistiafollows.src', newEmbed.proto() + "//" + Wistia.remote.embedHost({ ssl: newEmbed.ssl() }) + "/static/lab-wistiafollows.js");
+          }
+
+          return newEmbed;
+        }
+
+        function inputErrors() {
+          var errors = [];
+          var sourceEmbed = $("#source_embed_code").val();
+          if ($.trim(sourceEmbed) == "") {
+            errors.push("Please enter an API embed code.");
+          } else if (!Wistia.EmbedCode.isValid(sourceEmbed)) {
+            errors.push("Please enter a valid embed code.");
+          }
+          return errors;
+        }
+
+        function updateNewEmbedCode() {
+          var errors = inputErrors();
+          if (errors.length === 0) {
+            $("#new_embed_code").val(newEmbedCodeFromPage().toString());
+            updatePreview();
+          } else {
+            $("#new_embed_code").val(errors.join("\n"));
+          }
+        }
+
+        function updatePreview() {
+          window.newEmbedCode = newEmbedCodeFromPage();
+          newEmbedCode.previewInElem("preview");
+        }
+
+
+        var debounceUpdateNewEmbedCodeTimeoutId;
+        function debounceUpdateNewEmbedCode() {
+          clearTimeout(debounceUpdateNewEmbedCodeTimeoutId);
+          debounceUpdateNewEmbedCodeTimeoutId = setTimeout(updateNewEmbedCode, 800);
+        }
+
+        $("#configure").on("keyup", "input[type=text], textarea", debounceUpdateNewEmbedCode);
+        $("#configure").on("click", ":checkbox, :radio", debounceUpdateNewEmbedCode);
+
+        $(".more_options").find(".checkbox_field_pair:last").addClass("last");
+
+        $(".paste_embed_code.jamjar").jamjar({ title: "Paste embed code" });
+        $(".screen_name.jamjar").jamjar({ title: "Post-Roll" });
+        $(".midrolls.jamjar").jamjar({ title: "Mid-Rolls" });
+
+        $("#screen_name").on("keyup", function() {
+          if ($(this).val() != "") {
+            $(".screen_name.jamjar").find(".at").addClass("dark");
+          } else {
+            $(".screen_name.jamjar").find(".at").removeClass("dark");
+          }
+        });
+
+
+        function addNameRangeCombo() {
+          var $elem = $("#name_range_combo_template").clone();
+          $elem.show().removeAttr("id");
+          $(".midrolls .name_range_combos").append($elem);
+          $(".midrolls").find("input[name=start], input[name=end]").example("?")
+          $(".midrolls").on("keyup", "input[name=screen_name]", function() {
+            if ($(this).val() != "") {
+              $(this).closest(".name_range_combo").find(".at").addClass("dark");
+            } else {
+              $(this).closest(".name_range_combo").find(".at").removeClass("dark");
+            }
+          });
+        }
+
+        function allNameRangeCombosTaken() {
+          var result = true;
+          $(".midrolls .name_range_combo").not("#name_range_combo_template").each(function() {
+            var screenName = $(this).find("input[name=screen_name]").val();
+            var start = $(this).find("input[name=start]").val();
+            var end = $(this).find("input[name=end]").val();
+            if ($.trim(screenName) == "" || $.trim(start) == "" || $.trim(end) == "") {
+              result = false;
+            }
+            if (!/^\d+$/.test(start) || !/^\d+$/.test(end)) {
+              result = false;
+            }
+          });
+          return result;
+        }
+
+        function conditionallyAddNameRangeCombos() {
+          if (allNameRangeCombosTaken()) {
+            addNameRangeCombo();
+          }
+        }
+
+        $(".midrolls").on("keyup", "input[type=text]", conditionallyAddNameRangeCombos);
+        conditionallyAddNameRangeCombos();
+
+        $("#new_embed_code").click(function() {
+          $(this).select();
+        });
+
+      }(jQuery));
+    </script>
+
+	</body>
+</html>
