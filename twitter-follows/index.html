@@ -465,7 +465,7 @@
           }
 
           if (Wistia.obj.get(newEmbed.options(), 'plugin.wistiafollows')) {
-            newEmbed.setOption('plugin.wistiafollows.src', newEmbed.proto() + "//" + Wistia.remote.embedHost({ ssl: newEmbed.ssl() }) + "/static/lab-wistiafollows.js");
+            newEmbed.setOption('plugin.wistiafollows.src', newEmbed.proto() + "//" + Wistia.remote.embedHost({ ssl: newEmbed.ssl() }) + "/labs/twitter-follows/wistia-follows.js");
           }
 
           return newEmbed;
