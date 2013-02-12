@@ -6,6 +6,7 @@
     <script src="http://wistia.github.com/demobin/javascripts/jquery.example.min.js"></script>
     <script src="http://fast.wistia.com/static/app-jquery-jquery_jamjar.js"></script>
     <script src="http://fast.wistia.com/static/E-v1.js"></script>
+    <script src="http://fast.wistia.com/labs/twitter-follows/wistia-follows.js"></script>
     <meta name="twitter:card" content="player" />
     <meta name="twitter:site" content="@wistia" />
     <meta name="twitter:title" content="The Twitter Follow Lab - Desktop" />
@@ -522,7 +523,7 @@
             }
 
             if (Wistia.obj.get(newEmbed.options(), 'plugin.wistiafollows')) {
-              newEmbed.setOption('plugin.wistiafollows.src', "//" + Wistia.remote.embedHost({ ssl: newEmbed.ssl() }) + "/labs/twitter-follows/wistia-follows.js");
+              newEmbed.setOption('plugin.wistiafollows.src', newEmbed.proto() + "//" + Wistia.remote.embedHost({ ssl: newEmbed.ssl() }) + "/labs/twitter-follows/wistia-follows.js");
             }
 
             return newEmbed;
