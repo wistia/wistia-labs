@@ -469,10 +469,12 @@
         var labtoolsUrl, followsUrl;
         if (/(?:\/|\/index.html)$/.test(location.pathname)) {
           labtoolsUrl = "../lib/labtools.js";
+          followsUrl = "wistia-follows.js";
         } else {
           labtoolsUrl = "/labs/lib/labtools.js";
+          followsUrl = "/labs/lib/wistia-follows.js";
         }
-        Wistia.remote.scripts([{ src: labtoolsUrl }, { src: "wistia-follows.js" }], function() {
+        Wistia.remote.scripts([{ src: labtoolsUrl }, { src: followsUrl }], function() {
           function postRollOptionsFromPage() {
             return {
               screenName: $("#screen_name").val().replace(/^@/, ""),
