@@ -341,14 +341,17 @@
       <div id="header">
         <div class="col1 col">
           <h1>
-            <strong>&lt;Wistia Video Lab&gt;</strong><br/>
-            Twitter Follows
+            Twitter Follow Lab
           </h1>
         </div><div class="col2 col">
-        This lab makes it easy to have timed Twitter Follow buttons pop up in your video!<br/>
-        Once you've created an embed code in your Wistia account, <a href="#" id="clear_example">clear</a> the example below<br/>
-        and paste in your code. If you want to bring the example back, just <a href="#" id="refresh_page">refresh</a> this page.<br/>
-        If you want to try this but don't have a Wistia account, set one up <a href="http://wistia.com/free/new">here.</a> It's free!<br/>
+          <div id="clear_text" style="display:none;">
+            This lab lets you easily overlay Twitter follow buttons on top of your video.<br/>
+            Just paste in a Wistia embed code and start customizing, or <a href="#" id="show_example">show me an example</a>.
+          </div>
+          <div id="example_text">
+            This lab lets you easily overlay Twitter follow buttons on top of your video.<br/>
+            Play around with the example to see ow it works, then <a href="#" id="clear_example">clear it</a> when you're ready to drop your own video in.
+          </div>
         </div>
       </div>
       <div class="col1 col">
@@ -623,7 +626,7 @@
             $(".midrolls .name_range_combo").not("#name_range_combo_template").remove();
             addNameRangeCombo();
             $("#screen_name").focus().val("").keyup().blur();
-            $("#preview").html("")
+            $("#preview").html("<div id=\"placeholder_preview\">Your video here</div>")
           };
 
           // Set up examples.
@@ -638,16 +641,28 @@
 
             $("#screen_name").focus().val("Wistia").keyup().blur();
           };
-          setupExample();
 
           $("#clear_example").click(function(event) {
             event.preventDefault();
+            $("#clear_text").show();
+            $("#example_text").hide();
             clearInputs();
+            Wistia.localStorage("twitter-follows.cleared", true);
           });
-          $("#refresh_page").click(function(event) {
+          $("#show_example").click(function(event) {
             event.preventDefault();
-            location.reload();
+            $("#example_text").show();
+            $("#clear_text").hide();
+            setupExample();
+            Wistia.localStorage("twitter-follows.cleared", false);
           });
+
+          if (!Wistia.localStorage("twitter-follows.cleared")) {
+            setupExample();
+          } else {
+            $("#clear_text").show();
+            $("#example_text").hide();
+          }
 
         });
 
