@@ -196,6 +196,9 @@
         background-color: #004E7B;
       }
 
+      .cols {
+        white-space: nowrap;
+      }
       .col {
         display: inline-block;
         *display: inline;
@@ -349,107 +352,111 @@
 
     <div id="nonfooter">
       <div id="header">
-        <div class="col1 col">
-          <h1>
-            Twitter Follow Lab
-          </h1>
-        </div><div class="col2 col">
-          <div id="clear_text" style="display:none;">
-            This lab lets you easily overlay Twitter follow buttons on top of your video.<br/>
-            Just paste in a Wistia embed code and start customizing, or <a href="#" id="show_example">show me an example</a>.
-          </div>
-          <div id="example_text">
-            This lab lets you easily overlay Twitter follow buttons on top of your video.<br/>
-            Play around with the example to see how it works, then <a href="#" id="clear_example">clear it</a> when you're ready to drop your own video in.
+        <div class="cols">
+          <div class="col1 col">
+            <h1>
+              Twitter Follow Lab
+            </h1>
+          </div><div class="col2 col">
+            <div id="clear_text" style="display:none;">
+              This lab lets you easily overlay Twitter follow buttons on top of your video.<br/>
+              Just paste in a Wistia embed code and start customizing, or <a href="#" id="show_example">show me an example</a>.
+            </div>
+            <div id="example_text">
+              This lab lets you easily overlay Twitter follow buttons on top of your video.<br/>
+              Play around with the example to see how it works, then <a href="#" id="clear_example">clear it</a> when you're ready to drop your own video in.
+            </div>
           </div>
         </div>
       </div>
-      <div class="col1 col">
-        <div id="configure">
-          <div class="jamjar paste_embed_code">
-            <div class="jamjar_head">
-              <div class="jamjar_title">Paste Embed Code</div>
-            </div>
-            <div class="jamjar_body">
-              <div class="source_embed_code_field_pair field_pair">
-                <div class="note" style="margin-bottom:1em;">Get it from the SuperEmbed Builder.</div>
-                <textarea name="source_embed_code" id="source_embed_code"></textarea>
+      <div class="cols">
+        <div class="col1 col">
+          <div id="configure">
+            <div class="jamjar paste_embed_code">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Paste Embed Code</div>
               </div>
-            </div>
-          </div>
-
-          <div class="jamjar midrolls">
-            <div class="jamjar_head">
-              <div class="jamjar_title">Mid-Rolls</div>
-            </div>
-            <div class="jamjar_body">
-              <div id="name_range_combo_template" class="name_range_combo" style="display:none;">
-                <div class="at">@</div>
-                <input type="text" name="screen_name" />
-                <input type="text" name="start" />
-                <input type="text" name="end" />
-              </div>
-              <div class="note" style="margin-bottom:1em;">
-                Start and end are measured in seconds.
-              </div>
-              <label class="screen_name">Twitter Handle</label>
-              <label class="start">Start</label>
-              <label class="end">End</label>
-              <div class="name_range_combos"></div>
-
-              <div class="more_options">
-                <div class="checkbox_field_pair field_pair">
-                  <label>
-                    <input type="checkbox" name="postroll_recap" id="postroll_recap" />
-                    Recap names at end
-                  </label>
+              <div class="jamjar_body">
+                <div class="source_embed_code_field_pair field_pair">
+                  <div class="note" style="margin-bottom:1em;">Get it from the SuperEmbed Builder.</div>
+                  <textarea name="source_embed_code" id="source_embed_code"></textarea>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class="jamjar screen_name">
-            <div class="jamjar_head">
-              <div class="jamjar_title">Post-Rolls</div>
-            </div>
-            <div class="jamjar_body">
-              <div class="screen_name_field_pair field_pair">
-                <div class="note" style="margin-bottom:1em;">
-                  <p style="margin-top:0;">Choose a follow button to end on. </p>
-                </div>
-                <div class="screen_name_field_pair field_pair">
+            <div class="jamjar midrolls">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Mid-Rolls</div>
+              </div>
+              <div class="jamjar_body">
+                <div id="name_range_combo_template" class="name_range_combo" style="display:none;">
                   <div class="at">@</div>
-                  <input type="text" name="screen_name" id="screen_name" />
+                  <input type="text" name="screen_name" />
+                  <input type="text" name="start" />
+                  <input type="text" name="end" />
                 </div>
-              </div>
-
-              <div class="more_options">
-                <div class="checkbox_field_pair field_pair">
-                  <label>
-                    <input type="checkbox" name="show_screen_name" id="show_screen_name" checked="checked" />
-                    Show Twitter Handle
-                  </label>
+                <div class="note" style="margin-bottom:1em;">
+                  Start and end are measured in seconds.
                 </div>
-              </div>
+                <label class="screen_name">Twitter Handle</label>
+                <label class="start">Start</label>
+                <label class="end">End</label>
+                <div class="name_range_combos"></div>
 
-              <div class="note" style="margin-bottom:1em;">
-                <p>If your video already has a post-roll, you'll see this instead.</p>
+                <div class="more_options">
+                  <div class="checkbox_field_pair field_pair">
+                    <label>
+                      <input type="checkbox" name="postroll_recap" id="postroll_recap" />
+                      Recap names at end
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
 
-        </div>
-      </div><div class="col2 col">
-        <div id="results">
-          
-          <label>Your new embed code</label>
-          <textarea id="new_embed_code"></textarea><br/>
-          
-          <label>Here's how it will look</label>
-          <div id="preview">
-            <div id="placeholder_preview">Your video here</div>
+            <div class="jamjar screen_name">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Post-Rolls</div>
+              </div>
+              <div class="jamjar_body">
+                <div class="screen_name_field_pair field_pair">
+                  <div class="note" style="margin-bottom:1em;">
+                    <p style="margin-top:0;">Choose a follow button to end on. </p>
+                  </div>
+                  <div class="screen_name_field_pair field_pair">
+                    <div class="at">@</div>
+                    <input type="text" name="screen_name" id="screen_name" />
+                  </div>
+                </div>
+
+                <div class="more_options">
+                  <div class="checkbox_field_pair field_pair">
+                    <label>
+                      <input type="checkbox" name="show_screen_name" id="show_screen_name" checked="checked" />
+                      Show Twitter Handle
+                    </label>
+                  </div>
+                </div>
+
+                <div class="note" style="margin-bottom:1em;">
+                  <p>If your video already has a post-roll, you'll see this instead.</p>
+                </div>
+              </div>
+            </div>
+
           </div>
-          
+        </div><div class="col2 col">
+          <div id="results">
+            
+            <label>Your new embed code</label>
+            <textarea id="new_embed_code"></textarea><br/>
+            
+            <label>Here's how it will look</label>
+            <div id="preview">
+              <div id="placeholder_preview">Your video here</div>
+            </div>
+            
+          </div>
         </div>
       </div>
       <div id="footerpad">&nbsp;</div>
