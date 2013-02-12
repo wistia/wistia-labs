@@ -200,7 +200,7 @@ Wistia.plugin("wistiafollows", function(video, options) {
             if (typeof(twttr) != 'undefined') {
               twttr.widgets.load();
             }
-          }, 100);
+          }, 1000);
         }
         setTimeout(function() {
           video.fit();
