@@ -181,7 +181,7 @@ Wistia.plugin("wistiafollows", function(video, options) {
   }
 
   if (postRollContent) {
-    postRollContent += "<script>if (typeof(twttr) != 'undefined') { twttr.widgets.load(); }</script>";
+    postRollContent += "<script>if (typeof(twttr) != 'undefined') { twttr.widgets.load(); if (Wistia.detect.iphone || Wistia.detect.ipad) { setTimeout(function() { twttr.widgets.load(); }, 1000); } }</script>";
     function initPostRoll() {
       var postRoll = Wistia.plugin.postRoll(video, {
         raw: postRollContent,
@@ -205,7 +205,7 @@ Wistia.plugin("wistiafollows", function(video, options) {
     }
   }
 
-  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
 
   if (!document.getElementById("wistia_follows_css")) {
     styleElem = Wistia.util.addInlineCss(document.body, ".wistia_initial {\n" +

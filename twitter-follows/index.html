@@ -6,7 +6,6 @@
     <script src="http://wistia.github.com/demobin/javascripts/jquery.example.min.js"></script>
     <script src="http://fast.wistia.com/static/app-jquery-jquery_jamjar.js"></script>
     <script src="http://fast.wistia.com/static/E-v1.js"></script>
-    <script src="http://fast.wistia.com/labs/twitter-follows/wistia-follows.js"></script>
     <meta name="twitter:card" content="player" />
     <meta name="twitter:site" content="@wistia" />
     <meta name="twitter:title" content="The Twitter Follow Lab - Desktop" />
@@ -203,6 +202,7 @@
         display: inline-block;
         *display: inline;
         vertical-align: top;
+        white-space: normal;
         zoom: 1;
       }
 
@@ -466,13 +466,13 @@
     <script>
       (function($) {
 
-        var labtoolsUrl;
+        var labtoolsUrl, followsUrl;
         if (/(?:\/|\/index.html)$/.test(location.pathname)) {
           labtoolsUrl = "../lib/labtools.js";
         } else {
           labtoolsUrl = "/labs/lib/labtools.js";
         }
-        Wistia.remote.script(labtoolsUrl, function() {
+        Wistia.remote.scripts([{ src: labtoolsUrl }, { src: "wistia-follows.js" }], function() {
           function postRollOptionsFromPage() {
             return {
               screenName: $("#screen_name").val().replace(/^@/, ""),
