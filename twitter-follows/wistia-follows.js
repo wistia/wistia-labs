@@ -195,6 +195,13 @@ Wistia.plugin("wistiafollows", function(video, options) {
         if (typeof(twttr) != 'undefined') {
           twttr.widgets.load();
         }
+        if (Wistia.detect.android) {
+          setTimeout(function() {
+            if (typeof(twttr) != 'undefined') {
+              twttr.widgets.load();
+            }
+          }, 100);
+        }
         setTimeout(function() {
           video.fit();
         }, 500);
