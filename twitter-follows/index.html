@@ -6,6 +6,15 @@
     <script src="http://wistia.github.com/demobin/javascripts/jquery.example.min.js"></script>
     <script src="http://fast.wistia.com/static/app-jquery-jquery_jamjar.js"></script>
     <script src="http://fast.wistia.com/static/E-v1.js"></script>
+    <meta name="twitter:card" content="player" />
+    <meta name="twitter:site" content="@wistia" />
+    <meta name="twitter:title" content="The Twitter Follow Lab - Desktop" />
+    <meta name="twitter:url" content="http://wistia.com/blog/twitter-cards-twitter-follow-lab/" />
+    <meta name="twitter:description" content="Introducing the Twitter Follow Lab1 min 05 sec video" />
+    <meta name="twitter:image" content="https://wistia.sslcs.cdngc.net/deliveries/dd58b74ad7c72a586e9b10dbfa885536cae594a7/file.jpg" />
+    <meta name="twitter:player" content="https://fast.wistia.net/embed/iframe/9bi8datskq?playerColor=81b7db&version=v1&videoHeight=326&videoWidth=580&plugin%5Bwistiafollows%5D%5BpostRoll%5D%5BscreenName%5D=Wistia&plugin%5Bwistiafollows%5D%5BpostRoll%5D%5BshowScreenName%5D=true&plugin%5Bwistiafollows%5D%5Bpeople%5D%5B0%5D%5BscreenName%5D=brendan&plugin%5Bwistiafollows%5D%5Bpeople%5D%5B0%5D%5Bstart%5D=7&plugin%5Bwistiafollows%5D%5Bpeople%5D%5B0%5D%5Bend%5D=10&plugin%5Bwistiafollows%5D%5Bpeople%5D%5B1%5D%5BscreenName%5D=csavage&plugin%5Bwistiafollows%5D%5Bpeople%5D%5B1%5D%5Bstart%5D=21&plugin%5Bwistiafollows%5D%5Bpeople%5D%5B1%5D%5Bend%5D=25&plugin%5Bwistiafollows%5D%5Bpeople%5D%5B2%5D%5BscreenName%5D=jeffvincent&plugin%5Bwistiafollows%5D%5Bpeople%5D%5B2%5D%5Bstart%5D=32&plugin%5Bwistiafollows%5D%5Bpeople%5D%5B2%5D%5Bend%5D=35&plugin%5Bwistiafollows%5D%5Brecap%5D%5B0%5D%5BscreenName%5D=brendan&plugin%5Bwistiafollows%5D%5Brecap%5D%5B1%5D%5BscreenName%5D=csavage&plugin%5Bwistiafollows%5D%5Brecap%5D%5B2%5D%5BscreenName%5D=jeffvincent&plugin%5Bwistiafollows%5D%5Bsrc%5D=https%3A%2F%2Ffast.wistia.com%2Flabs%2Ftwitter-follows%2Fwistia-follows.js" />
+    <meta name="twitter:player:width" content="435" />
+    <meta name="twitter:player:height" content="247" />
 		<style>
 
       @font-face {
@@ -513,7 +522,7 @@
             }
 
             if (Wistia.obj.get(newEmbed.options(), 'plugin.wistiafollows')) {
-              newEmbed.setOption('plugin.wistiafollows.src', newEmbed.proto() + "//" + Wistia.remote.embedHost({ ssl: newEmbed.ssl() }) + "/labs/twitter-follows/wistia-follows.js");
+              newEmbed.setOption('plugin.wistiafollows.src', "//" + Wistia.remote.embedHost({ ssl: newEmbed.ssl() }) + "/labs/twitter-follows/wistia-follows.js");
             }
 
             return newEmbed;
@@ -631,15 +640,14 @@
 
           // Set up examples.
           window.setupExample = function() {
-            $("#source_embed_code").focus().val("<iframe src=\"http://fast.wistia.net/embed/iframe/jquk4v6joi?controlsVisibleOnLoad=true&playerColor=38a8f2&version=v1&videoHeight=360&videoWidth=640\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"640\" height=\"360\"></iframe>").keyup().blur();
+            $("#source_embed_code").focus().val("<iframe src=\"http://fast.wistia.net/embed/iframe/9bi8datskq?playerColor=81b7db&version=v1&videoHeight=326&videoWidth=580\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"580\" height=\"326\"></iframe>").keyup().blur();
             
-            addMidRoll("jeffvincent", 0, 11);
-            addMidRoll("DanMillsMusic", 12, 18);
-            addMidRoll("adamzais", 19, 27);
-            addMidRoll("jringenberg", 32, 41);
-            addMidRoll("DanMillsMusic", 54, 70);
+            
+            addMidRoll("brendan", 7, 10);
+            addMidRoll("csavage", 21, 25);
+            addMidRoll("jeffvincent", 32, 35);
 
-            $("#screen_name").focus().val("Wistia").keyup().blur();
+            $("#screen_name").focus().val("wistia").keyup().blur();
           };
 
           $("#clear_example").click(function(event) {
