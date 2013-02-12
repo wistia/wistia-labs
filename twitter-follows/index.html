@@ -6,7 +6,6 @@
     <script src="http://wistia.github.com/demobin/javascripts/jquery.example.min.js"></script>
     <script src="http://fast.wistia.com/static/app-jquery-jquery_jamjar.js"></script>
     <script src="http://fast.wistia.com/static/E-v1.js"></script>
-    <script src="../lib/labtools.js"></script>
 		<style>
 
       @font-face {
@@ -408,181 +407,191 @@
 
     <script>
       (function($) {
-        function postRollOptionsFromPage() {
-          return {
-            screenName: $("#screen_name").val().replace(/^@/, ""),
-            showScreenName: $("#show_screen_name").is(":checked") ? true : false
-          };
+
+        var labtoolsUrl;
+        if (/(?:\/|\/index.html)$/.test(location.pathname)) {
+          labtoolsUrl = "../lib/labtools.js";
+        } else {
+          labtoolsUrl = "/lib/labtools.js";
         }
-
-        function midrollDataFromPage() {
-          var result = [];
-          $(".midrolls .name_range_combo").each(function() {
-            var $this = $(this);
-            var screenName = $this.find("input[name=screen_name]").val();
-            var start = $this.find("input[name=start]").val();
-            var end = $this.find("input[name=end]").val();
-            if (screenName && start && end) {
-              result.push({
-                screenName: screenName,
-                start: parseInt(start, 10),
-                end: parseInt(end, 10)
-              });
-            }
-          });
-          return result;
-        }
-
-        function newEmbedCodeFromPage() {
-          var postRollOptions = postRollOptionsFromPage();
-          var newEmbed = window.sourceEmbed = Wistia.EmbedCode.parse($("#source_embed_code").val());
-
-          if ($.trim(postRollOptions.screenName)) {
-            newEmbed.setOption('plugin.wistiafollows.postRoll', postRollOptions);
-            newEmbed.removeOption('plugin.postRoll');
-            newEmbed.removeOption('plugin.postRoll-v1');
+        Wistia.remote.script(labtoolsUrl, function() {
+          function postRollOptionsFromPage() {
+            return {
+              screenName: $("#screen_name").val().replace(/^@/, ""),
+              showScreenName: $("#show_screen_name").is(":checked") ? true : false
+            };
           }
 
-          var midRollData = midrollDataFromPage();
-          if (midRollData.length > 0) {
-            newEmbed.setOption('plugin.wistiafollows.people', midRollData);
-            if ($("#postroll_recap").is(":checked")) {
-              var recapDataHash = {};
-              for (var i = 0; i < midRollData.length; i++) {
-                var personData = Wistia.extend({}, midRollData[i]);
-                delete personData.start;
-                delete personData.end;
-                recapDataHash[personData.screenName] = personData;
+          function midrollDataFromPage() {
+            var result = [];
+            $(".midrolls .name_range_combo").each(function() {
+              var $this = $(this);
+              var screenName = $this.find("input[name=screen_name]").val();
+              var start = $this.find("input[name=start]").val();
+              var end = $this.find("input[name=end]").val();
+              if (screenName && start && end) {
+                result.push({
+                  screenName: screenName,
+                  start: parseInt(start, 10),
+                  end: parseInt(end, 10)
+                });
               }
-              var recapData = [];
-              for (var key in recapDataHash) {
-                if (recapDataHash.hasOwnProperty(key)) {
-                  recapData.push(recapDataHash[key]);
+            });
+            return result;
+          }
+
+          function newEmbedCodeFromPage() {
+            var postRollOptions = postRollOptionsFromPage();
+            var newEmbed = window.sourceEmbed = Wistia.EmbedCode.parse($("#source_embed_code").val());
+
+            if ($.trim(postRollOptions.screenName)) {
+              newEmbed.setOption('plugin.wistiafollows.postRoll', postRollOptions);
+              newEmbed.removeOption('plugin.postRoll');
+              newEmbed.removeOption('plugin.postRoll-v1');
+            }
+
+            var midRollData = midrollDataFromPage();
+            if (midRollData.length > 0) {
+              newEmbed.setOption('plugin.wistiafollows.people', midRollData);
+              if ($("#postroll_recap").is(":checked")) {
+                var recapDataHash = {};
+                for (var i = 0; i < midRollData.length; i++) {
+                  var personData = Wistia.extend({}, midRollData[i]);
+                  delete personData.start;
+                  delete personData.end;
+                  recapDataHash[personData.screenName] = personData;
                 }
+                var recapData = [];
+                for (var key in recapDataHash) {
+                  if (recapDataHash.hasOwnProperty(key)) {
+                    recapData.push(recapDataHash[key]);
+                  }
+                }
+                newEmbed.setOption('plugin.wistiafollows.recap', recapData);
               }
-              newEmbed.setOption('plugin.wistiafollows.recap', recapData);
             }
+
+            if (Wistia.obj.get(newEmbed.options(), 'plugin.wistiafollows')) {
+              newEmbed.setOption('plugin.wistiafollows.src', newEmbed.proto() + "//" + Wistia.remote.embedHost({ ssl: newEmbed.ssl() }) + "/labs/twitter-follows/wistia-follows.js");
+            }
+
+            return newEmbed;
           }
 
-          if (Wistia.obj.get(newEmbed.options(), 'plugin.wistiafollows')) {
-            newEmbed.setOption('plugin.wistiafollows.src', newEmbed.proto() + "//" + Wistia.remote.embedHost({ ssl: newEmbed.ssl() }) + "/labs/twitter-follows/wistia-follows.js");
+          function inputErrors() {
+            var errors = [];
+            var sourceEmbed = $("#source_embed_code").val();
+            if ($.trim(sourceEmbed) == "") {
+              errors.push("Please enter an API embed code.");
+            } else if (!Wistia.EmbedCode.isValid(sourceEmbed)) {
+              errors.push("Please enter a valid embed code.");
+            }
+            return errors;
           }
 
-          return newEmbed;
-        }
-
-        function inputErrors() {
-          var errors = [];
-          var sourceEmbed = $("#source_embed_code").val();
-          if ($.trim(sourceEmbed) == "") {
-            errors.push("Please enter an API embed code.");
-          } else if (!Wistia.EmbedCode.isValid(sourceEmbed)) {
-            errors.push("Please enter a valid embed code.");
-          }
-          return errors;
-        }
-
-        function updateNewEmbedCode() {
-          var errors = inputErrors();
-          if (errors.length === 0) {
-            $("#new_embed_code").val(newEmbedCodeFromPage().toString());
-            updatePreview();
-          } else {
-            $("#new_embed_code").val(errors.join("\n"));
-          }
-        }
-
-        function updatePreview() {
-          window.newEmbedCode = newEmbedCodeFromPage();
-          newEmbedCode.previewInElem("preview");
-        }
-
-
-        var debounceUpdateNewEmbedCodeTimeoutId;
-        function debounceUpdateNewEmbedCode() {
-          clearTimeout(debounceUpdateNewEmbedCodeTimeoutId);
-          debounceUpdateNewEmbedCodeTimeoutId = setTimeout(updateNewEmbedCode, 800);
-        }
-
-        $("#configure").on("keyup", "input[type=text], textarea", debounceUpdateNewEmbedCode);
-        $("#configure").on("click", ":checkbox, :radio", debounceUpdateNewEmbedCode);
-
-        $(".more_options").find(".checkbox_field_pair:last").addClass("last");
-
-        $(".paste_embed_code.jamjar").jamjar({ title: "Paste embed code" });
-        $(".screen_name.jamjar").jamjar({ title: "Post-Roll" });
-        $(".midrolls.jamjar").jamjar({ title: "Mid-Rolls" });
-
-        $("#screen_name").on("keyup", function() {
-          if ($(this).val() != "") {
-            $(".screen_name.jamjar").find(".at").addClass("dark");
-          } else {
-            $(".screen_name.jamjar").find(".at").removeClass("dark");
-          }
-        });
-
-
-        function addNameRangeCombo() {
-          var $elem = $("#name_range_combo_template").clone();
-          $elem.show().removeAttr("id");
-          $(".midrolls .name_range_combos").append($elem);
-          $(".midrolls").find("input[name=start], input[name=end]").example("?")
-          $(".midrolls").on("keyup", "input[name=screen_name]", function() {
-            if ($(this).val() != "") {
-              $(this).closest(".name_range_combo").find(".at").addClass("dark");
+          function updateNewEmbedCode() {
+            var errors = inputErrors();
+            if (errors.length === 0) {
+              $("#new_embed_code").val(newEmbedCodeFromPage().toString());
+              updatePreview();
             } else {
-              $(this).closest(".name_range_combo").find(".at").removeClass("dark");
+              $("#new_embed_code").val(errors.join("\n"));
             }
-          });
-        }
-
-        function allNameRangeCombosTaken() {
-          var result = true;
-          $(".midrolls .name_range_combo").not("#name_range_combo_template").each(function() {
-            var screenName = $(this).find("input[name=screen_name]").val();
-            var start = $(this).find("input[name=start]").val();
-            var end = $(this).find("input[name=end]").val();
-            if ($.trim(screenName) == "" || $.trim(start) == "" || $.trim(end) == "") {
-              result = false;
-            }
-            if (!/^\d+$/.test(start) || !/^\d+$/.test(end)) {
-              result = false;
-            }
-          });
-          return result;
-        }
-
-        function conditionallyAddNameRangeCombos() {
-          if (allNameRangeCombosTaken()) {
-            addNameRangeCombo();
           }
-        }
 
-        $(".midrolls").on("keyup", "input[type=text]", conditionallyAddNameRangeCombos);
-        conditionallyAddNameRangeCombos();
+          function updatePreview() {
+            window.newEmbedCode = newEmbedCodeFromPage();
+            newEmbedCode.previewInElem("preview");
+          }
 
-        $("#new_embed_code").click(function() {
-          $(this).select();
+
+          var debounceUpdateNewEmbedCodeTimeoutId;
+          function debounceUpdateNewEmbedCode() {
+            clearTimeout(debounceUpdateNewEmbedCodeTimeoutId);
+            debounceUpdateNewEmbedCodeTimeoutId = setTimeout(updateNewEmbedCode, 800);
+          }
+
+          $("#configure").on("keyup", "input[type=text], textarea", debounceUpdateNewEmbedCode);
+          $("#configure").on("click", ":checkbox, :radio", debounceUpdateNewEmbedCode);
+
+          $(".more_options").find(".checkbox_field_pair:last").addClass("last");
+
+          $(".paste_embed_code.jamjar").jamjar({ title: "Paste embed code" });
+          $(".screen_name.jamjar").jamjar({ title: "Post-Roll" });
+          $(".midrolls.jamjar").jamjar({ title: "Mid-Rolls" });
+
+          $("#screen_name").on("keyup", function() {
+            if ($(this).val() != "") {
+              $(".screen_name.jamjar").find(".at").addClass("dark");
+            } else {
+              $(".screen_name.jamjar").find(".at").removeClass("dark");
+            }
+          });
+
+
+          function addNameRangeCombo() {
+            var $elem = $("#name_range_combo_template").clone();
+            $elem.show().removeAttr("id");
+            $(".midrolls .name_range_combos").append($elem);
+            $(".midrolls").find("input[name=start], input[name=end]").example("?")
+            $(".midrolls").on("keyup", "input[name=screen_name]", function() {
+              if ($(this).val() != "") {
+                $(this).closest(".name_range_combo").find(".at").addClass("dark");
+              } else {
+                $(this).closest(".name_range_combo").find(".at").removeClass("dark");
+              }
+            });
+          }
+
+          function allNameRangeCombosTaken() {
+            var result = true;
+            $(".midrolls .name_range_combo").not("#name_range_combo_template").each(function() {
+              var screenName = $(this).find("input[name=screen_name]").val();
+              var start = $(this).find("input[name=start]").val();
+              var end = $(this).find("input[name=end]").val();
+              if ($.trim(screenName) == "" || $.trim(start) == "" || $.trim(end) == "") {
+                result = false;
+              }
+              if (!/^\d+$/.test(start) || !/^\d+$/.test(end)) {
+                result = false;
+              }
+            });
+            return result;
+          }
+
+          function conditionallyAddNameRangeCombos() {
+            if (allNameRangeCombosTaken()) {
+              addNameRangeCombo();
+            }
+          }
+
+          $(".midrolls").on("keyup", "input[type=text]", conditionallyAddNameRangeCombos);
+          conditionallyAddNameRangeCombos();
+
+          $("#new_embed_code").click(function() {
+            $(this).select();
+          });
+
+
+          function addMidRoll(screenName, start, end) {
+            var $lastRangeCombo = $(".midrolls .name_range_combo").not("#name_range_combo_template").last();
+            $lastRangeCombo.find("input[name=screen_name]").focus().val(screenName).keyup().blur();
+            $lastRangeCombo.find("input[name=start]").focus().val(start).keyup().blur();
+            $lastRangeCombo.find("input[name=end]").focus().val(end).keyup().blur();
+          }
+
+          // Set up examples.
+          $("#source_embed_code").focus().val("<iframe src=\"http://fast.wistia.net/embed/iframe/jquk4v6joi?controlsVisibleOnLoad=true&playerColor=38a8f2&version=v1&videoHeight=360&videoWidth=640\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"640\" height=\"360\"></iframe>").keyup().blur();
+          
+          addMidRoll("jeffvincent", 0, 11);
+          addMidRoll("DanMillsMusic", 12, 18);
+          addMidRoll("adamzais", 19, 27);
+          addMidRoll("jringenberg", 32, 41);
+          addMidRoll("DanMillsMusic", 54, 70);
+
+          $("#screen_name").focus().val("Wistia").keyup().blur();
+
         });
-
-
-        function addMidRoll(screenName, start, end) {
-          var $lastRangeCombo = $(".midrolls .name_range_combo").not("#name_range_combo_template").last();
-          $lastRangeCombo.find("input[name=screen_name]").focus().val(screenName).keyup().blur();
-          $lastRangeCombo.find("input[name=start]").focus().val(start).keyup().blur();
-          $lastRangeCombo.find("input[name=end]").focus().val(end).keyup().blur();
-        }
-
-        // Set up examples.
-        $("#source_embed_code").focus().val("<iframe src=\"http://fast.wistia.net/embed/iframe/jquk4v6joi?controlsVisibleOnLoad=true&playerColor=38a8f2&version=v1&videoHeight=360&videoWidth=640\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"640\" height=\"360\"></iframe>").keyup().blur();
-        
-        addMidRoll("jeffvincent", 0, 11);
-        addMidRoll("DanMillsMusic", 12, 18);
-        addMidRoll("adamzais", 19, 27);
-        addMidRoll("jringenberg", 32, 41);
-        addMidRoll("DanMillsMusic", 54, 70);
-
-        $("#screen_name").focus().val("Wistia").keyup().blur();
 
       }(jQuery));
     </script>
