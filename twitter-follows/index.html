@@ -482,7 +482,7 @@
             var errors = [];
             var sourceEmbed = $("#source_embed_code").val();
             if ($.trim(sourceEmbed) == "") {
-              errors.push("Please enter an API embed code.");
+              errors.push("Please enter an embed code.");
             } else if (!Wistia.EmbedCode.isValid(sourceEmbed)) {
               errors.push("Please enter a valid embed code.");
             }
@@ -580,16 +580,27 @@
             $lastRangeCombo.find("input[name=end]").focus().val(end).keyup().blur();
           }
 
-          // Set up examples.
-          $("#source_embed_code").focus().val("<iframe src=\"http://fast.wistia.net/embed/iframe/jquk4v6joi?controlsVisibleOnLoad=true&playerColor=38a8f2&version=v1&videoHeight=360&videoWidth=640\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"640\" height=\"360\"></iframe>").keyup().blur();
-          
-          addMidRoll("jeffvincent", 0, 11);
-          addMidRoll("DanMillsMusic", 12, 18);
-          addMidRoll("adamzais", 19, 27);
-          addMidRoll("jringenberg", 32, 41);
-          addMidRoll("DanMillsMusic", 54, 70);
+          window.clearInputs = function() {
+            $("#source_embed_code").focus().val("").keyup().blur();
+            $(".midrolls .name_range_combo").not("#name_range_combo_template").remove();
+            addNameRangeCombo();
+            $("#screen_name").focus().val("").keyup().blur();
+            $("#preview").html("")
+          };
 
-          $("#screen_name").focus().val("Wistia").keyup().blur();
+          // Set up examples.
+          window.setupExample = function() {
+            $("#source_embed_code").focus().val("<iframe src=\"http://fast.wistia.net/embed/iframe/jquk4v6joi?controlsVisibleOnLoad=true&playerColor=38a8f2&version=v1&videoHeight=360&videoWidth=640\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"640\" height=\"360\"></iframe>").keyup().blur();
+            
+            addMidRoll("jeffvincent", 0, 11);
+            addMidRoll("DanMillsMusic", 12, 18);
+            addMidRoll("adamzais", 19, 27);
+            addMidRoll("jringenberg", 32, 41);
+            addMidRoll("DanMillsMusic", 54, 70);
+
+            $("#screen_name").focus().val("Wistia").keyup().blur();
+          };
+          setupExample();
 
         });
 
