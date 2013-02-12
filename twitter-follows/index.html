@@ -46,6 +46,23 @@
         padding: 0;
         -webkit-font-smoothing: antialiased;
       }
+
+      h1 {
+        font-size: 30px;
+        margin: 0;
+      }
+      h1 strong {
+        font-weight: 900;
+      }
+
+      a {
+        color: #3498ea;
+        text-decoration: none;
+      }
+      a:hover {
+        color: #54b8ff;
+      }
+      
 			
       textarea, input {
         border: 1px dotted #a5a5a5;
@@ -180,13 +197,27 @@
         background: #f1efeb;
         color: #696969;
         height: 100%;
-        padding: 60px 30px 0 30px;
+        padding: 30px;
         position: relative;
         width: 306px;
       }
 
       .col2 {
-        padding: 60px 30px;
+        padding: 30px;
+      }
+
+      #header {
+        background: #fff;
+      }
+      #header .col {
+        background: transparent;
+        padding: 0;
+      }
+      #header .col1 {
+        padding: 30px;
+      }
+      #header .col2 {
+        padding: 30px;
       }
 
       h1 {
@@ -238,10 +269,6 @@
       #configure textarea {
         height: 112px;
         width: 250px;
-      }
-
-      #results {
-        padding-top: 68px;
       }
 
       #results label {
@@ -311,10 +338,21 @@
 	<body>
 
     <div id="nonfooter">
+      <div id="header">
+        <div class="col1 col">
+          <h1>
+            <strong>&lt;Wistia Video Lab&gt;</strong><br/>
+            Twitter Follows
+          </h1>
+        </div><div class="col2 col">
+        This lab makes it easy to have timed Twitter Follow buttons pop up in your video!<br/>
+        Once you've created an embed code in your Wistia account, <a href="#" id="clear_example">clear</a> the example below<br/>
+        and paste in your code. If you want to bring the example back, just <a href="#" id="refresh_page">refresh</a> this page.<br/>
+        If you want to try this but don't have a Wistia account, set one up <a href="http://wistia.com/free/new">here.</a> It's free!<br/>
+        </div>
+      </div>
       <div class="col1 col">
         <div id="configure">
-          <h1>Twitter Follow Lab</h1>
-
           <div class="jamjar paste_embed_code">
             <div class="jamjar_head">
               <div class="jamjar_title">Paste Embed Code</div>
@@ -601,6 +639,15 @@
             $("#screen_name").focus().val("Wistia").keyup().blur();
           };
           setupExample();
+
+          $("#clear_example").click(function(event) {
+            event.preventDefault();
+            clearInputs();
+          });
+          $("#refresh_page").click(function(event) {
+            event.preventDefault();
+            location.reload();
+          });
 
         });
 
