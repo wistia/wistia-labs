@@ -345,6 +345,10 @@
       .more_options {
         margin-top: 1em;
       }
+
+      #alert {
+        width: 600px;
+      }
 			
 		</style>
 	</head>
@@ -559,7 +563,7 @@
             var recapNames = $("#postroll_recap").is(":checked");
 
             if (hasFullscreen && hasMidRoll && !recapNames) {
-              $("#alert").html("This embed code has fullscreen enabled with mid-rolls.<br/> Just so you know, these won't show up when fullscreen.<br/> You can leave it as is, <a href='#' class='recap_names_at_end'>recap the names at the end</a>, or <a href='#' class='turn_off_fullscreen'>turn off fullscreen</a>").show();
+              $("#alert").html("This embed code has fullscreen enabled with mid-rolls. Just so you know, the Follow buttons won't show up when fullscreen. You can leave it as it is, <a href='#' class='recap_names_at_end'>recap the names at the end</a>, or <a href='#' class='turn_off_fullscreen'>turn off fullscreen</a>.").show();
             } else {
               $("#alert").html("").hide();
             }
@@ -662,8 +666,8 @@
 
           // Set up examples.
           window.setupExample = function() {
+            clearInputs();
             $("#source_embed_code").focus().val("<iframe src=\"http://fast.wistia.net/embed/iframe/9bi8datskq?playerColor=81b7db&version=v1&fullscreenButton=false&volumeControl=true&videoHeight=326&videoWidth=580\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"580\" height=\"326\"></iframe>").keyup().blur();
-            
             
             addMidRoll("brendan", 7, 10);
             addMidRoll("csavage", 21, 25);
