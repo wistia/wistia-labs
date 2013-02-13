@@ -447,6 +447,8 @@
           </div>
         </div><div class="col2 col">
           <div id="results">
+
+            <div id="alert" style="display:none;"></div>
             
             <label>Your new embed code</label>
             <textarea id="new_embed_code"></textarea><br/>
@@ -551,8 +553,18 @@
 
           function updateNewEmbedCode() {
             var errors = inputErrors();
+            var newEmbed = newEmbedCodeFromPage();
+            var hasFullscreen = newEmbed.options().fullscreenButton == null || newEmbed.options().fullscreenButton;
+            var hasMidRoll = Wistia.obj.get(newEmbed.options(), "plugin.wistiafollows.people");
+            var recapNames = $("#postroll_recap").is(":checked");
+
+            if (hasFullscreen && hasMidRoll && !recapNames) {
+              $("#alert").html("This embed code has fullscreen enabled with mid-rolls.<br/> Just so you know, these won't show up when fullscreen.<br/> You can leave it as is, <a href='#' class='recap_names_at_end'>recap the names at the end</a>, or <a href='#' class='turn_off_fullscreen'>turn off fullscreen</a>").show();
+            } else {
+              $("#alert").html("").hide();
+            }
             if (errors.length === 0) {
-              $("#new_embed_code").val(newEmbedCodeFromPage().toString());
+              $("#new_embed_code").val(newEmbed.toString());
               updatePreview();
             } else {
               $("#new_embed_code").val(errors.join("\n"));
@@ -667,12 +679,25 @@
             clearInputs();
             Wistia.localStorage("twitter-follows.cleared", true);
           });
+
           $("#show_example").click(function(event) {
             event.preventDefault();
             $("#example_text").show();
             $("#clear_text").hide();
             setupExample();
             Wistia.localStorage("twitter-follows.cleared", false);
+          });
+
+          $(document).on("click", ".recap_names_at_end", function(event) {
+            event.preventDefault();
+            $("#postroll_recap").click();
+          });
+
+          $(document).on("click", ".turn_off_fullscreen", function(event) {
+            event.preventDefault();
+            var source = Wistia.EmbedCode.parse($("#source_embed_code").val());
+            source.setOption("fullscreenButton", false);
+            $("#source_embed_code").val(source.toString()).keyup();
           });
 
           if (!Wistia.localStorage("twitter-follows.cleared")) {
