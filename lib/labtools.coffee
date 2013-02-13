@@ -31,7 +31,7 @@
         targetElem = document.getElementById(targetElem)
 
       embedCode = @toString()
-      if previewCode = W.EmbedCode.parse(embedCode)
+      if window.previewCode = W.EmbedCode.parse(embedCode)
         if previewCode instanceof W.ApiEmbedCode
           # Set an extra handle `window.previewEmbed` on API embeds so we can 
           # manipulate them regardless of their real handle.
@@ -488,9 +488,6 @@
         this
       else
         @css('height')
-
-
-    handle: -> @_handle
 
 
     hashedId: -> @_hashedId
