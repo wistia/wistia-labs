@@ -224,6 +224,7 @@ Wistia.plugin("wistiafollows", function(video, options) {
   if (postRollContent) {
     function initPostRoll() {
       var postRoll = Wistia.plugin.postRoll(video, {
+        noEmbedButton: true,
         raw: postRollContent,
         style: {
           backgroundColor: '#1f1b17',
