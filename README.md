@@ -21,6 +21,9 @@ you can modify the files for your lab.
 
 Then you can access your lab at http://localhost:8000/mylabname/.
 
+
+## More Information
+
 For more information about plugins, you might want to [check out 
 the Plugin API docs](http://wistia.com/doc/plugin-api) and 
 [the Embed Shepherd docs](http://wistia.com/doc/embed-shepherd).
