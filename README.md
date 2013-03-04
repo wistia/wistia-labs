@@ -34,6 +34,21 @@ modify its contents, which should include:
 Then you can access your lab at http://localhost:8000/mylabname/.
 
 
+### Other Goodies
+
+Use Wistia's simple `localStorage` API to save data for a single domain.
+
+To set:
+
+    Wistia.localStorage("my-custom-key", "a-value");
+    Wistia.localStorage("nested.key", { an: "object" });
+
+To get:
+
+    Wistia.localStorage("my-custom-key");
+    Wistia.localStorage("nested.key");
+
+
 ### More Information
 
 For more information about plugins, you might want to [check out 
