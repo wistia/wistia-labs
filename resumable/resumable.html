@@ -1,0 +1,39 @@
+<div id="wistia_sy5yaqw437" class="wistia_embed" style="width:435px;height:245px;" data-video-width="435" data-video-height="245">&nbsp;</div>
+<script charset="ISO-8859-1" src="http://fast.wistia.com/static/concat/E-v1.js"></script>
+<script>
+wistiaEmbed = Wistia.embed("sy5yaqw437", {
+  version: "v1",
+  videoWidth: 435,
+  videoHeight: 245,
+  playerColor: "81b7db"
+});
+</script>
+
+<script>
+  wistiaEmbed.ready( function() {
+
+    function set_resume_time(t) {  
+      Wistia.localStorage("resume_time", t);
+    }
+
+    var resume_time;
+
+    if (resume_time = Wistia.localStorage("resume_time")) {
+      wistiaEmbed.time(resume_time).play(); 
+    }
+
+    else {
+      set_resume_time(0);
+      wistiaEmbed.play();
+    }
+    
+    wistiaEmbed.bind("timechange", function(t) {
+      set_resume_time(t);
+    });
+
+    wistiaEmbed.bind("end", function() {
+      set_resume_time(0);
+    });
+
+  });
+</script>
