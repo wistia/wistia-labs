@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Logo over video</title>
+    <title>Logo Over Video Lab</title>
     <link rel="stylesheet" href="http://wistia.com/labs/css/labs.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="http://fast.wistia.com/static/app-jquery-jquery_jamjar.js"></script>
@@ -9,7 +9,7 @@
     <script src="http://wistia.com/labs/lib/globalui.js"></script>
     <script>
       loadRelativeCss(["style.css"]);
-      loadRelativeScripts(["../lib/labtools.js", "plugin.js", "ui.js"], function() {
+      loadRelativeScripts(["../lib/labtools.js", "wistia-logo-over-video.js", "ui.js"], function() {
         setupLabInterface(jQuery);
       });
     </script>
@@ -21,7 +21,7 @@
       <div id="header">
         <div class="cols">
           <div class="col1 col">
-            <h1>Lab Title</h1>
+            <h1>Logo Over Video Lab</h1>
           </div><div class="col2 col">
             The logo over video plugin enables Wistia users to apply their own
             logo to any video they upload.
@@ -49,13 +49,13 @@
             </div>
 
 
-            <!-- Some other section. Change me! -->
+            <!-- upload a new logo section -->
             <div class="jamjar another-section">
               <div class="jamjar_head">
-                <div class="jamjar_title">Another section</div>
+                <div class="jamjar_title">Upload a New Logo</div>
               </div>
               <div class="jamjar_body">
-                <p style="margin-top:0;">Put whatever inputs or text you want in this area.</p>
+                <p style="margin-top:0;">Add a new logo for use with this embed code.</p>
                 <h3 style="margin-bottom:.25em;">Another Option</h3>
                 <input id="another_option" type="text" value="Enter anything" />
               </div>
