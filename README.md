@@ -15,7 +15,7 @@ To get started, first clone this repository!
 
 Then create your own branch in git.
 
-    cd mylabname
+    cd wistia-labs
     git checkout -b mylabname
 
 Now you can copy the `template` folder to `mylabname`, and 
