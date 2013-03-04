@@ -30,7 +30,7 @@
       
       updateVisibleTimeFromSeconds = (seconds) ->
         if seconds? and seconds isnt ""
-          minutes = seconds % 60
+          minutes = Math.floor(seconds / 60)
           seconds = seconds - minutes * 60
           $minutes.val(minutes)
           $seconds.val(formatSeconds(seconds))
