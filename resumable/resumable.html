@@ -16,10 +16,44 @@ wistiaEmbed = Wistia.embed("sy5yaqw437", {
       Wistia.localStorage("resume_time", t);
     }
 
+    function resume_css() {
+      return "#ScreenResume {background-color: rgba(64, 64, 65, 0.909804); color: rgb(255, 255, 255); font-family: 'Gill Sans', Helvetica, Arial, sans-serif; font-size: 36px; line-height: 1.2em; overflow: hidden; position: relative; text-align: center; width: 435px; height: 245px;}";
+    }
+
     var resume_time;
 
     if (resume_time = Wistia.localStorage("resume_time")) {
-      wistiaEmbed.time(resume_time).play(); 
+      var ResumeScreen = document.createElement("div");
+      ResumeScreen.id = "ScreenResume";
+      ResumeScreen.style.position = "absolute";
+      ResumeScreen.style.top = "0px";
+      ResumeScreen.style.left = "0px";
+      ResumeScreen.style.width = wistiaEmbed.videoWidth() + "px";
+      ResumeScreen.style.height = wistiaEmbed.videoHeight() + "px";
+      ResumeScreen.innerHTML = "Would you like to resume the video from where you left off? <div id='resume_play'>Resume</div><div id='resume_skip'>Skip</div>";
+      wistiaEmbed.grid.top_inside.appendChild(ResumeScreen);
+      Wistia.util.addInlineCss(ResumeScreen, resume_css());
+      resume_play = document.getElementById("resume_play");
+      resume_skip = document.getElementById("resume_skip");
+
+      resume_play.onclick = function() {
+        var par;
+        if (par = ResumeScreen.parentNode) {
+          par.removeChild(ResumeScreen);
+          ResumeScreen = null;
+          wistiaEmbed.time(resume_time).play();
+        }
+      }
+
+      resume_skip.onclick = function() {
+        var par;
+        if (par = ResumeScreen.parentNode) {
+          par.removeChild(ResumeScreen);
+          ResumeScreen = null;
+          wistiaEmbed.time(0).play();
+        }
+      }
+
     }
 
     else {
