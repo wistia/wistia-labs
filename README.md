@@ -6,11 +6,14 @@ to do something cool.
 
 ### Make your own lab
 
+NOTE: Where `mylabname` is referenced below, you should use whatever 
+the name of your lab is.
+
 To get started, create your own branch in git.
 
     git checkout -b mylabname
 
-Now you can copy the `template` folder to a new name, `mylabname`, and 
+Now you can copy the `template` folder to `mylabname`, and 
 modify its contents.
 
 - __index.html:__ The HTML for your lab file.
