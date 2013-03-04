@@ -1,12 +1,13 @@
 # Wistia Labs
 
-Welcome to Wistia Labs! A Lab takes an embed code and modifies it
-to do something cool. 
+Welcome to **Wistia Labs!** 
+
+A Lab takes an embed code and modifies it to do something cool :punch:
 
 
 ### Make your own lab
 
-NOTE: Where `mylabname` is referenced below, you should use whatever 
+**NOTE:** Where `mylabname` is referenced below, you should use whatever 
 the name of your lab is.
 
 To get started, first clone this repository!
