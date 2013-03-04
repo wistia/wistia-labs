@@ -230,3 +230,33 @@ h1 {
 #alert {
   width: 600px;
 }
+
+#configure .duration_entry {
+  border: 1px dotted #a5a5a5;
+  display: inline-block;
+  *display: inline;
+  padding: 6px 8px;
+  vertical-align: top;
+  zoom: 1;
+}
+
+#configure .duration_entry input {
+  padding: 0;
+}
+
+#configure .duration_entry .minutes {
+  border: 0;
+  text-align: right;
+  width: 28px;
+}
+
+#configure .duration_entry .seconds {
+  border: 0;
+  text-align: left;
+  width: 22px;
+}
+
+#configure .duration_entry .sep {
+  font-weight: bold;
+  margin: 0 2px;
+}
