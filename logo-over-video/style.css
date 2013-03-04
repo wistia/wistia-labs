@@ -23,3 +23,20 @@
   width: 250px;
 }
 
+.wlov-grid {
+  width: 250px;
+  height: 155px;
+  border: 1px solid black;
+}
+
+.wlov-grid-item {
+  background-color: '#ad7fa8';
+  position: relative;
+  height: 59px;
+  width: 95px;
+}
+
+.wlov-grid-ti { border-right: 1px dotted #3465a4; border-bottom: 1px dotted #3465a4; }
+.wlov-grid-ri { border-left:  1px dotted #3465a4; border-bottom: 1px dotted #3465a4; }
+.wlov-grid-bi { border-left:  1px dotted #3465a4; border-top:    1px dotted #3465a4; }
+.wlov-grid-li { border-right: 1px dotted #3465a4; border-top:    1px dotted #3465a4; }
