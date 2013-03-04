@@ -9,7 +9,11 @@ to do something cool.
 NOTE: Where `mylabname` is referenced below, you should use whatever 
 the name of your lab is.
 
-To get started, create your own branch in git.
+To get started, first clone this repository!
+
+    git clone git@github.com:wistia/wistia-labs.git
+
+Then create your own branch in git.
 
     git checkout -b mylabname
 
