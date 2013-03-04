@@ -1,5 +1,5 @@
 (($) ->
-  $.fn.durationEntry = (options = {}) ->
+  $.fn.timeatEntry = (options = {}) ->
 
     $(this).each ->
       $original = $(this)
@@ -8,7 +8,7 @@
       $minutes = $("<input type='text' class='minutes' />")
       $sep = $("<span class='sep'>:</span>")
       $seconds = $("<input type='text' class='seconds' />")
-      $wrapper = $("<div class='duration_entry'></div>")
+      $wrapper = $("<div class='timeat_entry'></div>")
         .append($minutes)
         .append($sep)
         .append($seconds)

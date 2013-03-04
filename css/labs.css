@@ -231,7 +231,7 @@ h1 {
   width: 600px;
 }
 
-#configure .duration_entry {
+#configure .timeat_entry {
   border: 1px dotted #a5a5a5;
   display: inline-block;
   *display: inline;
@@ -240,23 +240,23 @@ h1 {
   zoom: 1;
 }
 
-#configure .duration_entry input {
+#configure .timeat_entry input {
   padding: 0;
 }
 
-#configure .duration_entry .minutes {
+#configure .timeat_entry .minutes {
   border: 0;
   text-align: right;
   width: 28px;
 }
 
-#configure .duration_entry .seconds {
+#configure .timeat_entry .seconds {
   border: 0;
   text-align: left;
   width: 22px;
 }
 
-#configure .duration_entry .sep {
+#configure .timeat_entry .sep {
   font-weight: bold;
   margin: 0 2px;
 }
