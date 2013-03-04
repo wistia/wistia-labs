@@ -1,6 +1,6 @@
 # Wistia Labs
 
-Welcome to Wistia Labs!A Lab takes an embed code and modifies it
+Welcome to Wistia Labs! A Lab takes an embed code and modifies it
 to do something cool. 
 
 
