@@ -26,12 +26,21 @@
     # `targetElem` can be a DOM element or the ID of a DOM element. We set the 
     # HTML of that element to our embed code, and execute any included scripts 
     # in the proper order.
-    previewInElem: (targetElem) ->
+    previewInElem: (targetElem, options = {}, callback) ->
       if typeof targetElem is 'string'
         targetElem = document.getElementById(targetElem)
 
       embedCode = @toString()
-      if window.previewCode = W.EmbedCode.parse(embedCode)
+
+      if options.type is 'api'
+        @fromOembed { embedType: 'api' }, (data) ->
+          window.previewCode = W.EmbedCode.parse(data.html)
+          previewCode.handle("window.previewEmbed = " + previewCode.handle())
+          targetElem.innerHTML = W.util.removeScriptTags(previewCode.toString())
+          W.util.execScriptTags(previewCode.toString())
+          callback() if callback
+
+      else if window.previewCode = W.EmbedCode.parse(embedCode)
         if previewCode instanceof W.ApiEmbedCode
           # Set an extra handle `window.previewEmbed` on API embeds so we can 
           # manipulate them regardless of their real handle.
