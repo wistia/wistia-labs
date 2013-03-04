@@ -19,7 +19,7 @@ Then create your own branch in git.
     git checkout -b mylabname
 
 Now you can copy the `template` folder to `mylabname`, and 
-modify its contents.
+modify its contents, which should include:
 
 - __index.html:__ The HTML for your lab file.
 - __style.css:__ Custom styles for this particular lab page.
