@@ -208,6 +208,7 @@
 
 
   W.EmbedCode.isIframe = (embedCode) ->
+    return true if embedCode instanceof W.IframeEmbedCode and embedCode.isValid()
     try
       new W.IframeEmbedCode(embedCode).isValid()
     catch e
@@ -215,6 +216,7 @@
 
 
   W.EmbedCode.isApi = (embedCode) ->
+    return true if embedCode instanceof W.ApiEmbedCode and embedCode.isValid()
     try
       new W.ApiEmbedCode(embedCode).isValid()
     catch e
@@ -222,6 +224,7 @@
 
 
   W.EmbedCode.isPopover = (embedCode) ->
+    return true if embedCode instanceof W.PopoverEmbedCode and embedCode.isValid()
     try
       new W.PopoverEmbedCode(embedCode).isValid()
     catch e
