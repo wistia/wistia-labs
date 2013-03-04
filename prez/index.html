@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Prez Sync</title>
+    <link rel="stylesheet" href="http://wistia.com/labs/css/labs.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://fast.wistia.com/static/app-jquery-jquery_jamjar.js"></script>
+    <script src="http://fast.wistia.com/static/E-v1.js"></script>
+    <script src="http://wistia.com/labs/lib/globalui.js"></script>
+    <script src="http://wistia.com/labs/lib/jquery.timeatentry.js"></script>
+    <script>
+      loadRelativeCss(["style.css"]);
+      loadRelativeScripts(["../lib/labtools.js", "plugin.js", "ui.js"], function() {
+        setupLabInterface(jQuery);
+      });
+    </script>
+
+    <style>
+      #timings input.slide {
+        width: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="nonfooter">
+
+
+      <div id="header">
+        <div class="cols">
+          <div class="col1 col">
+            <h1>Prez Sync</h1>
+          </div><div class="col2 col">
+            Sync your SpeakerDeck presentation to your video. It's great.
+          </div>
+        </div>
+      </div>
+
+
+      <div id="body" class="cols">
+        <div class="col1 col">
+          <div id="configure">
+
+
+            <!-- Paste Embed Code Section -->
+            <div class="jamjar paste_embed_code">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Paste embed code</div>
+              </div>
+              <div class="jamjar_body">
+                <div class="source_embed_code_field_pair field_pair">
+                  <p style="margin-top:0;">Get it from the SuperEmbed Builder.</p>
+                  <textarea name="source_embed_code" id="source_embed_code">&lt;iframe src=&quot;http://fast.wistia.net/embed/iframe/rqhgziz7yn?playerColor=81b7db&amp;version=v1&amp;videoHeight=245&amp;videoWidth=435&quot; allowtransparency=&quot;true&quot; frameborder=&quot;0&quot; scrolling=&quot;no&quot; class=&quot;wistia_embed&quot; name=&quot;wistia_embed&quot; width=&quot;640&quot; height=&quot;360&quot;&gt;&lt;/iframe&gt;</textarea>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Link to your slide deck goes here -->
+            <div class="jamjar presentation_jar">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Presentation</div>
+              </div>
+              <div class="jamjar_body">
+                <p style="margin-top:0;">Grab the URL of your SpeakerDeck or
+                  SlideShare presentation and paste it here.</p>
+                <h3 style="margin-bottom:.25em;">Presentation URL</h3>
+                <input id="presentation_url" type="text" value="https://speakerdeck.com/tammielis/designing-for-humans-not-robots" />
+
+                <h3 style="margin-bottom:.25em;">Position</h3>
+                <select id="presentation_position">
+                  <option value='left'>Left of the video</option>
+                  <option value='right' selected>Right of the video</option>
+                  <option value='top'>Above the video</option>
+                  <option value='bottom'>Below the video</option>
+                </select>
+
+                <h3 style="margin-bottom:.25em;">Timing</h3>
+                <table id="timings">
+                  <thead>
+                    <th>Slide</th>
+                    <th>Time</th>
+                  </thead>
+                  <tr>
+                    <td><input class="slide" type="text" value="1" /></td>
+                    <td><input class="time timeat" type="text" value="0" /></td>
+                  </tr>
+                </table>
+
+
+              </div>
+            </div>
+
+
+          </div> <!-- #configure -->
+        </div><div class="col2 col">
+
+
+          <div id="results">
+            <div id="alert" style="display:none;"></div>
+            
+            <label>Your new embed code</label>
+            <textarea id="output_embed_code"></textarea><br/>
+            
+            <label>Here's how it will look</label>
+            <div id="preview">
+              <div id="placeholder_preview">Your video here</div>
+            </div>
+          </div> <!-- #results -->
+
+
+        </div> <!-- .col2 -->
+      </div> <!-- #body -->
+      <div id="footerpad">&nbsp;</div>
+    </div> <!-- #nonfooter -->
+    <div id="footer">&nbsp;</div>
+
+  </body>
+</html>
