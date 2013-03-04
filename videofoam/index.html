@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Video Foam</title>
+    <link rel="stylesheet" href="http://wistia.com/labs/css/labs.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://fast.wistia.com/static/app-jquery-jquery_jamjar.js"></script>
+    <script src="http://fast.wistia.com/static/E-v1.js"></script>
+    <script src="http://wistia.com/labs/lib/globalui.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/>
+    <script>
+      loadRelativeCss(["style.css"]);
+      loadRelativeScripts(["../lib/labtools.js", "plugin.js", "ui.js"], function() {
+        setupLabInterface(jQuery);
+      });
+    </script>
+    <style>
+      .foamed {
+        padding: 15px;
+        border: 1px dashed gray;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="nonfooter">
+
+
+      <div id="header">
+        <div class="cols">
+          <div class="col1 col">
+            <h1>VideoFoam Lab</h1>
+          </div>
+          <div class="col2 col">
+            Dont'cha just hate when your kids, dog, and grandma won't listen to 
+            you? Well that sucks! But seriously, now you can make at least your videos
+            responsive using the 
+            <strong>Video Foam lab!</strong>
+          </div>
+        </div>
+      </div>
+
+
+      <div id="body" class="cols">
+        <div class="col1 col">
+          <div id="configure">
+
+
+            <!-- Paste Embed Code Section -->
+            <div class="jamjar paste_embed_code">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Paste embed code</div>
+              </div>
+              <div class="jamjar_body">
+                <div class="source_embed_code_field_pair field_pair">
+                  <p style="margin-top:0;">Get it from the SuperEmbed Builder.</p>
+                  <textarea name="source_embed_code" id="source_embed_code"></textarea>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Some other section. Change me! -->
+            <p>
+              <strong>Video Foam</strong>
+              is the responsive plugin for Wistia videos.
+            </p>
+            <p>
+              If you drop it on your page inside a div without a set size, 
+              the video inside will re-size dynamically.
+            </p>
+            <p>
+              This is super useful for pages that are viewed on a whole array
+              of devices, from big monitors to tablets to mobile phones.
+            </p>
+            <p style="display:none; text-align:right;" id="try">
+              Give it a try =&gt;
+            </p>
+
+
+          </div> <!-- #configure -->
+        </div><div class="col2 col">
+
+
+          <div id="results">
+            <div id="alert" style="display:none;"></div>
+            
+            <label>Your new embed code</label>
+            <textarea id="output_embed_code"></textarea><br/>
+            
+            <label>Here's how it will look</label>
+            <div id="draggable_wrapper">
+              <div id="preview">
+                <div id="placeholder_preview">Your video here</div>
+              </div>
+            </div>
+          </div> <!-- #results -->
+
+
+        </div> <!-- .col2 -->
+      </div> <!-- #body -->
+      <div id="footerpad">&nbsp;</div>
+    </div> <!-- #nonfooter -->
+    <div id="footer">&nbsp;</div>
+    <script src="//fast.wistia.com/static/iframe-api-v1.js"></script>
+  </body>
+</html>
