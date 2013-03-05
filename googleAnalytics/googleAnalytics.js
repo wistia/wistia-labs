@@ -42,8 +42,9 @@ Wistia.plugin("googleAnalytics", function(video, options) {
     return video.bind("secondchange", function(s) {
       var percent;
       percent = percentWatched();
-      if (percent >= (triggerPercent - .03)) {
+      if (buckets.length > 0 && percent >= triggerPercent) {
         pushEvent("" + (Math.round(triggerPercent * 100)) + " Watched", video.name());
+        video.trigger("pushedtogoogleanalytics", "percentwatched", triggerPercent);
         return this.unbind;
       }
     });
@@ -52,8 +53,16 @@ Wistia.plugin("googleAnalytics", function(video, options) {
     triggerPercent = _ref[_i];
     _fn(triggerPercent);
   }
+  video.bind("secondchange", function(s) {
+    if (buckets.length > 0) {
+      return video.trigger("percentwatched", percentWatched());
+    } else {
+      return video.trigger("percentwatched", 0);
+    }
+  });
   video.bind("play", function() {
     pushEvent("Play", video.name());
+    video.trigger("pushedtogoogleanalytics", "play");
     return this.unbind;
   });
   return {
