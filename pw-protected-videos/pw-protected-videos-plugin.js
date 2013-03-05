@@ -7,10 +7,21 @@ Wistia.plugin("passwordProtected", function(video, options) {
       Wistia.remote.script('http://localhost:8000/pw-protected-videos/firebase_client.js', function() {
         var fb = new FirebaseClient('https://pw-protected-videos.firebaseIO.com/', {
           initCallback: function() {
-            console.log(fb);
-            var hashedId = fb.read(options.seed + hashedPw, function(val) {
-              overlay.style.display = 'none';
-              console.log(val.val());
+            fb.read(options.seed + hashedPw, function(val) {
+              if (val.val()) {
+                // Replace the video
+                Wistia.remote.media(val.val(), function(media) {
+                  video.replace(media, video.options);
+
+                  // When the real video is ready, get rid of the overlay
+                  video.ready(function() {
+                    overlay.style.display = 'none';
+                  });
+                });
+              } else {
+                text.style.color = 'red';
+                text.innerHTML = 'That password is incorrect. Please try again.';
+              }
             });
           }
         });

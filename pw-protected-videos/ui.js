@@ -6,6 +6,7 @@ function randomString(length) {
 }
 
 var FIREBASE_AUTH_TOKEN = 'z69Xs2mftj0chWxDVKxz2arq8yoWpDxqisExOrJ3';
+var DUMMY_HASHED_ID = 'fc5eec8d82';
 
 function updateOutput() {
   var sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
@@ -21,7 +22,6 @@ function updateOutput() {
           var random = randomString(20);
           var hashedPw = Sha256.hash($('#password').val());
           var fbKey = random + hashedPw;
-          console.log(fb);
           fb.write(fbKey, sourceEmbedCode.hashedId());
 
           // Set custom options on the embed code.
@@ -29,6 +29,8 @@ function updateOutput() {
             src: "http://localhost:8000/pw-protected-videos/pw-protected-videos-plugin.js",
             seed: random
           });
+
+          outputEmbedCode.hashedId(DUMMY_HASHED_ID);
 
           // Display the output.
           $("#output_embed_code").val(outputEmbedCode.toString());
