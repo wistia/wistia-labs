@@ -4,10 +4,59 @@ class Prez
     @prezChromeHeight = 65
     @hasPrez = false
     @prezPosition = $('#presentation_position').val()
+    @$timingsTable = $('#timings')
+
+    @addTiming()
 
     $("#presentation_url").on "keyup", => @updatePresentation()
     $("#presentation_position").on "change", => @updatePresentationPosition()
     $("#source_embed_code").on "keyup", => @updateEmbedCode()
+
+    $("#add_timing").on "click", =>
+      @addTiming()
+      false
+
+    $('#timings').on 'keyup', 'input', => @updateTimings()
+
+
+  updateTimings: ->
+    return unless wistiaEmbed? and wistiaEmbed.plugin.prez
+    window.wistiaEmbed.plugin.prez.updateTimings @timings()
+
+
+  # a timing is a slide number and a time: [s,t]
+  # this returns an array of all the timings
+  timings: ->
+    for row in @$timingsTable.find('tbody tr')
+      [ parseInt($(row).find('input.slide').val()),
+        parseInt($(row).find('input.time').val()) ]
+
+
+  addTiming: ->
+    timings = @timings()
+
+    if timings.length > 0
+      lastTiming = timings[timings.length - 1]
+      slide = lastTiming[0] + 1
+      time = lastTiming[1] + 5
+    else
+      slide = 1
+      time = 0
+
+    row = $(
+      """
+      <tr>
+        <td><input class="slide" type="text" value="#{slide}" /></td>
+        <td><input class="time timeat" type="text" value="#{time}" /></td>
+      </tr>
+      """
+    )
+
+    @$timingsTable.append(row)
+    row.find(".timeat").timeatEntry()
+
+    @updateTimings()
+    
 
 
   # called when the presentation changes
@@ -33,6 +82,19 @@ class Prez
   _extractSpeakerDeckId: (embedCode) ->
     regex = /speakerdeck\.com\/player\/([0-9a-zA-Z]+)/
     regex.exec(embedCode)[1]
+
+
+  # highlight the controls for easy editing
+  timeChange: (t) ->
+    console.log "TIMECJANGE: #{t}"
+    rows = @$timingsTable.find('tbody tr')
+    for i in [rows.length-1..0]
+      row = rows[i]
+      rowTime = parseInt $(row).find('input.time').val()
+      if t >= rowTime
+        @$timingsTable.find('tbody tr').removeClass('selected')
+        $(row).addClass('selected')
+        return
 
 
   prezWidth: ->
@@ -74,7 +136,11 @@ class Prez
 
       # Display the output.
       $("#output_embed_code").val(@outputEmbedCode.toString())
-      @outputEmbedCode.previewInElem("preview", { type: 'api' })
+      @outputEmbedCode.previewInElem("preview", { type: 'api' }, =>
+        console.log "binding up"
+        window.wistiaEmbed.bind("timechange", (t) => @timeChange(t))
+        @updateTimings()
+      )
 
     else
 

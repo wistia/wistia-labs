@@ -17,7 +17,35 @@
 
     <style>
       #timings input.slide {
+        text-align: right;
         width: 100px;
+      }
+
+      #timings tr.selected input, 
+      #timings tr.selected div.timeat_entry,
+      #timings tr.selected div.timeat_entry input {
+        background: yellow;
+      }
+
+      #configure .timeat_entry input {
+        padding: 0;
+      }
+
+      #configure .timeat_entry .minutes {
+        border: 0;
+        text-align: right;
+        width: 60px;
+      }
+
+      #configure .timeat_entry .seconds {
+        border: 0;
+        text-align: left;
+        width: 22px;
+      }
+
+      #configure .timeat_entry .sep {
+        font-weight: bold;
+        margin: 0 2px;
       }
     </style>
   </head>
@@ -80,11 +108,10 @@
                     <th>Slide</th>
                     <th>Time</th>
                   </thead>
-                  <tr>
-                    <td><input class="slide" type="text" value="1" /></td>
-                    <td><input class="time timeat" type="text" value="0" /></td>
-                  </tr>
+                  <tbody>
+                  </tbody>
                 </table>
+                <a href="#" id="add_timing">Gimme more</a>
 
 
               </div>
