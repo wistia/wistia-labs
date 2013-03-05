@@ -43,21 +43,33 @@ function updateOutput() {
   var outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
 
   function setUpPlugin(midrolldata) {
+    var midRollData = midRollDataFromPage();
     // uncomment this for production
     //outputEmbedCode.setOption('plugin.midRollLinks.src', outputEmbedCode.proto() + 
     //"//" + Wistia.remote.embedHost({ ssl: outputEmbedCode.ssl() }) + "/labs/mid-roll-links/mid-roll-links.js");
-    outputEmbedCode.setOption('plugin.midRollLinks.links', midrolldata);
-    outputEmbedCode.setOption('plugin.midrollLinks.playerColor', previewEmbed.params.playerColor);
-    updatePreviewAndOutputEmbeds(midrolldata);
+    outputEmbedCode.setOption('plugin.midRollLinks.links', midRollData);
+    outputEmbedCode.setOption('plugin.midRollLinks.playerColor', sourceEmbedCode.options().playerColor);
+    updatePreviewAndOutputEmbeds(midRollData);
   }
 
   function updatePreviewAndOutputEmbeds(midrolldata) {
     // update with new midroll links
     $("#output_embed_code").val(outputEmbedCode.toString());
-    window.previewEmbed.plugin.midRollLinks.update({ 
-      "links": midrolldata,
-      "playerColor": previewEmbed.params.playerColor
-    });
+
+    if (change) {
+      outputEmbedCode.previewInElem("preview", { type: 'api' }, function() {
+        change = false;
+        window.previewEmbed.plugin.midRollLinks.update({ 
+          "links": midrolldata,
+          "playerColor": sourceEmbedCode.options().playerColor || "636155"
+        });
+      });
+    } else {
+      window.previewEmbed.plugin.midRollLinks.update({ 
+        "links": midrolldata,
+        "playerColor": sourceEmbedCode.options().playerColor || "636155"
+      });
+    }
   }
 
 
@@ -68,9 +80,8 @@ function updateOutput() {
     var fullScreenAlert = "This embed code has fullscreen enabled with mid-rolls. " + 
       "Just so you know, the Midroll Links won't show up when fullscreen. " + 
       "You might want to <a href='#' class='turn_off_fullscreen'>turn off fullscreen</a>."
-    var midRollData = midRollDataFromPage();
 
-    setUpPlugin(midRollData);
+    setUpPlugin();
 
     if (hasFullscreen && hasMidRoll) {
       $("#alert").html(fullScreenAlert).show();
@@ -80,20 +91,21 @@ function updateOutput() {
   }
 
   function embedMidRollPreview() {
-    outputEmbedCode.setOption('plugin.midRollLinks.src', "http://localhost:8000/mid-roll-links/plugin.js");
+    outputEmbedCode.setOption('plugin.midRollLinks.src', "http://localhost:8000/mid-roll-links/mid-roll-links.js");
     outputEmbedCode.setOption('plugin.midRollLinks.links', {'links': []});
-    outputEmbedCode.setOption('plugin.midRollLinks.playerColor', outputEmbedCode.options().playerColor);
+    outputEmbedCode.setOption('plugin.midRollLinks.playerColor', sourceEmbedCode.options().playerColor);
 
     $("#output_embed_code").val(outputEmbedCode.toString());
     outputEmbedCode.previewInElem("preview", { type: 'api' }, function(){
       embedded = true;
+      change = false;
       updateEmbedCode();
     });
   }
 
   // first time 
   if (sourceEmbedCode && sourceEmbedCode.isValid()) {
-    if (!embedded || change) { 
+    if (!embedded) { 
       embedMidRollPreview(); 
     } else {
       updateEmbedCode();
@@ -174,8 +186,9 @@ window.setupLabInterface = function($) {
 
     // Add in default midRoll Example
     addDefaultMidRoll("Check Out Wistia", "http://wistia.com", "?", "?");
-    addMidRollData("Oooo Check Out Benny", "hesajerk.com", 02, 10);
-    addMidRollData("Oooo Check Out Benny", "hesajerk.com", 08, 16);
-    addMidRollData("Oooo Check Out Benny", "hesajerk.com", 20, 24);
+//  addMidRollData("CHECK OUT UNCLE BENNY!", "unclebenny.com", 02, 10);
+//  addMidRollData("CHECK OUT UNCLE BENNY!", "unclebenny.com", 08, 14);
+//  addMidRollData("CHECK OUT UNCLE BENNY!", "unclebenny.com", 12, 22);
+//  addMidRollData("CHECK OUT UNCLE BENNY!", "unclebenny.com", 24, 40);
   });
 };
