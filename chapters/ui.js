@@ -63,7 +63,3 @@ function generate_chapter() {
   $('#chapter_' + num + '_time').timeatEntry();
   chapter_count++;
 }
-
-// Paste embed code: #b1d460, bottom edge: #9dbb55
-// Table of contents setup #eddd4c, #e6cf00
-// Chapters: #f7c631, #edb200
