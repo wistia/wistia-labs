@@ -18,7 +18,12 @@ Wistia.plugin("googleAnalytics", function(video, options) {
     return watched / buckets.length;
   };
   video.ready(function() {
-    return buckets.length = Math.floor(video.duration());
+    var i, _i, _ref, _results;
+    _results = [];
+    for (i = _i = 0, _ref = Math.floor(video.duration()); 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+      _results.push(buckets.push(false));
+    }
+    return _results;
   });
   video.bind("secondchange", function(s) {
     return buckets[s] = true;
@@ -34,11 +39,13 @@ Wistia.plugin("googleAnalytics", function(video, options) {
   };
   _ref = [.25, .5, .75, 1];
   _fn = function(triggerPercent) {
+    console.log("setup triggerPercent for", triggerPercent);
     return video.bind("secondchange", function(s) {
       var percent;
       percent = percentWatched();
-      if (percent >= (triggerPercent - .05)) {
+      if (percent >= (triggerPercent - .03)) {
         pushEvent("" + (Math.round(triggerPercent * 100)) + " Watched", video.name());
+        console.log("unbind triggerPercent for", triggerPercent);
         return this.unbind;
       }
     });
