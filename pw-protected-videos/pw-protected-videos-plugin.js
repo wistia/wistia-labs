@@ -90,7 +90,7 @@ Wistia.plugin("passwordProtected", function(video, options) {
   passwordInput.style.border = 0;
   passwordInput.style['border-radius'] = 0;
   passwordInput.style.margin = 0;
-  passwordInput.style.padding = 0;
+  passwordInput.style.padding = '0 8px';
   passwordInput.style.outline = 'none';
   passwordInput.style.height = '40px';
   passwordInput.style.width = '150px';
