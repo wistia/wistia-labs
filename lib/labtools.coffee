@@ -37,8 +37,7 @@
           window.previewCode = W.EmbedCode.parse(data.html)
           previewCode.handle("window.previewEmbed = " + previewCode.handle())
           targetElem.innerHTML = W.util.removeScriptTags(previewCode.toString())
-          W.util.execScriptTags(previewCode.toString())
-          callback() if callback
+          W.util.execScriptTags(previewCode.toString(), callback)
 
       else if window.previewCode = W.EmbedCode.parse(embedCode)
         if previewCode instanceof W.ApiEmbedCode
