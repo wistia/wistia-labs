@@ -50,15 +50,15 @@
             </div>
 
 
-            <!-- logo positioning section -->
-            <div class="jamjar another-section">
+            <!-- logo placement section -->
+            <div class="jamjar wlov-placement-section">
               <div class="jamjar_head">
                 <div class="jamjar_title">Logo Placement</div>
               </div>
               <div class="jamjar_body">
                 <p style="margin-top:0;">Right side, left side, up side, down side.</p>
                 <h3 style="margin-bottom:.25em;">Grid</h3>
-                <div id='wlov-grid'></div>
+                <div id='wlov-grid' class='wlov-contain'></div>
                 <div class='logo_offset_container'>
                   <label class='logo_coord_label'>(x, y) offset:</label>
                   <div class="logo_coord_pair">
@@ -75,13 +75,15 @@
               </div>
             </div>
 
-            <!-- upload a new logo section -->
-            <div class="jamjar another-section">
+            <!-- logo settings section -->
+            <div class="jamjar wlov-settings-section">
               <div class="jamjar_head">
                 <div class="jamjar_title">Logo Settings</div>
               </div>
               <div class="jamjar_body">
                 <p style="margin-top:0;">Link your logo to a website or change transparency settings.</p>
+                <h3 style="margin-bottom:.25em;">Logo URL</h3>
+                <input id="logo_url" type="text" value="Enter your Logo's URL" />
                 <h3 style="margin-bottom:.25em;">Link URL</h3>
                 <input id="logo_link" type="text" value="Link to Your Organization" />
                 <h3 style="margin-bottom:.25em;">Link Title</h3>
@@ -100,19 +102,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- upload a new logo section -->
-            <div class="jamjar another-section">
-              <div class="jamjar_head">
-                <div class="jamjar_title">Upload a New Logo</div>
-              </div>
-              <div class="jamjar_body">
-                <p style="margin-top:0;">Add a new logo for use with this embed code.</p>
-                <h3 style="margin-bottom:.25em;">Logo URL</h3>
-                <input id="logo_url" type="text" value="Enter your Logo's URL" />
-              </div>
-            </div>
-
 
           </div> <!-- #configure -->
         </div><div class="col2 col">
@@ -139,18 +128,33 @@
 
     <!-- TESTING -->
     <script>
+      //$(document).ready(function(){
+      //  $('#source_embed_code').val('<iframe src="http://fast.wistia.net/embed/iframe/9bi8datskq?playerColor=81b7db&version=v1&fullscreenButton=false&volumeControl=true&videoHeight=326&videoWidth=580" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" width="580" height="326"></iframe>');
+
+      //  $('#logo_grid_pos').val('right_inside');
+      //  $('#logo_url').val('http://embed.wistia.com/deliveries/83d5e93e57ae5287ebc227cd84f17ec2584eb99f.png?image_crop_resized=144x75');
+      //  $('#logo_link').val('http://en.wikipedia.org/wiki/Vacuum_Polarization');
+      //  $('#logo_opacity').val(0.55);
+      //  $('#logo_hover_opacity').val(0.9);
+
+      //  // Add some alt text for the logo link, triggered after a timeout.
+      //  setTimeout(function(){
+      //    $('#logo_title').focus().val('Virtual Pair - Feynman Diagram').keyup().blur();
+      //  }, 1000);
+      //});
       $(document).ready(function(){
+        var wistia_logo = 'http://embed.wistia.com/deliveries/5ef3b839923f18eb24308a9576551c2367e0eb40.png';
         $('#source_embed_code').val('<iframe src="http://fast.wistia.net/embed/iframe/9bi8datskq?playerColor=81b7db&version=v1&fullscreenButton=false&volumeControl=true&videoHeight=326&videoWidth=580" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" width="580" height="326"></iframe>');
 
         $('#logo_grid_pos').val('right_inside');
-        $('#logo_url').val('http://embed.wistia.com/deliveries/83d5e93e57ae5287ebc227cd84f17ec2584eb99f.png?image_crop_resized=144x75');
-        $('#logo_link').val('http://en.wikipedia.org/wiki/Vacuum_Polarization');
+        $('#logo_url').val(wistia_logo);
+        $('#logo_link').val('http://wistia.com');
         $('#logo_opacity').val(0.55);
         $('#logo_hover_opacity').val(0.9);
 
         // Add some alt text for the logo link, triggered after a timeout.
         setTimeout(function(){
-          $('#logo_title').focus().val('Virtual Pair - Feynman Diagram').keyup().blur();
+          $('#logo_title').focus().val('Wistia').keyup().blur();
         }, 1000);
       });
     </script>
