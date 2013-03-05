@@ -1,17 +1,25 @@
 .paste_embed_code .jamjar_head {
-  background-color: #55C6FF;
+  background-color: #faa927;
 }
 
 .paste_embed_code .jamjar_foot {
-  background-color: #45B6FF;
+  background-color: #f29807;
 }
 
-.another-section .jamjar_head {
-  background-color: #0092D1;
+.wlov-placement-section .jamjar_head {
+  background-color: #ff793b;
 }
 
-.another-section .jamjar_foot {
-  background-color: #0082C1;
+.wlov-placement-section .jamjar_foot {
+  background-color: #f66c2c;
+}
+
+.wlov-settings-section .jamjar_head {
+  background-color: #ff933b;
+}
+
+.wlov-settings-section .jamjar_foot {
+  background-color: #f68527;
 }
 
 #source_embed_code {
@@ -101,3 +109,4 @@ input#logo_pos {
   background-image: none;
   */
 }
+
