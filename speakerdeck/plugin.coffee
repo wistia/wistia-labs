@@ -1,4 +1,4 @@
-Wistia.plugin 'prez', (video, options) ->
+Wistia.plugin 'speakerdeck', (video, options) ->
 
   class Timings
     constructor: (pairs) ->
@@ -18,9 +18,8 @@ Wistia.plugin 'prez', (video, options) ->
   # stop those timings son
   timings = new Timings()
   updateTimings = (pairs) ->
-    console.log "updated timings"
     timings = new Timings(pairs)
-
+    updateSlideForTime()
 
 
   # slidechange fn
@@ -28,26 +27,41 @@ Wistia.plugin 'prez', (video, options) ->
   # regardless of whether we change it or a user changes it
   slideChange = (slide) ->
     return unless video.state() is 'playing' or video.state() is 'paused'
+    return if suppressSlideSync
 
-    if suppressSlideSync
-      console.log "SUPPRESSING SYNC: changed slide to: #{slide}"
-    else
-      suppressSlideSyncTemporarily()
-      time = timings.timeForSlide(slide)
-      console.log "SYNCING: #{slide} -> #{time}"
-      video.time(time) if time isnt null
+    suppressSlideSyncTemporarily()
+    time = timings.timeForSlide(slide)
+    video.time(time) if time isnt null
 
 
 
   # this is to get the API handle
   speakerDeck = null
+  numberOfSlides = null
+  readyCallback = null
+  ready = false
+
+
   window.onSpeakerDeckPlayerReady = (s) ->
     speakerDeck = s
+
+    # get the total number of slides by seeking way past the end and then
+    # examining the current slide number
+    suppressSlideSyncTemporarily()
+    speakerDeck.goToSlide(10000)
+    setTimeout ->
+      numberOfSlides = speakerDeck.currentSlide.number if speakerDeck.currentSlide
+      speakerDeck.goToSlide(1)
+    , 10
 
     # bind to slide change
     speakerDeck.on('change', (slide) ->
       slideChange(slide.number)
     )
+
+    ready = true
+    readyCallback() if readyCallback
+
 
 
   # load it up
@@ -56,18 +70,25 @@ Wistia.plugin 'prez', (video, options) ->
   # when we're advancing slides by time we need to 
   suppressSlideSync = false
   suppressSlideSyncTemporarily = ->
-    console.log 'suppressing'
     suppressSlideSync = true
     setTimeout ->
       suppressSlideSync = false
     , 100
 
-  video.bind 'timechange', (t) ->
+
+  updateSlideForTime = (t) ->
+    return unless speakerDeck
+
+    t = video.time() if t is undefined
+
     slideNum = timings.slideForTime(t)
-    console.log "time is: #{t}, should be on slide: #{slideNum}"
     if speakerDeck.currentSlide.number isnt slideNum
       suppressSlideSyncTemporarily()
       speakerDeck.goToSlide(slideNum)
+
+
+  video.bind 'timechange', (t) ->
+    updateSlideForTime(t)
 
 
   position = options.position || 'right'
@@ -75,12 +96,21 @@ Wistia.plugin 'prez', (video, options) ->
   height = options.height || video.height()
 
   # put it next to the vidjeo
-  prezElem = document.createElement('div')
-  prezElem.innerHTML = "<div class='speakerdeck-embed' data-id='#{options.speakerDeckId}'></div>"
+  deckElem = document.createElement('div')
+  deckElem.innerHTML = "<div class='speakerdeck-embed' data-id='#{options.deckId}'></div>"
 
-  prezElem.style.width = "#{width}px"
-  prezElem.style.height = "#{height}px"
-  video.grid[position].appendChild(prezElem)
+  deckElem.style.width = "#{width}px"
+  deckElem.style.height = "#{height}px"
+  video.grid[position].appendChild(deckElem)
   video.fit()
 
-  { updateTimings: updateTimings }
+  {
+    updateTimings: updateTimings
+    numberOfSlides: -> numberOfSlides
+    currentSlide: -> speakerDeck.currentSlide.number
+    ready: (callback) ->
+      if ready
+        callback()
+      else
+        readyCallback = callback
+  }
