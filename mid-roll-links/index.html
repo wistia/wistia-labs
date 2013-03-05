@@ -10,7 +10,7 @@
     <script src="http://wistia.com/labs/lib/globalui.js"></script>
     <script>
       loadRelativeCss(["style.css"]);
-      loadRelativeScripts(["../lib/labtools.js", "plugin.js", "ui.js"], function() {
+      loadRelativeScripts(["../lib/labtools.js", "mid-roll-links.js", "ui.js"], function() {
         setupLabInterface(jQuery);
       });
     </script>
@@ -75,10 +75,10 @@
                   <input type="text" name="link_href" class="midroll"/>
 
                   <label class="start">Start</label>
-                  <input type="text" name="start" class="midroll"/>
+                  <input type="text" name="start" class="midroll timeat"/>
 
                   <label class="end">End</label>
-                  <input type="text" name="end" class="midroll"/>
+                  <input type="text" name="end" class="midroll timeat"/>
                 </div>
                 <div class="note" style="margin-bottom:1em;">
                   Start and end are measured in seconds.
@@ -86,29 +86,8 @@
                 
                 <div class="mid_roll_entries"></div>
 
-                <div class="more_options">
-                  <div class="checkbox_field_pair field_pair">
-                    <label>
-                      <input type="checkbox" name="postroll_recap" id="postroll_recap" />
-                      Recap links at end
-                    </label>
-                  </div>
-                </div>
               </div>
             </div>
-
-            <!-- Some other section. Change me! -->
-            <div class="jamjar another-section">
-              <div class="jamjar_head">
-                <div class="jamjar_title">Another section</div>
-              </div>
-              <div class="jamjar_body">
-                <p style="margin-top:0;">Put whatever inputs or text you want in this area.</p>
-                <h3 style="margin-bottom:.25em;">Another Option</h3>
-                <input id="another_option" type="text" value="Enter anything" />
-              </div>
-            </div>
-
 
           </div> <!-- #configure -->
         </div><div class="col2 col">
