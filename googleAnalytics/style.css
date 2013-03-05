@@ -1,17 +1,17 @@
-.paste_embed_code .jamjar_head {
-  background-color: #55C6FF;
+.mode_switcher .jamjar_head {
+  background-color: #428ebd;
 }
 
-.paste_embed_code .jamjar_foot {
-  background-color: #45B6FF;
+.mode_switcher .jamjar_foot {
+  background-color: #177ebd;
 }
 
-.another-section .jamjar_head {
-  background-color: #0092D1;
+.paste-embed-code .jamjar_head {
+  background-color: #375c9d;
 }
 
-.another-section .jamjar_foot {
-  background-color: #0082C1;
+.paste-embed-code .jamjar_foot {
+  background-color: #1f4d9d;
 }
 
 #source_embed_code {
