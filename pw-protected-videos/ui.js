@@ -30,6 +30,7 @@ function updateOutput() {
             seed: random
           });
 
+          // replace the output with a dummy video
           outputEmbedCode.hashedId(DUMMY_HASHED_ID);
 
           // Display the output.
