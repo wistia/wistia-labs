@@ -235,7 +235,7 @@ h1 {
   border: 1px dotted #a5a5a5;
   display: inline-block;
   *display: inline;
-  padding: 6px 8px;
+  padding: 4px 8px;
   vertical-align: top;
   zoom: 1;
 }
