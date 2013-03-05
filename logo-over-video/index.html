@@ -3,7 +3,7 @@
   <head>
     <title>Logo Over Video Lab</title>
     <link rel="stylesheet" href="http://wistia.com/labs/css/labs.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="http://fast.wistia.com/static/app-jquery-jquery_jamjar.js"></script>
     <script src="http://fast.wistia.com/static/E-v1.js"></script>
     <script src="http://wistia.com/labs/lib/globalui.js"></script>
@@ -57,15 +57,38 @@
               <div class="jamjar_body">
                 <p style="margin-top:0;">Right side, left side, up side, down side.</p>
                 <h3 style="margin-bottom:.25em;">Grid</h3>
-                <div class='wlov-grid'>
-                  <div class='wlov-grid-item wlov-grid-ti'></div>
-                  <div class='wlov-grid-item wlov-grid-ri'></div>
-                  <div class='wlov-grid-item wlov-grid-bi'></div>
-                  <div class='wlov-grid-item wlov-grid-li'></div>
+                <div id='wlov-grid'>
+                  <div class='wlov-grid-item wlov-grid-ri wlov-grid-item-selected'></div>
+                  <!-- <div class='wlov-grid-item wlov-grid-ti'></div> -->
+                  <!--<div class='wlov-grid-item wlov-grid-ri wlov-grid-item-selected'></div>-->
+                  <!-- <div class='wlov-grid-item wlov-grid-bi'></div>
+                  <div class='wlov-grid-item wlov-grid-li'></div> -->
                 </div>
+                <input id="logo_pos" type="text" value="right_inside"/>
+                <input id="logo_x_offset" type="text" value="10"/>
+                <input id="logo_y_offset" type="text" value="10"/>
+                <input id="logo_width" type="text" value="0"/>
+                <input id="logo_height" type="text" value="0"/>
               </div>
             </div>
 
+            <!-- upload a new logo section -->
+            <div class="jamjar another-section">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Logo Settings</div>
+              </div>
+              <div class="jamjar_body">
+                <p style="margin-top:0;">Link, set opacity, etc.</p>
+                <h3 style="margin-bottom:.25em;">Link to</h3>
+                <input id="logo_link" type="text" value="Link to Your Organization" />
+                <h3 style="margin-bottom:.25em;">Link title</h3>
+                <input id="logo_title" type="text" value="Hover Text For Your Logo" />
+                <h3 style="margin-bottom:.25em;">Logo Opacity</h3>
+                <input id="logo_opacity" type="text" value="1.0" />
+                <h3 style="margin-bottom:.25em;">Logo Hover Opacity</h3>
+                <input id="logo_hover_opacity" type="text" value="1.0" />
+              </div>
+            </div>
 
             <!-- upload a new logo section -->
             <div class="jamjar another-section">
@@ -74,8 +97,8 @@
               </div>
               <div class="jamjar_body">
                 <p style="margin-top:0;">Add a new logo for use with this embed code.</p>
-                <h3 style="margin-bottom:.25em;">Another Option</h3>
-                <input id="another_option" type="text" value="Enter anything" />
+                <h3 style="margin-bottom:.25em;">Logo URL</h3>
+                <input id="logo_url" type="text" value="Enter your Logo's URL" />
               </div>
             </div>
 
@@ -102,6 +125,24 @@
       <div id="footerpad">&nbsp;</div>
     </div> <!-- #nonfooter -->
     <div id="footer">&nbsp;</div>
+
+    <!-- TESTING -->
+    <script>
+      $(document).ready(function(){
+        $('#source_embed_code').val('<iframe src="http://fast.wistia.net/embed/iframe/9bi8datskq?playerColor=81b7db&version=v1&fullscreenButton=false&volumeControl=true&videoHeight=326&videoWidth=580" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" width="580" height="326"></iframe>');
+
+        $('#logo_grid_pos').val('right_inside');
+        $('#logo_url').val('http://embed.wistia.com/deliveries/83d5e93e57ae5287ebc227cd84f17ec2584eb99f.png?image_crop_resized=144x75');
+        $('#logo_link').val('http://en.wikipedia.org/wiki/Vacuum_Polarization');
+        $('#logo_opacity').val(0.55);
+        $('#logo_hover_opacity').val(0.9);
+
+        // Add some alt text for the logo link, triggered after a timeout.
+        setTimeout(function(){
+          $('#logo_title').focus().val('Virtual Pair - Feynman Diagram').keyup().blur();
+        }, 1000);
+      });
+    </script>
 
   </body>
 </html>
