@@ -94,10 +94,11 @@ Wistia.plugin 'speakerdeck', (video, options) ->
   position = options.position || 'right'
   width = options.width || video.width()
   height = options.height || video.height()
+  aspect = options.aspect || (4/3)
 
   # put it next to the vidjeo
   deckElem = document.createElement('div')
-  deckElem.innerHTML = "<div class='speakerdeck-embed' data-id='#{options.deckId}'></div>"
+  deckElem.innerHTML = "<div class='speakerdeck-embed' data-ratio='#{aspect}' data-id='#{options.deckId}'></div>"
 
   deckElem.style.width = "#{width}px"
   deckElem.style.height = "#{height}px"

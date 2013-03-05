@@ -110,7 +110,7 @@ Prez = (function() {
 
   Prez.prototype.setupExample = function() {
     $('#source_embed_code').val('<iframe src="http://fast.wistia.net/embed/iframe/zgj5zota4c?playerColor=81b7db&version=v1&videoHeight=270&videoWidth=480" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" width="480" height="270"></iframe>');
-    $('#presentation_url').val('https://speakerdeck.com/chriscoyier/how-to-stay-up-to-date-on-web-technology');
+    $('#presentation_url').val('https://speakerdeck.com/ezrafishman/the-bschwartz-labz-preso');
     $('#presentation_position').val('right');
     this.clearTimings();
     this.addTiming(1, 0);
@@ -313,6 +313,7 @@ Prez = (function() {
         this.outputEmbedCode.setOption("plugin.speakerdeck.deckId", this.prezId);
         this.outputEmbedCode.setOption("plugin.speakerdeck.width", this.prezWidth());
         this.outputEmbedCode.setOption("plugin.speakerdeck.height", this.prezHeight());
+        this.outputEmbedCode.setOption("plugin.speakerdeck.aspect", this.prezSlideAspect());
         this.outputEmbedCode.setOption("plugin.speakerdeck.position", this.prezPosition);
       }
       return $("#output_embed_code").val(this.outputEmbedCode.toString());
