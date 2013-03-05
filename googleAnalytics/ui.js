@@ -79,6 +79,16 @@ window.setupLabInterface = function($) {
       $(this).select();
     });
 
-    updateOutput();
+    wistiaEmbeds.bind("percentwatched", function(video, p) {
+      $("#percent_watched").text("Watched " + Math.round(p * 100) + "%");
+    });
+    wistiaEmbeds.bind("pushedtogoogleanalytics", function(video, key, val) {
+      if (key === "play") {
+        $("#event_notifications .events").append("<li>Pushed a play event to google analytics.</li>");
+      } else {
+        $("#event_notifications .events").append("<li>Pushed an event to google analytics: " + Math.round(val * 100) + "% watched.</li>");
+      }
+    });
+
   });
 };

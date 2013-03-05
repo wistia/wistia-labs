@@ -22,20 +22,28 @@ Wistia.plugin "googleAnalytics", (video, options = {}) ->
       _gaq.push(['_trackEvent', 'Video', name, val])
 
   
-  # Trigger the percentwatched events for selected thresholds.
+  # Trigger events so we can 
   for triggerPercent in [.25, .5, .75, 1]
     ((triggerPercent) ->
       video.bind "secondchange", (s) ->
         percent = percentWatched()
-        if percent >= (triggerPercent - .03)
+        if buckets.length > 0 and percent >= triggerPercent
           pushEvent "#{Math.round(triggerPercent * 100)} Watched", video.name()
+          video.trigger "pushedtogoogleanalytics", "percentwatched", triggerPercent
           return @unbind
     )(triggerPercent)
+
+  video.bind "secondchange", (s) ->
+    if buckets.length > 0
+      video.trigger "percentwatched", percentWatched()
+    else
+      video.trigger "percentwatched", 0
 
 
   # Trigger the play event.
   video.bind "play", ->
     pushEvent "Play", video.name()
+    video.trigger "pushedtogoogleanalytics", "play"
     @unbind
 
   return {
