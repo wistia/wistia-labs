@@ -95,7 +95,7 @@ class Prez
   # sets up the sweet example video
   setupExample: ->
     $('#source_embed_code').val('<iframe src="http://fast.wistia.net/embed/iframe/zgj5zota4c?playerColor=81b7db&version=v1&videoHeight=270&videoWidth=480" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" width="480" height="270"></iframe>')
-    $('#presentation_url').val('https://speakerdeck.com/chriscoyier/how-to-stay-up-to-date-on-web-technology')
+    $('#presentation_url').val('https://speakerdeck.com/ezrafishman/the-bschwartz-labz-preso')
     $('#presentation_position').val('right')
     @clearTimings()
     @addTiming(1,0)
@@ -298,6 +298,7 @@ class Prez
         @outputEmbedCode.setOption("plugin.speakerdeck.deckId", @prezId)
         @outputEmbedCode.setOption("plugin.speakerdeck.width", @prezWidth())
         @outputEmbedCode.setOption("plugin.speakerdeck.height", @prezHeight())
+        @outputEmbedCode.setOption("plugin.speakerdeck.aspect", @prezSlideAspect())
         @outputEmbedCode.setOption("plugin.speakerdeck.position", @prezPosition)
 
       # Display the output.
