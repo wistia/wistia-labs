@@ -1,17 +1,25 @@
 .paste_embed_code .jamjar_head {
-  background-color: #55C6FF;
+  background-color: #b1d460;
 }
 
 .paste_embed_code .jamjar_foot {
-  background-color: #45B6FF;
+  background-color: #9dbb55;
 }
 
-.another-section .jamjar_head {
-  background-color: #0092D1;
+.setup .jamjar_head {
+  background-color: #eddd4c;
 }
 
-.another-section .jamjar_foot {
-  background-color: #0082C1;
+.setup .jamjar_foot {
+  background-color: #e6cf00;
+}
+
+.chapters .jamjar_head {
+  background-color: #f7c631;
+}
+
+.chapters .jamjar_foot {
+  background-color: #edb200;
 }
 
 #source_embed_code {
