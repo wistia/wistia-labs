@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="http://wistia.com/labs/css/labs.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="http://fast.wistia.com/static/app-jquery-jquery_jamjar.js"></script>
+    <script src="http://wistia.com/labs/lib/jquery.timeatentry.js"></script>
     <script src="http://fast.wistia.com/static/E-v1.js"></script>
     <script src="http://wistia.com/labs/lib/globalui.js"></script>
     <script>
@@ -51,6 +52,28 @@
             <!-- Chapters section. -->
             <div class="jamjar another-section">
               <div class="jamjar_head">
+                <div class="jamjar_title">Style</div>
+              </div>
+
+              <div class="jamjar_body">
+                <label for="chapters_width">Width:</label>
+                <input id="chapters_width" type="text" value="200px" />
+
+                <label for="chapters_location">Location:</label>
+                <select id="chapters_location">
+                  <option value="right" selected="selected">Right</option>
+                  <option value="left">Left</option>
+                </select><br />
+
+                <label for="chapters_show_timestamps">Show timestamps?</label>
+                <select id="chapters_show_timestamps">
+                  <option value="yes" selected="selected">Yes</option>
+                  <option value="no">No</option>
+                </select><br />
+              </div>
+            </div>
+            <div class="jamjar another-section">
+              <div class="jamjar_head">
                 <div class="jamjar_title">Chapters</div>
               </div>
               <div class="jamjar_body">
@@ -58,35 +81,35 @@
                 <!--<h3 style="margin-bottom:.25em;">Chapter Markers</h3>-->
                 <input id="chapter_1_title" type="text" value="Chapter 1" class="chapter_title_input"/>
                 @
-                <input id="chapter_1_time" type="text" value="00" class="chapter_time_input"/>
+                <input id="chapter_1_time" type="text" value="60" class="timeat chapter_time_input"/>
 
                 <input id="chapter_2_title" type="text" value="Chapter 2" class="chapter_title_input"/>
                 @
-                <input id="chapter_2_time" type="text" value="00" class="chapter_time_input"/>
+                <input id="chapter_2_time" type="text" value="2" class="timeat chapter_time_input"/>
 
                 <input id="chapter_3_title" type="text" value="Chapter 3" class="chapter_title_input"/>
                 @
-                <input id="chapter_3_time" type="text" value="00" class="chapter_time_input"/>
+                <input id="chapter_3_time" type="text" value="3" class="timeat chapter_time_input"/>
 
                 <input id="chapter_4_title" type="text" value="Chapter 4" class="chapter_title_input"/>
                 @
-                <input id="chapter_4_time" type="text" value="00" class="chapter_time_input"/>
+                <input id="chapter_4_time" type="text" value="4" class="timeat chapter_time_input"/>
 
                 <input id="chapter_5_title" type="text" value="Chapter 5" class="chapter_title_input"/>
                 @
-                <input id="chapter_5_time" type="text" value="00" class="chapter_time_input"/>
+                <input id="chapter_5_time" type="text" value="5" class="timeat chapter_time_input"/>
 
                 <input id="chapter_6_title" type="text" value="Chapter 6" class="chapter_title_input"/>
                 @
-                <input id="chapter_6_time" type="text" value="00" class="chapter_time_input"/>
+                <input id="chapter_6_time" type="text" value="6" class="timeat chapter_time_input"/>
 
                 <input id="chapter_7_title" type="text" value="Chapter 7" class="chapter_title_input"/>
                 @
-                <input id="chapter_7_time" type="text" value="00" class="chapter_time_input"/>
+                <input id="chapter_7_time" type="text" value="7" class="timeat chapter_time_input"/>
 
                 <input id="chapter_8_title" type="text" value="Chapter 8" class="chapter_title_input"/>
                 @
-                <input id="chapter_8_time" type="text" value="00" class="chapter_time_input"/>
+                <input id="chapter_8_time" type="text" value="8" class="timeat chapter_time_input"/>
 
                 <!--<input id="submit" type="submit" value="Save Changes" onclick="javascript:apply_chapters(); return false;" />-->
               </div>
@@ -107,15 +130,7 @@
             <div id="preview">
               <div id="placeholder_preview">Your video here</div>
             </div>
-            <a href="#" onclick="wistiaEmbed.plugin.chapters.goToChapter(1); return false;">Chapter 1</a>
-            |
-            <a href="#" onclick="wistiaEmbed.plugin.chapters.goToChapter(2); return false;">Chapter 2</a>
-            |
-            <a href="#" onclick="wistiaEmbed.plugin.chapters.goToChapter(3); return false;">Chapter 3</a>
-            |
-            <a href="#" onclick="wistiaEmbed.plugin.chapters.goToChapter(4); return false;">Chapter 4</a>
-            |
-            <a href="#" onclick="wistiaEmbed.plugin.chapters.goToChapter(5); return false;">Chapter 5</a>
+            <a href="#" onclick="wistiaEmbed.plugin.chapters.showChapterList(); return false;">Show Chapters</a>
           </div> <!-- #results -->
 
 
