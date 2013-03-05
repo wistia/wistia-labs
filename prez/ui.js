@@ -8,6 +8,8 @@ Prez = (function() {
     this.prezChromeHeight = 65;
     this.hasPrez = false;
     this.prezPosition = $('#presentation_position').val();
+    this.$timingsTable = $('#timings');
+    this.addTiming();
     $("#presentation_url").on("keyup", function() {
       return _this.updatePresentation();
     });
@@ -17,7 +19,49 @@ Prez = (function() {
     $("#source_embed_code").on("keyup", function() {
       return _this.updateEmbedCode();
     });
+    $("#add_timing").on("click", function() {
+      _this.addTiming();
+      return false;
+    });
+    $('#timings').on('keyup', 'input', function() {
+      return _this.updateTimings();
+    });
   }
+
+  Prez.prototype.updateTimings = function() {
+    if (!((typeof wistiaEmbed !== "undefined" && wistiaEmbed !== null) && wistiaEmbed.plugin.prez)) {
+      return;
+    }
+    return window.wistiaEmbed.plugin.prez.updateTimings(this.timings());
+  };
+
+  Prez.prototype.timings = function() {
+    var row, _i, _len, _ref, _results;
+    _ref = this.$timingsTable.find('tbody tr');
+    _results = [];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      row = _ref[_i];
+      _results.push([parseInt($(row).find('input.slide').val()), parseInt($(row).find('input.time').val())]);
+    }
+    return _results;
+  };
+
+  Prez.prototype.addTiming = function() {
+    var lastTiming, row, slide, time, timings;
+    timings = this.timings();
+    if (timings.length > 0) {
+      lastTiming = timings[timings.length - 1];
+      slide = lastTiming[0] + 1;
+      time = lastTiming[1] + 5;
+    } else {
+      slide = 1;
+      time = 0;
+    }
+    row = $("<tr>\n  <td><input class=\"slide\" type=\"text\" value=\"" + slide + "\" /></td>\n  <td><input class=\"time timeat\" type=\"text\" value=\"" + time + "\" /></td>\n</tr>");
+    this.$timingsTable.append(row);
+    row.find(".timeat").timeatEntry();
+    return this.updateTimings();
+  };
 
   Prez.prototype.updatePresentation = function() {
     var prezUrl,
@@ -44,6 +88,21 @@ Prez = (function() {
     return regex.exec(embedCode)[1];
   };
 
+  Prez.prototype.timeChange = function(t) {
+    var i, row, rowTime, rows, _i, _ref;
+    console.log("TIMECJANGE: " + t);
+    rows = this.$timingsTable.find('tbody tr');
+    for (i = _i = _ref = rows.length - 1; _ref <= 0 ? _i <= 0 : _i >= 0; i = _ref <= 0 ? ++_i : --_i) {
+      row = rows[i];
+      rowTime = parseInt($(row).find('input.time').val());
+      if (t >= rowTime) {
+        this.$timingsTable.find('tbody tr').removeClass('selected');
+        $(row).addClass('selected');
+        return;
+      }
+    }
+  };
+
   Prez.prototype.prezWidth = function() {
     if (this.prezPosition === 'left' || this.prezPosition === 'right') {
       return Math.round((this.sourceEmbedCode.height() - this.prezChromeHeight) * this.prezSlideAspect());
@@ -65,6 +124,7 @@ Prez = (function() {
   };
 
   Prez.prototype.updateEmbedCode = function() {
+    var _this = this;
     this.sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
     this.outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
     if (this.sourceEmbedCode && this.sourceEmbedCode.isValid()) {
@@ -83,6 +143,12 @@ Prez = (function() {
       $("#output_embed_code").val(this.outputEmbedCode.toString());
       return this.outputEmbedCode.previewInElem("preview", {
         type: 'api'
+      }, function() {
+        console.log("binding up");
+        window.wistiaEmbed.bind("timechange", function(t) {
+          return _this.timeChange(t);
+        });
+        return _this.updateTimings();
       });
     } else {
       $("#output_embed_code").val("Please enter a valid Wistia embed code.");
