@@ -25,12 +25,10 @@ Wistia.plugin "googleAnalytics", (video, options = {}) ->
   # Trigger the percentwatched events for selected thresholds.
   for triggerPercent in [.25, .5, .75, 1]
     ((triggerPercent) ->
-      console.log "setup triggerPercent for", triggerPercent
       video.bind "secondchange", (s) ->
         percent = percentWatched()
         if percent >= (triggerPercent - .03)
           pushEvent "#{Math.round(triggerPercent * 100)} Watched", video.name()
-          console.log "unbind triggerPercent for", triggerPercent
           return @unbind
     )(triggerPercent)
 
