@@ -2,8 +2,7 @@ Math.PHI = 1.6180339887505;
 var debug = true;
 
 // Load jquery-ui for draggable.
-//Wistia.remote.script('http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js', function(){ //});
-Wistia.remote.script('http://argo/jquery-ui.min.js', function(){
+Wistia.remote.script('http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js', function(){
 
   // Logo UI interactions.
   $( "#logo_opacity_slider" ).slider({
