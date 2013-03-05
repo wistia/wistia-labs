@@ -51,3 +51,19 @@ window.setupLabInterface = function($) {
       .on("click", ":radio,:checkbox", debounceUpdateOutput);
   });
 };
+
+function generate_chapter() {
+  num = chapter_count.toString();
+  div = document.createElement('div');
+  html = '<input id="chapter_' + num + '_title" type="text" value="Chapter ' + num + '" class="chapter_title_input"/>';
+  html += ' @ ';
+  html += '<input id="chapter_' + num + '_time" type="text" value="' + num + '" class="timeat chapter_time_input"/>';
+  div.innerHTML = html;
+  document.getElementById('configure_chapters').appendChild(div);
+  $('#chapter_' + num + '_time').timeatEntry();
+  chapter_count++;
+}
+
+// Paste embed code: #b1d460, bottom edge: #9dbb55
+// Table of contents setup #eddd4c, #e6cf00
+// Chapters: #f7c631, #edb200
