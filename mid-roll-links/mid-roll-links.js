@@ -4,6 +4,19 @@ Wistia.plugin("midRollLinks", function(video, options) {
   var linkSpacing = "20px";
   var margin = "6px";
 
+  WebFontConfig = {
+    google: { families: [ 'Open+Sans:700:latin' ] }
+  };
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+      '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+  })();
+
   function midRollLinkHtml(link) {
     var linkHtml = "<a href=\"" + link.linkHref + "\" target=\"_blank\" class=\"mid-roll-link\" style=\"display:block;\">" + link.linkText + "</a>";
     return linkHtml;
@@ -11,7 +24,6 @@ Wistia.plugin("midRollLinks", function(video, options) {
 
   function setColors(playerColor) {
     color = new Wistia.Color(playerColor);
-    console.log(color.toHex());
     selectedBgColor = new Wistia.Color(color);
     selectedBgColor.saturation(selectedBgColor.saturation() * .8);
     if (selectedBgColor.grayLevel() > .8) {
@@ -36,10 +48,8 @@ Wistia.plugin("midRollLinks", function(video, options) {
   function setLinkSpacing() {
     video.ready(function() {
       if (video.data.media.branding || video.options.branding) {
-        console.log("as many as 20");
         return "20px";
       } else {
-        console.log("only 6");
         return "6px";
       }
     });
@@ -123,7 +133,7 @@ Wistia.plugin("midRollLinks", function(video, options) {
     }}
 
     function update(options) {
-      setColors(options.playerColor);
+      updateStylings();
       addLinks(options.links);
     }
 
@@ -131,7 +141,8 @@ Wistia.plugin("midRollLinks", function(video, options) {
       addLinks(links);
     }
 
-    if (!document.getElementById("wistia_midroll_links_css")) {
+    function updateStylings() {
+      var colors = setColors(options.playerColor);
       styleElem = Wistia.util.addInlineCss(document.body, ".wistia_initial {\n" +
           "  opacity: 0;\n" +
           "  filter: alpha(opacity=0);\n" +
@@ -155,21 +166,29 @@ Wistia.plugin("midRollLinks", function(video, options) {
           "  transition: opacity .4s ease-in-out;\n" +
           "}\n" +
           ".wistia_visible a {\n" +
-          "  background-color: #" + setColors(options.playerColor).selectedBgColor + ";\n" +
-          "  border: 2px solid #" + setColors(options.playerColor).borderColor + ";\n" +
-          "  color: #" + setColors(options.playerColor).selectedTextColor + ";\n" +
-          "  font-size: 16px;\n" +
+          "  background-color: #" + colors.selectedBgColor + ";\n" +
+          "  border: 2px solid #" + colors.borderColor + ";\n" +
+          "  color: #" + colors.selectedTextColor + ";\n" +
+          "  font-family: 'Open Sans', sans-serif;\n" +
+          "  letter-spacing: 1px;\n" +
+          "  font-weight: bold;" +
+          "  font-size: 18px;\n" +
           "  margin: " + margin + ";\n" +
           "  padding: 5px;\n" +
           "  text-align: center;\n" +
           "}"
-          );
+      );
       styleElem.id = "wistia_midroll_links_css";
+    }
+
+    if (!document.getElementById("wistia_midroll_links_css")) {
+      updateStylings();
     }
 
     // Return an object with a public interface 
     // for the plugin, if you want.
     return {
-      update: update
+      update: update,
+      options: options
     }
   });
