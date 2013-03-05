@@ -54,6 +54,7 @@
 .minimap-object {
   background-color: rgba(46, 52, 54, 0.3);
   border-radius: 4px;
+  vertical-align: top;
 }
 
 .logo_offset_container {
