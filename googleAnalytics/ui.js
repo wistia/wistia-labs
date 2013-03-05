@@ -1,8 +1,8 @@
 function pluginSrc(sourceEmbedCode) {
   if (!/^\/labs\//.test(location.pathname)) {
-    return sourceEmbedCode.proto() + "//" + location.hostname + (location.port != 80 ? ":" + location.port : "") + location.pathname.replace(/\/$/g, "") + "/googleAnalytics.js";
+    return (sourceEmbedCode ? sourceEmbedCode.proto() : "") + "//" + location.hostname + (location.port != 80 ? ":" + location.port : "") + location.pathname.replace(/\/$/g, "") + "/googleAnalytics.js";
   } else {
-    return sourceEmbedCode.proto() + "//fast.wistia.com/labs/googleAnalytics/googleAnalytics.js";
+    return (sourceEmbedCode ? sourceEmbedCode.proto() : "") + "//fast.wistia.com/labs/googleAnalytics/googleAnalytics.js";
   }
 }
 
@@ -10,7 +10,12 @@ function updateOutput() {
   var sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
   var outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
 
-  if (sourceEmbedCode && sourceEmbedCode.isValid()) {
+  if ($("#mode_all").is(":checked")) {
+    $("#output_embed_code").val(embedShepherdPluginCode("googleAnalytics", {
+      src: pluginSrc(),
+      outsideIframe: true
+    }));
+  } else if (sourceEmbedCode && sourceEmbedCode.isValid()) {
     var isIframe = Wistia.EmbedCode.isIframe(outputEmbedCode) || Wistia.EmbedCode.isPopover(outputEmbedCode);
 
     // Set custom options on the embed code.
@@ -27,7 +32,6 @@ function updateOutput() {
       $("#output_embed_code").val(outputEmbedCode.toString());
     }
     outputEmbedCode.previewInElem("preview");
-
   } else {
 
     // Show an error if invalid. We can be more specific 
@@ -56,5 +60,25 @@ window.setupLabInterface = function($) {
       .on("keyup", "input[type=text], textarea", debounceUpdateOutput)
       .on("change", "select", debounceUpdateOutput)
       .on("click", ":radio,:checkbox", debounceUpdateOutput);
+    
+    $("#mode_all").click(function() {
+      $(".paste_embed_code.jamjar").hide();
+      $(".instructions.jamjar .for_all").show();
+      $(".instructions.jamjar .for_one").hide();
+      $("#preview_area").hide();
+    });
+
+    $("#mode_one").click(function() {
+      $(".paste_embed_code.jamjar").show();
+      $(".instructions.jamjar .for_all").hide();
+      $(".instructions.jamjar .for_one").show();
+      $("#preview_area").show();
+    });
+
+    $("#output_embed_code").click(function() {
+      $(this).select();
+    });
+
+    updateOutput();
   });
 };

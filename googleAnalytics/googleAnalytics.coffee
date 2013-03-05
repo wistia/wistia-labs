@@ -4,10 +4,11 @@ Wistia.plugin "googleAnalytics", (video, options = {}) ->
   buckets = []
   percentWatched = ->
     watched = 0
-    watched += 1 for bucket in buckets when bucket
+    for bucket in buckets
+      watched += 1 if bucket
     watched / buckets.length
   video.ready ->
-    buckets.length = Math.floor(video.duration())
+    buckets.push(false) for i in [0..Math.floor(video.duration())]
   video.bind "secondchange", (s) ->
     buckets[s] = true
 
@@ -24,10 +25,12 @@ Wistia.plugin "googleAnalytics", (video, options = {}) ->
   # Trigger the percentwatched events for selected thresholds.
   for triggerPercent in [.25, .5, .75, 1]
     ((triggerPercent) ->
+      console.log "setup triggerPercent for", triggerPercent
       video.bind "secondchange", (s) ->
         percent = percentWatched()
-        if percent >= (triggerPercent - .05)
+        if percent >= (triggerPercent - .03)
           pushEvent "#{Math.round(triggerPercent * 100)} Watched", video.name()
+          console.log "unbind triggerPercent for", triggerPercent
           return @unbind
     )(triggerPercent)
 

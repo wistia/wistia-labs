@@ -7,8 +7,8 @@
     <script src="http://fast.wistia.com/static/app-jquery-jquery_jamjar.js"></script>
     <script src="http://wistia.com/labs/lib/jquery.timeatentry.js"></script>
     <script src="http://fast.wistia.com/static/E-v1.js"></script>
-    <script src="http://fast.wistia.com/static/iframe-api-v1.js"></script>
-    <script src="http://wistia.com/labs/lib/globalui.js"></script>
+    <script src="http://fast.wistia.com/static/iframe-api-v1-dev.js"></script>
+    <script src="/lib/globalui.js"></script>
     <script>
       loadRelativeCss(["style.css"]);
       loadRelativeScripts(["../lib/labtools.js", "googleAnalytics.js", "ui.js"], function() {
@@ -35,9 +35,31 @@
         <div class="col1 col">
           <div id="configure">
 
+            <div class="jamjar mode_switcher">
+              <div class="jamjar_head">
+                <div class="jamjar_title">One video or all of them?</div>
+              </div>
+              <div class="jamjar_body">
+                <p style="margin-top:0;">
+                  The Google Analytics plugin can target a single embed code of 
+                  your choosing, or all Wistia videos on a page.
+                </p>
+
+                <h3 style="margin-bottom:.25em;">What do you want to target?</h3>
+                <label>
+                  <input type="radio" name="mode" id="mode_one" />
+                  Just one video
+                </label><br/>
+                <label>
+                  <input type="radio" name="mode" id="mode_all" checked="checked" />
+                  All videos on the page
+                </label><br/>
+              </div>
+            </div>
+
 
             <!-- Paste Embed Code Section -->
-            <div class="jamjar paste_embed_code">
+            <div class="jamjar paste_embed_code" style="display:none;">
               <div class="jamjar_head">
                 <div class="jamjar_title">Paste embed code</div>
               </div>
@@ -51,12 +73,28 @@
 
             <div class="jamjar instructions">
               <div class="jamjar_head">
-                <div class="jamjar_title">How to Integrate</div>
+                <div class="jamjar_title">Instructions</div>
               </div>
               <div class="jamjar_body">
-                <p style="margin-top:0;">We require that a Google Analytics script already be on the page.</p>
-                <p>Blah blah blah</p>
-                <p>It hooks onto the _gaq variable. If that doesn't exist, the script will not work.</p>
+                <p style="margin-top:0;">
+                  The Google Analytics script should already be on the page,
+                  such that the <em>_gaq</em> variable is set.
+                </p>
+                <p class="for_one" style="display:none;">
+                  Paste your new embed code into your site and it will report
+                  the following events:
+                </p>
+                <p class="for_all">
+                  Paste the embed code into the <em>&lt;head&gt;</em> of your site, 
+                  and all Wistia videos will report the following events:
+                </p>
+                <ul>
+                  <li>Video played</li>
+                  <li>25% Watched</li>
+                  <li>50% Watched</li>
+                  <li>75% Watched</li>
+                  <li>100% Watched</li>
+                </ul>
               </div>
             </div>
 
@@ -71,9 +109,11 @@
             <label>Your new embed code</label>
             <textarea id="output_embed_code"></textarea><br/>
             
-            <label>Here's how it will look</label>
-            <div id="preview">
-              <div id="placeholder_preview">Your video here</div>
+            <div id="preview_area" style="display:none;">
+              <label>Here's how it will look</label>
+              <div id="preview">
+                <div id="placeholder_preview">Your video here</div>
+              </div>
             </div>
           </div> <!-- #results -->
 
