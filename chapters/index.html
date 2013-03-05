@@ -78,40 +78,32 @@
               </div>
               <div class="jamjar_body">
                 <p style="margin-top:0;">Provide names and times of chapter markers.</p>
-                <!--<h3 style="margin-bottom:.25em;">Chapter Markers</h3>-->
-                <input id="chapter_1_title" type="text" value="Chapter 1" class="chapter_title_input"/>
-                @
-                <input id="chapter_1_time" type="text" value="60" class="timeat chapter_time_input"/>
-
-                <input id="chapter_2_title" type="text" value="Chapter 2" class="chapter_title_input"/>
-                @
-                <input id="chapter_2_time" type="text" value="2" class="timeat chapter_time_input"/>
-
-                <input id="chapter_3_title" type="text" value="Chapter 3" class="chapter_title_input"/>
-                @
-                <input id="chapter_3_time" type="text" value="3" class="timeat chapter_time_input"/>
-
-                <input id="chapter_4_title" type="text" value="Chapter 4" class="chapter_title_input"/>
-                @
-                <input id="chapter_4_time" type="text" value="4" class="timeat chapter_time_input"/>
-
-                <input id="chapter_5_title" type="text" value="Chapter 5" class="chapter_title_input"/>
-                @
-                <input id="chapter_5_time" type="text" value="5" class="timeat chapter_time_input"/>
-
-                <input id="chapter_6_title" type="text" value="Chapter 6" class="chapter_title_input"/>
-                @
-                <input id="chapter_6_time" type="text" value="6" class="timeat chapter_time_input"/>
-
-                <input id="chapter_7_title" type="text" value="Chapter 7" class="chapter_title_input"/>
-                @
-                <input id="chapter_7_time" type="text" value="7" class="timeat chapter_time_input"/>
-
-                <input id="chapter_8_title" type="text" value="Chapter 8" class="chapter_title_input"/>
-                @
-                <input id="chapter_8_time" type="text" value="8" class="timeat chapter_time_input"/>
-
-                <!--<input id="submit" type="submit" value="Save Changes" onclick="javascript:apply_chapters(); return false;" />-->
+                <div id="configure_chapters">
+                </div>
+                <script>
+                  var chapter_count = 1;
+                  function generate_chapter() {
+                    num = chapter_count.toString();
+                    div = document.createElement('div');
+                    html = '<input id="chapter_' + num + '_title" type="text" value="Chapter ' + num + '" class="chapter_title_input"/>';
+                    html += ' @ ';
+                    html += '<input id="chapter_' + num + '_time" type="text" value="' + num + '" class="timeat chapter_time_input"/>';
+                    div.innerHTML = html;
+                    document.getElementById('configure_chapters').appendChild(div);
+                    $('#chapter_' + num + '_time').timeatEntry();
+                    chapter_count++;
+                  }
+                </script>
+                <script>
+                  $(document).ready(function(){
+                    for (var i = 0; i < 2; i++){
+                      generate_chapter();
+                    }
+                  });
+                </script>
+                <p>
+                  <a href="#" onclick="generate_chapter(); return false;">Add another</a>
+                </p>
               </div>
             </div>
 
@@ -131,6 +123,8 @@
               <div id="placeholder_preview">Your video here</div>
             </div>
             <a href="#" onclick="wistiaEmbed.plugin.chapters.showChapterList(); return false;">Show Chapters</a>
+            |
+            <a href="#" onclick="wistiaEmbed.plugin.chapters.hideChapterList(); return false;">Hide Chapters</a>
           </div> <!-- #results -->
 
 

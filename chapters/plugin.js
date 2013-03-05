@@ -1,5 +1,6 @@
 Wistia.plugin("chapters", function(video, options) {
   var uuid = Wistia.seqId();
+  var chapter_list_created = false;
 
   function getNumChapters() {
     var count = 0;
@@ -17,14 +18,21 @@ Wistia.plugin("chapters", function(video, options) {
   function getChapterListCSS() {
     var css = "#" + uuid + "{";
     css += "width: " + options["width"] + ";";
-    css += "height: 100%;";
-    css += "max-height: 100%;";
+    css += "height: " + (video.params.videoHeight - 6).toString() + "px;";
+    css += "max-height: " + (video.params.videoHeight - 6).toString() + "px;";
     css += "background: #fff;";
     css += "overflow: scroll;";
+    css += "border-top: 3px solid #" + video.params.playerColor + ";";
+    css += "border-right: 3px solid #" + video.params.playerColor + ";";
+    css += "border-bottom: 3px solid #" + video.params.playerColor + ";";
+    css += "}";
+
+    css += "#" + uuid + " ul a {";
+    css += "color: #555;";
     css += "}";
 
     css += "#" + uuid + " ul a:hover {";
-    css += "color: #fff;";
+    css += "color: #000;";
     css += "}";
 
     css += "#" + uuid + " ul {";
@@ -39,11 +47,13 @@ Wistia.plugin("chapters", function(video, options) {
     css += "padding-top: 12px;";
     css += "padding-bottom: 12px;";
     css += "margin-left: -40px;";
-    css += "padding-left: 8px;";
+    css += "padding-left: 18px;";
+    css += "padding-right: 18px;";
+    css += "line-height: 18px;";
     css += "}";
 
     css += "#" + uuid + " ul li:hover {";
-    css += "background: #333;";
+    css += "background: #ebedef;";
     css += "}";
     return css;
   }
@@ -58,7 +68,12 @@ Wistia.plugin("chapters", function(video, options) {
     return mins + ":" + secs;
   }
 
-  function showChapterList() {
+  function createChapterList() {
+    var location_obj = wistiaEmbed.grid.right;
+    if (options["location"] == "left") {
+      location_obj = wistiaEmbed.grid.left
+    }
+
     var chapter_list_html = '<ul class="wistia_chapters_list">'
     for (var i = 1; i <= getNumChapters(); i++) {
       chapter_list_html += '<a href="#" onclick="javascript:wistiaEmbed.plugin.chapters.goToChapter(' + i.toString() + '); return false;">';
@@ -77,23 +92,27 @@ Wistia.plugin("chapters", function(video, options) {
     chapter_list_div.id = uuid;
     chapter_list_div.innerHTML = chapter_list_html;
 
-    location_obj = wistiaEmbed.grid.right;
-    if (options["location"] == "left") {
-      location_obj = wistiaEmbed.grid.left
-    }
     location_obj.appendChild(chapter_list_div);
-
     Wistia.util.addInlineCss(chapter_list_div, getChapterListCSS());
+
+    chapter_list_created = true;
+  }
+
+  function showChapterList() {
+    if (!chapter_list_created)
+      createChapterList();
+    $("#" + uuid).show();
   }
   function hideChapterList() {
-
+    $("#" + uuid).hide();
   }
 
   // Return an object with a public interface
   // for the plugin, if you want.
   return {
     goToChapter: goToChapter,
-    getNumChapters: getNumChapters, // This can be private once we're done.
-    showChapterList: showChapterList
+    getNumChapters: getNumChapters,
+    showChapterList: showChapterList,
+    hideChapterList: hideChapterList
   };
 });
