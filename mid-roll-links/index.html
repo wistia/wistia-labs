@@ -24,6 +24,18 @@
       #configure input.midroll {
         width: 200px;
       }
+
+      .entry_controls {
+        text-align: center;
+      }
+
+      .entry_controls a:hover {
+        text-decoration: underline;
+      }
+
+      .entry_controls span {
+        color: #AAA;
+      }
     </style>
   </head>
   <body>
@@ -60,7 +72,6 @@
               </div>
             </div>
 
-
             <!-- Midrolls section! -->
             <div class="jamjar midrolls">
               <div class="jamjar_head">
@@ -81,11 +92,28 @@
                   <input type="text" name="end" class="midroll timeat"/>
                 </div>
                 <div class="note" style="margin-bottom:1em;">
-                  Start and end are measured in seconds.
+                  <p style="margin-top: 0;">
+                    <strong>Link Text</strong> is what will be shown, 
+                    <strong>Link Address</strong> is where the link will go,
+                    and <strong>start</strong> and <strong>end</strong> are
+                    the timings for the link.
+                  </p>
+                  <p>
+                    Start and end are measured in seconds.
+                  </p>
                 </div>
                 
                 <div class="mid_roll_entries"></div>
 
+                <div class="entry_controls">
+                  <a href="#" name="add_new">
+                    add new mid roll link
+                  </a>
+                  <span> or </span>
+                  <a href="#" name="remove_all">
+                    remove all
+                  </a>
+                </div>
               </div>
             </div>
 
