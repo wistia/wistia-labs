@@ -1,8 +1,10 @@
+var jsFileName = 'dimTheLights.js';
+var jsProductionPath = 'fast.wistia.com/labs/dimTheLights';
 function pluginSrc(sourceEmbedCode) {
-  if (!/^\/labs\//.test(location.pathname)) {
-    return (sourceEmbedCode ? sourceEmbedCode.proto() : "") + "//" + location.hostname + (location.port != 80 ? ":" + location.port : "") + location.pathname.replace(/\/$/g, "") + "/dimTheLights.js";
+  if (location.port || location.domain === 'localhost' || location.domain === '127.0.0.1') {
+    return (sourceEmbedCode ? sourceEmbedCode.proto() : "") + "//" + location.hostname + ":" + location.port + location.pathname.replace(/\/$/g, "") + "/" + jsFileName;
   } else {
-    return (sourceEmbedCode ? sourceEmbedCode.proto() : "") + "//fast.wistia.com/labs/dimTheLights/dimTheLights.js";
+    return (sourceEmbedCode ? sourceEmbedCode.proto() : "") + "//" + jsProductionPath.replace(/\/$/g, "") + '/' + jsFileName;
   }
 }
 
