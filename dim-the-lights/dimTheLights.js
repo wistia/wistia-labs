@@ -153,7 +153,9 @@
     for (k in elems) {
       elem = elems[k];
       bindEvent(elem, "click", function() {
-        video.pause();
+        if (options.autoDim) {
+          video.pause();
+        }
         return undim();
       });
     }

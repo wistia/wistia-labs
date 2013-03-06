@@ -61,5 +61,21 @@ window.setupLabInterface = function($) {
       .on("keyup", "input[type=text], textarea", debounceUpdateOutput)
       .on("change", "select", debounceUpdateOutput)
       .on("click", ":radio,:checkbox", debounceUpdateOutput);
+
+    $("#auto_dim_on").click(function() {
+      $("#manual_example").hide();
+    });
+
+    $("#auto_dim_off").click(function() {
+      $("#manual_example").show();
+    });
+
+    wistiaEmbeds.onFind(function(video) {
+      $("#manual_example .dim").unbind("click");
+      $("#manual_example .dim").bind("click", function(event) {
+        event.preventDefault();
+        video.plugin.dimTheLights.dim();
+      });
+    });
   });
 };

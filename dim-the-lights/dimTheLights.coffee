@@ -201,7 +201,7 @@
     # Clicking the backdrop should pause and undim.
     for k, elem of elems
       bindEvent elem, "click", ->
-        video.pause()
+        video.pause() if options.autoDim
         undim()
 
     # Setup autodim bindings on load.

@@ -7,7 +7,7 @@
     <script src="http://fast.wistia.com/static/app-jquery-jquery_jamjar.js"></script>
     <script src="http://wistia.com/labs/lib/jquery.timeatentry.js"></script>
     <script src="http://fast.wistia.com/static/E-v1.js"></script>
-    <script src="http://fast.wistia.com/static/iframe-api-v1.js"></script>
+    <script src="http://fast.wistia.com/static/embed_shepherd-v1.js"></script>
     <script src="http://wistia.com/labs/lib/globalui.js"></script>
     <script>
       loadRelativeCss(["style.css"]);
@@ -68,6 +68,11 @@
                   <input type="radio" id="auto_dim_off" name="auto_dim" value="false" />
                   No, I'll control it with javascript
                 </label><br/>
+
+                <p id="manual_example" style="display:none;">
+                  You can dim manually by calling
+                  <a href="#" class="dim">wistiaEmbed.plugin.dimTheLights.dim()</a>
+                </p>
               </div>
             </div>
 
