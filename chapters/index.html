@@ -12,6 +12,11 @@
       loadRelativeCss(["style.css"]);
       loadRelativeScripts(["../lib/labtools.js", "plugin.js", "ui.js"], function() {
         setupLabInterface(jQuery);
+
+        for (var i = 0; i < 3; i++){
+          generate_chapter();
+        }
+
       });
     </script>
   </head>
@@ -80,27 +85,6 @@
                 <p style="margin-top:0;">Provide names and times of chapter markers.</p>
                 <div id="configure_chapters">
                 </div>
-                <script>
-                  var chapter_count = 1;
-                  function generate_chapter() {
-                    num = chapter_count.toString();
-                    div = document.createElement('div');
-                    html = '<input id="chapter_' + num + '_title" type="text" value="Chapter ' + num + '" class="chapter_title_input"/>';
-                    html += ' @ ';
-                    html += '<input id="chapter_' + num + '_time" type="text" value="' + num + '" class="timeat chapter_time_input"/>';
-                    div.innerHTML = html;
-                    document.getElementById('configure_chapters').appendChild(div);
-                    $('#chapter_' + num + '_time').timeatEntry();
-                    chapter_count++;
-                  }
-                </script>
-                <script>
-                  $(document).ready(function(){
-                    for (var i = 0; i < 2; i++){
-                      generate_chapter();
-                    }
-                  });
-                </script>
                 <p>
                   <a href="#" onclick="generate_chapter(); return false;">Add another</a>
                 </p>

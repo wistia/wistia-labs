@@ -52,14 +52,17 @@ window.setupLabInterface = function($) {
   });
 };
 
+var chapter_count = 1;
 function generate_chapter() {
   num = chapter_count.toString();
   div = document.createElement('div');
   html = '<input id="chapter_' + num + '_title" type="text" value="Chapter ' + num + '" class="chapter_title_input"/>';
   html += ' @ ';
-  html += '<input id="chapter_' + num + '_time" type="text" value="' + num + '" class="timeat chapter_time_input"/>';
+  html += '<input id="chapter_' + num + '_time" type="text" value="0" class="timeat chapter_time_input"/>';
   div.innerHTML = html;
   document.getElementById('configure_chapters').appendChild(div);
   $('#chapter_' + num + '_time').timeatEntry();
   chapter_count++;
+
+  debounceUpdateOutput();
 }

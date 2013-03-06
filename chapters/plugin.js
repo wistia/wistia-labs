@@ -76,7 +76,7 @@ Wistia.plugin("chapters", function(video, options) {
 
     var chapter_list_html = '<ul class="wistia_chapters_list">'
     for (var i = 1; i <= getNumChapters(); i++) {
-      chapter_list_html += '<a href="#" onclick="javascript:video.plugin.chapters.goToChapter(' + i.toString() + '); return false;">';
+      chapter_list_html += '<a href="#" onclick="javascript:wistiaEmbed.plugin.chapters.goToChapter(' + i.toString() + '); return false;">';
 
       chapter_list_html += '<li class="wistia_chapter_item">';
       if (options["show_timestamps"] == "yes") {
@@ -113,7 +113,6 @@ Wistia.plugin("chapters", function(video, options) {
   // for the plugin, if you want.
   return {
     goToChapter: goToChapter,
-    getNumChapters: getNumChapters,
     showChapterList: showChapterList,
     hideChapterList: hideChapterList
   };
