@@ -25,8 +25,8 @@
           <div class="col1 col">
             <h1>Dim the Lights</h1>
           </div><div class="col2 col">
-            We call this lab Dim the Lights. It helps focus attention on your video on play by 
-            dimming your video on play.
+            We call this lab Dim the Lights. It helps focus attention on your video by
+            dimming everything else on the page.
           </div>
         </div>
       </div>
@@ -47,6 +47,27 @@
                   <p style="margin-top:0;">Get it from the SuperEmbed Builder.</p>
                   <textarea name="source_embed_code" id="source_embed_code"></textarea>
                 </div>
+              </div>
+            </div>
+
+            <div class="jamjar dimming_options jamjar_closed">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Dimmer Options</div>
+              </div>
+              <div class="jamjar_body">
+                <h3 style="margin-bottom:.25em;margin-top:0;">Dim to black or white?</h3>
+                <label><input type="radio" id="dim_color_black" name="dim_color" value="#000000" checked="checked" /> Black</label><br/>
+                <label><input type="radio" id="dim_color_white" name="dim_color" value="#ffffff" /> White</label><br/>
+
+                <h3 style="margin-bottom:.25em;">Auto-Dimming?</h3>
+                <label>
+                  <input type="radio" id="auto_dim_on" name="auto_dim" value="true" checked="checked" />
+                  Yes, dim on play and undim on pause
+                </label><br/>
+                <label>
+                  <input type="radio" id="auto_dim_off" name="auto_dim" value="false" />
+                  No, I'll control it with javascript
+                </label><br/>
               </div>
             </div>
 

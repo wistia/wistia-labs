@@ -1,9 +1,8 @@
-Wistia.plugin "dimTheLights", (video, options = {}) ->
-  return if video.options?.popover
-  uuid = Wistia.seqId()
-  container = if video.iframe then video.iframe else video.container
+((W) ->
 
-  # Correctly calculate the absolute page offset of an element cross-browser.
+  # ### Non-plugin Helper Functions
+
+  # Get the absolute offset of an element.
   pageOffset = (elem) ->
     curLeft = curTop = 0
     if elem.offsetParent
@@ -14,136 +13,215 @@ Wistia.plugin "dimTheLights", (video, options = {}) ->
     left: curLeft
     top: curTop
 
-  if Wistia.detect.browser.msie
+
+  # Different event listeners for IE and normal 
+  # browsers, obviously.
+  if W.detect.browser.msie
     bindEvent = (elem, event, fn) -> elem.attachEvent "on#{event}", fn
   else
     bindEvent = (elem, event, fn) -> elem.addEventListener event, fn, false
 
+
+  # Remove an element.
   removeElem = (elem) ->
-    if par = elem.parentNode
+    if elem and par = elem.parentNode
       par.removeChild(elem)
       elem = null
 
-  elems = {}
-  for k in ['left', 'right', 'top', 'bottom']
-    elems[k] = document.createElement("div")
-    elems[k].id = "#{uuid}_#{k}"
-    elems[k].className = "wistia-dim-backdrop"
 
-  setBasicStyles = (elem) ->
-    elem.style.position = "absolute"
-    if Wistia.detect.browser.msie and Wistia.detect.browser.version < 8
-      elem.style.filter = "progid:DXImageTransform.Microsoft.gradient(startColorStr='#000000e6', endColorStr='#000000e6')"
-    else
-      elem.style.backgroundColor = "rgba(0,0,0,.9)"
+  W.plugin "dimTheLights", (video, options = {}) ->
 
-  positionElems = ->
-    offset = pageOffset(container)
-    videoX = offset.left
-    videoY = offset.top
-    videoWidth = video.width()
-    videoHeight = video.height()
-    docWidth = document.body.clientWidth
-    docHeight = document.body.clientHeight
+    # Popovers are already dimmed.
+    return if video.options?.popover
 
-    elems.left.style.width = "#{videoX}px"
-    elems.left.style.height = "#{docHeight}px"
-    elems.left.style.left = "0px"
-    elems.left.style.top = "0px"
+    # ### Internal Functions
 
-    elems.right.style.width = "#{docWidth - videoX - videoWidth}px"
-    elems.right.style.height = "#{docHeight}px"
-    elems.right.style.left = "#{videoX + videoWidth}px"
-    elems.right.style.top = "0px"
+    # Position and size each backdrop quadrant.
+    #
+    # - Left and right quadrants are full document height.
+    # - Top and bottom quadrants fill the gaps.
+    positionElems = ->
+      return unless dimmed
 
-    elems.top.style.width = "#{videoWidth}px"
-    elems.top.style.height = "#{videoY}px"
-    elems.top.style.left = "#{videoX}px"
-    elems.top.style.top = "0px"
+      offset = pageOffset(container)
+      videoX = offset.left
+      videoY = offset.top
+      videoWidth = video.width()
+      videoHeight = video.height()
+      docWidth = document.body.clientWidth
+      docHeight = document.body.clientHeight
 
-    elems.bottom.style.width = "#{videoWidth}px"
-    elems.bottom.style.height = "#{docHeight - videoY - videoHeight}px"
-    elems.bottom.style.left = "#{videoX}px"
-    elems.bottom.style.top = "#{videoY + videoHeight}px"
+      elems.left.style.width = "#{videoX}px"
+      elems.left.style.height = "#{docHeight}px"
+      elems.left.style.left = "0px"
+      elems.left.style.top = "0px"
 
-  insertElems = ->
-    for k, v of elems
-      document.body.appendChild v
+      elems.right.style.width = "#{docWidth - videoX - videoWidth}px"
+      elems.right.style.height = "#{docHeight}px"
+      elems.right.style.left = "#{videoX + videoWidth}px"
+      elems.right.style.top = "0px"
 
-  dimmed = false
-  dim = ->
-    dimmed = true
-    container.className = container.className.replace(/wistia-dim-target/g, "") + " wistia-dim-target"
-    document.body.className = (document.body.className or "").replace(/wistia-dim-the-lights/g, "") + " wistia-dim-the-lights"
-    insertElems()
-    positionElems()
-    for k, elem of elems
-      elem.className = elem.className.replace(/wistia-invisible/g, "") + " wistia-visible"
+      elems.top.style.width = "#{videoWidth}px"
+      elems.top.style.height = "#{videoY}px"
+      elems.top.style.left = "#{videoX}px"
+      elems.top.style.top = "0px"
 
-  undim = ->
+      elems.bottom.style.width = "#{videoWidth}px"
+      elems.bottom.style.height = "#{docHeight - videoY - videoHeight}px"
+      elems.bottom.style.left = "#{videoX}px"
+      elems.bottom.style.top = "#{videoY + videoHeight}px"
+
+
+    # TO DIM:
+    #
+    # 1. Add a class to the container so we can setup box-shadow.
+    # 2. Add a class to the body so we can kill textarea resizers. (They show up on top of the backdrops.)
+    # 3. Insert the backdrops at the end of the document
+    # 4. Position and resize the backdrops around the video.
+    # 5. Add a class to show the backdrops. It's animated with CSS3 transitions.
     dimmed = false
-    container.className = container.className.replace(/wistia-dim-target/g, "")
-    document.body.className = (document.body.className or "").replace(/wistia-dim-the-lights/g, "")
+    dim = ->
+      dimmed = true
+      addStyle()
+      container.className = container.className.replace(/\s*wistia-dim-target/g, "") + " wistia-dim-target"
+      document.body.className = (document.body.className or "").replace(/\s*wistia-dim-the-lights/g, "") + " wistia-dim-the-lights"
+      for k, v of elems
+        document.body.appendChild v
+      positionElems()
+      for k, elem of elems
+        elem.className = elem.className.replace(/\s*wistia-invisible/g, "") + " wistia-visible"
+
+
+    # TO UNDIM:
+    #
+    # 1. Unset all classes that dimming set.
+    # 2. Set a class to fade out the backdrops with CSS3.
+    # 3. Remove the backdrop elements when fadeout is complete.
+    undim = ->
+      dimmed = false
+      container.className = container.className.replace(/\s*wistia-dim-target/g, "")
+      document.body.className = (document.body.className or "").replace(/\s*wistia-dim-the-lights/g, "")
+      for k, elem of elems
+        ((elem) ->
+          elem.className = elem.className.replace(/wistia-visible/g, "") + " wistia-invisible"
+          W.timeout "#{uuid}.undim.#{k}", ->
+            removeElem(elem)
+            removeStyle()
+          , 500
+        )(elem)
+
+
+    # We have separate styles for each instance of dim-the-lights 
+    # because they can have different colors or opacities.
+    styleElem = null
+
+    removeStyle = ->
+      removeElem(styleElem)
+
+    addStyle = ->
+      removeStyle()
+
+      prop = "opacity"
+      t = .5
+
+      transitionCss = """
+      -webkit-transition: #{prop} #{t}s ease-in-out;
+      -moz-transition: #{prop} #{t}s ease-in-out;
+      -o-transition: #{prop} #{t}s ease-in-out;
+      -ms-transition: #{prop} #{t}s ease-in-out;
+      transition: #{prop} #{t}s ease-in-out;
+      """
+
+      styleElem = W.util.addInlineCss document.body, """
+      .wistia-dim-backdrop {
+      background-color:#{options.backgroundColor};
+      cursor:pointer;
+      filter:alpha(opacity=0);
+      opacity:0;
+      z-index:16777271;
+      position: absolute;
+      }
+      .wistia-dim-backdrop.wistia-visible {
+      filter:alpha(opacity=#{Math.round(options.backgroundOpacity * 100)});
+      opacity:#{options.backgroundOpacity};
+      #{transitionCss}
+      }
+      .wistia-dim-backdrop.wistia-invisible {
+      filter:alpha(opacity=0);
+      opacity:0;
+      #{transitionCss}
+      }
+      .wistia-dim-target {
+      box-shadow:0 0 50px 5px rgba(0,0,0,.95);
+      }
+      .wistia-dim-the-lights textarea {
+      resize:none!important;
+      }
+      """
+
+
+    # Unset dimming bindings and turn it off.
+    autoDimOff = ->
+      console.log "dim off", uuid
+      options.autoDim = false
+      video.unbind "play", dim
+      video.unbind "pause", undim
+      video.unbind "end", undim
+
+
+    # Set up dimming bindings and turn it on.
+    autoDimOn = ->
+      autoDimOff()
+      console.log "dim on", uuid
+      options.autoDim = true
+      video.bind "play", dim
+      video.bind "pause", undim
+      video.bind "end", undim
+
+
+    # ### Initialize
+    uuid = W.seqId()
+
+    # Extend options
+    options = W.extend
+      backgroundColor: "#000000"
+      backgroundOpacity: .6
+      autoDim: true
+    , options
+    options.autoDim = W.obj.cast(options.autoDim)
+    container = if video.iframe then video.iframe else video.container
+
+    # Create the backdrop quadrants.
+    elems = {}
+    for k in ['left', 'right', 'top', 'bottom']
+      elems[k] = document.createElement("div")
+      elems[k].id = "#{uuid}_#{k}"
+      elems[k].className = "wistia-dim-backdrop"
+
+    # Clicking the backdrop should pause and undim.
     for k, elem of elems
-      ((elem) ->
-        elem.className = elem.className.replace(/wistia-visible/g, "") + " wistia-invisible"
-        Wistia.timeout "#{uuid}.undim.#{k}", (-> removeElem(elem)), 600
-      )(elem)
+      bindEvent elem, "click", ->
+        video.pause()
+        undim()
 
-  setupBackdropBindings = (elem) ->
-    bindEvent elem, "click", ->
-      video.pause()
-      undim()
+    # Setup autodim bindings on load.
+    autoDimOn() if options.autoDim
 
-  bindEvent window, "resize", ->
-    positionElems() if dimmed
+    # In case the video or window is resized while the video is playing, 
+    # reposition the dimming elements.
+    video.bind "widthchanged", positionElems
+    video.bind "heightchanged", positionElems
+    bindEvent window, "resize", positionElems
 
-  for k, elem of elems
-    setBasicStyles(elem)
-    setupBackdropBindings(elem)
 
-  prop = "opacity"
-  t = ".6"
+    # Public interface.
+    {
+      dim: dim
+      undim: undim
+      elems: elems
+      reposition: positionElems
+      autoDimOff: autoDimOff
+      autoDimOn: autoDimOn
+    }
 
-  Wistia.util.addInlineCss document.body, """
-  .wistia-dim-backdrop {
-  cursor:pointer;
-  filter:alpha(opacity=0);
-  opacity:0;
-  z-index:16777271;
-  }
-  .wistia-dim-backdrop.wistia-visible {
-  filter:alpha(opacity=100);
-  opacity:1;
-  -webkit-transition: #{prop} #{t}s ease-in-out;
-  -moz-transition: #{prop} #{t}s ease-in-out;
-  -o-transition: #{prop} #{t}s ease-in-out;
-  -ms-transition: #{prop} #{t}s ease-in-out;
-  transition: #{prop} #{t}s ease-in-out;
-  }
-  .wistia-dim-backdrop.wistia-invisible {
-  filter:alpha(opacity=0);
-  opacity:0;
-  -webkit-transition: #{prop} #{t}s ease-in-out;
-  -moz-transition: #{prop} #{t}s ease-in-out;
-  -o-transition: #{prop} #{t}s ease-in-out;
-  -ms-transition: #{prop} #{t}s ease-in-out;
-  transition: #{prop} #{t}s ease-in-out;
-  }
-  .wistia-dim-target {
-  box-shadow:0 0 50px 5px rgba(0,0,0,.95);
-  }
-  .wistia-dim-the-lights textarea {
-  resize:none!important;
-  }
-  """
-
-  video.bind "play", dim
-  video.bind "pause", undim
-  video.bind "end", undim
-
-  {
-    dim: dim
-    undim: undim
-    elems: elems
-  }
+)(Wistia)
