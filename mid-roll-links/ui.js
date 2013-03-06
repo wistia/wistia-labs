@@ -2,6 +2,7 @@
 var embedded = false;
 // we also want the preview to update if the source changes
 var change = false;
+var exampleEmbedCode = "<div id=\"wistia_r2wybv7xr0\" class=\"wistia_embed\" style=\"width:640px;height:360px;\" data-video-width=\"640\" data-video-height=\"360\">&nbsp;</div><script charset=\"ISO-8859-1\" src=\"http://fast.wistia.com/static/concat/E-v1.js\"></script> <script> wistiaEmbed = Wistia.embed(\"r2wybv7xr0\", { version: \"v1\", videoWidth: 640, videoHeight: 360, volumeControl: true, controlsVisibleOnLoad: true }); </script>"
 
 // if no http on linkHref, let's add it
 function maybeAddHttp(href) {
@@ -34,8 +35,6 @@ function midRollDataFromPage() {
 
 function removeAllInputs() {
   $(".midrolls .link_and_time_range_combo").not("#link_and_time_range_combo_template").remove();
-  addMidRollInput();
-  updateOutput();
 }
 
 function updateOutput() {
@@ -182,6 +181,18 @@ window.setupLabInterface = function($) {
     $("a[name=remove_all]").on('click', function(e) {
       e.preventDefault();
       removeAllInputs();
+      addMidRollInput();
+      updateOutput();
+    });
+
+    $("a[name=see_example]").on('click', function(e) {
+      e.preventDefault();
+      removeAllInputs();
+      $("#source_embed_code").val(exampleEmbedCode);
+      addMidRollData("YOU SHOULD CLICK HERE", "unclebenny.com", 02, 10);
+      addMidRollData("CHECK OUT UNCLE BENNY!", "unclebenny.com", 08, 14);
+      addMidRollData("BUY OUR STUFF!", "unclebenny.com", 12, 22);
+      debounceUpdateOutput;
     });
 
     // Add in default midRoll Example
