@@ -6,10 +6,7 @@ function updateOutput() {
 
     // Set custom options on the embed code.
     // CHANGE ME!!!
-    outputEmbedCode.setOption("myCustomOption", "giraffe");
-    outputEmbedCode.setOption("nested.option", "cantelope");
-    outputEmbedCode.setOption("also.basic-objects", { extraConfig: true });
-    outputEmbedCode.setOption("anotherOption", $("#another_option").val());
+    outputEmbedCode.setOption("plugin.resumable.src", "http://localhost:8000/resumable/resumable.js");
 
     // Display the output.
     $("#output_embed_code").val(outputEmbedCode.toString());
