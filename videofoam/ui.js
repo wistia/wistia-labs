@@ -10,7 +10,7 @@ function updateOutput() {
     outputEmbedCode.setOption("videoFoam", true);
 
     var embedCodeString = function() {
-      if (isIframe) {
+      if (isIframe || isPopover) {
         return outputEmbedCode.toString() + "<script src='//fast.wistia.com/static/iframe-api-v1.js'></script>";
       } else {
         return outputEmbedCode.toString();
