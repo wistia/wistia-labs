@@ -12,12 +12,17 @@ function updateOutput() {
 
   if (sourceEmbedCode && sourceEmbedCode.isValid()) {
 
-    // Set custom options on the embed code.
-    // CHANGE ME!!!
     var isIframe = Wistia.EmbedCode.isIframe(outputEmbedCode) || Wistia.EmbedCode.isPopover(outputEmbedCode);
     outputEmbedCode.setOption("plugin.dimTheLights.src", pluginSrc());
     if (isIframe) {
       outputEmbedCode.setOption("plugin.dimTheLights.outsideIframe", true);
+    }
+
+    if ($("#dim_color_white").is(":checked")) {
+      outputEmbedCode.setOption("plugin.dimTheLights.backgroundColor", $("#dim_color_white").val());
+    }
+    if ($("#auto_dim_off").is(":checked")) {
+      outputEmbedCode.setOption("plugin.dimTheLights.autoDim", false);
     }
 
     // Display the output.
