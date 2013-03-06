@@ -1,17 +1,25 @@
 .mode_switcher .jamjar_head {
-  background-color: #428ebd;
+  background-color: #47a6d6;
 }
 
 .mode_switcher .jamjar_foot {
-  background-color: #177ebd;
+  background-color: #2996cc;
 }
 
-.paste-embed-code .jamjar_head {
-  background-color: #375c9d;
+.paste_embed_code .jamjar_head {
+  background-color: #3b70ba;
 }
 
-.paste-embed-code .jamjar_foot {
-  background-color: #1f4d9d;
+.paste_embed_code .jamjar_foot {
+  background-color: #245fb3;
+}
+
+.instructions .jamjar_head {
+  background-color: #363c99;
+}
+
+.instructions .jamjar_foot {
+  background-color: #292e80;
 }
 
 #source_embed_code {
