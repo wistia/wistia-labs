@@ -1,8 +1,8 @@
 function pluginSrc(sourceEmbedCode) {
   if (!/^\/labs\//.test(location.pathname)) {
-    return (sourceEmbedCode ? sourceEmbedCode.proto() : "") + "//" + location.hostname + (location.port != 80 ? ":" + location.port : "") + location.pathname.replace(/\/$/g, "") + "/googleAnalytics.js";
+    return (sourceEmbedCode ? sourceEmbedCode.proto() : "") + "//" + location.hostname + (location.port != 80 ? ":" + location.port : "") + location.pathname.replace(/\/$/g, "") + "/ga.js";
   } else {
-    return (sourceEmbedCode ? sourceEmbedCode.proto() : "") + "//fast.wistia.com/labs/googleAnalytics/googleAnalytics.js";
+    return (sourceEmbedCode ? sourceEmbedCode.proto() : "") + "//fast.wistia.com/labs/google-analytics/ga.js";
   }
 }
 
