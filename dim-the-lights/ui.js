@@ -1,3 +1,11 @@
+function pluginSrc(sourceEmbedCode) {
+  if (!/^\/labs\//.test(location.pathname)) {
+    return (sourceEmbedCode ? sourceEmbedCode.proto() : "") + "//" + location.hostname + (location.port != 80 ? ":" + location.port : "") + location.pathname.replace(/\/$/g, "") + "/dimTheLights.js";
+  } else {
+    return (sourceEmbedCode ? sourceEmbedCode.proto() : "") + "//fast.wistia.com/labs/dimTheLights/dimTheLights.js";
+  }
+}
+
 function updateOutput() {
   var sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
   var outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
@@ -6,10 +14,18 @@ function updateOutput() {
 
     // Set custom options on the embed code.
     // CHANGE ME!!!
-    outputEmbedCode.setOption("myCustomOption", "giraffe");
+    var isIframe = Wistia.EmbedCode.isIframe(outputEmbedCode) || Wistia.EmbedCode.isPopover(outputEmbedCode);
+    outputEmbedCode.setOption("plugin.dimTheLights.src", pluginSrc());
+    if (isIframe) {
+      outputEmbedCode.setOption("plugin.dimTheLights.outsideIframe", true);
+    }
 
     // Display the output.
-    $("#output_embed_code").val(outputEmbedCode.toString());
+    if (isIframe) {
+      $("#output_embed_code").val(outputEmbedCode.toString() + "\n<scr" + "ipt src=\"http://fast.wistia.com/static/iframe-api-v1.js\"></scri" + "pt>");
+    } else {
+      $("#output_embed_code").val(outputEmbedCode.toString());
+    }
     outputEmbedCode.previewInElem("preview");
 
   } else {
