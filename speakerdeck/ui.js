@@ -109,14 +109,15 @@ Prez = (function() {
   };
 
   Prez.prototype.setupExample = function() {
-    $('#source_embed_code').val('<iframe src="http://fast.wistia.net/embed/iframe/zgj5zota4c?playerColor=81b7db&version=v1&videoHeight=270&videoWidth=480" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" width="480" height="270"></iframe>');
+    $('#source_embed_code').val('<iframe src="http://fast.wistia.net/embed/iframe/p9p5keksr4?controlsVisibleOnLoad=true&version=v1&videoHeight=360&videoWidth=640&volumeControl=true" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" width="640" height="360"></iframe>');
     $('#presentation_url').val('https://speakerdeck.com/ezrafishman/the-bschwartz-labz-preso');
     $('#presentation_position').val('right');
     this.clearTimings();
     this.addTiming(1, 0);
-    this.addTiming(2, 2);
-    this.addTiming(3, 4);
-    this.addTiming(4, 6);
+    this.addTiming(2, 9);
+    this.addTiming(3, 16);
+    this.addTiming(4, 24);
+    this.addTiming(5, 33);
     return this.updatePresentation();
   };
 
