@@ -12,7 +12,7 @@ class midroll
 
     $("#source_embed_code").on "keyup", =>
       change = true
-      @updateOutput()
+      @debounceUpdates()
 
     $("a[name=add_new]").on 'click', (e) =>
       e.preventDefault()
@@ -22,109 +22,80 @@ class midroll
       e.preventDefault()
       @removeAllInputs()
       @addMidrollInput()
-      @updateOutput()
+      @debounceUpdates()
 
     $("a[name=see_example]").on 'click', (e) =>
       e.preventDefault()
       @removeAllInputs()
       $("#source_embed_code").val(@exampleEmbedCode)
-      @updateOutput()
+      @debounceUpdates()
       @addMidrollData("YOU SHOULD CLICK HERE", "unclebenny.com", 2, 10)
       @addMidrollData("CHECK OUT UNCLE BENNY!", "unclebenny.com", 8, 14)
       @addMidrollData("BUY OUR STUFF!", "unclebenny.com", 12, 22)
-      @updateOutput()
+      @debounceUpdates()
 
     # Update the output whenever a configuration input changes
-    $("#configure")
-      .on "keyup", "input[type=text], textarea", @updateOutput()
-      .on "change", "select", @updateOutput()
-      .on "click", ":radio,:checkbox", @updateOutput()
+    $("#configure").on("keyup", "input[type=text], textarea", => @debounceUpdates())
 
     #@addDefaultMidroll("Check Out Wistia", "http://wistia.com", "?", "?")
 
-  updateOutput: ->
+
+  # Updating is kind of a heavy operation; we don't want to 
+  # do it on every single keystroke.
+  debounceUpdates: ->
+    clearTimeout("updateOutputTimeout")
+    updateOutputTimeout = setTimeout(@updateOutputEmbedCode, 500)
+
+
+  updateOutputEmbedCode: =>
     @sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val())
     @outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val())
 
     if @sourceEmbedCode and @sourceEmbedCode.isValid()
+      @errors = @getErrors()
       @playerColor = @outputEmbedCode.options().playerColor or "636155"
-      console.log "playerColor", @playerColor
+      @midrollData = @midrollDataFromPage()
 
       @outputEmbedCode.setOption('plugin.midrollLinks.src', "http://localhost:8000/mid-roll-links/mid-roll-links.js")
+      @outputEmbedCode.setOption('plugin.midrollLinks.links', @midrollData)
       @outputEmbedCode.setOption('plugin.midrollLinks.playerColor', @playerColor)
 
-      @updateEmbedCode()
+      if @errors
+        $("#alert").html(@errors).show()
+      else
+        $("#alert").html("").hide()
+
+      $("#output_embed_code").val(@outputEmbedCode.toString())
+
+      @updatePreview(@outputEmbedCode)
 
     else
       # error time!
       $("#output_embed_code").val("Please enter a valid Wistia embed code.")
       $("#preview").html('<div id="placeholder_preview">Your video here</div>')
-  
-  # the "new embed code" box
-  updateEmbedCode: ->
-    if @sourceEmbedCode and @sourceEmbedCode.isValid()
-      hasFullscreen = @sourceEmbedCode.options().fullscreenButton == null or @sourceEmbedCode.options().fullscreenButton
-      hasMidRoll = Wistia.obj.get(@outputEmbedCode.options(), "plugin.midRollLinks")
-      fullScreenAlert = "This embed code has fullscreen enabled with mid-rolls. " +
-        "Just so you know, the Midroll Links won't show up when fullscreen. " +
-        "You might want to <a href='#' class='turn_off_fullscreen'>turn off fullscreen</a>."
-      @midrollData = @midrollDataFromPage()
 
-      if hasFullscreen and hasMidRoll
-        $("#alert").html(fullScreenAlert).show()
-      else
-        $("#alert").html("").hide()
-
-      if !@previewEmbedded
-        @setupPlugin()
-      else
-        @updatePreview()
-
-    else
-      $("#output_embed_code").html "Something looks wrong with that embed code." +
-        " Please try adding again."
-      $("#preview").html('<div id="placeholder_preview">Your video here</div>')
-
-  setupPlugin: ->
-    console.log "plugin setup ran!"
-    console.log "previewEmbedded", @previewEmbedded
-    @outputEmbedCode.setOption('plugin.midrollLinks.links', {'links': []})
-    @outputEmbedCode.setOption('plugin.midrollLinks.playerColor', @playerColor)
-
-    $("#output_embed_code").val(@outputEmbedCode.toString())
-    @previewEmbedded = true
-    @outputEmbedCode.previewInElem "preview", { type: 'api' }, =>
-      @updatePreview()
-
-  updatePreview: ->
-    Wistia.timeout 'updatePreview', ->
+  updatePreview: (outputEmbedCode) =>
+    Wistia.timeout 'updatePreview', =>
       if @change
-        @outputEmbedCode.previewInElem("preview", { type: 'api' }, =>
+        outputEmbedCode.previewInElem("preview", { type: 'api' }, =>
           window.previewEmbed.plugin.midrollLinks.update
             "links": @midrollData
             "playerColor": @playerColor
           @change = false
         )
       else
-        window.previewEmbed.ready ->
-          console.log "running non change update"
+        outputEmbedCode.previewInElem("preview", {type: 'api' }, =>
           window.previewEmbed.plugin.midrollLinks.update
-            "links": @midrolldata
-            "playerColor": @playerColor
+            "links": @midrollData
+        )
     , 250
 
-#   Updating is kind of a heavy operation; we don't want to 
-#   do it on every single keystroke.
-# debounceUpdateOutput: ->
-#   clearTimeout(updateOutputTimeout)
-#   updateOutputTimeout = setTimeout(@updateOutput, 500)
 
   # get the mid rolls data off the page
   midrollDataFromPage: ->
     result = []
     $(".midrolls .link_and_time_range_combo").not("#link_and_time_range_combo_template").each (index, entry) =>
       linkText = $(entry).find("input[name=link_text]").val()
-      console.log "linkText", linkText
       linkHref = @maybeAddHttp($(entry).find("input[name=link_href]").val())
       start = $(entry).find("input[name=start]").val()
       end = $(entry).find("input[name=end]").val()
@@ -167,9 +138,20 @@ class midroll
       .not("#link_and_time_range_combo_template")
       .remove()
 
+  getErrors: ->
+    hasFullscreen = @sourceEmbedCode.options().fullscreenButton == null or @sourceEmbedCode.options().fullscreenButton
+    hasMidRoll = Wistia.obj.get(@outputEmbedCode.options(), "plugin.midRollLinks")
+    fullScreenAlert = "This embed code has fullscreen enabled with mid-rolls. " +
+      "Just so you know, the Midroll Links won't show up when fullscreen. " +
+      "You might want to <a href='#' class='turn_off_fullscreen'>turn off fullscreen</a>."
+
+    if hasFullscreen and hasMidRoll
+      fullScreenAlert
+    else
+      ""
+
   #if no http on linkHref, let's add it
   maybeAddHttp: (href) ->
-    console.log "href", href
     if href.indexOf("http") == -1 then "http://" + href else href
 
 # Assign all DOM bindings on doc-ready in here. We can also 
