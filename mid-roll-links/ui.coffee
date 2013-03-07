@@ -67,26 +67,27 @@ class midroll
 
       $("#output_embed_code").val(@outputEmbedCode.toString())
 
-      @updatePreview(@outputEmbedCode)
+      @updatePreview()
 
     else
       # error time!
       $("#output_embed_code").val("Please enter a valid Wistia embed code.")
       $("#preview").html('<div id="placeholder_preview">Your video here</div>')
 
-  updatePreview: (outputEmbedCode) =>
+  updatePreview: () =>
     Wistia.timeout 'updatePreview', =>
       if @change
-        outputEmbedCode.previewInElem("preview", { type: 'api' }, =>
+        @outputEmbedCode.previewInElem("preview", { type: 'api' }, =>
           window.previewEmbed.plugin.midrollLinks.update
             "links": @midrollData
             "playerColor": @playerColor
           @change = false
         )
-      else
-        outputEmbedCode.previewInElem("preview", {type: 'api' }, =>
+      else if !@previewEmbedded
+        @outputEmbedCode.previewInElem("preview", {type: 'api' }, =>
           window.previewEmbed.plugin.midrollLinks.update
             "links": @midrollData
+          @previewEmbedded = true
         )
     , 250
 
