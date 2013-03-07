@@ -72,18 +72,18 @@ midroll = (function() {
         $("#alert").html("").hide();
       }
       $("#output_embed_code").val(this.outputEmbedCode.toString());
-      return this.updatePreview(this.outputEmbedCode);
+      return this.updatePreview();
     } else {
       $("#output_embed_code").val("Please enter a valid Wistia embed code.");
       return $("#preview").html('<div id="placeholder_preview">Your video here</div>');
     }
   };
 
-  midroll.prototype.updatePreview = function(outputEmbedCode) {
+  midroll.prototype.updatePreview = function() {
     var _this = this;
     return Wistia.timeout('updatePreview', function() {
       if (_this.change) {
-        return outputEmbedCode.previewInElem("preview", {
+        return _this.outputEmbedCode.previewInElem("preview", {
           type: 'api'
         }, function() {
           window.previewEmbed.plugin.midrollLinks.update({
@@ -92,13 +92,14 @@ midroll = (function() {
           });
           return _this.change = false;
         });
-      } else {
-        return outputEmbedCode.previewInElem("preview", {
+      } else if (!_this.previewEmbedded) {
+        return _this.outputEmbedCode.previewInElem("preview", {
           type: 'api'
         }, function() {
-          return window.previewEmbed.plugin.midrollLinks.update({
+          window.previewEmbed.plugin.midrollLinks.update({
             "links": _this.midrollData
           });
+          return _this.previewEmbedded = true;
         });
       }
     }, 250);
