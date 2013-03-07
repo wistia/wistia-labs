@@ -1,113 +1,102 @@
-class midRoll
+class midroll
   constructor: ->
     @previewEmbedded = false
     @change = false
     @exampleEmbedCode = "<div id=\"wistia_r2wybv7xr0\" class=\"wistia_embed\" style=\"width:640px;height:360px;\" data-video-width=\"640\" data-video-height=\"360\">&nbsp;</div><script charset=\"ISO-8859-1\" src=\"http://fast.wistia.com/static/concat/E-v1.js\"></script> <script> wistiaEmbed = Wistia.embed(\"r2wybv7xr0\", { version: \"v1\", videoWidth: 640, videoHeight: 360, volumeControl: true, controlsVisibleOnLoad: true }); </script>"
 
     # for disabling fullscreen
-    $(document).on "click", ".turn_off_fullscreen", (event) ->
+    $(document).on "click", ".turn_off_fullscreen", (event) =>
       event.preventDefault()
       source = Wistia.EmbedCode.parse($("#source_embed_code").val())
       source.setOption("fullscreenButton", false)
       $("#source_embed_code").val(source.toString()).keyup()
 
-    $("#source_embed_code").on "keyup", ->
+    $("#source_embed_code").on "keyup", =>
       change = true
-      @debounceUpdateOutput
-
-    $("a[name=add_new]").on 'click', (e) ->
-      e.preventDefault()
-      @addMidRollInput()
-
-    $("a[name=remove_all]").on 'click', (e) ->
-      e.preventDefault()
-      @removeAllInputs()
-      @addMidRollInput()
       @updateOutput()
 
-    $("a[name=see_example]").on 'click', (e) ->
+    $("a[name=add_new]").on 'click', (e) =>
+      e.preventDefault()
+      @addMidrollInput()
+
+    $("a[name=remove_all]").on 'click', (e) =>
+      e.preventDefault()
+      @removeAllInputs()
+      @addMidrollInput()
+      @updateOutput()
+
+    $("a[name=see_example]").on 'click', (e) =>
       e.preventDefault()
       @removeAllInputs()
       $("#source_embed_code").val(exampleEmbedCode)
-      @addMidRollData("YOU SHOULD CLICK HERE", "unclebenny.com", Oo02, 10)
-      @addMidRollData("CHECK OUT UNCLE BENNY!", "unclebenny.com", Oo08, 14)
-      @addMidRollData("BUY OUR STUFF!", "unclebenny.com", 12, 22)
-      @debounceUpdateOutput
+      @addMidrollData("YOU SHOULD CLICK HERE", "unclebenny.com", Oo02, 10)
+      @addMidrollData("CHECK OUT UNCLE BENNY!", "unclebenny.com", Oo08, 14)
+      @addMidrollData("BUY OUR STUFF!", "unclebenny.com", 12, 22)
+      @updateOutput()
 
     # Update the output whenever a configuration input changes
     $("#configure")
-      .on("keyup", "input[type=text], textarea", @debounceUpdateOutput)
-      .on("change", "select", @debounceUpdateOutput)
-      .on("click", ":radio,:checkbox", @debounceUpdateOutput)
+      .on "keyup", "input[type=text], textarea", @updateOutput()
+      .on "change", "select", @updateOutput()
+      .on "click", ":radio,:checkbox", @updateOutput()
 
-    @addDefaultMidRoll("Check Out Wistia", "http://wistia.com", "?", "?")
-
-
-  #if no http on linkHref, let's add it
-  maybeAddHttp: (href) ->
-    if href.indexOf("http") == -1
-      return "http://" + href
-    else
-      return href
-
-  # get the mid rolls data off the page
-  midRollDataFromPage: ->
-    $(".midrolls .link_and_time_range_combo").not("#link_and_time_range_combo_template").each ->
-      $this = $(this)
-      linkText = $this.find("input[name=link_text]").val()
-      linkHref = maybeAddHttp($this.find("input[name=link_href]").val())
-      start = $this.find("input[name=start]").val()
-      end = $this.find("input[name=end]").val()
-      if linkText && linkHref && parseInt(start, 10) && end
-        result.push
-          linkText: linkText,
-          linkHref: linkHref,
-          start: parseInt(start, 10),
-          end: parseInt(end, 10)
-    return result
-
-  # for when we want to clear all inputs
-  removeAllInputs: ->
-    $(".midrolls .link_and_time_range_combo")
-      .not("#link_and_time_range_combo_template")
-      .remove()
+    @addDefaultMidroll("Check Out Wistia", "http://wistia.com", "?", "?")
 
   updateOutput: ->
     @sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val())
     @outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val())
 
-    if @sourceEmbedCode && @sourceEmbedCode.isValid()
-      @playerColor = @outputEmbedCode.options().playerColor || "636155"
+    if @sourceEmbedCode and @sourceEmbedCode.isValid()
+      @playerColor = @outputEmbedCode.options().playerColor or "636155"
+      console.log "playerColor", @playerColor
 
-      @outputEmbedCode.setOption('plugin.midRollLinks.src', "http://localhost:8000/mid-roll-links/mid-roll-links.js")
-      @outputEmbedCode.setOption('plugin.midRollLinks.links', @midRollData)
-      @outputEmbedCode.setOption('plugin.midRollLinks.playerColor', @playerColor)
+      @outputEmbedCode.setOption('plugin.midrollLinks.src', "http://localhost:8000/mid-roll-links/mid-roll-links.js")
+      @outputEmbedCode.setOption('plugin.midrollLinks.playerColor', @playerColor)
 
-      $("#output_embed_code").val(outputEmbedCode.toString())
+      if @previewEmbedded
+        @outputEmbedCode.setOption('plugin.midrollLinks.links', @midrollData)
+
+      @updateEmbedCode()
+      @updatePreview()
 
     else
-      # Show an error if invalid. We can be more specific 
-      # if we expect a certain problem.
+      # error time!
       $("#output_embed_code").val("Please enter a valid Wistia embed code.")
       $("#preview").html('<div id="placeholder_preview">Your video here</div>')
-
-  updatePreviewAndOutputEmbeds: ->
-    @updateEmbedCode()
-    @updatePreview()  
   
+  # the "new embed code" box
+  updateEmbedCode: ->
+    hasFullscreen = @sourceEmbedCode.options().fullscreenButton == null or @sourceEmbedCode.options().fullscreenButton
+    hasMidRoll = Wistia.obj.get(@outputEmbedCode.options(), "plugin.midRollLinks")
+    fullScreenAlert = "This embed code has fullscreen enabled with mid-rolls. " + 
+      "Just so you know, the Midroll Links won't show up when fullscreen. " + 
+      "You might want to <a href='#' class='turn_off_fullscreen'>turn off fullscreen</a>."
+    @midrollData = @midrollDataFromPage()
+
+    unless @previewEmbedded
+      @setupPlugin()
+
+    if @change
+      @updatePreviewAndOutputEmbeds
+
+    if hasFullscreen and hasMidRoll
+      $("#alert").html(fullScreenAlert).show()
+    else
+      $("#alert").html("").hide()
+
   updatePreview: ->
     if @sourceEmbedCode and @sourceEmbedCode.isValid()
       Wistia.timeout 'updatePreview', ->
-        if change
+        if @change
           @outputEmbedCode.previewInElem("preview", { type: 'api' }, =>
-            change = false
-            window.previewEmbed.plugin.midRollLinks.update
-              "links": @midrolldata,
+            @change = false
+            window.previewEmbed.plugin.midrollLinks.update
+              "links": @midrollData
               "playerColor": @playerColor
           )
         else
-          window.previewEmbed.plugin.midRollLinks.update
-            "links": @midrolldata,
+          window.previewEmbed.plugin.midrollLinks
+            "links": @midrolldata
             "playerColor": @playerColor
       , 250
     else
@@ -118,70 +107,80 @@ class midRoll
 
     Wistia.timeout 'updatePlugin', =>
       window.previewEmbed.plugin.midRollLinks.update
-        "links": @midRollData
+        "links": @midrollData
         "playerColor": @playerColor
-    
-  updateEmbedCode: ->
-    hasFullscreen = sourceEmbedCode.options().fullscreenButton == null || sourceEmbedCode.options().fullscreenButton
-    hasMidRoll = Wistia.obj.get(outputEmbedCode.options(), "plugin.midRollLinks")
-    fullScreenAlert = "This embed code has fullscreen enabled with mid-rolls. " + 
-      "Just so you know, the Midroll Links won't show up when fullscreen. " + 
-      "You might want to <a href='#' class='turn_off_fullscreen'>turn off fullscreen</a>."
 
-    @setUpPlugin()
+  setupPlugin: ->
+    console.log "plugin setup ran!"
+    @outputEmbedCode.setOption('plugin.midrollLinks.links', {'links': []})
+    @outputEmbedCode.setOption('plugin.midrollLinks.playerColor', @sourceEmbedCode.options().playerColor)
 
-    if hasFullscreen && hasMidRoll
-      $("#alert").html(fullScreenAlert).show()
-    else
-      $("#alert").html("").hide()
+    $("#output_embed_code").val(@outputEmbedCode.toString())
+    @outputEmbedCode.previewInElem "preview", { type: 'api' }, ->
+      @previewEmbedded = true
 
-#   embedMidRollPreview: ->
-#     outputEmbedCode.setOption('plugin.midRollLinks.links', {'links': []})
-#     outputEmbedCode.setOption('plugin.midRollLinks.playerColor', sourceEmbedCode.options().playerColor)
-
-#     $("#output_embed_code").val(outputEmbedCode.toString())
-#     outputEmbedCode.previewInElem "preview", { type: 'api' }, ->
-#       @previewEmbedded = true
-#       change = false
-#       @updateEmbedCode()
+#   Updating is kind of a heavy operation; we don't want to 
+#   do it on every single keystroke.
+# debounceUpdateOutput: ->
+#   clearTimeout(updateOutputTimeout)
+#   updateOutputTimeout = setTimeout(@updateOutput, 500)
 
 
 
-
-
-  # Updating is kind of a heavy operation; we don't want to 
-  # do it on every single keystroke.
-  debounceUpdateOutput: ->
-    clearTimeout(@updateOutputTimeout)
-    updateOutputTimeout = setTimeout(@updateOutput, 500)
+  # get the mid rolls data off the page
+  midrollDataFromPage: ->
+    $(".midrolls .link_and_time_range_combo").not("#link_and_time_range_combo_template").each (index, entry) =>
+      linkText = $(entry).find("input[name=link_text]").val()
+      console.log "linkText", linkText
+      linkHref = @maybeAddHttp($(entry).find("input[name=link_href]").val())
+      start = $(entry).find("input[name=start]").val()
+      end = $(entry).find("input[name=end]").val()
+      if linkText and linkHref and parseInt(start, 10) and end
+        result.push
+          linkText: linkText
+          linkHref: linkHref
+          start: parseInt(start, 10)
+          end: parseInt(end, 10)
 
   # add another midroll input
-  addMidRollInput: ->
+  addMidrollInput: ->
     $elem = $("#link_and_time_range_combo_template").clone()
     $elem.show().removeAttr("id")
     $(".midrolls .mid_roll_entries").append($elem)
-    return $elem
+    $elem
 
   # add new mid roll data
-  addMidRollData: (link_text, link_href, start, end) ->
-    $elem = @addMidRollInput()
+  addMidrollData: (link_text, link_href, start, end) ->
+    $elem = @addMidrollInput()
     $elem.find("input[name=link_text]").focus().val(link_text)
     $elem.find("input[name=link_href]").focus().val(link_href)
     $elem.find("input[name=start]").focus().val(start)
     $elem.find("input[name=end]").focus().val(end)
 
   # add default midRoll
-  addDefaultMidRoll: (link_text, link_href, start, end) ->
-    $elem = @addMidRollInput()
+  addDefaultMidroll: (link_text, link_href, start, end) ->
+    $elem = @addMidrollInput()
+    # lets try adding a class on there we can ignore in the midRollData
+    $elem.addClass('example')
     $elem.find("input[name=link_text]").example(link_text)
     $elem.find("input[name=link_href]").example(link_href)
     $elem.find("input[name=start]").example(start)
     $elem.find("input[name=end]").example(end)
 
+  # for when we want to clear all inputs
+  removeAllInputs: ->
+    $(".midrolls .link_and_time_range_combo")
+      .not("#link_and_time_range_combo_template")
+      .remove()
+
+  #if no http on linkHref, let's add it
+  maybeAddHttp: (href) ->
+    console.log "href", href
+    if href.indexOf("http") == -1 then "http://" + href else href
 
 # Assign all DOM bindings on doc-ready in here. We can also 
 # run whatever initialization code we might need.
 window.setupLabInterface = ($) ->
   $(->
-    window.midroll = new midRoll()
+    window.midroll = new midroll()
   )
