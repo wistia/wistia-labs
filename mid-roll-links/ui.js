@@ -33,14 +33,14 @@ midroll = (function() {
     $("a[name=see_example]").on('click', function(e) {
       e.preventDefault();
       _this.removeAllInputs();
-      $("#source_embed_code").val(exampleEmbedCode);
-      _this.addMidrollData("YOU SHOULD CLICK HERE", "unclebenny.com", Oo02, 10);
-      _this.addMidrollData("CHECK OUT UNCLE BENNY!", "unclebenny.com", Oo08, 14);
+      $("#source_embed_code").val(_this.exampleEmbedCode);
+      _this.updateOutput();
+      _this.addMidrollData("YOU SHOULD CLICK HERE", "unclebenny.com", 2, 10);
+      _this.addMidrollData("CHECK OUT UNCLE BENNY!", "unclebenny.com", 8, 14);
       _this.addMidrollData("BUY OUR STUFF!", "unclebenny.com", 12, 22);
       return _this.updateOutput();
     });
     $("#configure").on("keyup", "input[type=text], textarea", this.updateOutput().on("change", "select", this.updateOutput().on("click", ":radio,:checkbox", this.updateOutput())));
-    this.addDefaultMidroll("Check Out Wistia", "http://wistia.com", "?", "?");
   }
 
   midroll.prototype.updateOutput = function() {
@@ -51,11 +51,7 @@ midroll = (function() {
       console.log("playerColor", this.playerColor);
       this.outputEmbedCode.setOption('plugin.midrollLinks.src', "http://localhost:8000/mid-roll-links/mid-roll-links.js");
       this.outputEmbedCode.setOption('plugin.midrollLinks.playerColor', this.playerColor);
-      if (this.previewEmbedded) {
-        this.outputEmbedCode.setOption('plugin.midrollLinks.links', this.midrollData);
-      }
-      this.updateEmbedCode();
-      return this.updatePreview();
+      return this.updateEmbedCode();
     } else {
       $("#output_embed_code").val("Please enter a valid Wistia embed code.");
       return $("#preview").html('<div id="placeholder_preview">Your video here</div>');
@@ -64,79 +60,73 @@ midroll = (function() {
 
   midroll.prototype.updateEmbedCode = function() {
     var fullScreenAlert, hasFullscreen, hasMidRoll;
-    hasFullscreen = this.sourceEmbedCode.options().fullscreenButton === null || this.sourceEmbedCode.options().fullscreenButton;
-    hasMidRoll = Wistia.obj.get(this.outputEmbedCode.options(), "plugin.midRollLinks");
-    fullScreenAlert = "This embed code has fullscreen enabled with mid-rolls. " + "Just so you know, the Midroll Links won't show up when fullscreen. " + "You might want to <a href='#' class='turn_off_fullscreen'>turn off fullscreen</a>.";
-    this.midrollData = this.midrollDataFromPage();
-    if (!this.previewEmbedded) {
-      this.setupPlugin();
-    }
-    if (this.change) {
-      this.updatePreviewAndOutputEmbeds;
-    }
-    if (hasFullscreen && hasMidRoll) {
-      return $("#alert").html(fullScreenAlert).show();
-    } else {
-      return $("#alert").html("").hide();
-    }
-  };
-
-  midroll.prototype.updatePreview = function() {
     if (this.sourceEmbedCode && this.sourceEmbedCode.isValid()) {
-      return Wistia.timeout('updatePreview', function() {
-        var _this = this;
-        if (this.change) {
-          return this.outputEmbedCode.previewInElem("preview", {
-            type: 'api'
-          }, function() {
-            _this.change = false;
-            return window.previewEmbed.plugin.midrollLinks.update({
-              "links": _this.midrollData,
-              "playerColor": _this.playerColor
-            });
-          });
-        } else {
-          return window.previewEmbed.plugin.midrollLinks({
-            "links": this.midrolldata,
-            "playerColor": this.playerColor
-          });
-        }
-      }, 250);
+      hasFullscreen = this.sourceEmbedCode.options().fullscreenButton === null || this.sourceEmbedCode.options().fullscreenButton;
+      hasMidRoll = Wistia.obj.get(this.outputEmbedCode.options(), "plugin.midRollLinks");
+      fullScreenAlert = "This embed code has fullscreen enabled with mid-rolls. " + "Just so you know, the Midroll Links won't show up when fullscreen. " + "You might want to <a href='#' class='turn_off_fullscreen'>turn off fullscreen</a>.";
+      this.midrollData = this.midrollDataFromPage();
+      if (hasFullscreen && hasMidRoll) {
+        $("#alert").html(fullScreenAlert).show();
+      } else {
+        $("#alert").html("").hide();
+      }
+      if (!this.previewEmbedded) {
+        return this.setupPlugin();
+      } else {
+        return this.updatePreview();
+      }
     } else {
+      $("#output_embed_code").html("Something looks wrong with that embed code." + " Please try adding again.");
       return $("#preview").html('<div id="placeholder_preview">Your video here</div>');
     }
   };
 
-  midroll.prototype.updatePlugin = function() {
-    var _this = this;
-    if (!((typeof previewEmbed !== "undefined" && previewEmbed !== null) && previewEmbed.plugin.midRollLinks)) {
-      return;
-    }
-    return Wistia.timeout('updatePlugin', function() {
-      return window.previewEmbed.plugin.midRollLinks.update({
-        "links": _this.midrollData,
-        "playerColor": _this.playerColor
-      });
-    });
-  };
-
   midroll.prototype.setupPlugin = function() {
+    var _this = this;
     console.log("plugin setup ran!");
+    console.log("previewEmbedded", this.previewEmbedded);
     this.outputEmbedCode.setOption('plugin.midrollLinks.links', {
       'links': []
     });
-    this.outputEmbedCode.setOption('plugin.midrollLinks.playerColor', this.sourceEmbedCode.options().playerColor);
+    this.outputEmbedCode.setOption('plugin.midrollLinks.playerColor', this.playerColor);
     $("#output_embed_code").val(this.outputEmbedCode.toString());
+    this.previewEmbedded = true;
     return this.outputEmbedCode.previewInElem("preview", {
       type: 'api'
     }, function() {
-      return this.previewEmbedded = true;
+      return _this.updatePreview();
     });
   };
 
+  midroll.prototype.updatePreview = function() {
+    return Wistia.timeout('updatePreview', function() {
+      var _this = this;
+      if (this.change) {
+        return this.outputEmbedCode.previewInElem("preview", {
+          type: 'api'
+        }, function() {
+          window.previewEmbed.ready;
+          window.previewEmbed.plugin.midrollLinks.update({
+            "links": _this.midrollData,
+            "playerColor": _this.playerColor
+          });
+          return _this.change = false;
+        });
+      } else {
+        console.log("running non change update");
+        return window.previewEmbed.plugin.midrollLinks({
+          "links": this.midrolldata,
+          "playerColor": this.playerColor
+        });
+      }
+    }, 250);
+  };
+
   midroll.prototype.midrollDataFromPage = function() {
-    var _this = this;
-    return $(".midrolls .link_and_time_range_combo").not("#link_and_time_range_combo_template").each(function(index, entry) {
+    var result,
+      _this = this;
+    result = [];
+    $(".midrolls .link_and_time_range_combo").not("#link_and_time_range_combo_template").each(function(index, entry) {
       var end, linkHref, linkText, start;
       linkText = $(entry).find("input[name=link_text]").val();
       console.log("linkText", linkText);
@@ -152,6 +142,7 @@ midroll = (function() {
         });
       }
     });
+    return result;
   };
 
   midroll.prototype.addMidrollInput = function() {
