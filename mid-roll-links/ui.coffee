@@ -11,7 +11,7 @@ class midroll
       $("#source_embed_code").val(source.toString()).keyup()
 
     $("#source_embed_code").on "keyup", =>
-      change = true
+      @change = true
       @debounceUpdates()
 
     $("a[name=add_new]").on 'click', (e) =>
@@ -89,6 +89,10 @@ class midroll
             "links": @midrollData
           @previewEmbedded = true
         )
+      else
+        console.log "update a ran!"
+        window.previewEmbed.plugin.midrollLinks.update
+          "links": @midrollData
     , 250
 
 
