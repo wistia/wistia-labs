@@ -106,9 +106,9 @@ class midroll
           @change = false
         )
       else
-        if window.previewEmbed.ready
+        window.previewEmbed.ready ->
           console.log "running non change update"
-          window.previewEmbed.plugin.midrollLinks
+          window.previewEmbed.plugin.midrollLinks.update
             "links": @midrolldata
             "playerColor": @playerColor
     , 250
