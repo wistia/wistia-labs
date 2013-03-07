@@ -105,7 +105,6 @@ midroll = (function() {
         return this.outputEmbedCode.previewInElem("preview", {
           type: 'api'
         }, function() {
-          window.previewEmbed.ready;
           window.previewEmbed.plugin.midrollLinks.update({
             "links": _this.midrollData,
             "playerColor": _this.playerColor
@@ -113,11 +112,13 @@ midroll = (function() {
           return _this.change = false;
         });
       } else {
-        console.log("running non change update");
-        return window.previewEmbed.plugin.midrollLinks({
-          "links": this.midrolldata,
-          "playerColor": this.playerColor
-        });
+        if (window.previewEmbed.ready) {
+          console.log("running non change update");
+          return window.previewEmbed.plugin.midrollLinks({
+            "links": this.midrolldata,
+            "playerColor": this.playerColor
+          });
+        }
       }
     }, 250);
   };
