@@ -260,7 +260,7 @@ Prez = (function() {
 
   Prez.prototype.timeChange = function(t) {
     var row, rowTime, rows, _i;
-    if (t === void 0) {
+    if (t == null) {
       t = window.previewEmbed.time();
     }
     rows = this.$timingsTable.find('tbody tr');

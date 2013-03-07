@@ -51,7 +51,7 @@ Wistia.plugin('speakerdeck', function(video, options) {
     }
     suppressSlideSyncTemporarily();
     time = timings.timeForSlide(slide);
-    if (time !== null) {
+    if (time != null) {
       return video.time(time);
     }
   };
@@ -90,7 +90,7 @@ Wistia.plugin('speakerdeck', function(video, options) {
     if (!speakerDeck) {
       return;
     }
-    if (t === void 0) {
+    if (t == null) {
       t = video.time();
     }
     slideNum = timings.slideForTime(t);
@@ -99,9 +99,7 @@ Wistia.plugin('speakerdeck', function(video, options) {
       return speakerDeck.goToSlide(slideNum);
     }
   };
-  video.bind('timechange', function(t) {
-    return updateSlideForTime(t);
-  });
+  video.bind('timechange', updateSlideForTime);
   position = options.position || 'right';
   width = options.width || video.width();
   height = options.height || video.height();

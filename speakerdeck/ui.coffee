@@ -247,7 +247,7 @@ class Prez
 
   # highlight the controls for easy editing
   timeChange: (t) ->
-    t = window.previewEmbed.time() if t is undefined
+    t ?= window.previewEmbed.time()
 
     rows = @$timingsTable.find('tbody tr')
     for row in rows by -1

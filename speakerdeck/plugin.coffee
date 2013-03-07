@@ -31,7 +31,7 @@ Wistia.plugin 'speakerdeck', (video, options) ->
 
     suppressSlideSyncTemporarily()
     time = timings.timeForSlide(slide)
-    video.time(time) if time isnt null
+    video.time(time) if time?
 
 
 
@@ -79,7 +79,7 @@ Wistia.plugin 'speakerdeck', (video, options) ->
   updateSlideForTime = (t) ->
     return unless speakerDeck
 
-    t = video.time() if t is undefined
+    t ?= video.time()
 
     slideNum = timings.slideForTime(t)
     if speakerDeck.currentSlide.number isnt slideNum
@@ -87,8 +87,7 @@ Wistia.plugin 'speakerdeck', (video, options) ->
       speakerDeck.goToSlide(slideNum)
 
 
-  video.bind 'timechange', (t) ->
-    updateSlideForTime(t)
+  video.bind 'timechange', updateSlideForTime
 
 
   position = options.position || 'right'
