@@ -100,17 +100,17 @@ class midroll
     Wistia.timeout 'updatePreview', ->
       if @change
         @outputEmbedCode.previewInElem("preview", { type: 'api' }, =>
-          window.previewEmbed.ready
           window.previewEmbed.plugin.midrollLinks.update
             "links": @midrollData
             "playerColor": @playerColor
           @change = false
         )
       else
-        console.log "running non change update"
-        window.previewEmbed.plugin.midrollLinks
-          "links": @midrolldata
-          "playerColor": @playerColor
+        if window.previewEmbed.ready
+          console.log "running non change update"
+          window.previewEmbed.plugin.midrollLinks
+            "links": @midrolldata
+            "playerColor": @playerColor
     , 250
 
 #   Updating is kind of a heavy operation; we don't want to 
