@@ -112,13 +112,13 @@ midroll = (function() {
           return _this.change = false;
         });
       } else {
-        if (window.previewEmbed.ready) {
+        return window.previewEmbed.ready(function() {
           console.log("running non change update");
-          return window.previewEmbed.plugin.midrollLinks({
+          return window.previewEmbed.plugin.midrollLinks.update({
             "links": this.midrolldata,
             "playerColor": this.playerColor
           });
-        }
+        });
       }
     }, 250);
   };
