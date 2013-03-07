@@ -1,4 +1,4 @@
-Wistia.plugin("midRollLinks", function(video, options) {
+Wistia.plugin("midrollLinks", function(video, options) {
   var isMobile = /ipad|iphone|ipod|android/i.test(navigator.userAgent);
   var links = options.links;
   var linkSpacing = "20px";
@@ -17,7 +17,7 @@ Wistia.plugin("midRollLinks", function(video, options) {
     s.parentNode.insertBefore(wf, s);
   })();
 
-  function midRollLinkHtml(link) {
+  function midrollLinkHtml(link) {
     var linkHtml = "<a href=\"" + link.linkHref + "\" target=\"_blank\" class=\"mid-roll-link\" style=\"display:block;\">" + link.linkText + "</a>";
     return linkHtml;
   }
@@ -76,7 +76,7 @@ Wistia.plugin("midRollLinks", function(video, options) {
           linkElem = document.createElement("div");
           linkElem.style.whiteSpace = "nowrap";
           linkElem.className = "wistia_initial";
-          linkElem.innerHTML = midRollLinkHtml(link);
+          linkElem.innerHTML = midrollLinkHtml(link);
           linkElemWrapper.appendChild(linkElem);
           
           // hide on mobile
