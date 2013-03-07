@@ -1,6 +1,7 @@
 class videoFoam
   constructor: ->
 
+    @resizeable = false
     @iframeApiString = "<script src='//fast.wistia.com/static/iframe-api-v1.js'></script>"
 
     $("#configure")
@@ -29,8 +30,10 @@ class videoFoam
       #Display the output.
       $("#output_embed_code").val(@outputEmbedCode)
       @outputEmbedCode.previewInElem("preview")
-      @addResizableTo($("#draggable_wrapper"))
       $("#try").show()
+      if !@resizeable
+        @addResizableTo($("#draggable_wrapper"))
+        @resizeable = true
       
     else
       $("#output_embed_code").val(
