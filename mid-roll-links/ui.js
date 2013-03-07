@@ -21,8 +21,7 @@ midroll = (function() {
       return $("#source_embed_code").val(source.toString()).keyup();
     });
     $("#source_embed_code").on("keyup", function() {
-      var change;
-      change = true;
+      _this.change = true;
       return _this.debounceUpdates();
     });
     $("a[name=add_new]").on('click', function(e) {
@@ -100,6 +99,11 @@ midroll = (function() {
             "links": _this.midrollData
           });
           return _this.previewEmbedded = true;
+        });
+      } else {
+        console.log("update a ran!");
+        return window.previewEmbed.plugin.midrollLinks.update({
+          "links": _this.midrollData
         });
       }
     }, 250);
