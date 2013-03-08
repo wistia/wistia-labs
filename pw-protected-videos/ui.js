@@ -34,7 +34,7 @@ function updateOutput() {
 
           // Set custom options on the embed code.
           outputEmbedCode.setOption("plugin.passwordProtected", {
-            pluginSrc(sourceEmbedCode),
+            src: pluginSrc(sourceEmbedCode),
             //src: "http://localhost:8000/pw-protected-videos/pw-protected-videos-plugin.js",
             seed: random
           });
