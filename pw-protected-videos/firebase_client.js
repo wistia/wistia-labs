@@ -7,12 +7,12 @@ var FirebaseClient = function(uri, opts) {
   Wistia.remote.script('https://cdn.firebase.com/v0/firebase.js', function() {
     self.fb = new Firebase(uri);
 
-    if (opts['authToken']) {
-      self.fb.auth(opts['authToken'], function(error, result) {
+    if (opts.authToken) {
+      self.fb.auth(opts.authToken, function(error, result) {
         if (error) {
-          opts['failedAuthCallback'].call(self, error);
+          opts.failedAuthCallback.call(self, error);
         } else {
-          opts['successfulAuthCallback'].call(self, result);
+          opts.successfulAuthCallback.call(self, result);
         }
       });
     }
@@ -25,8 +25,8 @@ var FirebaseClient = function(uri, opts) {
       self.fb.child(key).on('value', callback);
     };
 
-    if (opts['initCallback']) {
-      opts['initCallback'].call();
+    if (opts.initCallback) {
+      opts.initCallback.call();
     }
   });
 };
