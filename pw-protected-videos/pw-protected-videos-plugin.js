@@ -103,6 +103,33 @@ Wistia.plugin("passwordProtected", function(video, options) {
       "line-height: 40px;" +
       "font-size: 16px;" +
       "vertical-align: top;" +
+      "}" +
+      
+      ".pw_protected_submit {" +
+      "border: 0;" +
+      "border-radius: 0;" +
+      "cursor: pointer;" +
+      "font-family: Open Sans,Arial,sans-serif;" +
+      "font-size: 16px;" +
+      "background: #6c9cbb" +
+      "letter-spacing: 2px;" +
+      "font-weight: 600;" +
+      "display: inline-block;" +
+      "height: 40px;" +
+      "line-height: 40px;" +
+      "color: #fff;" +
+      "margin: 0;" +
+      "padding: 0 4px;" +
+      "outline: none;" +
+      "zoom: 1;" +
+      "text-transform: uppercase;" +
+      "vertical-align: top;" +
+      "}" +
+      
+      ".pw_protected_challenge_container {" +
+      "margin-left: auto;" +
+      "margin-right: auto;" +
+      "margin-top: " + parseInt(video.height() / 4) + "px;" +
       "}";
 
     overlayCssElement = Wistia.util.addInlineCss(document.body, overlayCss);
@@ -130,31 +157,11 @@ Wistia.plugin("passwordProtected", function(video, options) {
   submitButton.id = 'submit';
   submitButton.value = 'Submit';
   submitButton.onclick = checkPassword;
-  submitButton.style.border = 0;
-  submitButton.style['border-radius'] = 0;
-  submitButton.style.cursor = 'pointer';
-  submitButton.style['font-family'] = 'Open Sans,Arial,sans-serif';
-  submitButton.style['font-size'] = '16px';
-  submitButton.style.background = '#6c9cbb';
-  submitButton.style['letter-spacing'] = '2px';
-  submitButton.style['font-weight'] = 600;
-  submitButton.style.display = 'inline-block';
-  submitButton.style.height = '40px';
-  submitButton.style['line-height'] = '40px';
-  submitButton.style.color = '#fff';
-  submitButton.style.margin = 0;
-  submitButton.style.outline = 'none';
-  submitButton.style.zoom = 1;
-  submitButton.style['text-transform'] = 'uppercase';
-  submitButton.style['vertical-align'] = 'top';
-  submitButton.style.padding = '0 4px';
-
+  submitButton.className = 'pw_protected_submit';
   challengeContainer.appendChild(submitButton);
 
-  challengeContainer.style['margin-left'] = 'auto';
-  challengeContainer.style['margin-right'] = 'auto';
+  challengeContainer.className = 'pw_protected_challenge_container';
   overlay.appendChild(challengeContainer);
-  challengeContainer.style['margin-top'] = parseInt((video.height() / 4)) + 'px';
 
 
   // Cool plugin stuff goes here.
