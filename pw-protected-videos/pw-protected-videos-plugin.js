@@ -1,37 +1,41 @@
 Wistia.plugin("passwordProtected", function(video, options) {
 
-  var fontCss = "@font-face {" +
-    "font-family: 'Open Sans';" +
-    "font-style: normal;" +
-    "font-weight: 400;" +
-    "src: local('Open Sans'), local('OpenSans'), url(" + Wistia.proto() + "//themes.googleusercontent.com/static/fonts/opensans/v6/cJZKeOuBrn4kERxqtaUH3bO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');" +
-    "}" +
-    "@font-face {" +
-    "font-family: 'Open Sans';" +
-    "font-style: normal;" +
-    "font-weight: 600;" +
-    "src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(" + Wistia.proto() + "//themes.googleusercontent.com/static/fonts/opensans/v6/MTP_ySUJH_bn48VBG8sNSqRDOzjiPcYnFooOUGCOsRk.woff) format('woff');" +
-    "}" +
-    "@font-face {" +
-    "font-family: 'Open Sans';" +
-    "font-style: normal;" +
-    "font-weight: 700;" +
-    "src: local('Open Sans Bold'), local('OpenSans-Bold'), url(" + Wistia.proto() + "//themes.googleusercontent.com/static/fonts/opensans/v6/k3k702ZOKiLJc3WVjuplzKRDOzjiPcYnFooOUGCOsRk.woff) format('woff');" +
-    "}" +
-    "@font-face {" +
-    "font-family: 'Open Sans';" +
-    "font-style: normal;" +
-    "font-weight: 800;" +
-    "src: local('Open Sans Extrabold'), local('OpenSans-Extrabold'), url(" + Wistia.proto() + "//themes.googleusercontent.com/static/fonts/opensans/v6/EInbV5DfGHOiMmvb1Xr-hqRDOzjiPcYnFooOUGCOsRk.woff) format('woff');" +
-    "}" +
-    "@font-face {" +
-    "font-family: 'Open Sans';" +
-    "font-style: italic;" +
-    "font-weight: 300;" +
-    "src: local('Open Sans Light Italic'), local('OpenSansLight-Italic'), url(" + Wistia.proto() + "//themes.googleusercontent.com/static/fonts/opensans/v6/PRmiXeptR36kaC0GEAetxvR_54zmj3SbGZQh3vCOwvY.woff) format('woff');" +
-    "}";
+  var pwProtectedVideoFonts = document.getElementById('pw_protected_video_fonts');
+  if (!pwProtectedVideoFonts) {
+    var fontCss = "@font-face {" +
+      "font-family: 'Open Sans';" +
+      "font-style: normal;" +
+      "font-weight: 400;" +
+      "src: local('Open Sans'), local('OpenSans'), url(" + Wistia.proto() + "//themes.googleusercontent.com/static/fonts/opensans/v6/cJZKeOuBrn4kERxqtaUH3bO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');" +
+      "}" +
+      "@font-face {" +
+      "font-family: 'Open Sans';" +
+      "font-style: normal;" +
+      "font-weight: 600;" +
+      "src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(" + Wistia.proto() + "//themes.googleusercontent.com/static/fonts/opensans/v6/MTP_ySUJH_bn48VBG8sNSqRDOzjiPcYnFooOUGCOsRk.woff) format('woff');" +
+      "}" +
+      "@font-face {" +
+      "font-family: 'Open Sans';" +
+      "font-style: normal;" +
+      "font-weight: 700;" +
+      "src: local('Open Sans Bold'), local('OpenSans-Bold'), url(" + Wistia.proto() + "//themes.googleusercontent.com/static/fonts/opensans/v6/k3k702ZOKiLJc3WVjuplzKRDOzjiPcYnFooOUGCOsRk.woff) format('woff');" +
+      "}" +
+      "@font-face {" +
+      "font-family: 'Open Sans';" +
+      "font-style: normal;" +
+      "font-weight: 800;" +
+      "src: local('Open Sans Extrabold'), local('OpenSans-Extrabold'), url(" + Wistia.proto() + "//themes.googleusercontent.com/static/fonts/opensans/v6/EInbV5DfGHOiMmvb1Xr-hqRDOzjiPcYnFooOUGCOsRk.woff) format('woff');" +
+      "}" +
+      "@font-face {" +
+      "font-family: 'Open Sans';" +
+      "font-style: italic;" +
+      "font-weight: 300;" +
+      "src: local('Open Sans Light Italic'), local('OpenSansLight-Italic'), url(" + Wistia.proto() + "//themes.googleusercontent.com/static/fonts/opensans/v6/PRmiXeptR36kaC0GEAetxvR_54zmj3SbGZQh3vCOwvY.woff) format('woff');" +
+      "}";
 
-  Wistia.util.addInlineCss(document.body, fontCss);
+    pwProtectedVideoFonts = Wistia.util.addInlineCss(document.body, fontCss);
+    pwProtectedVideoFonts.id = 'pw_protected_video_fonts';
+  }
 
   function checkPassword(e) {
     Wistia.remote.script('http://localhost:8000/pw-protected-videos/sha256.js', function() {
