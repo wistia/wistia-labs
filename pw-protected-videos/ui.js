@@ -5,6 +5,14 @@ function randomString(length) {
   return result;
 }
 
+function pluginSrc(sourceEmbedCode) {
+  if (!/^\/labs\//.test(location.pathname)) {
+    return (sourceEmbedCode ? sourceEmbedCode.proto() : "") + "//" + location.hostname + (location.port != 80 ? ":" + location.port : "") + location.pathname.replace(/\/$/g, "") + "/pw-protected-videos-plugin.js";
+  } else {
+    return (sourceEmbedCode ? sourceEmbedCode.proto() : "") + "//fast.wistia.com/labs/pw-protected-videos/pw-protected-videos-plugin.js";
+  }
+}
+
 var FIREBASE_AUTH_TOKEN = 'z69Xs2mftj0chWxDVKxz2arq8yoWpDxqisExOrJ3';
 var DUMMY_HASHED_ID = 'fc5eec8d82';
 
@@ -26,7 +34,8 @@ function updateOutput() {
 
           // Set custom options on the embed code.
           outputEmbedCode.setOption("plugin.passwordProtected", {
-            src: "http://localhost:8000/pw-protected-videos/pw-protected-videos-plugin.js",
+            pluginSrc(sourceEmbedCode),
+            //src: "http://localhost:8000/pw-protected-videos/pw-protected-videos-plugin.js",
             seed: random
           });
 
