@@ -37,31 +37,33 @@ Wistia.plugin("passwordProtected", function(video, options) {
     pwProtectedVideoFonts.id = 'pw_protected_video_fonts';
   }
 
+  function firebaseInitCallback() {
+    fb.read(options.seed + hashedPw, function(val) {
+      if (val.val()) {
+        // Replace the video
+        Wistia.remote.media(val.val(), function(media) {
+          video.replace(media, video.options);
+
+          // When the real video is ready, get rid of the overlay
+          video.ready(function() {
+            overlay.style.display = 'none';
+          });
+        });
+      } else {
+        // Wrong password
+        text.style.color = 'red';
+        text.innerHTML = 'That password is incorrect. Please try again.';
+      }
+    });
+  }
+
   function checkPassword(e) {
     Wistia.remote.script('http://localhost:8000/pw-protected-videos/sha256.js', function() {
       var hashedPw = Sha256.hash(passwordInput.value);
 
       Wistia.remote.script('http://localhost:8000/pw-protected-videos/firebase_client.js', function() {
         var fb = new FirebaseClient('https://pw-protected-videos.firebaseIO.com/', {
-          initCallback: function() {
-            fb.read(options.seed + hashedPw, function(val) {
-              if (val.val()) {
-                // Replace the video
-                Wistia.remote.media(val.val(), function(media) {
-                  video.replace(media, video.options);
-
-                  // When the real video is ready, get rid of the overlay
-                  video.ready(function() {
-                    overlay.style.display = 'none';
-                  });
-                });
-              } else {
-                // Wrong password
-                text.style.color = 'red';
-                text.innerHTML = 'That password is incorrect. Please try again.';
-              }
-            });
-          }
+          initCallback: firebaseInitCallback
         });
       });
     });
