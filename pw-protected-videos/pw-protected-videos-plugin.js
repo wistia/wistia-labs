@@ -37,6 +37,8 @@ Wistia.plugin("passwordProtected", function(video, options) {
     pwProtectedVideoFonts.id = 'pw_protected_video_fonts';
   }
 
+  var fb;
+  var hashedPw;
   function firebaseInitCallback() {
     fb.read(options.seed + hashedPw, function(val) {
       if (val.val()) {
@@ -59,10 +61,10 @@ Wistia.plugin("passwordProtected", function(video, options) {
 
   function checkPassword(e) {
     Wistia.remote.script('http://localhost:8000/pw-protected-videos/sha256.js', function() {
-      var hashedPw = Sha256.hash(passwordInput.value);
+      hashedPw = Sha256.hash(passwordInput.value);
 
       Wistia.remote.script('http://localhost:8000/pw-protected-videos/firebase_client.js', function() {
-        var fb = new FirebaseClient('https://pw-protected-videos.firebaseIO.com/', {
+        fb = new FirebaseClient('https://pw-protected-videos.firebaseIO.com/', {
           initCallback: firebaseInitCallback
         });
       });
@@ -71,38 +73,56 @@ Wistia.plugin("passwordProtected", function(video, options) {
     e.preventDefault();
   }
 
+  var overlayCssElement = document.getElementById('pw_protected_video_css');
+  if (!overlayCssElement) {
+    var overlayCss = ".pw_protected_video_overlay {" +
+      "position: absolute;" +
+      "width: " + video.width() + "px;" +
+      "height: " + video.height() + "px;" +
+      "top: 0;" +
+      "left: 0;" +
+      "background-color: #333;" +
+      "text-align: center;" +
+      "}" +
+
+      ".pw_protected_video_text {" +
+      "color: #fff;" +
+      "font-family: Open Sans,Arial,sans-serif;" +
+      "font-weight: 300;" +
+      "font-size: 28px;" +
+      "}" +
+
+      ".pw_protected_password {" +
+      "border: 0;" +
+      "border-radius: 0;" +
+      "margin: 0;" +
+      "padding: 0 8px;" +
+      "outline: none;" +
+      "height: 40px;" +
+      "width: 150px;" +
+      "line-height: 40px;" +
+      "font-size: 16px;" +
+      "vertical-align: top;" +
+      "}";
+
+    overlayCssElement = Wistia.util.addInlineCss(document.body, overlayCss);
+    overlayCssElement.id = 'pw_protected_video_css';
+  }
+
   var overlay = document.createElement('div');
-  overlay.style.position = 'absolute';
-  overlay.style.width = video.width() + 'px';
-  overlay.style.height = video.height() + 'px';
-  overlay.style.top = '0';
-  overlay.style.left = '0';
-  overlay.style['background-color'] = '#333';
-  overlay.style['text-align'] = 'center';
+  overlay.className = 'pw_protected_video_overlay';
 
   var challengeContainer = document.createElement('form');
   challengeContainer.onsubmit = checkPassword;
 
   var text = document.createElement('p');
-  text.style.color = '#fff';
-  text.style['font-family'] = 'Open Sans,Arial,sans-serif';
-  text.style['font-weight'] = 300;
-  text.style['font-size'] = '28px';
+  text.className = 'pw_protected_video_text';
   text.innerHTML = 'This video is password protected';
   challengeContainer.appendChild(text);
 
   var passwordInput = document.createElement('input');
   passwordInput.type = 'password';
-  passwordInput.style.border = 0;
-  passwordInput.style['border-radius'] = 0;
-  passwordInput.style.margin = 0;
-  passwordInput.style.padding = '0 8px';
-  passwordInput.style.outline = 'none';
-  passwordInput.style.height = '40px';
-  passwordInput.style.width = '150px';
-  passwordInput.style['line-height'] = '40px';
-  passwordInput.style['font-size'] = '16px';
-  passwordInput.style['vertical-align'] = 'top';
+  passwordInput.className = 'pw_protected_password';
   challengeContainer.appendChild(passwordInput);
 
   var submitButton = document.createElement('input');
