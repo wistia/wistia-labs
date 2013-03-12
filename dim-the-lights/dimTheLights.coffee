@@ -103,7 +103,7 @@
       document.body.className = (document.body.className or "").replace(/\s*wistia-dim-the-lights/g, "")
       for k, elem of elems
         ((elem) ->
-          elem.className = elem.className.replace(/wistia-visible/g, "") + " wistia-invisible"
+          elem.className = elem.className.replace(/\s*wistia-visible/g, "") + " wistia-invisible"
           W.timeout "#{uuid}.undim.#{k}", ->
             removeElem(elem)
             removeStyle()
