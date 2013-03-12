@@ -76,7 +76,7 @@ Wistia.plugin("chapters", function(video, options) {
 
     var chapter_list_html = '<ul class="wistia_chapters_list">'
     for (var i = 1; i <= getNumChapters(); i++) {
-      chapter_list_html += '<a href="#" onclick="javascript:wistiaEmbed.plugin.chapters.goToChapter(' + i.toString() + '); return false;">';
+      chapter_list_html += '<a href="#" id="' + uuid + '_chapter_' + i + '">';
 
       chapter_list_html += '<li class="wistia_chapter_item">';
       if (options["show_timestamps"] == "yes") {
@@ -95,16 +95,26 @@ Wistia.plugin("chapters", function(video, options) {
     location_obj.appendChild(chapter_list_div);
     Wistia.util.addInlineCss(chapter_list_div, getChapterListCSS());
 
+    for (var i = 1; i <= getNumChapters(); i++) {
+      chapterLink = document.getElementById(uuid + "_chapter_" + i);
+      (function(i) {
+        chapterLink.onclick = function() {
+          goToChapter(i);
+          return false;
+        };
+      }(i));
+    }
+
     chapter_list_created = true;
   }
 
   function showChapterList() {
     if (!chapter_list_created)
       createChapterList();
-    $("#" + uuid).show();
+    document.getElementById(uuid).style.display = "block";
   }
   function hideChapterList() {
-    $("#" + uuid).hide();
+    document.getElementById(uuid).style.display = "none";
   }
 
   showChapterList();
