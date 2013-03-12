@@ -4,34 +4,6 @@ window.jsProductionPath = 'fast.wistia.com/labs/logo-over-video';
 Math.PHI = 1.6180339887505;
 var debug = true;
 
-// Load jquery-ui for draggable.
-Wistia.remote.script('http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js', function(){
-
-  // Logo UI interactions.
-  $( "#logo_opacity_slider" ).slider({
-    range: "min",
-    min: 0.0,
-    max: 100.0,
-    value: 33.0,
-    slide: function( event, ui ) {
-      $( "#logo_opacity" ).val( ui.value + '%' );
-    }
-  });
-  $( "#logo_opacity" ).val( $( "#logo_opacity_slider" ).slider( "value" ) + '%' );
-
-  $( "#logo_hover_opacity_slider" ).slider({
-    range: "min",
-    min: 0.0,
-    max: 100.0,
-    value: 90.0,
-    slide: function( event, ui ) {
-      $( "#logo_hover_opacity" ).val( ui.value + '%' );
-    }
-  });
-  $( "#logo_hover_opacity" ).val( $( "#logo_hover_opacity_slider" ).slider( "value" ) + '%' );
-
-});
-
 // A reasonably safe log function.
 function log(){
   if (debug && (console !== undefined)) { console.log.apply(console, arguments); }
@@ -77,11 +49,11 @@ function MiniMap(elem, embed){
   this._y_scale = this._base_height / this._embed.options().videoHeight;
 
   // Calculate snap-to grid dimensions.
-  this._grid_dimensions = [Math.round(12 * this._x_scale), Math.round(12 * this._y_scale)];
+  this._grid_dimensions = [Math.round(6 * this._x_scale), Math.round(4 * this._y_scale)];
 
   // Remove all draggable items from the grid.
   this.clear = function(){
-    $(this._elem).empty();
+    $(this._elem).find('.minimap-object').remove();
     this._objects = {};
   };
 
@@ -106,16 +78,48 @@ function MiniMap(elem, embed){
         'left': Math.round(offset_coord[0]) + 'px',
         'top': Math.round(offset_coord[1] * this._y_scale) + 'px',
       });
+    } else {
+      $(elem).css({
+        'left': '0px',
+        'top': '0px',
+      });
     }
 
     $(this._elem).append(elem);
 
     // Add draggable functionality and events.
     $(elem).draggable({
-      containment: this._elem,
+      containment: 'parent', //this._elem, //'.wlov-contain',
       scroll: false,
-      grid:   this._grid_dimensions,
-      //drag: function(e){ $(self).trigger(name + '-' + 'drag',  self.posFor(name)); },
+      //grid:   this._grid_dimensions,
+      //drag: function(e){ $(self).trigger(name + '-' + 'drag',  self.posFor(name));
+
+      //  var pos = self.posFor(name);
+      //  log("DRAG:", pos.offset);
+      //  var px = pos.offset[0];
+      //  var py = pos.offset[1];
+      //  var bx = self._base_width;
+      //  var by = self._base_height;
+
+      //  var mxf = Math.pow(Math.PHI, 1);
+      //  var myf = Math.pow(Math.PHI, 2);
+
+      //  var xl1 = bx / mxf;
+      //  var xl2 = bx - (bx / mxf);
+      //  var yl1 = by / myf;
+      //  var yl2 = by - (by / myf);
+      //  console.log("LIMITS:", Math.round(xl1), Math.round(xl2), Math.round(yl1), Math.round(yl2));
+
+      //  $('#wlov-inner-containment').css({
+      //    'top':    Math.round(yl2/2) + 'px',
+      //    'left':   Math.round(xl2/2) + 'px',
+      //    'width':  Math.round(xl1) + 'px',
+      //    'height': Math.round(yl1) + 'px',
+      //  });
+
+
+
+      //},
       start:  function(e){ $(self).trigger(name + '-' + 'start', self.posFor(name)); },
       stop:   function(e){ $(self).trigger(name + '-' + 'stop',  self.posFor(name)); }
     });
@@ -195,6 +199,10 @@ function updateOutput() {
         opacity:      parseFloat($('#logo_opacity').val().slice(0,-1)) / 100.0,
         hoverOpacity: parseFloat($('#logo_hover_opacity').val().slice(0,-1)) / 100.0
       });
+
+      // XXX: TESTING
+      wemb = output_embed;
+
     }
     
     // Update the logo grid, then trigger a full refresh.
@@ -235,4 +243,32 @@ window.setupLabInterface = function($) {
       .on("change", "select", debounceUpdateOutput)
       .on("click", ":radio,:checkbox", debounceUpdateOutput);
   });
+
+  $(function() {
+    // Logo UI interactions.
+    $( "#logo_opacity_slider" ).slider({
+      range: "min",
+      min: 0.0,
+      max: 100.0,
+      value: 33.0,
+      slide: function( event, ui ) {
+        //$( "#logo_opacity" ).val( ui.value + '%' );
+        $('#logo_opacity').focus().val(ui.value + '%').keyup().blur();
+      }
+    });
+    $( "#logo_opacity" ).val( $( "#logo_opacity_slider" ).slider( "value" ) + '%' );
+
+    $( "#logo_hover_opacity_slider" ).slider({
+      range: "min",
+      min: 0.0,
+      max: 100.0,
+      value: 90.0,
+      slide: function( event, ui ) {
+        //$( "#logo_hover_opacity" ).val( ui.value + '%' );
+        $('#logo_hover_opacity').focus().val(ui.value + '%').keyup().blur();
+      }
+    });
+    $( "#logo_hover_opacity" ).val( $( "#logo_hover_opacity_slider" ).slider( "value" ) + '%' );
+  });
+
 };
