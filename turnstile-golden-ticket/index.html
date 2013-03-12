@@ -9,9 +9,6 @@
     <script src="http://wistia.com/labs/lib/globalui.js"></script>
     <script>
       loadRelativeCss(["style.css"]);
-      loadRelativeScripts(["../lib/labtools.js", "plugin.js", "ui.js"], function() {
-        setupLabInterface(jQuery);
-      });
     </script>
   </head>
   <body>
@@ -59,33 +56,22 @@
             <textarea id="output_embed_code" style="height:530px;">
 <script src="http://fast.wistia.com/static/embed_shepherd-v1.js"></script>
 <script>
-  //<![CDATA[
-    window.setEmail = function(email) {
-      Wistia.localStorage("golden-ticket", email);
-    };
-    
-    window.getEmail = function() {
-      return Wistia.localStorage("golden-ticket");
-    };
-    
-    wistiaEmbeds.onFind(function(video) {
-      var email;
-      if (email = window.getEmail()){
-        video.setEmail(email);
-        video.reinitializePlugins();
-      }
-    });
-    
-    wistiaEmbeds.bind("conversion", function(video, type, data) {
-      if ((type === "post-roll-email") ||
-          (type === "pre-roll-email") ||
-          (type === "mid-roll-email")){
-        for (var i=0; i<wistiaEmbeds.length; i++){
-          wistiaEmbeds[i].setEmail(data)
-	}
-      }
-    });
-  //]]>
+//<![CDATA[
+wistiaEmbeds.onFind(function(video) {
+  var email = Wistia.localStorage("golden-ticket");
+  if (email) {
+    video.setEmail(email);
+  }
+});
+wistiaEmbeds.bind("conversion", function(video, type, data) {
+  if (/^(pre|mid|post)-roll-email$/.test(type)) {
+    Wistia.localStorage("golden-ticket", data);
+    for (var i = 0; i < wistiaEmbeds.length; i++) {
+      wistiaEmbeds[i].setEmail(data);
+    }
+  }
+});
+//]]>
 </script>
 </textarea><br/>
 
