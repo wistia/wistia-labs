@@ -1,12 +1,13 @@
 # Wistia Labs
 
-Welcome to Wistia Labs! A Lab takes an embed code and modifies it
-to do something cool. 
+Welcome to **Wistia Labs!** 
+
+A Lab takes an embed code and modifies it to do something cool :punch:
 
 
 ### Make your own lab
 
-NOTE: Where `mylabname` is referenced below, you should use whatever 
+**NOTE:** Where `mylabname` is referenced below, you should use whatever 
 the name of your lab is.
 
 To get started, first clone this repository!
@@ -32,6 +33,21 @@ modify its contents, which should include:
     python -m SimpleHTTPServer
 
 Then you can access your lab at http://localhost:8000/mylabname/.
+
+
+### Other Goodies
+
+Use Wistia's simple `localStorage` API to save data for a single domain.
+
+To set:
+
+    Wistia.localStorage("my-custom-key", "a-value");
+    Wistia.localStorage("nested.key", { an: "object" });
+
+To get:
+
+    Wistia.localStorage("my-custom-key");
+    Wistia.localStorage("nested.key");
 
 
 ### More Information
