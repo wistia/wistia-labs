@@ -59,10 +59,12 @@ window.setupLabInterface = function($) {
 
     $("#auto_dim_on").click(function() {
       $("#manual_example").hide();
+      $("#auto_example").show();
     });
 
     $("#auto_dim_off").click(function() {
       $("#manual_example").show();
+      $("#auto_example").hide();
     });
 
     wistiaEmbeds.onFind(function(video) {
@@ -72,5 +74,43 @@ window.setupLabInterface = function($) {
         video.plugin.dimTheLights.dim();
       });
     });
+
+    if (!Wistia.localStorage("dimTheLights.cleared")) {
+      showExample();
+      $(".show_example_text").hide();
+      $(".clear_example_text").show();
+    } else {
+      $(".show_example_text").show();
+      $(".clear_example_text").hide();
+    }
+
+    $("#clear_example").click(function(event) {
+      event.preventDefault();
+      resetInterface();
+      $(".show_example_text").show();
+      $(".clear_example_text").hide();
+      Wistia.localStorage("dimTheLights.cleared", true);
+    });
+
+    $("#show_example").click(function(event) {
+      event.preventDefault();
+      showExample();
+      $(".show_example_text").hide();
+      $(".clear_example_text").show();
+      Wistia.localStorage("dimTheLights.cleared", false);
+    });
   });
+};
+
+window.resetInterface = function() {
+  $("#source_embed_code").val("").keyup().change();
+  $("#dim_color_white").removeAttr("checked").keyup().change();
+  $("#dim_color_black").attr("checked", "checked").keyup().change();
+  $("#auto_dim_off").removeAttr("checked").keyup().change();
+  $("#auto_dim_on").attr("checked", "checked").keyup().change();
+};
+
+window.showExample = function() {
+  resetInterface();
+  $("#source_embed_code").val("<iframe src=\"http://fast.wistia.net/embed/iframe/i58yer6i2f?playerColor=81b7db&version=v1&videoHeight=272&videoWidth=640\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"640\" height=\"272\"></iframe>").keyup().change();
 };
