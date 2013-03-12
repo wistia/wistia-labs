@@ -13,7 +13,7 @@ function updateOutput() {
       }
     }
 
-    outputEmbedCode.setOption("plugin.chapters.src", "http://max1.wistia.max:8000/chapters/plugin.js");
+    outputEmbedCode.setOption("plugin.chapters.src", "http://localhost:8000/chapters/plugin.js");
     outputEmbedCode.setOption("plugin.chapters.width", $("#chapters_width").val());
     outputEmbedCode.setOption("plugin.chapters.location", $("#chapters_location").val());
     outputEmbedCode.setOption("plugin.chapters.show_timestamps", $("#chapters_show_timestamps").val());
