@@ -8,7 +8,7 @@ function updateOutput() {
   if (sourceEmbedCode && sourceEmbedCode.isValid()) {
 
     var isIframe = Wistia.EmbedCode.isIframe(outputEmbedCode) || Wistia.EmbedCode.isPopover(outputEmbedCode);
-    outputEmbedCode.setOption("plugin.dimTheLights.src", pluginSrc());
+    outputEmbedCode.setOption("plugin.dimTheLights.src", pluginSrc(sourceEmbedCode));
     if (isIframe) {
       outputEmbedCode.setOption("plugin.dimTheLights.outsideIframe", true);
     }
