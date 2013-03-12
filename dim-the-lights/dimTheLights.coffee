@@ -162,7 +162,6 @@
 
     # Unset dimming bindings and turn it off.
     autoDimOff = ->
-      console.log "dim off", uuid
       options.autoDim = false
       video.unbind "play", dim
       video.unbind "pause", undim
@@ -172,7 +171,6 @@
     # Set up dimming bindings and turn it on.
     autoDimOn = ->
       autoDimOff()
-      console.log "dim on", uuid
       options.autoDim = true
       video.bind "play", dim
       video.bind "pause", undim

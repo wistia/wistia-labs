@@ -120,7 +120,6 @@
       return styleElem = W.util.addInlineCss(document.body, ".wistia-dim-backdrop {\nbackground-color:" + options.backgroundColor + ";\ncursor:pointer;\nfilter:alpha(opacity=0);\nopacity:0;\nz-index:16777271;\nposition: absolute;\n}\n.wistia-dim-backdrop.wistia-visible {\nfilter:alpha(opacity=" + (Math.round(options.backgroundOpacity * 100)) + ");\nopacity:" + options.backgroundOpacity + ";\n" + transitionCss + "\n}\n.wistia-dim-backdrop.wistia-invisible {\nfilter:alpha(opacity=0);\nopacity:0;\n" + transitionCss + "\n}\n.wistia-dim-target {\nbox-shadow:0 0 50px 5px rgba(0,0,0,.95);\n}\n.wistia-dim-the-lights textarea {\nresize:none!important;\n}");
     };
     autoDimOff = function() {
-      console.log("dim off", uuid);
       options.autoDim = false;
       video.unbind("play", dim);
       video.unbind("pause", undim);
@@ -128,7 +127,6 @@
     };
     autoDimOn = function() {
       autoDimOff();
-      console.log("dim on", uuid);
       options.autoDim = true;
       video.bind("play", dim);
       video.bind("pause", undim);
