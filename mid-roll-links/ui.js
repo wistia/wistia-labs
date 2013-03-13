@@ -86,8 +86,8 @@ midroll = (function() {
           type: 'api'
         }, function() {
           window.previewEmbed.plugin.midrollLinks.update({
-            "links": _this.midrollData,
-            "playerColor": _this.playerColor
+            links: _this.midrollData,
+            playerColor: _this.playerColor
           });
           return _this.change = false;
         });
@@ -96,14 +96,13 @@ midroll = (function() {
           type: 'api'
         }, function() {
           window.previewEmbed.plugin.midrollLinks.update({
-            "links": _this.midrollData
+            links: _this.midrollData
           });
           return _this.previewEmbedded = true;
         });
       } else {
-        console.log("update a ran!");
         return window.previewEmbed.plugin.midrollLinks.update({
-          "links": _this.midrollData
+          links: _this.midrollData
         });
       }
     }, 250);
@@ -142,20 +141,10 @@ midroll = (function() {
   midroll.prototype.addMidrollData = function(link_text, link_href, start, end) {
     var $elem;
     $elem = this.addMidrollInput();
-    $elem.find("input[name=link_text]").focus().val(link_text);
-    $elem.find("input[name=link_href]").focus().val(link_href);
-    $elem.find("input[name=start]").focus().val(start);
-    return $elem.find("input[name=end]").focus().val(end);
-  };
-
-  midroll.prototype.addDefaultMidroll = function(link_text, link_href, start, end) {
-    var $elem;
-    $elem = this.addMidrollInput();
-    $elem.addClass('example');
-    $elem.find("input[name=link_text]").example(link_text);
-    $elem.find("input[name=link_href]").example(link_href);
-    $elem.find("input[name=start]").example(start);
-    return $elem.find("input[name=end]").example(end);
+    $elem.find("input[name=link_text]").val(link_text);
+    $elem.find("input[name=link_href]").val(link_href);
+    $elem.find("input[name=start]").val(start);
+    return $elem.find("input[name=end]").val(end);
   };
 
   midroll.prototype.removeAllInputs = function() {

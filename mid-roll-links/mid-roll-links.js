@@ -1,12 +1,14 @@
 Wistia.plugin("midrollLinks", function(video, options) {
   var isMobile = /ipad|iphone|ipod|android/i.test(navigator.userAgent);
   var links = options.links;
-  var linkSpacing = "20px";
+  var linkSpacing;
   var margin = "6px";
 
-  WebFontConfig = {
+  // load google font for plugin stylez
+  window.WebFontConfig = {
     google: { families: [ 'Open+Sans:700:latin' ] }
   };
+
   (function() {
     var wf = document.createElement('script');
     wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
@@ -34,8 +36,7 @@ Wistia.plugin("midrollLinks", function(video, options) {
     hoverBgColor = new Wistia.Color(selectedBgColor).blend("fff", .8);
     hoverBgColor.saturation(hoverBgColor.saturation() * .3);
     borderColor = new Wistia.Color(selectedBgColor);
-    borderColor
-      .lighten(50);
+    borderColor.lighten(50);
     return {
       borderColor: borderColor.toHex(),
       hoverBgColor: hoverBgColor.toHex(),
@@ -48,14 +49,14 @@ Wistia.plugin("midrollLinks", function(video, options) {
   function setLinkSpacing() {
     video.ready(function() {
       if (video.data.media.branding || video.options.branding) {
-        return "20px";
+        linkSpacing = "20px";
       } else {
-        return "6px";
+        linkSpacing = "6px";
       }
     });
   }
 
-  // Each person in the people array has his own scope and function set
+  // Each link in the link set has it's own scope. Not confusing at all.
   function addLinks(links) {
     var linkElemWrapper = document.createElement("div");
     linkElemWrapper.id = video.uuid + "_midroll";
@@ -132,6 +133,7 @@ Wistia.plugin("midrollLinks", function(video, options) {
       }(links[i]));
     }}
 
+    // public update method always updates stylings to catch color changes
     function update(options) {
       updateStylings();
       addLinks(options.links);

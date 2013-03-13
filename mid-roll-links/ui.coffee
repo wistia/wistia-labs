@@ -37,8 +37,6 @@ class midroll
     # Update the output whenever a configuration input changes
     $("#configure").on("keyup", "input[type=text], textarea", => @debounceUpdates())
 
-    #@addDefaultMidroll("Check Out Wistia", "http://wistia.com", "?", "?")
-
 
   # Updating is kind of a heavy operation; we don't want to 
   # do it on every single keystroke.
@@ -79,20 +77,19 @@ class midroll
       if @change
         @outputEmbedCode.previewInElem("preview", { type: 'api' }, =>
           window.previewEmbed.plugin.midrollLinks.update
-            "links": @midrollData
-            "playerColor": @playerColor
+            links: @midrollData
+            playerColor: @playerColor
           @change = false
         )
       else if !@previewEmbedded
-        @outputEmbedCode.previewInElem("preview", {type: 'api' }, =>
+        @outputEmbedCode.previewInElem("preview", { type: 'api' }, =>
           window.previewEmbed.plugin.midrollLinks.update
-            "links": @midrollData
+            links: @midrollData
           @previewEmbedded = true
         )
       else
-        console.log "update a ran!"
         window.previewEmbed.plugin.midrollLinks.update
-          "links": @midrollData
+          links: @midrollData
     , 250
 
 
@@ -101,7 +98,7 @@ class midroll
     result = []
     $(".midrolls .link_and_time_range_combo").not("#link_and_time_range_combo_template").each (index, entry) =>
       linkText = $(entry).find("input[name=link_text]").val()
-      linkHref = @maybeAddHttp($(entry).find("input[name=link_href]").val())
+      linkHref = @maybeAddHttp $(entry).find("input[name=link_href]").val()
       start = $(entry).find("input[name=start]").val()
       end = $(entry).find("input[name=end]").val()
       if linkText and linkHref and parseInt(start, 10) and end
@@ -122,20 +119,10 @@ class midroll
   # add new mid roll data
   addMidrollData: (link_text, link_href, start, end) ->
     $elem = @addMidrollInput()
-    $elem.find("input[name=link_text]").focus().val(link_text)
-    $elem.find("input[name=link_href]").focus().val(link_href)
-    $elem.find("input[name=start]").focus().val(start)
-    $elem.find("input[name=end]").focus().val(end)
-
-  # add default midRoll
-  addDefaultMidroll: (link_text, link_href, start, end) ->
-    $elem = @addMidrollInput()
-    # lets try adding a class on there we can ignore in the midRollData
-    $elem.addClass('example')
-    $elem.find("input[name=link_text]").example(link_text)
-    $elem.find("input[name=link_href]").example(link_href)
-    $elem.find("input[name=start]").example(start)
-    $elem.find("input[name=end]").example(end)
+    $elem.find("input[name=link_text]").val(link_text)
+    $elem.find("input[name=link_href]").val(link_href)
+    $elem.find("input[name=start]").val(start)
+    $elem.find("input[name=end]").val(end)
 
   # for when we want to clear all inputs
   removeAllInputs: ->
