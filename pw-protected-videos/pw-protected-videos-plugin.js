@@ -144,7 +144,7 @@ Wistia.plugin("passwordProtected", function(video, options) {
 
   var text = document.createElement('p');
   text.className = 'pw_protected_video_text';
-  text.innerHTML = 'This video is password protected';
+  text.innerHTML = options.challenge;
   challengeContainer.appendChild(text);
 
   var passwordInput = document.createElement('input');

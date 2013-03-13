@@ -36,7 +36,8 @@ function updateOutput() {
           outputEmbedCode.setOption("plugin.passwordProtected", {
             src: pluginSrc(sourceEmbedCode),
             //src: "http://localhost:8000/pw-protected-videos/pw-protected-videos-plugin.js",
-            seed: random
+            seed: random,
+            challenge: $('#challenge').val()
           });
 
           // replace the output with a dummy video
