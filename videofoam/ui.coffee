@@ -1,8 +1,8 @@
-class videoFoam
+class VideoFoam
   constructor: ->
 
     @resizeable = false
-    @iframeApiString = "<script src='//fast.wistia.com/static/iframe-api-v1.js'></script>"
+    @iframeApiString = "\n<script src='//fast.wistia.com/static/iframe-api-v1.js'></script>"
 
     $("#configure")
       .on("keyup", "input[type=text], textarea", => @debounceUpdateOutput())
@@ -18,20 +18,21 @@ class videoFoam
     @sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val())
     @outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val())
 
-    if (@sourceEmbedCode && @sourceEmbedCode.isValid())
-      isIframe = Wistia.EmbedCode.isIframe(@sourceEmbedCode.toString())
-      isPopover = Wistia.EmbedCode.isPopover(@sourceEmbedCode.toString())
+    if @sourceEmbedCode and @sourceEmbedCode.isValid()
+      isIframe = Wistia.EmbedCode.isIframe(@sourceEmbedCode)
+      isPopover = Wistia.EmbedCode.isPopover(@sourceEmbedCode)
       
       @outputEmbedCode.setOption("videoFoam", true);
       
       if isIframe or isPopover
-        @outputEmbedCode.toString() + @iframeApiString
+        @outputEmbedCode = @outputEmbedCode.toString() + @iframeApiString
+        $("#output_embed_code").val(@outputEmbedCode)
+      else
+        $("#output_embed_code").val(@outputEmbedCode)
 
-      #Display the output.
-      $("#output_embed_code").val(@outputEmbedCode)
       @outputEmbedCode.previewInElem("preview")
       $("#try").show()
-      if !@resizeable
+      unless @resizeable
         @addResizableTo($("#draggable_wrapper"))
         @resizeable = true
       
@@ -53,5 +54,5 @@ class videoFoam
 # run whatever initialization code we might need.
 window.setupLabInterface = ($) ->
   $(->
-    window.videoFoam = new videoFoam()
+    window.VideoFoam = new VideoFoam()
   )
