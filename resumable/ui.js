@@ -1,3 +1,6 @@
+window.jsFileName = 'resumable.js'
+window.jsProductionPath = 'fast.wistia.com/labs/resumable'
+
 function updateOutput() {
   var sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
   var outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
@@ -6,7 +9,7 @@ function updateOutput() {
 
     // Set custom options on the embed code.
     // CHANGE ME!!!
-    outputEmbedCode.setOption("plugin.resumable.src", "http://localhost:8000/resumable/resumable.js");
+    outputEmbedCode.setOption("plugin.resumable.src", pluginSrc(sourceEmbedCode));
 
     // Display the output.
     $("#output_embed_code").val(outputEmbedCode.toString());

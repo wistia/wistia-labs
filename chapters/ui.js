@@ -1,3 +1,6 @@
+window.jsFileName = 'plugin.js';
+window.jsProductionPath = 'fast.wistia.com/labs/chapters';
+
 function updateOutput() {
   var sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
   var outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
@@ -13,7 +16,7 @@ function updateOutput() {
       }
     }
 
-    outputEmbedCode.setOption("plugin.chapters.src", "http://localhost:8000/chapters/plugin.js");
+    outputEmbedCode.setOption("plugin.chapters.src", pluginSrc(sourceEmbedCode));
     outputEmbedCode.setOption("plugin.chapters.width", $("#chapters_width").val());
     outputEmbedCode.setOption("plugin.chapters.location", $("#chapters_location").val());
     outputEmbedCode.setOption("plugin.chapters.show_timestamps", $("#chapters_show_timestamps").val());

@@ -98,7 +98,7 @@
       for (k in elems) {
         elem = elems[k];
         _results.push((function(elem) {
-          elem.className = elem.className.replace(/wistia-visible/g, "") + " wistia-invisible";
+          elem.className = elem.className.replace(/\s*wistia-visible/g, "") + " wistia-invisible";
           return W.timeout("" + uuid + ".undim." + k, function() {
             removeElem(elem);
             return removeStyle();

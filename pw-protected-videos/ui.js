@@ -1,16 +1,11 @@
+window.jsFileName = 'pw-protected-videos-plugin.js'
+window.jsProductionPath = 'fast.wistia.com/labs/pw-protected-videos'
+
 function randomString(length) {
   var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
   var result = '';
   for (var i = length; i > 0; --i) result += chars[Math.round(Math.random() * (chars.length - 1))];
   return result;
-}
-
-function pluginSrc(sourceEmbedCode) {
-  if (!/^\/labs\//.test(location.pathname)) {
-    return (sourceEmbedCode ? sourceEmbedCode.proto() : "") + "//" + location.hostname + (location.port != 80 ? ":" + location.port : "") + location.pathname.replace(/\/$/g, "") + "/pw-protected-videos-plugin.js";
-  } else {
-    return (sourceEmbedCode ? sourceEmbedCode.proto() : "") + "//fast.wistia.com/labs/pw-protected-videos/pw-protected-videos-plugin.js";
-  }
 }
 
 var FIREBASE_AUTH_TOKEN = 'z69Xs2mftj0chWxDVKxz2arq8yoWpDxqisExOrJ3';
@@ -35,7 +30,6 @@ function updateOutput() {
           // Set custom options on the embed code.
           outputEmbedCode.setOption("plugin.passwordProtected", {
             src: pluginSrc(sourceEmbedCode),
-            //src: "http://localhost:8000/pw-protected-videos/pw-protected-videos-plugin.js",
             seed: random,
             challenge: $('#challenge').val()
           });

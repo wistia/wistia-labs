@@ -1,3 +1,6 @@
+window.jsFileName = 'mid-roll-links.js'
+window.jsProductionPath = 'fast.wistia.com/labs/mid-roll-links'
+
 class midroll
   constructor: ->
     @previewEmbedded = false
@@ -54,7 +57,7 @@ class midroll
       @playerColor = @outputEmbedCode.options().playerColor or "636155"
       @midrollData = @midrollDataFromPage()
 
-      @outputEmbedCode.setOption('plugin.midrollLinks.src', "http://localhost:8000/mid-roll-links/mid-roll-links.js")
+      @outputEmbedCode.setOption('plugin.midrollLinks.src', pluginSrc(@sourceEmbedCode))
       @outputEmbedCode.setOption('plugin.midrollLinks.links', @midrollData)
       @outputEmbedCode.setOption('plugin.midrollLinks.playerColor', @playerColor)
 

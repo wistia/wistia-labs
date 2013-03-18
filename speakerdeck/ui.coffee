@@ -1,3 +1,6 @@
+window.jsFileName = 'plugin.js'
+window.jsProductionPath = 'fast.wistia.com/labs/speakerdeck'
+
 class Prez
   constructor: ->
     # some stuff that we need to know
@@ -6,9 +9,9 @@ class Prez
     @prezPosition = $('#presentation_position').val()
     @$timingsTable = $('#timings')
 
-    $("#presentation_url").on "keyup", => 
+    $("#presentation_url").on "keyup", =>
       Wistia.timeout('updatePresentation', (=> @updatePresentation()), 500)
-    $("#presentation_position").on "change", => 
+    $("#presentation_position").on "change", =>
       Wistia.timeout('updatePresentationPosition', (=> @updatePresentationPosition()), 500)
 
     $("#source_embed_code").on "keyup", => @updateEmbedCodeAndPreview()
@@ -295,7 +298,7 @@ class Prez
         else
           @outputEmbedCode.height(@sourceEmbedCode.height() + @prezHeight())
 
-        @outputEmbedCode.setOption("plugin.speakerdeck.src", "http://localhost:8000/speakerdeck/plugin.js")
+        @outputEmbedCode.setOption("plugin.speakerdeck.src", pluginSrc(@sourceEmbedCode))
         @outputEmbedCode.setOption("plugin.speakerdeck.deckId", @prezId)
         @outputEmbedCode.setOption("plugin.speakerdeck.width", @prezWidth())
         @outputEmbedCode.setOption("plugin.speakerdeck.height", @prezHeight())
