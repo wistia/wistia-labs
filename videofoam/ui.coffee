@@ -22,11 +22,10 @@ class VideoFoam
       isIframe = Wistia.EmbedCode.isIframe(@sourceEmbedCode)
       isPopover = Wistia.EmbedCode.isPopover(@sourceEmbedCode)
       
-      @outputEmbedCode.setOption("videoFoam", true);
+      @outputEmbedCode.setOption("videoFoam", true)
       
       if isIframe or isPopover
-        @outputEmbedCode = @outputEmbedCode.toString() + @iframeApiString
-        $("#output_embed_code").val(@outputEmbedCode)
+        $("#output_embed_code").val(@outputEmbedCode.toString() + @iframeApiString)
       else
         $("#output_embed_code").val(@outputEmbedCode)
 

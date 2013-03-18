@@ -32,8 +32,7 @@ VideoFoam = (function() {
       isPopover = Wistia.EmbedCode.isPopover(this.sourceEmbedCode);
       this.outputEmbedCode.setOption("videoFoam", true);
       if (isIframe || isPopover) {
-        this.outputEmbedCode = this.outputEmbedCode.toString() + this.iframeApiString;
-        $("#output_embed_code").val(this.outputEmbedCode);
+        $("#output_embed_code").val(this.outputEmbedCode.toString() + this.iframeApiString);
       } else {
         $("#output_embed_code").val(this.outputEmbedCode);
       }
