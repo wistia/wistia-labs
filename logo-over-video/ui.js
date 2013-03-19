@@ -34,16 +34,26 @@ function MiniMap(elem, embed){
   this._elem = elem;
   this._embed = embed;
 
-  // Resolve width of container for scaling.
+  // TODO: There has to be a better way.
+  try {
+    // An ApiEmbedCode will return a string suffixed by 'px'.
+    this._embed_width = parseInt(this._embed.width().slice(0,-2));
+    this._embed_height = parseInt(this._embed.height().slice(0,-2));
+  } catch (err) {
+    // An IframeEmbedCode will return an integer.
+    this._embed_width = parseInt(this._embed.width());
+    this._embed_height = parseInt(this._embed.height());
+  }
+
   this._base_width = $(this._elem).width();
-  this._base_height = Math.round(this._base_width * this._embed.options().videoHeight / this._embed.options().videoWidth);
+  this._base_height = Math.round(this._base_width * this._embed_height / this._embed_width);
 
   // Set the container height.
   $(this._elem).addClass('minimap').css('height', this._base_height);
 
   // Determine scaling factors.
-  this._x_scale = this._base_width / this._embed.options().videoWidth;
-  this._y_scale = this._base_height / this._embed.options().videoHeight;
+  this._x_scale = this._base_width / this._embed_width;
+  this._y_scale = this._base_height / this._embed_height;
 
   // Calculate snap-to grid dimensions.
   this._grid_dimensions = [Math.round(6 * this._x_scale), Math.round(4 * this._y_scale)];
@@ -114,8 +124,6 @@ function MiniMap(elem, embed){
       //    'height': Math.round(yl1) + 'px',
       //  });
 
-
-
       //},
       start:  function(e){ $(self).trigger(name + '-' + 'start', self.posFor(name)); },
       stop:   function(e){ $(self).trigger(name + '-' + 'stop',  self.posFor(name)); }
@@ -149,7 +157,12 @@ function updateLogoGrid(oembed, callback){
     logo_minimap.on('logo-stop', function(e, mapping){
       $('#logo_x_offset').val(mapping.offset[0]);
       $('#logo_y_offset').val(mapping.offset[1]);
-      updateOutput();
+
+      if (wistiaEmbed !== undefined) {
+        wistiaEmbed.plugin.logoOverVideo.pos(mapping.offset[0], mapping.offset[1]);
+      } else {
+        //updateOutput();
+      }
     });
   } else {
     logo_minimap.clear();
@@ -184,33 +197,28 @@ function updateOutput() {
     // TODO: refactor me
     function finishUpdate(output_embed) {
       // Set custom options on the embed code.
-      output_embed.setOption("plugin.wistialogoovervideo", {
-        debug:        true,
-        src:          'http://argo/logo-over-video/wistia-logo-over-video.js',
-        pos:          $('#logo_pos').val(),
-        xOffset:      parseInt($('#logo_x_offset').val()),
-        yOffset:      parseInt($('#logo_y_offset').val()),
-        //w:            parseInt($('#logo_width').val()),
-        //h:            parseInt($('#logo_height').val()),
-        logoUrl:      $('#logo_url').val(),
-        logoLink:     $('#logo_link').val(),
-        logoTitle:    $('#logo_title').val(),
-        opacity:      parseFloat($('#logo_opacity').val().slice(0,-1)) / 100.0,
-        hoverOpacity: parseFloat($('#logo_hover_opacity').val().slice(0,-1)) / 100.0
-      });
+      //var oe = output_embed;
+      output_embed.setOption('plugin.logoOverVideo.src',          'http://argo/logo-over-video/wistia-logo-over-video.js');
+      output_embed.setOption('plugin.logoOverVideo.debug',        true);
+      output_embed.setOption('plugin.logoOverVideo.pos',          $('#logo_pos').val());
+      output_embed.setOption('plugin.logoOverVideo.xOffset',      parseInt($('#logo_x_offset').val()));
+      output_embed.setOption('plugin.logoOverVideo.yOffset',      parseInt($('#logo_y_offset').val()));
+      output_embed.setOption('plugin.logoOverVideo.logoUrl',      $('#logo_url').val());
+      output_embed.setOption('plugin.logoOverVideo.logoLink',     $('#logo_link').val());
+      output_embed.setOption('plugin.logoOverVideo.logoTitle',    $('#logo_title').val());
+      output_embed.setOption('plugin.logoOverVideo.opacity',      parseFloat($('#logo_opacity').val().slice(0,-1)) / 100.0);
+      output_embed.setOption('plugin.logoOverVideo.hoverOpacity', parseFloat($('#logo_hover_opacity').val().slice(0,-1)) / 100.0);
 
-      // XXX: TESTING
-      wemb = output_embed;
-
+      return output_embed;
     }
     
     // Update the logo grid, then trigger a full refresh.
     updateLogoGrid(outputEmbedCode, function(){
-      finishUpdate(outputEmbedCode);
-
       // Display the output.
       $("#output_embed_code").val(outputEmbedCode.toString());
-      outputEmbedCode.previewInElem("preview");
+      var api_preview_embed = outputEmbedCode.previewInElem('preview', { type: 'api' }, function(){
+        log("In callback!!!", this);
+      });
     });
 
   } else {
@@ -251,8 +259,11 @@ window.setupLabInterface = function($) {
       max: 100.0,
       value: 33.0,
       slide: function( event, ui ) {
-        //$( "#logo_opacity" ).val( ui.value + '%' );
-        $('#logo_opacity').focus().val(ui.value + '%').keyup().blur();
+        $( "#logo_opacity" ).val( ui.value + '%' );
+        //$('#logo_opacity').focus().val(ui.value + '%').keyup().blur();
+        if (wistiaEmbed !== undefined) {
+          wistiaEmbed.plugin.logoOverVideo.defaultOpacity(parseFloat(ui.value) / 100.0);
+        }
       }
     });
     $( "#logo_opacity" ).val( $( "#logo_opacity_slider" ).slider( "value" ) + '%' );
@@ -263,8 +274,11 @@ window.setupLabInterface = function($) {
       max: 100.0,
       value: 90.0,
       slide: function( event, ui ) {
-        //$( "#logo_hover_opacity" ).val( ui.value + '%' );
-        $('#logo_hover_opacity').focus().val(ui.value + '%').keyup().blur();
+        $( "#logo_hover_opacity" ).val( ui.value + '%' );
+        //$('#logo_hover_opacity').focus().val(ui.value + '%').keyup().blur();
+        if (wistiaEmbed !== undefined) {
+          wistiaEmbed.plugin.logoOverVideo.hoverOpacity(parseFloat(ui.value) / 100.0);
+        }
       }
     });
     $( "#logo_hover_opacity" ).val( $( "#logo_hover_opacity_slider" ).slider( "value" ) + '%' );
