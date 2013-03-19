@@ -42,6 +42,7 @@ midroll = (function() {
       e.preventDefault();
       _this.removeAllInputs();
       $("#source_embed_code").val(_this.exampleEmbedCode);
+      _this.previewEmbedded = false;
       _this.debounceUpdates();
       _this.addMidrollData("YOU SHOULD CLICK HERE", "unclebenny.com", 2, 10);
       _this.addMidrollData("CHECK OUT UNCLE BENNY!", "unclebenny.com", 8, 14);
@@ -84,8 +85,11 @@ midroll = (function() {
 
   midroll.prototype.updatePreview = function() {
     var _this = this;
+    console.log("updatePreview");
     return Wistia.timeout('updatePreview', function() {
+      console.log("updatePreview timeout");
       if (_this.change) {
+        console.log("change");
         return _this.outputEmbedCode.previewInElem("preview", {
           type: 'api'
         }, function() {
@@ -96,6 +100,7 @@ midroll = (function() {
           return _this.change = false;
         });
       } else if (!_this.previewEmbedded) {
+        console.log("not previewEmbedded");
         return _this.outputEmbedCode.previewInElem("preview", {
           type: 'api'
         }, function() {
@@ -105,6 +110,7 @@ midroll = (function() {
           return _this.previewEmbedded = true;
         });
       } else {
+        console.log("update");
         return window.previewEmbed.plugin.midrollLinks.update({
           links: _this.midrollData
         });

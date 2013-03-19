@@ -31,6 +31,7 @@ class midroll
       e.preventDefault()
       @removeAllInputs()
       $("#source_embed_code").val(@exampleEmbedCode)
+      @previewEmbedded = false
       @debounceUpdates()
       @addMidrollData("YOU SHOULD CLICK HERE", "unclebenny.com", 2, 10)
       @addMidrollData("CHECK OUT UNCLE BENNY!", "unclebenny.com", 8, 14)
@@ -75,9 +76,12 @@ class midroll
       $("#output_embed_code").val("Please enter a valid Wistia embed code.")
       $("#preview").html('<div id="placeholder_preview">Your video here</div>')
 
-  updatePreview: () =>
+  updatePreview: =>
+    console.log "updatePreview"
     Wistia.timeout 'updatePreview', =>
+      console.log "updatePreview timeout"
       if @change
+        console.log "change"
         @outputEmbedCode.previewInElem("preview", { type: 'api' }, =>
           window.previewEmbed.plugin.midrollLinks.update
             links: @midrollData
@@ -85,12 +89,14 @@ class midroll
           @change = false
         )
       else if !@previewEmbedded
+        console.log "not previewEmbedded"
         @outputEmbedCode.previewInElem("preview", { type: 'api' }, =>
           window.previewEmbed.plugin.midrollLinks.update
             links: @midrollData
           @previewEmbedded = true
         )
       else
+        console.log "update"
         window.previewEmbed.plugin.midrollLinks.update
           links: @midrollData
     , 250
