@@ -144,7 +144,7 @@ Wistia.plugin("midrollLinks", function(video, options) {
     }
 
     function updateStylings() {
-      var colors = setColors(options.playerColor);
+      var colors = setColors(video.params.playerColor);
       styleElem = Wistia.util.addInlineCss(document.body, ".wistia_initial {\n" +
           "  opacity: 0;\n" +
           "  filter: alpha(opacity=0);\n" +

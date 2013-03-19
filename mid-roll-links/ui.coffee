@@ -60,7 +60,6 @@ class midroll
 
       @outputEmbedCode.setOption('plugin.midrollLinks.src', pluginSrc(@sourceEmbedCode))
       @outputEmbedCode.setOption('plugin.midrollLinks.links', @midrollData)
-      @outputEmbedCode.setOption('plugin.midrollLinks.playerColor', @playerColor)
 
       if @errors
         $("#alert").html(@errors).show()
@@ -77,11 +76,8 @@ class midroll
       $("#preview").html('<div id="placeholder_preview">Your video here</div>')
 
   updatePreview: =>
-    console.log "updatePreview"
     Wistia.timeout 'updatePreview', =>
-      console.log "updatePreview timeout"
       if @change
-        console.log "change"
         @outputEmbedCode.previewInElem("preview", { type: 'api' }, =>
           window.previewEmbed.plugin.midrollLinks.update
             links: @midrollData
@@ -89,14 +85,12 @@ class midroll
           @change = false
         )
       else if !@previewEmbedded
-        console.log "not previewEmbedded"
         @outputEmbedCode.previewInElem("preview", { type: 'api' }, =>
           window.previewEmbed.plugin.midrollLinks.update
             links: @midrollData
           @previewEmbedded = true
         )
       else
-        console.log "update"
         window.previewEmbed.plugin.midrollLinks.update
           links: @midrollData
     , 250
