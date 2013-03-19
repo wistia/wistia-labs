@@ -76,7 +76,8 @@ Wistia.plugin("resumable", function(video, options) {
     "  font-style: italic;\n" +
     "  font-weight: normal;\n" +
     "  line-height: 15px;\n" +
-    "  margin: 0 20px;\n"
+    "  margin: 0 20px;\n" +
+    "  text-decoration: none;\n" +
     "}";
   }
 
