@@ -136,9 +136,8 @@ class Prez
 
 
   updateTimings: ->
-    return unless previewEmbed? and previewEmbed.plugin.speakerdeck
-
     Wistia.timeout 'updateTimings', =>
+      return unless window.previewEmbed?.plugin?.speakerdeck
       window.previewEmbed.plugin.speakerdeck.updateTimings(@timings())
       @timeChange()
     , 250
@@ -183,7 +182,7 @@ class Prez
 
     @$timingsTable.show()
 
-    @updateTimings()
+    # @updateTimings()
     @alreadyTimed = true
     
 
@@ -233,7 +232,7 @@ class Prez
           @updateEmbedCodeAndPreview()
         else
           # uh oh, it's broken
-          $("#alert").html("Invalid Speaker Deck URL.").show();
+          $("#alert").html("Invalid Speaker Deck URL.").show()
 
     )
 
@@ -250,15 +249,16 @@ class Prez
 
   # highlight the controls for easy editing
   timeChange: (t) ->
-    t ?= window.previewEmbed.time()
+    window.previewEmbed?.ready =>
+      t ?= window.previewEmbed.time()
 
-    rows = @$timingsTable.find('tbody tr')
-    for row in rows by -1
-      rowTime = parseInt $(row).find('input.time').val()
-      if t >= rowTime
-        @$timingsTable.find('tbody tr').removeClass('selected')
-        $(row).addClass('selected')
-        return
+      rows = @$timingsTable.find('tbody tr')
+      for row in rows by -1
+        rowTime = parseInt $(row).find('input.time').val()
+        if t >= rowTime
+          @$timingsTable.find('tbody tr').removeClass('selected')
+          $(row).addClass('selected')
+          return
 
 
   prezWidth: ->
@@ -316,9 +316,11 @@ class Prez
   
   updatePreview: ->
     if @sourceEmbedCode and @sourceEmbedCode.isValid()
+      # window.previewEmbed.remove() if window.previewEmbed
+      # window.previewEmbed = null
       Wistia.timeout 'updatePreview', =>
         @outputEmbedCode.previewInElem("preview", { type: 'api' }, =>
-          window.previewEmbed.bind("timechange", (t) => @timeChange(t))
+          window.previewEmbed.bind "timechange", (t) => @timeChange(t)
 
           # if the plugin is live ...
           if window.previewEmbed.plugin.speakerdeck

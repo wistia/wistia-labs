@@ -64,14 +64,11 @@ Wistia.plugin 'speakerdeck', (video, options) ->
 
 
 
-  # load it up
-  Wistia.remote.script '//speakerdeck.com/assets/embed.js'
-
   # when we're advancing slides by time we need to 
   suppressSlideSync = false
   suppressSlideSyncTemporarily = ->
     suppressSlideSync = true
-    setTimeout ->
+    Wistia.timeout "suppressSlideSyncTemporarily", ->
       suppressSlideSync = false
     , 100
 
@@ -103,6 +100,9 @@ Wistia.plugin 'speakerdeck', (video, options) ->
   deckElem.style.height = "#{height}px"
   video.grid[position].appendChild(deckElem)
   video.fit()
+
+  # load it up
+  Wistia.remote.script '//speakerdeck.com/assets/embed.js'
 
   {
     updateTimings: updateTimings
