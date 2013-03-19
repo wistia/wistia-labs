@@ -8,12 +8,13 @@ function updateOutput() {
   if (sourceEmbedCode && sourceEmbedCode.isValid()) {
 
     // Set custom options on the embed code.
-    // CHANGE ME!!!
     outputEmbedCode.setOption("plugin.resumable.src", pluginSrc(sourceEmbedCode));
 
     // Display the output.
     $("#output_embed_code").val(outputEmbedCode.toString());
-    outputEmbedCode.previewInElem("preview");
+    outputEmbedCode.previewInElem("preview", { type: "api" });
+
+    $(".test_it_out").show();
 
   } else {
 
@@ -21,6 +22,7 @@ function updateOutput() {
     // if we expect a certain problem.
     $("#output_embed_code").val("Please enter a valid Wistia embed code.");
     $("#preview").html('<div id="placeholder_preview">Your video here</div>');
+    $(".test_it_out").hide();
   }
 }
 
@@ -43,5 +45,12 @@ window.setupLabInterface = function($) {
       .on("keyup", "input[type=text], textarea", debounceUpdateOutput)
       .on("change", "select", debounceUpdateOutput)
       .on("click", ":radio,:checkbox", debounceUpdateOutput);
+
+    $(".test_it_out a").click(function(event) {
+      event.preventDefault();
+      previewEmbed.pause();
+      previewEmbed.plugin.resumable.setTime(previewEmbed.duration() / 2);
+      previewEmbed.plugin.resumable.showOverlay();
+    });
   });
 };
