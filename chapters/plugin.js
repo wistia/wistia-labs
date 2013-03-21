@@ -1,6 +1,6 @@
 Wistia.plugin("chapters", function(video, options) {
   var uuid = Wistia.seqId();
-  var chapter_list_created = false;
+  var chapterListCreated = false;
 
   function getNumChapters() {
     var count = 0;
@@ -10,90 +10,112 @@ Wistia.plugin("chapters", function(video, options) {
     return count;
   }
 
-  function goToChapter(chapter_number) {
-    video.time(options["ch_" + chapter_number.toString() + "_time"]);
+  function goToChapter(chapterNumber) {
+    video.time(options["ch_" + chapterNumber.toString() + "_time"]);
     return false;
   }
 
-  function getChapterListCSS() {
-    var css = "#" + uuid + "{";
-    css += "width: " + options["width"] + ";";
-    css += "height: " + (video.params.videoHeight - 6).toString() + "px;";
-    css += "max-height: " + (video.params.videoHeight - 6).toString() + "px;";
-    css += "background: #fff;";
-    css += "overflow: scroll;";
-    css += "border-top: 3px solid #" + video.params.playerColor + ";";
-    css += "border-right: 3px solid #" + video.params.playerColor + ";";
-    css += "border-bottom: 3px solid #" + video.params.playerColor + ";";
-    css += "}";
+  function getChapterListCss() {
+    var css = "#" + uuid + "{\n";
+    css += "width: " + options["width"] + ";\n";
+    css += "height: " + (video.videoHeight() - 6).toString() + "px;\n";
+    css += "max-height: " + (video.videoHeight() - 6).toString() + "px;\n";
+    css += "background: #fff;\n";
+    css += "overflow: scroll;\n";
+    css += "border-top: 3px solid #" + video.params.playerColor + ";\n";
+    css += "border-right: 3px solid #" + video.params.playerColor + ";\n";
+    css += "border-bottom: 3px solid #" + video.params.playerColor + ";\n";
+    css += "}\n";
 
-    css += "#" + uuid + " ul a {";
-    css += "color: #555;";
-    css += "}";
+    css += "#" + uuid + " ul a {\n";
+    css += "color: #555;\n";
+    css += "}\n";
 
-    css += "#" + uuid + " ul a:hover {";
-    css += "color: #000;";
-    css += "}";
+    css += "#" + uuid + " ul a:hover {\n";
+    css += "color: #000;\n";
+    css += "}\n";
 
-    css += "#" + uuid + " ul {";
-    css += "padding-top: 0px;";
-    css += "margin-top: 0px;";
-    css += "margin-bottom: 0px;";
-    css += "padding-bottom: 0px;";
-    css += "list-style-type: none;";
-    css += "}";
+    css += "#" + uuid + " ul {\n";
+    css += "padding-top: 0px;\n";
+    css += "margin-top: 0px;\n";
+    css += "margin-bottom: 0px;\n";
+    css += "padding-bottom: 0px;\n";
+    css += "list-style-type: none;\n";
+    css += "}\n";
 
-    css += "#" + uuid + " ul li {";
-    css += "padding-top: 12px;";
-    css += "padding-bottom: 12px;";
-    css += "margin-left: -40px;";
-    css += "padding-left: 18px;";
-    css += "padding-right: 18px;";
-    css += "line-height: 18px;";
-    css += "}";
+    css += "#" + uuid + " ul li {\n";
+    css += "padding-top: 12px;\n";
+    css += "padding-bottom: 12px;\n";
+    css += "margin-left: -40px;\n";
+    css += "padding-left: 18px;\n";
+    css += "padding-right: 18px;\n";
+    css += "line-height: 18px;\n";
+    css += "}\n";
 
-    css += "#" + uuid + " ul li:hover {";
-    css += "background: #ebedef;";
-    css += "}";
+    css += "#" + uuid + " ul li:hover {\n";
+    css += "background: #ebedef;\n";
+    css += "}\n";
+
     return css;
+  }
+
+  var styleElem;
+  function addCss() {
+    styleElem = Wistia.util.addInlineCss(document.getElementById(uuid), getChapterListCss());
+  }
+
+  function removeCss() {
+    var par;
+    if (styleElem && (par = styleElem.parentNode)) {
+      par.removeChild(styleElem);
+      styleElem = null;
+    }
+  }
+
+  function refreshCss() {
+    removeCss();
+    addCss();
   }
 
   function secondsToTime(seconds) {
     var mins = Math.floor(seconds / 60).toString();
     var secs = (seconds % 60);
-    if (secs < 10)
+    if (secs < 10) {
       secs = "0" + secs.toString();
-    else
+    } else {
       secs = secs.toString();
+    }
     return mins + ":" + secs;
   }
 
   function createChapterList() {
-    var location_obj = video.grid.right;
-    if (options["location"] == "left") {
-      location_obj = video.grid.left
+    var locationObj;
+    if (options.location == "left") {
+      locationObj = video.grid.left;
+    } else {
+      locationObj = video.grid.right;
     }
 
-    var chapter_list_html = '<ul class="wistia_chapters_list">'
+    var chapterListHtml = '<ul class="wistia_chapters_list">'
     for (var i = 1; i <= getNumChapters(); i++) {
-      chapter_list_html += '<a href="#" id="' + uuid + '_chapter_' + i + '">';
+      chapterListHtml += '<a href="#" id="' + uuid + '_chapter_' + i + '">';
 
-      chapter_list_html += '<li class="wistia_chapter_item">';
+      chapterListHtml += '<li class="wistia_chapter_item">';
       if (options["show_timestamps"] == "yes") {
-        chapter_list_html += "(" + secondsToTime(options["ch_" + i.toString() + "_time"]) + ") ";
+        chapterListHtml += "(" + secondsToTime(options["ch_" + i.toString() + "_time"]) + ") ";
       }
-      chapter_list_html += options["ch_" + (i).toString() + "_title"];
-      chapter_list_html += '</li>';
-      chapter_list_html += '</a>';
+      chapterListHtml += options["ch_" + (i).toString() + "_title"];
+      chapterListHtml += '</li>';
+      chapterListHtml += '</a>';
 
     }
-    chapter_list_html += '</ul>';
-    var chapter_list_div = document.createElement('div', document);
-    chapter_list_div.id = uuid;
-    chapter_list_div.innerHTML = chapter_list_html;
+    chapterListHtml += '</ul>';
+    var chapterListDiv = document.createElement('div');
+    chapterListDiv.id = uuid;
+    chapterListDiv.innerHTML = chapterListHtml;
 
-    location_obj.appendChild(chapter_list_div);
-    Wistia.util.addInlineCss(chapter_list_div, getChapterListCSS());
+    locationObj.appendChild(chapterListDiv);
+    refreshCss();
 
     for (var i = 1; i <= getNumChapters(); i++) {
       chapterLink = document.getElementById(uuid + "_chapter_" + i);
@@ -105,19 +127,23 @@ Wistia.plugin("chapters", function(video, options) {
       }(i));
     }
 
-    chapter_list_created = true;
+    chapterListCreated = true;
   }
 
   function showChapterList() {
-    if (!chapter_list_created)
+    if (!chapterListCreated)
       createChapterList();
     document.getElementById(uuid).style.display = "block";
   }
+
   function hideChapterList() {
     document.getElementById(uuid).style.display = "none";
   }
 
   showChapterList();
+
+  video.bind("widthchanged", refreshCss);
+  video.bind("heightchanged", refreshCss);
 
   // Return an object with a public interface
   // for the plugin, if you want.
