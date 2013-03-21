@@ -1,5 +1,7 @@
 Wistia.plugin("passwordProtected", function(video, options) {
 
+  var uuid = W.seqId();
+
   var pwProtectedVideoFonts = document.getElementById('pw_protected_video_fonts');
   if (!pwProtectedVideoFonts) {
     var fontCss = "@font-face {" +
@@ -41,9 +43,10 @@ Wistia.plugin("passwordProtected", function(video, options) {
   var hashedPw;
   function firebaseInitCallback() {
     fb.read(options.seed + hashedPw, function(val) {
-      if (val.val()) {
+      var hashedId;
+      if (hashedId = val.val()) {
         // Replace the video
-        Wistia.remote.media(val.val(), function(media) {
+        Wistia.remote.media(hashedId, function(media) {
           video.replace(media, video.options);
 
           // When the real video is ready, get rid of the overlay
@@ -75,7 +78,9 @@ Wistia.plugin("passwordProtected", function(video, options) {
 
   var overlayCssElement = document.getElementById('pw_protected_video_css');
   if (!overlayCssElement) {
-    var overlayCss = ".pw_protected_video_overlay {" +
+    var overlayCss = "" +
+      "#" + uuid + " {" +
+      "box-shadow:rgba(0,0,0,.9) 0 0 " + Math.round(Math.max(video.videoHeight(), video.videoWidth()) / 2) + "px 30px inset;" +
       "position: absolute;" +
       "width: " + video.width() + "px;" +
       "height: " + video.height() + "px;" +
@@ -85,33 +90,33 @@ Wistia.plugin("passwordProtected", function(video, options) {
       "text-align: center;" +
       "}" +
 
-      ".pw_protected_video_text {" +
+      "#" + uuid + "_challenge_text {" +
       "color: #fff;" +
       "font-family: Open Sans,Arial,sans-serif;" +
       "font-weight: 300;" +
       "font-size: 28px;" +
       "}" +
 
-      ".pw_protected_password {" +
+      "#" + uuid + "_password_input {" +
       "border: 0;" +
       "border-radius: 0;" +
       "margin: 0;" +
       "padding: 0 8px;" +
       "outline: none;" +
       "height: 40px;" +
-      "width: 150px;" +
+      "width: 200px;" +
       "line-height: 40px;" +
       "font-size: 16px;" +
       "vertical-align: top;" +
       "}" +
       
-      ".pw_protected_submit {" +
+      "#" + uuid + "_password_submit {" +
       "border: 0;" +
       "border-radius: 0;" +
       "cursor: pointer;" +
       "font-family: Open Sans,Arial,sans-serif;" +
       "font-size: 16px;" +
-      "background: #6c9cbb" +
+      "background: #6c9cbb;" +
       "letter-spacing: 2px;" +
       "font-weight: 600;" +
       "display: inline-block;" +
@@ -119,14 +124,14 @@ Wistia.plugin("passwordProtected", function(video, options) {
       "line-height: 40px;" +
       "color: #fff;" +
       "margin: 0;" +
-      "padding: 0 4px;" +
+      "padding: 0 12px;" +
       "outline: none;" +
       "zoom: 1;" +
       "text-transform: uppercase;" +
       "vertical-align: top;" +
       "}" +
       
-      ".pw_protected_challenge_container {" +
+      "#" + uuid + "_challenge_container {" +
       "margin-left: auto;" +
       "margin-right: auto;" +
       "margin-top: " + parseInt(video.height() / 4) + "px;" +
@@ -136,38 +141,22 @@ Wistia.plugin("passwordProtected", function(video, options) {
     overlayCssElement.id = 'pw_protected_video_css';
   }
 
-  var overlay = document.createElement('div');
-  overlay.className = 'pw_protected_video_overlay';
+  function showOverlay() {
+    var overlay = document.createElement('div');
+    overlay.id = uuid;
 
-  var challengeContainer = document.createElement('form');
-  challengeContainer.onsubmit = checkPassword;
+    overlay.innerHTML = "" +
+      "<form id='" + uuid + "_challenge_container'>\n" +
+      "<p id='" + uuid + "_challenge_text'>" + options.challenge + "</p>\n" +
+      "<input id='" + uuid + "_password_input' type='password' />\n" +
+      "<button id='" + uuid + "_password_submit' type='button' />\n" +
+      "<p id='" + uuid + "_error_text' style='display:none;'>&nbsp;</p>\n" +
+      "</form>\n";
 
-  var text = document.createElement('p');
-  text.className = 'pw_protected_video_text';
-  text.innerHTML = options.challenge;
-  challengeContainer.appendChild(text);
+    video.grid.top_inside.appendChild(overlay);
+  }
 
-  var passwordInput = document.createElement('input');
-  passwordInput.type = 'password';
-  passwordInput.className = 'pw_protected_password';
-  challengeContainer.appendChild(passwordInput);
+  function removeOverlay() {
+  }
 
-  var submitButton = document.createElement('input');
-  submitButton.type = 'button';
-  submitButton.id = 'submit';
-  submitButton.value = 'Submit';
-  submitButton.onclick = checkPassword;
-  submitButton.className = 'pw_protected_submit';
-  challengeContainer.appendChild(submitButton);
-
-  challengeContainer.className = 'pw_protected_challenge_container';
-  overlay.appendChild(challengeContainer);
-
-
-  // Cool plugin stuff goes here.
-  video.grid.top_inside.appendChild(overlay);
-
-  // Return an object with a public interface 
-  // for the plugin, if you want.
-  return {};
 });

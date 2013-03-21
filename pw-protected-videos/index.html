@@ -2,13 +2,12 @@
 <html>
   <head>
     <title>Lab Title</title>
-    <link rel="stylesheet" href="http://wistia.com/labs/css/labs.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="http://fast.wistia.com/static/app-jquery-jquery_jamjar.js"></script>
     <script src="http://fast.wistia.com/static/E-v1.js"></script>
     <script src="http://wistia.com/labs/lib/globalui.js"></script>
     <script>
-      loadRelativeCss(["style.css"]);
+      loadRelativeCss(["../css/labs.css", "style.css"]);
       loadRelativeScripts(["../lib/labtools.js", "firebase_client.js", "plugin.js", "sha256.js", "ui.js"], function() {
         setupLabInterface(jQuery);
       });
@@ -53,13 +52,19 @@
                 <div class="jamjar_title">Password</div>
               </div>
               <div class="jamjar_body">
-                <p style="margin-top:0;">Customize the text of your password challenge</p>
+                <p style="margin-top:0;">
+                  Customize the text of your password Challenge
+                </p>
                 <h3 style="margin-bottom:.25em;">Challenge Text</h3>
                 <input id="challenge" type="text" value="This video is password protected" />
-                <p style="margin-top:0;">Enter a password to require before users can watch your video</p>
+                <p style="margin-top:0;">
+                  Enter a password to require before users can watch your video
+                </p>
                 <h3 style="margin-bottom:.25em;">Password</h3>
                 <input id="password" type="text" value="Enter password" />
-                <a id="update_password" class="button" href="#">Update</a>
+                <div class="button_row" style="margin-top:1em;">
+                  <a id="update_password" class="button" href="#">Update</a>
+                </div>
               </div>
             </div>
 
