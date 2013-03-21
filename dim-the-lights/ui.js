@@ -1,5 +1,5 @@
-window.jsFileName = 'dimTheLights.js';
-window.jsProductionPath = 'fast.wistia.com/labs/dimTheLights';
+window.jsFileName = 'plugin.js';
+window.jsProductionPath = 'fast.wistia.com/labs/dim-the-lights';
 
 function updateOutput() {
   var sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());

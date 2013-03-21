@@ -17,70 +17,69 @@ Wistia.plugin("resumable", function(video, options) {
   function resumeCss() {
     return "" +
     "#" + uuid + " {\n" +
-    "  background-color: rgba(48, 48, 48, 0.82);\n" +
-    "  box-shadow: rgba(0, 0, 0, 0.9) 0px 0px 218px 30px inset;\n" +
-    "  color: rgb(255, 255, 255);\n" +
-    "  display: inline-block;\n" +
-    "  font-family: 'Open Sans', Arial, sans-serif;\n" +
-    "  font-size: 19px;\n" +
-    "  font-weight: bold;\n" +
-    "  height: " + video.videoHeight() + "px;\n" +
-    "  left: 0;\n" +
-    "  letter-spacing: 1px;\n" +
-    "  line-height: 26px;\n" +
-    "  margin-bottom: 17px;\n" +
-    "  position: absolute;\n" +
-    "  text-align: center;\n" +
-    "  top: 0;\n" +
-    "  white-space: normal;\n" +
-    "  width: " + video.videoWidth() + "px;\n" +
+    "background-color: rgba(48, 48, 48, 0.82);\n" +
+    "box-shadow: rgba(0, 0, 0, 0.9) 0px 0px 218px 30px inset;\n" +
+    "color: rgb(255, 255, 255);\n" +
+    "display: inline-block;\n" +
+    "font-family: 'Open Sans', Arial, sans-serif;\n" +
+    "font-size: 19px;\n" +
+    "font-weight: bold;\n" +
+    "height: " + video.videoHeight() + "px;\n" +
+    "left: 0;\n" +
+    "letter-spacing: 1px;\n" +
+    "line-height: 26px;\n" +
+    "position: absolute;\n" +
+    "text-align: center;\n" +
+    "top: 0;\n" +
+    "white-space: normal;\n" +
+    "width: " + video.videoWidth() + "px;\n" +
     "}\n" +
     "#" + uuid + "_content {\n" +
     "  position: relative;\n" +
     "}\n" +
     "#" + uuid + "_resume_play {\n" +
-    "  *display: inline;\n" +
-    "  display: inline-block;\n" +
-    "  height: 120px;\n" +
-    "  vertical-align: top;\n" +
-    "  width: 80px;\n" +
-    "  zoom: 1;\n" +
+    "*display: inline;\n" +
+    "display: inline-block;\n" +
+    "height: 120px;\n" +
+    "vertical-align: top;\n" +
+    "width: 80px;\n" +
+    "zoom: 1;\n" +
     "}\n" +
     "#" + uuid + "_resume_play_arrow {\n" +
-    "  background-image: url(http://localhost:8000/resumable/play-icon.png);\n" +
-    "  display: block;\n" +
-    "  height: 80px;\n" +
-    "  width: 80px;\n" +
+    "background-image: url(http://localhost:8000/resumable/play-icon.png);\n" +
+    "display: block;\n" +
+    "height: 80px;\n" +
+    "width: 80px;\n" +
     "}\n" +
     "#" + uuid + "_resume_play:hover #" + uuid + "_resume_play_arrow {\n" +
-    "  background-position:0px -80px;\n" +
+    "background-position:0px -80px;\n" +
     "}\n" +
     "#" + uuid + "_resume_skip {\n" +
-    "  *display: inline;\n" +
-    "  display: inline-block;\n" +
-    "  height: 120px;\n" +
-    "  vertical-align: top;\n" +
-    "  width: 80px;\n" +
-    "  zoom: 1;\n" +
+    "*display: inline;\n" +
+    "display: inline-block;\n" +
+    "height: 120px;\n" +
+    "vertical-align: top;\n" +
+    "width: 80px;\n" +
+    "zoom: 1;\n" +
     "}\n" +
     "#" + uuid + "_resume_skip_arrow {\n" +
-    "  background-image: url(http://localhost:8000/resumable/skip-icon.png);\n" +
-    "  display: block;\n" +
-    "  height: 80px;\n" +
-    "  width: 80px;\n" +
+    "background-image: url(http://localhost:8000/resumable/skip-icon.png);\n" +
+    "display: block;\n" +
+    "height: 80px;\n" +
+    "width: 80px;\n" +
     "}\n" +
     "#" + uuid + "_resume_skip:hover #" + uuid + "_resume_skip_arrow {\n" +
-    "  background-position: 0px -80px;\n" +
+    "background-position: 0px -80px;\n" +
     "}\n" +
     "#" + uuid + "_resume_play, #" + uuid + "_resume_skip {\n" +
-    "  color: #fff;\n" +
-    "  cursor: pointer;\n" +
-    "  font-size: 15px;\n" +
-    "  font-style: italic;\n" +
-    "  font-weight: normal;\n" +
-    "  line-height: 15px;\n" +
-    "  margin: 0 20px;\n" +
-    "  text-decoration: none;\n" +
+    "color: #fff;\n" +
+    "cursor: pointer;\n" +
+    "font-size: 15px;\n" +
+    "font-style: italic;\n" +
+    "font-weight: normal;\n" +
+    "line-height: 15px;\n" +
+    "margin: 0 20px;\n" +
+    "text-decoration: none;\n" +
     "}";
   }
 
@@ -106,6 +105,11 @@ Wistia.plugin("resumable", function(video, options) {
   function centerVertically() {
     var resumeScreen = document.getElementById(uuid + "_content");
     resumeScreen.style.top = "" + (Math.max(0, video.videoHeight() - Wistia.util.elemHeight(resumeScreen)) / 2) + "px";
+  }
+
+  function fit() {
+    refreshCss();
+    centerVertically();
   }
 
   function removeOverlay() {
@@ -168,10 +172,14 @@ Wistia.plugin("resumable", function(video, options) {
     setTime(0);
   });
 
+  video.bind("widthchanged", fit);
+  video.bind("heightchanged", fit);
+
   return {
     key: resumableKey,
     time: resumeTime,
     setTime: setTime,
+    fit: fit,
     showOverlay: showOverlay,
     jumpToResumeTime: jumpToResumeTime,
     playFromBeginning: playFromBeginning

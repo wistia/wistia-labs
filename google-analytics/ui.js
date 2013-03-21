@@ -1,4 +1,4 @@
-window.jsFileName = 'ga.js';
+window.jsFileName = 'plugin.js';
 window.jsProductionPath = 'fast.wistia.com/labs/google-analytics';
 
 

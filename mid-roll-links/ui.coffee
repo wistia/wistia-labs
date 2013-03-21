@@ -1,4 +1,4 @@
-window.jsFileName = 'mid-roll-links.js'
+window.jsFileName = 'plugin.js'
 window.jsProductionPath = 'fast.wistia.com/labs/mid-roll-links'
 
 class midroll

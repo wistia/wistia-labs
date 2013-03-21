@@ -1,4 +1,4 @@
-window.jsFileName = 'pw-protected-videos-plugin.js'
+window.jsFileName = 'plugin.js'
 window.jsProductionPath = 'fast.wistia.com/labs/pw-protected-videos'
 
 function randomString(length) {

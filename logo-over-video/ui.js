@@ -1,4 +1,4 @@
-window.jsFileName = 'wistia-logo-over-video.js';
+window.jsFileName = 'plugin.js';
 window.jsProductionPath = 'fast.wistia.com/labs/logo-over-video';
 
 Math.PHI = 1.6180339887505;
@@ -201,7 +201,7 @@ function updateOutput() {
     function finishUpdate(output_embed) {
       // Set custom options on the embed code.
       //var oe = output_embed;
-      output_embed.setOption('plugin.logoOverVideo.src',          'http://argo/logo-over-video/wistia-logo-over-video.js');
+      output_embed.setOption('plugin.logoOverVideo.src',          pluginSrc(sourceEmbedCode));
       output_embed.setOption('plugin.logoOverVideo.debug',        true);
       output_embed.setOption('plugin.logoOverVideo.pos',          $('#logo_pos').val());
       output_embed.setOption('plugin.logoOverVideo.xOffset',      parseInt($('#logo_x_offset').val()));

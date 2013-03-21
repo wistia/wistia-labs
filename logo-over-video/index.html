@@ -12,7 +12,7 @@
     <script src="http://wistia.com/labs/lib/globalui.js"></script>
     <script>
       loadRelativeCss(["style.css"]);
-      loadRelativeScripts(["../lib/labtools.js", "wistia-logo-over-video.js", "ui.js"], function() {
+      loadRelativeScripts(["../lib/labtools.js", "plugin.js", "ui.js"], function() {
         setupLabInterface(jQuery);
       });
     </script>
@@ -130,6 +130,7 @@
 
     <!-- TESTING -->
     <script>
+      /*
       $(document).ready(function(){
         var wistia_logo = 'http://argo/white-on-transparent.png';
         $('#source_embed_code').val('<iframe src="http://fast.wistia.net/embed/iframe/9zsi89huko?controlsVisibleOnLoad=true&version=v1&videoHeight=360&videoWidth=640&volumeControl=true" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" width="640" height="360"></iframe>');
@@ -145,6 +146,7 @@
           $('#logo_title').focus().val('Wistia').keyup().blur();
         }, 1000);
       });
+      */
     </script>
 
   </body>
