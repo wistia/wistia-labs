@@ -74,7 +74,7 @@ Wistia.plugin("passwordProtected", function(video, options) {
     if (isDev()) {
       return "localhost:8000";
     } else {
-      return "fast.wistia.com";
+      return "fast.wistia.com/labs/";
     }
   }
 
