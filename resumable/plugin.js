@@ -153,8 +153,14 @@ Wistia.plugin("resumable", function(video, options) {
       var resumePlayElem = document.getElementById(uuid + "_resume_play");
       var resumeSkipElem = document.getElementById(uuid + "_resume_skip");
 
-      resumeSkipElem.onclick = jumpToResumeTime;
-      resumePlayElem.onclick = playFromBeginning;
+      resumeSkipElem.onclick = function() {
+        jumpToResumeTime();
+        return false;
+      };
+      resumePlayElem.onclick = function() {
+        playFromBeginning();
+        return false;
+      };
       return true;
     }
     else {

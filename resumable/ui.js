@@ -1,4 +1,4 @@
-window.jsFileName = 'resumable.js'
+window.jsFileName = 'plugin.js'
 window.jsProductionPath = 'fast.wistia.com/labs/resumable'
 
 function updateOutput() {
