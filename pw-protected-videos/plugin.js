@@ -57,11 +57,7 @@ Wistia.plugin("passwordProtected", function(video, options) {
   }
 
   function savedPasswordKey() {
-    return [
-      "password_protected",
-      video.params.pageUrl || location.href,
-      video.hashedId()
-    ];
+    return ["password_protected", options.seed];
   }
 
   function isDev() {

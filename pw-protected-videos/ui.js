@@ -37,11 +37,12 @@ function updateOutput() {
           // replace the output with a dummy video
           outputEmbedCode.hashedId(DUMMY_HASHED_ID);
 
+          if (Wistia.EmbedCode.isApi(outputEmbedCode)) {
+            outputEmbedCode.containerId("wistia_protected_" + random);
+          }
+
           // Display the output.
           $("#output_embed_code").val(outputEmbedCode.toString());
-          if (window.previewEmbed) {
-            // previewEmbed.plugin.passwordProtected.reprotect();
-          }
           outputEmbedCode.previewInElem("preview", { type: "api" });
         }
     });

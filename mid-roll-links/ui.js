@@ -2,7 +2,7 @@
 var midroll,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-window.jsFileName = 'mid-roll-links.js';
+window.jsFileName = 'plugin.js';
 
 window.jsProductionPath = 'fast.wistia.com/labs/mid-roll-links';
 
@@ -69,7 +69,6 @@ midroll = (function() {
       this.midrollData = this.midrollDataFromPage();
       this.outputEmbedCode.setOption('plugin.midrollLinks.src', pluginSrc(this.sourceEmbedCode));
       this.outputEmbedCode.setOption('plugin.midrollLinks.links', this.midrollData);
-      this.outputEmbedCode.setOption('plugin.midrollLinks.playerColor', this.playerColor);
       if (this.errors) {
         $("#alert").html(this.errors).show();
       } else {
@@ -86,11 +85,8 @@ midroll = (function() {
   midroll.prototype.updatePreview = function() {
     var _this = this;
 
-    console.log("updatePreview");
     return Wistia.timeout('updatePreview', function() {
-      console.log("updatePreview timeout");
       if (_this.change) {
-        console.log("change");
         return _this.outputEmbedCode.previewInElem("preview", {
           type: 'api'
         }, function() {
@@ -101,7 +97,6 @@ midroll = (function() {
           return _this.change = false;
         });
       } else if (!_this.previewEmbedded) {
-        console.log("not previewEmbedded");
         return _this.outputEmbedCode.previewInElem("preview", {
           type: 'api'
         }, function() {
@@ -111,7 +106,6 @@ midroll = (function() {
           return _this.previewEmbedded = true;
         });
       } else {
-        console.log("update");
         return window.previewEmbed.plugin.midrollLinks.update({
           links: _this.midrollData
         });
