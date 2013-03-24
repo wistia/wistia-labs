@@ -1,84 +1,128 @@
 Wistia.plugin("passwordProtected", function(video, options) {
 
-  var uuid = W.seqId();
-
-  var pwProtectedVideoFonts = document.getElementById('pw_protected_video_fonts');
-  if (!pwProtectedVideoFonts) {
-    var fontCss = "@font-face {" +
-      "font-family: 'Open Sans';" +
-      "font-style: normal;" +
-      "font-weight: 400;" +
-      "src: local('Open Sans'), local('OpenSans'), url(" + Wistia.proto() + "//themes.googleusercontent.com/static/fonts/opensans/v6/cJZKeOuBrn4kERxqtaUH3bO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');" +
-      "}" +
-      "@font-face {" +
-      "font-family: 'Open Sans';" +
-      "font-style: normal;" +
-      "font-weight: 600;" +
-      "src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(" + Wistia.proto() + "//themes.googleusercontent.com/static/fonts/opensans/v6/MTP_ySUJH_bn48VBG8sNSqRDOzjiPcYnFooOUGCOsRk.woff) format('woff');" +
-      "}" +
-      "@font-face {" +
-      "font-family: 'Open Sans';" +
-      "font-style: normal;" +
-      "font-weight: 700;" +
-      "src: local('Open Sans Bold'), local('OpenSans-Bold'), url(" + Wistia.proto() + "//themes.googleusercontent.com/static/fonts/opensans/v6/k3k702ZOKiLJc3WVjuplzKRDOzjiPcYnFooOUGCOsRk.woff) format('woff');" +
-      "}" +
-      "@font-face {" +
-      "font-family: 'Open Sans';" +
-      "font-style: normal;" +
-      "font-weight: 800;" +
-      "src: local('Open Sans Extrabold'), local('OpenSans-Extrabold'), url(" + Wistia.proto() + "//themes.googleusercontent.com/static/fonts/opensans/v6/EInbV5DfGHOiMmvb1Xr-hqRDOzjiPcYnFooOUGCOsRk.woff) format('woff');" +
-      "}" +
-      "@font-face {" +
-      "font-family: 'Open Sans';" +
-      "font-style: italic;" +
-      "font-weight: 300;" +
-      "src: local('Open Sans Light Italic'), local('OpenSansLight-Italic'), url(" + Wistia.proto() + "//themes.googleusercontent.com/static/fonts/opensans/v6/PRmiXeptR36kaC0GEAetxvR_54zmj3SbGZQh3vCOwvY.woff) format('woff');" +
-      "}";
-
-    pwProtectedVideoFonts = Wistia.util.addInlineCss(document.body, fontCss);
-    pwProtectedVideoFonts.id = 'pw_protected_video_fonts';
-  }
-
+  var uuid = Wistia.seqId("wistia_password_protected_");
   var fb;
-  var hashedPw;
-  function firebaseInitCallback() {
-    fb.read(options.seed + hashedPw, function(val) {
-      var hashedId;
-      if (hashedId = val.val()) {
-        // Replace the video
-        Wistia.remote.media(hashedId, function(media) {
-          video.replace(media, video.options);
+  var gotSha256 = false;
+  var gotFireBaseClient = false;
+  var fireBaseReady = Wistia.createReadyFunction(this);
+  var styleElem;
+  var sha256Src = Wistia.proto() +
+    '//' + pluginHost() + '/pw-protected-videos/sha256.js';
+  var fbClientSrc = Wistia.proto() +
+    '//' + pluginHost() + '/pw-protected-videos/firebase_client.js';
 
-          // When the real video is ready, get rid of the overlay
-          video.ready(function() {
-            overlay.style.display = 'none';
-          });
-        });
-      } else {
-        // Wrong password
-        text.style.color = 'red';
-        text.innerHTML = 'That password is incorrect. Please try again.';
-      }
+  window.WebFontConfig = {
+    google: { families: [ 'Open+Sans:400:latin', 'Open+Sans:700:latin' ] }
+  };
+
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+      '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+  })();
+
+
+  function loadVideoByHashedId(hashedId) {
+    var errorTextElem = document.getElementById(uuid + "_error_text");
+    errorTextElem.style.visibility = "visible";
+    errorTextElem.innerHTML = "Loading the video...";
+    Wistia.remote.media(hashedId, function(media) {
+      video.replace(media, video.options);
+      video.ready(removeOverlay);
     });
   }
 
-  function checkPassword(e) {
-    Wistia.remote.script('http://localhost:8000/pw-protected-videos/sha256.js', function() {
-      hashedPw = Sha256.hash(passwordInput.value);
-
-      Wistia.remote.script('http://localhost:8000/pw-protected-videos/firebase_client.js', function() {
-        fb = new FirebaseClient('https://pw-protected-videos.firebaseIO.com/', {
-          initCallback: firebaseInitCallback
-        });
+  function loadVideoByPassword(hashedPw, options) {
+    options = Wistia.extend({
+      seed: null,
+      showError: true
+    }, options);
+    var errorTextElem = document.getElementById(uuid + "_error_text");
+    fireBaseReady(function() {
+      fb.read(options.seed + hashedPw, function(val) {
+        var hashedId;
+        if (hashedId = val.val()) {
+          Wistia.localStorage(savedPasswordKey(), hashedPw);
+          loadVideoByHashedId(hashedId);
+        } else if (options.showError) {
+          errorTextElem.innerHTML = "That password is incorrect. Please try again.";
+          errorTextElem.style.visibility = "visible";
+        }
       });
     });
+  }
 
+  function savedPasswordKey() {
+    return [
+      "password_protected",
+      video.params.pageUrl || location.href,
+      video.hashedId()
+    ];
+  }
+
+  function isDev() {
+   return location.port || location.domain === 'localhost' || location.domain === '127.0.0.1';
+  }
+
+  function pluginHost() {
+    if (isDev()) {
+      return "localhost:8000";
+    } else {
+      return "fast.wistia.com";
+    }
+  }
+
+  Wistia.remote.script(sha256Src, function() {
+    gotSha256 = true;
+    if (gotFireBaseClient) {
+      fireBaseReady(true);
+    }
+  });
+
+  Wistia.remote.script(fbClientSrc, function() {
+    fb = new FirebaseClient('https://pw-protected-videos.firebaseIO.com/', {
+      initCallback: function() {
+        gotFireBaseClient = true;
+        if (gotSha256) {
+          fireBaseReady(true);
+        }
+      }
+    });
+  });
+
+  function checkPassword(e) {
+    var passwordInput = document.getElementById(uuid + "_password_input");
+    fireBaseReady(function() {
+      loadVideoByPassword(Sha256.hash(passwordInput.value), {
+        seed: options.seed
+      });
+    });
     e.preventDefault();
   }
 
-  var overlayCssElement = document.getElementById('pw_protected_video_css');
-  if (!overlayCssElement) {
-    var overlayCss = "" +
+  function addCss() {
+    styleElem = Wistia.util.addInlineCss(document.getElementById(uuid), getCss());
+  }
+
+  function removeCss() {
+    var par;
+    if (styleElem && (par = styleElem.parentNode)) {
+      par.removeChild(styleElem);
+      styleElem = null;
+    }
+  }
+
+  function refreshCss() {
+    removeCss();
+    addCss();
+  }
+
+  function getCss() {
+    return "" +
       "#" + uuid + " {" +
       "box-shadow:rgba(0,0,0,.9) 0 0 " + Math.round(Math.max(video.videoHeight(), video.videoWidth()) / 2) + "px 30px inset;" +
       "position: absolute;" +
@@ -134,11 +178,12 @@ Wistia.plugin("passwordProtected", function(video, options) {
       "#" + uuid + "_challenge_container {" +
       "margin-left: auto;" +
       "margin-right: auto;" +
-      "margin-top: " + parseInt(video.height() / 4) + "px;" +
+      "}" +
+      
+      "#" + uuid + "_error_text {" +
+      "color: #f5d535;" +
+      "margin:20px 0 0 0;" +
       "}";
-
-    overlayCssElement = Wistia.util.addInlineCss(document.body, overlayCss);
-    overlayCssElement.id = 'pw_protected_video_css';
   }
 
   function showOverlay() {
@@ -148,15 +193,67 @@ Wistia.plugin("passwordProtected", function(video, options) {
     overlay.innerHTML = "" +
       "<form id='" + uuid + "_challenge_container'>\n" +
       "<p id='" + uuid + "_challenge_text'>" + options.challenge + "</p>\n" +
-      "<input id='" + uuid + "_password_input' type='password' />\n" +
-      "<button id='" + uuid + "_password_submit' type='button' />\n" +
-      "<p id='" + uuid + "_error_text' style='display:none;'>&nbsp;</p>\n" +
+      "<input id='" + uuid + "_password_input' type='password' />" +
+      "<button id='" + uuid + "_password_submit'>Submit</button>\n" +
+      "<p id='" + uuid + "_error_text' style='visibility:hidden;'>&nbsp;</p>\n" +
       "</form>\n";
 
     video.grid.top_inside.appendChild(overlay);
+    refreshCss();
+    centerVertically();
+
+    var submitElem = document.getElementById(uuid + "_password_submit");
+    submitElem.onclick = checkPassword;
   }
 
   function removeOverlay() {
+    var overlay = document.getElementById(uuid);
+    var par;
+    if (overlay && (par = overlay.parentNode)) {
+      par.removeChild(overlay);
+      overlay = null;
+    }
   }
 
+  function refreshOverlay() {
+    removeOverlay();
+    showOverlay();
+  }
+
+  function centerVertically() {
+    var overlayElem = document.getElementById(uuid);
+    var containerElem = document.getElementById(uuid + "_challenge_container");
+    var overlayHeight = Wistia.util.elemHeight(overlayElem);
+    var containerHeight = Wistia.util.elemHeight(containerElem);
+    var offset = (overlayHeight - containerHeight) / 2;
+    containerElem.style.marginTop = "" + offset + "px";
+  }
+
+  function fit() {
+    refreshCss();
+    centerVertically();
+  }
+
+  // On load, show the overlay, and use the stored password if it's available.
+  refreshOverlay();
+  var savedPassword;
+  if (savedPassword = Wistia.localStorage(savedPasswordKey())) {
+    loadVideoByPassword(savedPassword, {
+      seed: options.seed,
+      showError: false
+    });
+  }
+
+  // If the video dimensions change, update the overlay.
+  video.bind("widthchanged", fit).bind("heightchanged", fit);
+
+  return {
+    reprotect: function() {
+      Wistia.localStorage(savedPasswordKey(), "");
+    },
+    savedPasswordKey: savedPasswordKey,
+    fit: fit,
+    firebase: function() { return fb; },
+    options: function() { return options; }
+  };
 });

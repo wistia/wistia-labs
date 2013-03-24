@@ -39,7 +39,10 @@ function updateOutput() {
 
           // Display the output.
           $("#output_embed_code").val(outputEmbedCode.toString());
-          outputEmbedCode.previewInElem("preview");
+          if (window.previewEmbed) {
+            // previewEmbed.plugin.passwordProtected.reprotect();
+          }
+          outputEmbedCode.previewInElem("preview", { type: "api" });
         }
     });
 
