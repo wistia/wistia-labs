@@ -11,7 +11,7 @@ Wistia.plugin("chapters", function(video, options) {
   }
 
   function goToChapter(chapterNumber) {
-    video.time(options["ch_" + chapterNumber + "_time"]);
+    video.time(parseInt(options["ch_" + chapterNumber + "_time"], 10)).play();
     return false;
   }
 
