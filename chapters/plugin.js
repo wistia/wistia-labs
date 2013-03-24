@@ -17,7 +17,7 @@ Wistia.plugin("chapters", function(video, options) {
 
   function getChapterListCss() {
     var css = "#" + uuid + "{\n";
-    css += "width: " + options["width"] + ";\n";
+    css += "width: " + options.width + ";\n";
     css += "height: " + (video.videoHeight() - 6) + "px;\n";
     css += "max-height: " + (video.videoHeight() - 6) + "px;\n";
     css += "background: #fff;\n";
