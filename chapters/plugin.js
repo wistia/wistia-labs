@@ -4,22 +4,22 @@ Wistia.plugin("chapters", function(video, options) {
 
   function getNumChapters() {
     var count = 0;
-    while (options["ch_" + (count + 1).toString() + "_time"]) {
+    while (options["ch_" + (count + 1) + "_time"] != null) {
       count++;
     }
     return count;
   }
 
   function goToChapter(chapterNumber) {
-    video.time(options["ch_" + chapterNumber.toString() + "_time"]);
+    video.time(options["ch_" + chapterNumber + "_time"]);
     return false;
   }
 
   function getChapterListCss() {
     var css = "#" + uuid + "{\n";
     css += "width: " + options["width"] + ";\n";
-    css += "height: " + (video.videoHeight() - 6).toString() + "px;\n";
-    css += "max-height: " + (video.videoHeight() - 6).toString() + "px;\n";
+    css += "height: " + (video.videoHeight() - 6) + "px;\n";
+    css += "max-height: " + (video.videoHeight() - 6) + "px;\n";
     css += "background: #fff;\n";
     css += "overflow: scroll;\n";
     css += "border-top: 3px solid #" + video.params.playerColor + ";\n";
@@ -78,12 +78,12 @@ Wistia.plugin("chapters", function(video, options) {
   }
 
   function secondsToTime(seconds) {
-    var mins = Math.floor(seconds / 60).toString();
+    var mins = "" + Math.floor(seconds / 60);
     var secs = (seconds % 60);
     if (secs < 10) {
-      secs = "0" + secs.toString();
+      secs = "0" + secs;
     } else {
-      secs = secs.toString();
+      secs = "" + secs;
     }
     return mins + ":" + secs;
   }
@@ -102,9 +102,9 @@ Wistia.plugin("chapters", function(video, options) {
 
       chapterListHtml += '<li class="wistia_chapter_item">';
       if (options["show_timestamps"] == "yes") {
-        chapterListHtml += "(" + secondsToTime(options["ch_" + i.toString() + "_time"]) + ") ";
+        chapterListHtml += "(" + secondsToTime(options["ch_" + i + "_time"]) + ") ";
       }
-      chapterListHtml += options["ch_" + (i).toString() + "_title"];
+      chapterListHtml += options["ch_" + i + "_title"];
       chapterListHtml += '</li>';
       chapterListHtml += '</a>';
 

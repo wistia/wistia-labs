@@ -11,8 +11,8 @@ function updateOutput() {
     // Add as many chapters as have been filled in
     for (var i = 1; i <= 8; i++) {
       if ($("#chapter_" + i.toString() + "_title").val() != "") {
-        outputEmbedCode.setOption("plugin.chapters.ch_" + i.toString() + "_title", $("#chapter_" + i.toString() + "_title").val());
-        outputEmbedCode.setOption("plugin.chapters.ch_" + i.toString() + "_time", $("#chapter_" + i.toString() + "_time").val());
+        outputEmbedCode.setOption("plugin.chapters.ch_" + i + "_title", $("#chapter_" + i + "_title").val());
+        outputEmbedCode.setOption("plugin.chapters.ch_" + i + "_time", $("#chapter_" + i + "_time").val());
       }
     }
 
