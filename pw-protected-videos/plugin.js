@@ -9,7 +9,7 @@ Wistia.plugin("passwordProtected", function(video, options) {
   var sha256Src = Wistia.proto() +
     '//' + pluginHost() + '/pw-protected-videos/sha256.js';
   var fbClientSrc = Wistia.proto() +
-    '//' + pluginHost() + '/pw-protected-videos/firebase_client.js';
+    '//' + pluginHost() + '/lib/firebase_client.js';
 
   window.WebFontConfig = {
     google: { families: [ 'Open+Sans:400:latin', 'Open+Sans:700:latin' ] }
@@ -212,7 +212,7 @@ Wistia.plugin("passwordProtected", function(video, options) {
       e = window.e != null ? window.e : e;
       keycode = e.which || e.keyCode;
       if (keycode === 13) {
-        checkPassword();
+        checkPassword(e);
       } else {
         var errorTextElem = document.getElementById(uuid + "_error_text");
         errorTextElem.innerHTML = "&nbsp;";
