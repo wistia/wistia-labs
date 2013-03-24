@@ -206,6 +206,18 @@ Wistia.plugin("passwordProtected", function(video, options) {
 
     var submitElem = document.getElementById(uuid + "_password_submit");
     submitElem.onclick = checkPassword;
+
+    var inputElem = document.getElementById(uuid + "_password_input");
+    inputElem.onkeyup = function(e) {
+      e = window.e != null ? window.e : e;
+      keycode = e.which || e.keyCode;
+      if (keycode === 13) {
+        checkPassword();
+      } else {
+        var errorTextElem = document.getElementById(uuid + "_error_text");
+        errorTextElem.innerHTML = "&nbsp;";
+      }
+    };
   }
 
   function removeOverlay() {
