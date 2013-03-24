@@ -22,9 +22,12 @@ Wistia.plugin("chapters", function(video, options) {
     css += "max-height: " + (video.videoHeight() - 6) + "px;\n";
     css += "background: #fff;\n";
     css += "overflow: scroll;\n";
-    css += "border-top: 3px solid #" + video.params.playerColor + ";\n";
-    css += "border-right: 3px solid #" + video.params.playerColor + ";\n";
-    css += "border-bottom: 3px solid #" + video.params.playerColor + ";\n";
+    css += "border: 3px solid #" + video.params.playerColor + ";\n";
+    if (options.location == "left") {
+      css += "border-right: 0;\n";
+    } else {
+      css += "border-left: 0;\n";
+    }
     css += "}\n";
 
     css += "#" + uuid + " ul a {\n";

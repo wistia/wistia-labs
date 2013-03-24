@@ -3,18 +3,19 @@ window.jsProductionPath = 'fast.wistia.com/labs/chapters';
 
 function updateOutput() {
   var sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
-  var outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
+  window.outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
 
   if (sourceEmbedCode && sourceEmbedCode.isValid()) {
     // Set custom options on the embed code.
 
     // Add as many chapters as have been filled in
-    for (var i = 1; i <= 8; i++) {
-      if ($("#chapter_" + i.toString() + "_title").val() != "") {
-        outputEmbedCode.setOption("plugin.chapters.ch_" + i + "_title", $("#chapter_" + i + "_title").val());
-        outputEmbedCode.setOption("plugin.chapters.ch_" + i + "_time", $("#chapter_" + i + "_time").val());
+    $(".chapter_title_input").each(function(i) {
+      var j = i + 1;
+      if ($("#chapter_" + j + "_title").val() != "") {
+        outputEmbedCode.setOption("plugin.chapters.ch_" + j + "_title", $("#chapter_" + j + "_title").val());
+        outputEmbedCode.setOption("plugin.chapters.ch_" + j + "_time", $("#chapter_" + j + "_time").val());
       }
-    }
+    });
 
     outputEmbedCode.setOption("plugin.chapters.src", pluginSrc(sourceEmbedCode));
     outputEmbedCode.setOption("plugin.chapters.width", $("#chapters_width").val());
@@ -25,6 +26,16 @@ function updateOutput() {
     // Display the output.
     $("#output_embed_code").val(outputEmbedCode.toString());
     outputEmbedCode.previewInElem("preview");
+
+    var isIframe = Wistia.EmbedCode.isIframe(outputEmbedCode);
+    var isPopover = Wistia.EmbedCode.isPopover(outputEmbedCode);
+    var iframeSrcTooLong = isIframe && outputEmbedCode._rawSrc.length > 2000;
+    var popoverSrcTooLong = isPopover && outputEmbedCode._rawHref.length > 2000;
+    if (iframeSrcTooLong || popoverSrcTooLong) {
+      $("#alert").html("The options are too complex for " +
+        "this type of embed code. Please switch to an API or SEO embed code " +
+        "to ensure it will work on all browsers.").show();
+    }
 
   } else {
 
@@ -55,11 +66,20 @@ window.setupLabInterface = function($) {
       .on("change", "select", debounceUpdateOutput)
       .on("click", ":radio,:checkbox", debounceUpdateOutput);
   });
+
+  for (var i = 0; i < 3; i++){
+    generateChapter();
+  }
+
+  $("#add_another").click(function(event) {
+    event.preventDefault();
+    generateChapter();
+  });
 };
 
-var chapter_count = 1;
-function generate_chapter() {
-  num = chapter_count.toString();
+var chapterCount = 1;
+function generateChapter() {
+  num = chapterCount.toString();
   div = document.createElement('div');
   html = '<input id="chapter_' + num + '_title" type="text" value="Chapter ' + num + '" class="chapter_title_input"/>';
   html += ' @ ';
@@ -67,7 +87,7 @@ function generate_chapter() {
   div.innerHTML = html;
   document.getElementById('configure_chapters').appendChild(div);
   $('#chapter_' + num + '_time').timeatEntry();
-  chapter_count++;
+  chapterCount++;
 
   debounceUpdateOutput();
 }

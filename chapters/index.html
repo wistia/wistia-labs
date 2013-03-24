@@ -12,11 +12,6 @@
       loadRelativeCss(["style.css"]);
       loadRelativeScripts(["../lib/labtools.js", "plugin.js", "ui.js"], function() {
         setupLabInterface(jQuery);
-
-        for (var i = 0; i < 3; i++){
-          generate_chapter();
-        }
-
       });
     </script>
   </head>
@@ -86,7 +81,7 @@
                 <div id="configure_chapters">
                 </div>
                 <p>
-                  <a href="#" onclick="generate_chapter(); return false;">Add another</a>
+                  <a href="#" id="add_another">Add another</a>
                 </p>
               </div>
             </div>
