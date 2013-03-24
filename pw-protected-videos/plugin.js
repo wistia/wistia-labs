@@ -26,13 +26,16 @@ Wistia.plugin("passwordProtected", function(video, options) {
   })();
 
 
-  function loadVideoByHashedId(hashedId) {
+  function loadVideoByHashedId(hashedId, callback) {
     var errorTextElem = document.getElementById(uuid + "_error_text");
     errorTextElem.style.visibility = "visible";
     errorTextElem.innerHTML = "Loading the video...";
     Wistia.remote.media(hashedId, function(media) {
       video.replace(media, video.options);
       video.ready(removeOverlay);
+      if (callback) {
+        callback();
+      }
     });
   }
 
@@ -47,10 +50,13 @@ Wistia.plugin("passwordProtected", function(video, options) {
         var hashedId;
         if (hashedId = val.val()) {
           Wistia.localStorage(savedPasswordKey(), hashedPw);
-          loadVideoByHashedId(hashedId);
+          loadVideoByHashedId(hashedId, function() {
+            video.trigger("correct-password");
+          });
         } else if (options.showError) {
           errorTextElem.innerHTML = "That password is incorrect. Please try again.";
           errorTextElem.style.visibility = "visible";
+          video.trigger("invalid-password");
         }
       });
     });
