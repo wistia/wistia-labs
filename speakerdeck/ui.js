@@ -41,7 +41,6 @@ Prez = (function() {
       msg = "This will erase all your current slide timings. Are you sure you want this?";
       if (confirm(msg)) {
         _this.clearTimings();
-        _this.addTiming();
       }
       return false;
     });
@@ -198,6 +197,7 @@ Prez = (function() {
     });
     this.sortTimings();
     this.$timingsTable.show();
+    this.updateTimings();
     return this.alreadyTimed = true;
   };
 

@@ -31,7 +31,6 @@ class Prez
       msg = "This will erase all your current slide timings. Are you sure you want this?"
       if confirm(msg)
         @clearTimings()
-        @addTiming()
       false
 
     $('#timings').on 'keyup', 'input', => @updateTimings()
@@ -182,7 +181,7 @@ class Prez
 
     @$timingsTable.show()
 
-    # @updateTimings()
+    @updateTimings()
     @alreadyTimed = true
     
 
