@@ -5,7 +5,19 @@ function updateOutput() {
   var sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
   var outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
 
-  if (sourceEmbedCode && sourceEmbedCode.isValid()) {
+  if ($("#mode_all").is(":checked")) {
+    var options = {
+      src: pluginSrc(),
+      outsideIframe: true
+    };
+    if ($("#dim_color_white").is(":checked")) {
+      options.backgroundColor = $("#dim_color_white").val();
+    }
+    if ($("#auto_dim_off").is(":checked")) {
+      options.autoDim = false;
+    }
+    $("#output_embed_code").val(embedShepherdPluginCode("dimTheLights", options));
+  } else if (sourceEmbedCode && sourceEmbedCode.isValid()) {
 
     var isIframe = Wistia.EmbedCode.isIframe(outputEmbedCode) || Wistia.EmbedCode.isPopover(outputEmbedCode);
     outputEmbedCode.setOption("plugin.dimTheLights.src", pluginSrc(sourceEmbedCode));
@@ -75,6 +87,20 @@ window.setupLabInterface = function($) {
       });
     });
 
+    $("#mode_all").click(function() {
+      $(".paste_embed_code.jamjar").hide();
+      $(".instructions.jamjar .for_all").show();
+      $(".instructions.jamjar .for_one").hide();
+      $("#preview_area").hide();
+    });
+
+    $("#mode_one").click(function() {
+      $(".paste_embed_code.jamjar").show();
+      $(".instructions.jamjar .for_all").hide();
+      $(".instructions.jamjar .for_one").show();
+      $("#preview_area").show();
+    });
+
     if (!Wistia.localStorage("dimTheLights.cleared")) {
       showExample();
       $(".show_example_text").hide();
@@ -108,6 +134,8 @@ window.resetInterface = function() {
   $("#dim_color_black").attr("checked", "checked").keyup().change();
   $("#auto_dim_off").removeAttr("checked").keyup().change();
   $("#auto_dim_on").attr("checked", "checked").keyup().change();
+  $("#mode_all").removeAttr("checked").trigger("click").change();
+  $("#mode_one").attr("checked", "checked").trigger("click").change();
 };
 
 window.showExample = function() {
