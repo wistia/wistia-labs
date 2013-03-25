@@ -12,22 +12,27 @@ VideoFoam = (function() {
     this.iframeApiString = "\n<script src='//fast.wistia.com/static/iframe-api-v1.js'></script>";
     $("#configure").on("keyup", "input[type=text], textarea", function() {
       return _this.debounceUpdateOutput();
+    }).on("click", ":radio,:checkbox", function() {
+      return _this.debounceUpdateOutput();
+    }).on("change", "select", function() {
+      return _this.debounceUpdateOutput();
     });
   }
 
   VideoFoam.prototype.debounceUpdateOutput = function() {
-    var updateOutputTimeout;
-
-    clearTimeout("updateOutputTimeout");
-    return updateOutputTimeout = setTimeout(this.updateOutput, 500);
+    clearTimeout(this.updateOutputTimeout);
+    return this.updateOutputTimeout = setTimeout(this.updateOutput, 500);
   };
 
   VideoFoam.prototype.updateOutput = function() {
     var isIframe, isPopover;
 
+    clearTimeout(this.updateOutputTimeout);
     this.sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
     this.outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
-    if (this.sourceEmbedCode && this.sourceEmbedCode.isValid()) {
+    if ($("#mode_all").is(":checked")) {
+      return $("#output_embed_code").val("<script src=\"//fast.wistia.com/static/embed_shepherd-v1.js\"></script>\n<script>\nwistiaEmbeds.onFind(function(video) {\n  video.params.videoFoam = true;\n});\n</script>");
+    } else if (this.sourceEmbedCode && this.sourceEmbedCode.isValid()) {
       isIframe = Wistia.EmbedCode.isIframe(this.sourceEmbedCode);
       isPopover = Wistia.EmbedCode.isPopover(this.sourceEmbedCode);
       this.outputEmbedCode.setOption("videoFoam", true);
@@ -58,7 +63,7 @@ VideoFoam = (function() {
 
 window.setupLabInterface = function($) {
   return $(function() {
-    window.VideoFoam = new VideoFoam();
+    window.videoFoam = new VideoFoam();
     if (!Wistia.localStorage("videoFoam.cleared")) {
       showExample();
       $(".show_example_text").hide();
@@ -74,18 +79,32 @@ window.setupLabInterface = function($) {
       $(".clear_example_text").hide();
       return Wistia.localStorage("videoFoam.cleared", true);
     });
-    return $("#show_example").click(function(event) {
+    $("#show_example").click(function(event) {
       event.preventDefault();
       showExample();
       $(".show_example_text").hide();
       $(".clear_example_text").show();
       return Wistia.localStorage("videoFoam.cleared", false);
     });
+    $("#mode_all").click(function() {
+      $(".paste_embed_code.jamjar").hide();
+      $(".instructions.jamjar .for_all").show();
+      $(".instructions.jamjar .for_one").hide();
+      return $("#preview_area").hide();
+    });
+    return $("#mode_one").click(function() {
+      $(".paste_embed_code.jamjar").show();
+      $(".instructions.jamjar .for_all").hide();
+      $(".instructions.jamjar .for_one").show();
+      return $("#preview_area").show();
+    });
   });
 };
 
 window.resetInterface = function() {
-  return $("#source_embed_code").val("").keyup().change();
+  $("#source_embed_code").val("").keyup().change();
+  $("#mode_all").removeAttr("checked").trigger("click").change();
+  return $("#mode_one").attr("checked", "checked").trigger("click").change();
 };
 
 window.showExample = function() {

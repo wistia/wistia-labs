@@ -6,19 +6,31 @@ class VideoFoam
 
     $("#configure")
       .on("keyup", "input[type=text], textarea", => @debounceUpdateOutput())
+      .on("click", ":radio,:checkbox", => @debounceUpdateOutput())
+      .on("change", "select", => @debounceUpdateOutput())
 
   # Updating is kind of a heavy operation; we don't want to 
   # do it on every single keystroke.
   debounceUpdateOutput: =>
-    clearTimeout("updateOutputTimeout")
-    updateOutputTimeout = setTimeout(@updateOutput, 500)
+    clearTimeout(@updateOutputTimeout)
+    @updateOutputTimeout = setTimeout(@updateOutput, 500)
 
 
   updateOutput: =>
+    clearTimeout(@updateOutputTimeout)
     @sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val())
     @outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val())
 
-    if @sourceEmbedCode and @sourceEmbedCode.isValid()
+    if $("#mode_all").is(":checked")
+      $("#output_embed_code").val """
+      <script src="//fast.wistia.com/static/embed_shepherd-v1.js"></script>
+      <script>
+      wistiaEmbeds.onFind(function(video) {
+        video.params.videoFoam = true;
+      });
+      </script>
+      """
+    else if @sourceEmbedCode and @sourceEmbedCode.isValid()
       isIframe = Wistia.EmbedCode.isIframe(@sourceEmbedCode)
       isPopover = Wistia.EmbedCode.isPopover(@sourceEmbedCode)
       
@@ -53,7 +65,7 @@ class VideoFoam
 # run whatever initialization code we might need.
 window.setupLabInterface = ($) ->
   $(->
-    window.VideoFoam = new VideoFoam()
+    window.videoFoam = new VideoFoam()
     
     # Example Stuff
     if (!Wistia.localStorage("videoFoam.cleared"))
@@ -78,10 +90,25 @@ window.setupLabInterface = ($) ->
       $(".show_example_text").hide()
       $(".clear_example_text").show()
       Wistia.localStorage("videoFoam.cleared", false)
+
+    # Mode Switcher Stuff
+    $("#mode_all").click ->
+      $(".paste_embed_code.jamjar").hide()
+      $(".instructions.jamjar .for_all").show()
+      $(".instructions.jamjar .for_one").hide()
+      $("#preview_area").hide()
+
+    $("#mode_one").click ->
+      $(".paste_embed_code.jamjar").show()
+      $(".instructions.jamjar .for_all").hide()
+      $(".instructions.jamjar .for_one").show()
+      $("#preview_area").show()
   )
 
 window.resetInterface = ->
   $("#source_embed_code").val("").keyup().change()
+  $("#mode_all").removeAttr("checked").trigger("click").change()
+  $("#mode_one").attr("checked", "checked").trigger("click").change()
 
 
 window.showExample = ->
