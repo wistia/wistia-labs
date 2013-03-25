@@ -58,6 +58,37 @@ VideoFoam = (function() {
 
 window.setupLabInterface = function($) {
   return $(function() {
-    return window.VideoFoam = new VideoFoam();
+    window.VideoFoam = new VideoFoam();
+    if (!Wistia.localStorage("videoFoam.cleared")) {
+      showExample();
+      $(".show_example_text").hide();
+      $(".clear_example_text").show();
+    } else {
+      $(".show_example_text").show();
+      $(".clear_example_text").hide();
+    }
+    $("#clear_example").click(function(event) {
+      event.preventDefault();
+      resetInterface();
+      $(".show_example_text").show();
+      $(".clear_example_text").hide();
+      return Wistia.localStorage("videoFoam.cleared", true);
+    });
+    return $("#show_example").click(function(event) {
+      event.preventDefault();
+      showExample();
+      $(".show_example_text").hide();
+      $(".clear_example_text").show();
+      return Wistia.localStorage("videoFoam.cleared", false);
+    });
   });
+};
+
+window.resetInterface = function() {
+  return $("#source_embed_code").val("").keyup().change();
+};
+
+window.showExample = function() {
+  resetInterface();
+  return $("#source_embed_code").val("<iframe src=\"http://fast.wistia.net/embed/iframe/atnj7kek19?playerColor=81b7db&version=v1&videoHeight=304&videoWidth=540\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"540\" height=\"304\"></iframe>").keyup().change();
 };

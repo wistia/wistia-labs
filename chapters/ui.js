@@ -65,25 +65,51 @@ window.setupLabInterface = function($) {
       .on("keyup", "input[type=text], textarea", debounceUpdateOutput)
       .on("change", "select", debounceUpdateOutput)
       .on("click", ":radio,:checkbox", debounceUpdateOutput);
-  });
 
-  for (var i = 0; i < 3; i++){
-    generateChapter();
-  }
+    for (var i = 0; i < 3; i++){
+      generateChapter();
+    }
 
-  $("#add_another").click(function(event) {
-    event.preventDefault();
-    generateChapter();
+    $("#add_another").click(function(event) {
+      event.preventDefault();
+      generateChapter();
+    });
+
+    // Example stuff
+    if (!Wistia.localStorage("chapters.cleared")) {
+      showExample();
+      $(".show_example_text").hide();
+      $(".clear_example_text").show();
+    } else {
+      $(".show_example_text").show();
+      $(".clear_example_text").hide();
+    }
+
+    $("#clear_example").click(function(event) {
+      event.preventDefault();
+      resetInterface();
+      $(".show_example_text").show();
+      $(".clear_example_text").hide();
+      Wistia.localStorage("chapters.cleared", true);
+    });
+
+    $("#show_example").click(function(event) {
+      event.preventDefault();
+      showExample();
+      $(".show_example_text").hide();
+      $(".clear_example_text").show();
+      Wistia.localStorage("chapters.cleared", false);
+    });
   });
 };
 
 var chapterCount = 1;
-function generateChapter() {
+function generateChapter(title, time) {
   num = chapterCount.toString();
   div = document.createElement('div');
-  html = '<input id="chapter_' + num + '_title" type="text" value="Chapter ' + num + '" class="chapter_title_input"/>';
+  html = '<input id="chapter_' + num + '_title" type="text" value="' + (title || 'Chapter ' + num) + '" class="chapter_title_input" />';
   html += ' @ ';
-  html += '<input id="chapter_' + num + '_time" type="text" value="0" class="timeat chapter_time_input"/>';
+  html += '<input id="chapter_' + num + '_time" type="text" value="' + (time || 0) + '" class="timeat chapter_time_input"/>';
   div.innerHTML = html;
   document.getElementById('configure_chapters').appendChild(div);
   $('#chapter_' + num + '_time').timeatEntry();
@@ -91,3 +117,20 @@ function generateChapter() {
 
   debounceUpdateOutput();
 }
+
+window.resetInterface = function() {
+  $("#source_embed_code").val("").keyup().change();
+  $("#chapters_width").val("200px").keyup().change();
+  $("#chapters_location").val("right").keyup().change();
+  $("#chapters_show_timestamps").val("yes").keyup().change();
+  $(".chapter_time_input").parent().remove();
+};
+
+window.showExample = function() {
+  resetInterface();
+  $("#source_embed_code").val("<iframe src=\"http://fast.wistia.net/embed/iframe/c0bcb3b617?playerColor=81b7db&version=v1&videoHeight=304&videoWidth=540\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"540\" height=\"304\"></iframe>");
+  chapterCount = 1;
+  generateChapter("Hello", 5);
+  generateChapter("What's up?", 15);
+  generateChapter("Goodbye!", 40);
+};

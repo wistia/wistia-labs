@@ -211,6 +211,8 @@
     video.bind "heightchanged", positionElems
     bindEvent window, "resize", positionElems
 
+    video.bind "down", undim
+
 
     # Public interface.
     {

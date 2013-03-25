@@ -250,12 +250,15 @@ Wistia.plugin("passwordProtected", function(video, options) {
 
   // On load, show the overlay, and use the stored password if it's available.
   refreshOverlay();
-  var savedPassword;
-  if (savedPassword = Wistia.localStorage(savedPasswordKey())) {
-    loadVideoByPassword(savedPassword, {
-      seed: options.seed,
-      showError: false
-    });
+
+  if (!options || !options.dontSavePassword) {
+    var savedPassword;
+    if (savedPassword = Wistia.localStorage(savedPasswordKey())) {
+      loadVideoByPassword(savedPassword, {
+        seed: options.seed,
+        showError: false
+      });
+    }
   }
 
   // If the video dimensions change, update the overlay.

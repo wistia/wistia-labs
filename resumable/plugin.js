@@ -3,7 +3,7 @@ Wistia.plugin("resumable", function(video, options) {
   var uuid = Wistia.seqId("wistia_resumable");
     
   function resumableKey() {
-    return [video.params.pageUrl, video.hashedId(), "resume_time"];
+    return [video.params.pageUrl || location.href, video.hashedId(), "resume_time"];
   }
 
   function setTime(t) {  

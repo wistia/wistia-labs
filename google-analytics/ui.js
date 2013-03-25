@@ -86,5 +86,42 @@ window.setupLabInterface = function($) {
       }
     });
 
+    // Example stuff
+    if (!Wistia.localStorage("googleAnalytics.cleared")) {
+      showExample();
+      $(".show_example_text").hide();
+      $(".clear_example_text").show();
+    } else {
+      $(".show_example_text").show();
+      $(".clear_example_text").hide();
+    }
+
+    $("#clear_example").click(function(event) {
+      event.preventDefault();
+      resetInterface();
+      $(".show_example_text").show();
+      $(".clear_example_text").hide();
+      Wistia.localStorage("googleAnalytics.cleared", true);
+    });
+
+    $("#show_example").click(function(event) {
+      event.preventDefault();
+      showExample();
+      $(".show_example_text").hide();
+      $(".clear_example_text").show();
+      Wistia.localStorage("googleAnalytics.cleared", false);
+    });
+
   });
+};
+
+window.resetInterface = function() {
+  $("#source_embed_code").val("").keyup().change();
+  $("#mode_all").removeAttr("checked").trigger("click").change();
+  $("#mode_one").attr("checked", "checked").trigger("click").change();
+};
+
+window.showExample = function() {
+  resetInterface();
+  $("#source_embed_code").val("<iframe src=\"http://fast.wistia.net/embed/iframe/i58yer6i2f?playerColor=81b7db&version=v1&videoHeight=272&videoWidth=640\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"640\" height=\"272\"></iframe>").keyup().change();
 };

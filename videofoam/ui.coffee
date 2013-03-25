@@ -54,4 +54,37 @@ class VideoFoam
 window.setupLabInterface = ($) ->
   $(->
     window.VideoFoam = new VideoFoam()
+    
+    # Example Stuff
+    if (!Wistia.localStorage("videoFoam.cleared"))
+      showExample()
+      $(".show_example_text").hide()
+      $(".clear_example_text").show()
+    else
+      $(".show_example_text").show()
+      $(".clear_example_text").hide()
+    
+
+    $("#clear_example").click (event) ->
+      event.preventDefault()
+      resetInterface()
+      $(".show_example_text").show()
+      $(".clear_example_text").hide()
+      Wistia.localStorage("videoFoam.cleared", true)
+
+    $("#show_example").click (event) ->
+      event.preventDefault()
+      showExample()
+      $(".show_example_text").hide()
+      $(".clear_example_text").show()
+      Wistia.localStorage("videoFoam.cleared", false)
   )
+
+window.resetInterface = ->
+  $("#source_embed_code").val("").keyup().change()
+
+
+window.showExample = ->
+  resetInterface()
+  $("#source_embed_code").val("<iframe src=\"http://fast.wistia.net/embed/iframe/atnj7kek19?playerColor=81b7db&version=v1&videoHeight=304&videoWidth=540\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"540\" height=\"304\"></iframe>").keyup().change()
+

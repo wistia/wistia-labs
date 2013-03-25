@@ -167,9 +167,10 @@
     if (options.autoDim) {
       autoDimOn();
     }
-    video.bind("widthchange", positionElems);
-    video.bind("heightchange", positionElems);
+    video.bind("widthchanged", positionElems);
+    video.bind("heightchanged", positionElems);
     bindEvent(window, "resize", positionElems);
+    video.bind("down", undim);
     return {
       dim: dim,
       undim: undim,
