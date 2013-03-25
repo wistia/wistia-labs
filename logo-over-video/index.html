@@ -132,7 +132,20 @@
     <script>
       $(document).ready(function(){
         var wistia_logo = 'http://argo/white-on-transparent.png';
-        $('#source_embed_code').val('<iframe src="http://fast.wistia.net/embed/iframe/9zsi89huko?controlsVisibleOnLoad=true&version=v1&videoHeight=360&videoWidth=640&volumeControl=true" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" width="640" height="360"></iframe>');
+        //$('#source_embed_code').val('<iframe src="http://fast.wistia.net/embed/iframe/9zsi89huko?controlsVisibleOnLoad=true&version=v1&videoHeight=360&videoWidth=640&volumeControl=true" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" width="640" height="360"></iframe>');
+        $('#source_embed_code').val([
+          '<div id="wistia_9zsi89huko" class="wistia_embed" style="width:640px;height:360px;" data-video-width="640" data-video-height="360">&nbsp;</div>',
+          ['<', 'script charset="ISO-8859-1" src="http://fast.wistia.com/static/concat/E-v1.js"></script', '>'].join(''),
+          '<script>',
+          'wistiaEmbed = Wistia.embed("9zsi89huko", {',
+          'version: "v1",',
+          "videoWidth: 640,",
+          "videoHeight: 360,",
+          "volumeControl: true,",
+          "controlsVisibleOnLoad: true",
+          "});",
+          ["</script", ">"].join('')
+        ].join("\n"));
 
         $('#logo_grid_pos').val('right_inside');
         $('#logo_url').val(wistia_logo);
