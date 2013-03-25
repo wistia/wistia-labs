@@ -29,6 +29,20 @@
       elem = null
 
 
+  docHeight = ->
+    body = document.body
+    html = document.documentElement
+    Math.max(body.scrollHeight, body.offsetHeight,
+      html.clientHeight, html.scrollHeight, html.offsetHeight)
+
+
+  docWidth = ->
+    body = document.body
+    html = document.documentElement
+    Math.max(body.scrollWidth, body.offsetWidth,
+      html.clientWidth, html.scrollWidth, html.offsetWidth)
+
+
   W.plugin "dimTheLights", (video, options = {}) ->
 
     # Popovers are already dimmed.
@@ -48,16 +62,14 @@
       videoY = offset.top
       videoWidth = video.width()
       videoHeight = video.height()
-      docWidth = document.body.clientWidth
-      docHeight = document.body.clientHeight
 
       elems.left.style.width = "#{videoX}px"
-      elems.left.style.height = "#{docHeight}px"
+      elems.left.style.height = "#{docHeight()}px"
       elems.left.style.left = "0px"
       elems.left.style.top = "0px"
 
-      elems.right.style.width = "#{docWidth - videoX - videoWidth}px"
-      elems.right.style.height = "#{docHeight}px"
+      elems.right.style.width = "#{docWidth() - videoX - videoWidth}px"
+      elems.right.style.height = "#{docHeight()}px"
       elems.right.style.left = "#{videoX + videoWidth}px"
       elems.right.style.top = "0px"
 
@@ -67,7 +79,7 @@
       elems.top.style.top = "0px"
 
       elems.bottom.style.width = "#{videoWidth}px"
-      elems.bottom.style.height = "#{docHeight - videoY - videoHeight}px"
+      elems.bottom.style.height = "#{docHeight() - videoY - videoHeight}px"
       elems.bottom.style.left = "#{videoX}px"
       elems.bottom.style.top = "#{videoY + videoHeight}px"
 
