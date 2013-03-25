@@ -4,32 +4,16 @@
     <title>Mid-Roll Links</title>
     <link rel="stylesheet" href="http://wistia.com/labs/css/labs.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script src="http://wistia.github.com/demobin/javascripts/jquery.example.min.js"></script>
     <script src="http://fast.wistia.com/static/app-jquery-jquery_jamjar.js"></script>
+    <script src="http://fast.wistia.com/labs/lib/jquery.timeatentry.js"></script>
     <script src="http://fast.wistia.com/static/E-v1-dev.js"></script>
-    <script src="http://wistia.com/labs/lib/globalui.js"></script>
+    <script src="http://fast.wistia.com/labs/lib/globalui.js"></script>
     <script>
       loadRelativeCss(["style.css"]);
       loadRelativeScripts(["../lib/labtools.js", "plugin.js", "ui.js"], function() {
         setupLabInterface(jQuery);
       });
     </script>
-    <style>
-      .link_and_time_range_combo {
-        border: 10px solid #EEE;
-        margin: 15px 0;
-        padding: 15px;
-      }
-      #configure input.midroll { width: 200px; }
-      .entry_controls { text-align: center; }
-      .entry_controls a:hover { text-decoration: underline; }
-      .entry_controls span { color: #AAA; }
-      /* jamjar stylie! */
-      .paste_embed_code .jamjar_head { background-color: #757aff; }
-      .paste_embed_code .jamjar_foot { background-color: #676dde; }
-      .midrolls .jamjar_head { background-color: #61a8ff; } 
-      .midrolls .jamjar_foot { background-color: #4893f0; }
-    </style>
   </head>
   <body>
     <div id="nonfooter">
@@ -79,11 +63,15 @@
                   <label class="link_href">Link Address</label>
                   <input type="text" name="link_href" class="midroll"/>
 
-                  <label class="start">Start</label>
-                  <input type="text" name="start" class="midroll timeat"/>
-
-                  <label class="end">End</label>
-                  <input type="text" name="end" class="midroll timeat"/>
+                  <div class="timing">
+                    <div class="start_time">
+                      <label class="start">From</label>
+                      <input type="text" name="start" class="midroll" value="0" />
+                    </div><div class="end_time">
+                      <label class="end">To</label>
+                      <input type="text" name="end" class="midroll" value="0" />
+                    </div>
+                  </div>
                 </div>
                 <div class="note" style="margin-bottom:1em;">
                   <p style="margin-top: 0;">

@@ -143,17 +143,18 @@ midroll = (function() {
     $elem = $("#link_and_time_range_combo_template").clone();
     $elem.show().removeAttr("id");
     $(".midrolls .mid_roll_entries").append($elem);
+    $elem.find(".timing input").timeatEntry();
     return $elem;
   };
 
-  midroll.prototype.addMidrollData = function(link_text, link_href, start, end) {
+  midroll.prototype.addMidrollData = function(linkText, linkHref, start, end) {
     var $elem;
 
     $elem = this.addMidrollInput();
-    $elem.find("input[name=link_text]").val(link_text);
-    $elem.find("input[name=link_href]").val(link_href);
-    $elem.find("input[name=start]").val(start);
-    return $elem.find("input[name=end]").val(end);
+    $elem.find("input[name=link_text]").val(linkText);
+    $elem.find("input[name=link_href]").val(linkHref);
+    $elem.find("input[name=start]").val(start).triggerHandler("update");
+    return $elem.find("input[name=end]").val(end).triggerHandler("update");
   };
 
   midroll.prototype.removeAllInputs = function() {

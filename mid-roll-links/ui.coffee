@@ -99,33 +99,36 @@ class midroll
   # get the mid rolls data off the page
   midrollDataFromPage: ->
     result = []
-    $(".midrolls .link_and_time_range_combo").not("#link_and_time_range_combo_template").each (index, entry) =>
-      linkText = $(entry).find("input[name=link_text]").val()
-      linkHref = @maybeAddHttp $(entry).find("input[name=link_href]").val()
-      start = $(entry).find("input[name=start]").val()
-      end = $(entry).find("input[name=end]").val()
-      if linkText and linkHref and parseInt(start, 10) and end
-        result.push
-          linkText: linkText
-          linkHref: linkHref
-          start: parseInt(start, 10)
-          end: parseInt(end, 10)
-    return result
+    $(".midrolls .link_and_time_range_combo")
+      .not("#link_and_time_range_combo_template")
+      .each (index, entry) =>
+        linkText = $(entry).find("input[name=link_text]").val()
+        linkHref = @maybeAddHttp $(entry).find("input[name=link_href]").val()
+        start = $(entry).find("input[name=start]").val()
+        end = $(entry).find("input[name=end]").val()
+        if linkText and linkHref and parseInt(start, 10) and end
+          result.push
+            linkText: linkText
+            linkHref: linkHref
+            start: parseInt(start, 10)
+            end: parseInt(end, 10)
+    result
 
   # add another midroll input
   addMidrollInput: ->
     $elem = $("#link_and_time_range_combo_template").clone()
     $elem.show().removeAttr("id")
     $(".midrolls .mid_roll_entries").append($elem)
+    $elem.find(".timing input").timeatEntry()
     $elem
 
   # add new mid roll data
-  addMidrollData: (link_text, link_href, start, end) ->
+  addMidrollData: (linkText, linkHref, start, end) ->
     $elem = @addMidrollInput()
-    $elem.find("input[name=link_text]").val(link_text)
-    $elem.find("input[name=link_href]").val(link_href)
-    $elem.find("input[name=start]").val(start)
-    $elem.find("input[name=end]").val(end)
+    $elem.find("input[name=link_text]").val(linkText)
+    $elem.find("input[name=link_href]").val(linkHref)
+    $elem.find("input[name=start]").val(start).triggerHandler("update")
+    $elem.find("input[name=end]").val(end).triggerHandler("update")
 
   # for when we want to clear all inputs
   removeAllInputs: ->
