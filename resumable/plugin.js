@@ -178,8 +178,7 @@ Wistia.plugin("resumable", function(video, options) {
     setTime(0);
   });
 
-  video.bind("widthchanged", fit);
-  video.bind("heightchanged", fit);
+  video.bind("widthchange", fit).bind("heightchange", fit);
 
   return {
     key: resumableKey,
