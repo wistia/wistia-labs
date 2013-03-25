@@ -134,8 +134,8 @@ a.button.disabled, a.button.disabled:hover {
 }
 
 h1 {
-  background: url('speakerdeck_logo.png') no-repeat left center;
-  padding-left: 70px;
+#  background: url('speakerdeck_logo.png') no-repeat left center;
+#  padding-left: 70px;
 }
 
 .paste_embed_code .jamjar_head { background: #e0829c; }
