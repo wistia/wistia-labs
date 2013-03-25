@@ -1,0 +1,25 @@
+.paste_embed_code .jamjar_head {
+  background-color: #658ca6;
+}
+
+.paste_embed_code .jamjar_foot {
+  background-color: #57798f;
+}
+
+.password .jamjar_head {
+  background-color: #656985;
+}
+
+.password .jamjar_foot {
+  background-color: #54576e;
+}
+
+#source_embed_code {
+  height: 112px;
+  width: 250px;
+}
+
+#configure input[type=text] {
+  width: 250px;
+}
+

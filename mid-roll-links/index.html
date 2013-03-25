@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mid-Roll Links</title>
+    <link rel="stylesheet" href="http://wistia.com/labs/css/labs.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://fast.wistia.com/static/app-jquery-jquery_jamjar.js"></script>
+    <script src="http://fast.wistia.com/labs/lib/jquery.timeatentry.js"></script>
+    <script src="http://fast.wistia.com/static/E-v1-dev.js"></script>
+    <script src="http://fast.wistia.com/labs/lib/globalui.js"></script>
+    <script>
+      loadRelativeCss(["style.css"]);
+      loadRelativeScripts(["../lib/labtools.js", "plugin.js", "ui.js"], function() {
+        setupLabInterface(jQuery);
+      });
+    </script>
+  </head>
+  <body>
+    <div id="nonfooter">
+
+      <div id="header">
+        <div class="cols">
+          <div class="col1 col">
+            <h1>Mid-Roll Links</h1>
+          </div><div class="col2 col">
+            Direct your viewers to helpful content during your videos with
+            mid-roll links.
+            <br/>
+            <a href="#" name="see_example">Want to see a sick example?</a>
+          </div>
+        </div>
+      </div>
+
+
+      <div id="body" class="cols">
+        <div class="col1 col">
+          <div id="configure">
+
+
+            <!-- Paste Embed Code Section -->
+            <div class="jamjar paste_embed_code">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Paste embed code</div>
+              </div>
+              <div class="jamjar_body">
+                <div class="source_embed_code_field_pair field_pair">
+                  <p style="margin-top:0;">Get it from the SuperEmbed Builder.</p>
+                  <textarea name="source_embed_code" id="source_embed_code"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Midrolls section! -->
+            <div class="jamjar midrolls">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Mid-Rolls</div>
+              </div>
+              <div class="jamjar_body">
+                <div id="link_and_time_range_combo_template" class="link_and_time_range_combo" style="display:none;">
+                  <label class="link_text">Link Text</label>
+                  <input type="text" name="link_text" class="midroll"/>
+
+                  <label class="link_href">Link Address</label>
+                  <input type="text" name="link_href" class="midroll"/>
+
+                  <div class="timing">
+                    <div class="start_time">
+                      <label class="start">From</label>
+                      <input type="text" name="start" class="midroll" value="0" />
+                    </div><div class="end_time">
+                      <label class="end">To</label>
+                      <input type="text" name="end" class="midroll" value="0" />
+                    </div>
+                  </div>
+                </div>
+                <div class="note" style="margin-bottom:1em;">
+                  <p style="margin-top: 0;">
+                    <strong>Link Text</strong> is what will be shown, 
+                    <strong>Link Address</strong> is where the link will go,
+                    and <strong>start</strong> and <strong>end</strong> are
+                    the timings for the link.
+                  </p>
+                </div>
+                
+                <div class="mid_roll_entries"></div>
+
+                <div class="entry_controls">
+                  <a href="#" name="add_new">
+                    add new mid roll link
+                  </a>
+                  <span> or </span>
+                  <a href="#" name="remove_all">
+                    remove all
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div> <!-- #configure -->
+        </div><div class="col2 col">
+
+
+          <div id="results">
+            <div id="alert" style="display:none;"></div>
+            
+            <label>Your new embed code</label>
+            <textarea id="output_embed_code"></textarea><br/>
+            
+            <label>Here's how it will look</label>
+            <div id="preview">
+              <div id="placeholder_preview">Your video here</div>
+            </div>
+          </div> <!-- #results -->
+
+
+        </div> <!-- .col2 -->
+      </div> <!-- #body -->
+      <div id="footerpad">&nbsp;</div>
+    </div> <!-- #nonfooter -->
+    <div id="footer">&nbsp;</div>
+  </body>
+</html>

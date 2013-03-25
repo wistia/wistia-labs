@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Golden Ticket</title>
+    <link rel="stylesheet" href="http://wistia.com/labs/css/labs.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://fast.wistia.com/static/app-jquery-jquery_jamjar.js"></script>
+    <script src="http://fast.wistia.com/static/E-v1.js"></script>
+    <script src="http://wistia.com/labs/lib/globalui.js"></script>
+    <script>
+      loadRelativeCss(["style.css"]);
+    </script>
+  </head>
+  <body>
+    <div id="nonfooter">
+
+
+      <div id="header">
+        <div class="cols">
+          <div class="col1 col">
+            <h1>Golden Ticket</h1>
+          </div><div class="col2 col">
+            Synchronizes all Turnstile enabled videos across your entire site.
+          </div>
+        </div>
+      </div>
+
+
+      <div id="body" class="cols">
+        <div class="col1 col">
+          <div id="configure">
+
+
+            <!-- More Info Section -->
+            <div class="jamjar more_info">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Instructions</div>
+              </div>
+              <div class="jamjar_body">
+                <p style="margin-top:0;">
+                  Install the script to the right in the &lt;HEAD&gt;
+                  of all your website pages.
+                </p>
+                <p>
+                  Then, when a user enters their email address into a
+                  Turnstile gate, they will not be presented with an
+                  email gate on any other Turnstile enabled videos on
+                  your website.
+                </p>
+              </div>
+            </div>
+
+
+
+          </div> <!-- #configure -->
+        </div><div class="col2 col">
+
+
+          <div id="results">
+            <div id="alert" style="display:none;"></div>
+            
+            <label>Add the following code to the <strong>&lt;HEAD&gt;</strong> of all pages on your website</label>
+            <textarea id="output_embed_code">
+<script src="http://fast.wistia.com/static/embed_shepherd-v1.js"></script>
+<script>
+//<![CDATA[
+wistiaEmbeds.onFind(function(video) {
+  var email = Wistia.localStorage("golden-ticket");
+  if (email) {
+    video.setEmail(email);
+  }
+});
+wistiaEmbeds.bind("conversion", function(video, type, data) {
+  if (/^(pre|mid|post)-roll-email$/.test(type)) {
+    Wistia.localStorage("golden-ticket", data);
+    for (var i = 0; i < wistiaEmbeds.length; i++) {
+      wistiaEmbeds[i].setEmail(data);
+    }
+  }
+});
+//]]>
+</script></textarea><br/>
+
+
+        </div> <!-- .col2 -->
+      </div> <!-- #body -->
+      <div id="footerpad">&nbsp;</div>
+    </div> <!-- #nonfooter -->
+    <div id="footer">&nbsp;</div>
+
+  </body>
+</html>

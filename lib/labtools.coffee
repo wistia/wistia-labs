@@ -78,6 +78,15 @@
       this
 
 
+    # Shortcut to get a deeply nested object from the option hash.
+    #
+    # For example:
+    #
+    #     embedCode.getOption("plugin.coolThing.backgroundColor");
+    getOption: (key) ->
+      W.obj.get(@options(), key)
+
+
     # Extend the options hash starting at key. Extend recursively sets 
     # child elements from one javascript Object to another.
     #
@@ -470,6 +479,7 @@
 
     hashedId: (newHashedId) ->
       if newHashedId?
+        matches = @_embedCode.match(W.ApiEmbedCode.rhashedid)
         @parse(@_embedCode.replace(matches[0], matches[0].replace(@_hashedId, newHashedId)))
         this
       else
@@ -499,9 +509,6 @@
         this
       else
         @css('height')
-
-
-    hashedId: -> @_hashedId
 
 
     ssl: ->

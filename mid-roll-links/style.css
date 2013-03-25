@@ -1,0 +1,42 @@
+.paste_embed_code .jamjar_head {
+  background-color: #55C6FF;
+}
+
+.paste_embed_code .jamjar_foot {
+  background-color: #45B6FF;
+}
+
+.link_and_time_range_combo {
+  border: 10px solid #EEE;
+  margin: 15px 0;
+  padding: 15px;
+}
+
+#configure input[type=text] {
+  width: 250px;
+}
+#configure input.midroll { width: 200px; }
+.entry_controls { text-align: center; }
+.entry_controls a:hover { text-decoration: underline; }
+.entry_controls span { color: #AAA; }
+.paste_embed_code .jamjar_head { background-color: #757aff; }
+.paste_embed_code .jamjar_foot { background-color: #676dde; }
+.midrolls .jamjar_head { background-color: #61a8ff; } 
+.midrolls .jamjar_foot { background-color: #4893f0; }
+
+#source_embed_code {
+  height: 112px;
+  width: 250px;
+}
+
+.link_and_time_range_combo label {
+  display: block;
+}
+
+.timing .start_time, .timing .end_time {
+  display: inline-block;
+  *display: inline;
+  vertical-align: top;
+  width: 100px;
+  zoom: 1;
+}

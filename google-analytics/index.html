@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Google Analytics</title>
+    <link rel="stylesheet" href="http://wistia.com/labs/css/labs.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://fast.wistia.com/static/app-jquery-jquery_jamjar.js"></script>
+    <script src="http://wistia.com/labs/lib/jquery.timeatentry.js"></script>
+    <script src="http://fast.wistia.com/static/E-v1.js"></script>
+    <script src="http://fast.wistia.com/static/iframe-api-v1.js"></script>
+    <script src="http://wistia.com/labs/lib/globalui.js"></script>
+    <script src="http://fast.wistia.com/static/embed_shepherd-v1.js"></script>
+    <script>
+      loadRelativeCss(["style.css"]);
+      loadRelativeScripts(["../lib/labtools.js", "plugin.js", "ui.js"], function() {
+        setupLabInterface(jQuery);
+      });
+    </script>
+  </head>
+  <body>
+    <div id="nonfooter">
+
+
+      <div id="header">
+        <div class="cols">
+          <div class="col1 col">
+            <h1>Google Analytics</h1>
+          </div><div class="col2 col">
+            Track how much of a video is watched with Google Analytics.<br/><br/>
+            <span class="clear_example_text">
+              Play around with the example to see how it works,
+              then <a href="#" id="clear_example">clear it</a> and paste in your own 
+              embed code!
+            </span><span class="show_example_text" style="display:none;">
+              Just paste in a Wistia embed code and start customizing,
+              or <a href="#" id="show_example">show me an example</a>.
+            </span>
+          </div>
+        </div>
+      </div>
+
+
+      <div id="body" class="cols">
+        <div class="col1 col">
+          <div id="configure">
+
+            <!-- Mode Switcher -->
+            <div class="jamjar mode_switcher">
+              <div class="jamjar_head">
+                <div class="jamjar_title">One video or all of them?</div>
+              </div>
+              <div class="jamjar_body">
+                <p style="margin-top:0;">
+                  The Google Analytics plugin can target a single embed code of 
+                  your choosing, or all Wistia videos on a page.
+                </p>
+
+                <h3 style="margin-bottom:.25em;">What do you want to target?</h3>
+                <label>
+                  <input type="radio" name="mode" id="mode_one" checked="checked" />
+                  Just one video
+                </label><br/>
+                <label>
+                  <input type="radio" name="mode" id="mode_all" />
+                  All videos on the page
+                </label><br/>
+              </div>
+            </div>
+
+
+            <!-- Paste Embed Code Section -->
+            <div class="jamjar paste_embed_code">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Paste embed code</div>
+              </div>
+              <div class="jamjar_body">
+                <div class="source_embed_code_field_pair field_pair">
+                  <p style="margin-top:0;">Get it from the SuperEmbed Builder.</p>
+                  <textarea name="source_embed_code" id="source_embed_code"></textarea>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Instructions -->
+            <div class="jamjar instructions">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Instructions</div>
+              </div>
+              <div class="jamjar_body">
+                <p style="margin-top:0;">
+                  The Google Analytics script should already be on the page,
+                  such that the <em>_gaq</em> variable is set.
+                </p>
+                <p class="for_one">
+                  Paste your new embed code into your site and it will report
+                  the following events:
+                </p>
+                <p class="for_all" style="display:none;">
+                  Paste the embed code into the <em>&lt;head&gt;</em> of your site, 
+                  and all Wistia videos will report the following events:
+                </p>
+                <ul>
+                  <li>Video played</li>
+                  <li>25% Watched</li>
+                  <li>50% Watched</li>
+                  <li>75% Watched</li>
+                  <li>100% Watched</li>
+                </ul>
+              </div>
+            </div>
+
+
+          </div> <!-- #configure -->
+        </div><div class="col2 col">
+
+
+          <div id="results">
+            <div id="alert" style="display:none;"></div>
+            
+            <label>Your new embed code</label>
+            <textarea id="output_embed_code"></textarea><br/>
+            
+            <div id="preview_area">
+              <label>Here's how it will look</label>
+              <div id="preview">
+                <div id="placeholder_preview">Your video here</div>
+              </div>
+              <div id="event_notifications">
+                Try watching the video to see when we send data.
+                <div id="percent_watched"></div>
+                <ul class="events"></ul>
+              </div>
+            </div>
+          </div> <!-- #results -->
+
+
+        </div> <!-- .col2 -->
+      </div> <!-- #body -->
+      <div id="footerpad">&nbsp;</div>
+    </div> <!-- #nonfooter -->
+    <div id="footer">&nbsp;</div>
+
+  </body>
+</html>

@@ -1,0 +1,16 @@
+.more_info .jamjar_head {
+  background-color: #ffd633;
+}
+
+.more_info .jamjar_foot {
+  background-color: #fcca00;
+}
+
+#configure .jamjar_body {
+  color: #444;
+  font-size: 16px;
+}
+
+#output_embed_code {
+  height: 310px;
+}

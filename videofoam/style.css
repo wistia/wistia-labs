@@ -1,0 +1,16 @@
+.paste_embed_code .jamjar_head {
+  background-color: #55C6FF;
+}
+
+.paste_embed_code .jamjar_foot {
+  background-color: #45B6FF;
+}
+
+#source_embed_code {
+  height: 112px;
+  width: 250px;
+}
+
+#configure input[type=text] {
+  width: 250px;
+}

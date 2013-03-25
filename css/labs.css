@@ -94,6 +94,87 @@ textarea.example, input.example {
   margin-top: 0;
 }
 
+.button, button {
+  display: inline-block;
+  *display: inline;
+  vertical-align: top;
+  zoom: 1;
+  background-color: #e9e7e4;
+  border: 3px solid #d5d4d2;
+  color: #666666;
+  cursor: pointer;
+  font-family: Interstate, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 20px;
+  margin: 1px 0;
+  overflow: hidden;
+  padding: 5px 12px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  vertical-align: middle; }
+  .button:hover, .button.hover, button:hover, button.hover {
+    background-color: #e4e2de;
+    border-color: #d1d0cd;
+    color: #888888; }
+  .button:active, .button.active, button:active, button.active {
+    background-color: #dedcda;
+    border-color: #d1d0cd;
+    color: #777777; }
+
+a.lightbutton, button.light {
+  background-color: #f1efeb;
+  border-color: #e5e4e2;
+  color: #aaaaaa; }
+  a.lightbutton:hover, a.lightbutton.hover, button.light:hover, button.light.hover {
+    background-color: #edebe9;
+    border-color: #d5d4d2;
+    color: #888888; }
+  a.lightbutton:active, a.lightbutton.active, button.light:active, button.light.active {
+    background-color: #eae9e5;
+    border-color: #c5c4c2;
+    color: #777777; }
+
+a.darkbutton, button.dark {
+  background-color: #e9e7e4;
+  border-color: #d5d4d2;
+  color: #999999; }
+  a.darkbutton:hover, a.darkbutton.hover, button.dark:hover, button.dark.hover {
+    background-color: #e4e2de;
+    border-color: #d4d2ce;
+    color: #888888; }
+  a.darkbutton:active, a.darkbutton.active, button.dark:active, button.dark.active {
+    background-color: #dedcda;
+    border-color: #d1d0cd;
+    color: #777777; }
+
+.positive:hover, button.positive:hover, .positive.hover, button.positive.hover, .positive.selected, button.positive.selected {
+  background-color: #dff1a9;
+  border-color: #c3e16a;
+  color: #7fa827; }
+
+.positive:active, button.positive:active, .positive.active, button.positive.active, .positive.selected, button.positive.selected {
+  border-color: #b3d15a; }
+
+.negative, button.negative {
+  background-color: #f1efeb;
+  border-color: #e5e4e2;
+  color: #aaaaaa; }
+
+.negative:hover, button.negative:hover, .negative.hover, button.negative.hover {
+  background-color: #ffcda8;
+  border-color: #e7a87a;
+  color: #ba614a; }
+
+.negative:active, button.negative:active, .negative.active, button.negative.active {
+  border-color: #d7986a; }
+
+.disabled, .disabled:hover, .disabled:active, .disabled.hover, .disabled.active {
+  border-color: #c8c2b7;
+  background-color: #f1efeb;
+  color: #777777; }
+
 .jamjar {
   color: #666666;
   font-family: Interstate, Helvetica, Arial, sans-serif;

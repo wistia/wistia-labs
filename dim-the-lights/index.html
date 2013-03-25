@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dim the Lights</title>
+    <link rel="stylesheet" href="../css/labs.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://fast.wistia.com/static/app-jquery-jquery_jamjar.js"></script>
+    <script src="http://wistia.com/labs/lib/jquery.timeatentry.js"></script>
+    <script src="http://fast.wistia.com/static/E-v1.js"></script>
+    <script src="http://fast.wistia.com/static/embed_shepherd-v1.js"></script>
+    <script src="http://wistia.com/labs/lib/globalui.js"></script>
+    <script>
+      loadRelativeCss(["style.css"]);
+      loadRelativeScripts(["../lib/labtools.js", "plugin.js", "ui.js"], function() {
+        setupLabInterface(jQuery);
+      });
+    </script>
+  </head>
+  <body>
+    <div id="nonfooter">
+
+
+      <div id="header">
+        <div class="cols">
+          <div class="col1 col">
+            <h1>Dim the Lights</h1>
+          </div><div class="col2 col">
+            We call this lab Dim the Lights. It helps focus attention on your video by
+            dimming everything else on the page.<br/><br/>
+            <span class="clear_example_text">
+              Play around with the example to see how it works,
+              then <a href="#" id="clear_example">clear it</a> and paste in your own 
+              embed code!
+            </span><span class="show_example_text" style="display:none;">
+              Just paste in a Wistia embed code and start customizing,
+              or <a href="#" id="show_example">show me an example</a>.
+            </span>
+          </div>
+        </div>
+      </div>
+
+
+      <div id="body" class="cols">
+        <div class="col1 col">
+          <div id="configure">
+
+            <!-- Mode Switcher -->
+            <div class="jamjar mode_switcher">
+              <div class="jamjar_head">
+                <div class="jamjar_title">One video or all of them?</div>
+              </div>
+              <div class="jamjar_body">
+                <p style="margin-top:0;">
+                  The Google Analytics plugin can target a single embed code of 
+                  your choosing, or all Wistia videos on a page.
+                </p>
+
+                <h3 style="margin-bottom:.25em;">What do you want to target?</h3>
+                <label>
+                  <input type="radio" name="mode" id="mode_one" checked="checked" />
+                  Just one video
+                </label><br/>
+                <label>
+                  <input type="radio" name="mode" id="mode_all" />
+                  All videos on the page
+                </label><br/>
+              </div>
+            </div>
+
+            <!-- Paste Embed Code Section -->
+            <div class="jamjar paste_embed_code">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Paste embed code</div>
+              </div>
+              <div class="jamjar_body">
+                <div class="source_embed_code_field_pair field_pair">
+                  <p style="margin-top:0;">Get it from the SuperEmbed Builder.</p>
+                  <textarea name="source_embed_code" id="source_embed_code"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="jamjar dimming_options">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Dimmer Options</div>
+              </div>
+              <div class="jamjar_body">
+                <h3 style="margin-bottom:.25em;margin-top:0;">Dim to black or white?</h3>
+                <label><input type="radio" id="dim_color_black" name="dim_color" value="#000000" checked="checked" /> Black</label><br/>
+                <label><input type="radio" id="dim_color_white" name="dim_color" value="#ffffff" /> White</label><br/>
+
+                <h3 style="margin-bottom:.25em;">Auto-Dimming?</h3>
+                <label>
+                  <input type="radio" id="auto_dim_on" name="auto_dim" value="true" checked="checked" />
+                  Yes, dim on play and undim on pause
+                </label><br/>
+                <label>
+                  <input type="radio" id="auto_dim_off" name="auto_dim" value="false" />
+                  No, I'll control it with javascript
+                </label><br/>
+
+                <p id="manual_example" style="display:none;">
+                  You can dim manually by calling
+                  <a href="#" class="dim">wistiaEmbed.plugin.dimTheLights.dim()</a>.
+                </p>
+                <p id="auto_example">
+                  Play the video to dim the surroundings. Pause to bring the lights back up again!
+                </p>
+              </div>
+            </div>
+
+
+          </div> <!-- #configure -->
+        </div><div class="col2 col">
+
+
+          <div id="results">
+            <div id="alert" style="display:none;"></div>
+            
+            <label>Your new embed code</label>
+            <textarea id="output_embed_code"></textarea><br/>
+            
+            <div id="preview_area">
+              <label>Here's how it will look</label>
+              <div id="preview">
+                <div id="placeholder_preview">Your video here</div>
+              </div>
+            </div>
+          </div> <!-- #results -->
+
+
+        </div> <!-- .col2 -->
+      </div> <!-- #body -->
+      <div id="footerpad">&nbsp;</div>
+    </div> <!-- #nonfooter -->
+    <div id="footer">&nbsp;</div>
+
+  </body>
+</html>

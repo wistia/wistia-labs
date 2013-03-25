@@ -58,6 +58,9 @@
       $seconds.add($minutes).bind "keyup", updateOriginal
 
       # Initialize the UI from the original value.
-      updateVisibleTimeFromSeconds($original.val())
+      $original.bind "update", ->
+        updateVisibleTimeFromSeconds($original.val())
+
+      $original.triggerHandler "update"
 
 )(jQuery)
