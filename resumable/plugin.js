@@ -14,6 +14,18 @@ Wistia.plugin("resumable", function(video, options) {
     return Wistia.localStorage(resumableKey());
   }
 
+  function isDev() {
+   return location.port || location.domain === 'localhost' || location.domain === '127.0.0.1';
+  }
+
+  function pluginHost() {
+    if (isDev()) {
+      return "localhost:8000";
+    } else {
+      return "fast.wistia.com/labs/";
+    }
+  }
+
   function resumeCss() {
     return "" +
     "#" + uuid + " {\n" +
@@ -46,7 +58,7 @@ Wistia.plugin("resumable", function(video, options) {
     "zoom: 1;\n" +
     "}\n" +
     "#" + uuid + "_resume_play_arrow {\n" +
-    "background-image: url(http://localhost:8000/resumable/play-icon.png);\n" +
+    "background-image: url(http://" + pluginHost() + "/resumable/play-icon.png);\n" +
     "display: block;\n" +
     "height: 80px;\n" +
     "width: 80px;\n" +
