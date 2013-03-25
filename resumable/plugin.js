@@ -58,7 +58,7 @@ Wistia.plugin("resumable", function(video, options) {
     "zoom: 1;\n" +
     "}\n" +
     "#" + uuid + "_resume_play_arrow {\n" +
-    "background-image: url(http://" + pluginHost() + "/resumable/play-icon.png);\n" +
+    "background-image: url(" + Wistia.proto() + "//" + pluginHost() + "/resumable/play-icon.png);\n" +
     "display: block;\n" +
     "height: 80px;\n" +
     "width: 80px;\n" +
@@ -75,7 +75,7 @@ Wistia.plugin("resumable", function(video, options) {
     "zoom: 1;\n" +
     "}\n" +
     "#" + uuid + "_resume_skip_arrow {\n" +
-    "background-image: url(http://localhost:8000/resumable/skip-icon.png);\n" +
+    "background-image: url(" + Wistia.proto() + "//" + pluginHost() + "/resumable/skip-icon.png);\n" +
     "display: block;\n" +
     "height: 80px;\n" +
     "width: 80px;\n" +
