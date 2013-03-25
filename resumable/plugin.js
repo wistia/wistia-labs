@@ -29,12 +29,11 @@ Wistia.plugin("resumable", function(video, options) {
   function resumeCss() {
     return "" +
     "#" + uuid + " {\n" +
-    "background: #333;\n" +
     "background-color: rgba(48, 48, 48, 0.82);\n" +
     "box-shadow: rgba(0, 0, 0, 0.9) 0px 0px 218px 30px inset;\n" +
     "color: #fff;\n" +
     "display: inline-block;\n" +
-    "filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#80333333',endColorStr='#80333333');\n" +
+    "filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#e8333333',endColorStr='#e8333333');\n" +
     "font-family: 'Open Sans', Arial, sans-serif;\n" +
     "font-size: 19px;\n" +
     "font-weight: bold;\n" +
