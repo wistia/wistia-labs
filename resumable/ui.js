@@ -5,7 +5,10 @@ function updateOutput() {
   var sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
   var outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
 
-  if (sourceEmbedCode && sourceEmbedCode.isValid()) {
+  if ($("#mode_all").is(":checked")) {
+    var options = { src: pluginSrc() };
+    $("#output_embed_code").val(embedShepherdPluginCode("resumable", options));
+  } else if (sourceEmbedCode && sourceEmbedCode.isValid()) {
 
     // Set custom options on the embed code.
     outputEmbedCode.setOption("plugin.resumable.src", pluginSrc(sourceEmbedCode));
@@ -53,6 +56,22 @@ window.setupLabInterface = function($) {
       previewEmbed.plugin.resumable.showOverlay();
     });
 
+    // Mode Switcher Stuff
+    $("#mode_all").click(function() {
+      $(".paste_embed_code.jamjar").hide();
+      $(".instructions.jamjar .for_all").show();
+      $(".instructions.jamjar .for_one").hide();
+      $("#preview_area").hide();
+    });
+
+    $("#mode_one").click(function() {
+      $(".paste_embed_code.jamjar").show();
+      $(".instructions.jamjar .for_all").hide();
+      $(".instructions.jamjar .for_one").show();
+      $("#preview_area").show();
+    });
+
+
     // Example stuff
     if (!Wistia.localStorage("resumable.cleared")) {
       showExample();
@@ -89,10 +108,5 @@ window.resetInterface = function() {
 
 window.showExample = function() {
   resetInterface();
-  $("#source_embed_code").val("<iframe src=\"http://fast.wistia.net/embed/iframe/c0bcb3b617?playerColor=81b7db&version=v1&videoHeight=304&videoWidth=540\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"540\" height=\"304\"></iframe>");
-  $("#output_embed_code").val("<iframe src=\"http://fast.wistia.net/embed/iframe/fc5eec8d82?playerColor=81b7db&version=v1&videoHeight=304&videoWidth=540&plugin%5BpasswordProtected%5D%5Bsrc%5D=http%3A%2F%2Flocalhost%3A8000%2Fpw-protected-videos%2Fplugin.js&plugin%5BpasswordProtected%5D%5Bseed%5D=IbnTUGfO9hv1zklq4h9b&plugin%5BpasswordProtected%5D%5Bchallenge%5D=Enter%20the%20password%20to%20view%20this%20video\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"540\" height=\"304\"></iframe>");
-  var outputEmbedCode = Wistia.EmbedCode.parse($("#output_embed_code").val());
-  outputEmbedCode.previewInElem("preview");
-  $("#challenge").val("Enter the password to view this video.");
-  $("#password").val("wistia");
+  $("#source_embed_code").val("<iframe src=\"http://fast.wistia.net/embed/iframe/c0bcb3b617?playerColor=81b7db&version=v1&videoHeight=304&videoWidth=540\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"540\" height=\"304\"></iframe>").keyup().change();
 };

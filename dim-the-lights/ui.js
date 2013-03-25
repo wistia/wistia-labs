@@ -87,6 +87,7 @@ window.setupLabInterface = function($) {
       });
     });
 
+    // Mode Switcher Stuff
     $("#mode_all").click(function() {
       $(".paste_embed_code.jamjar").hide();
       $(".instructions.jamjar .for_all").show();

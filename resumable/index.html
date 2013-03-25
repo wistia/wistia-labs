@@ -43,6 +43,29 @@
         <div class="col1 col">
           <div id="configure">
 
+            <!-- Mode Switcher -->
+            <div class="jamjar mode_switcher">
+              <div class="jamjar_head">
+                <div class="jamjar_title">One video or all of them?</div>
+              </div>
+              <div class="jamjar_body">
+                <p style="margin-top:0;">
+                  The Resumable plugin can target a single embed code of 
+                  your choosing, or all Wistia videos on a page.
+                </p>
+
+                <h3 style="margin-bottom:.25em;">What do you want to target?</h3>
+                <label>
+                  <input type="radio" name="mode" id="mode_one" checked="checked" />
+                  Just one video
+                </label><br/>
+                <label>
+                  <input type="radio" name="mode" id="mode_all" />
+                  All videos on the page
+                </label><br/>
+              </div>
+            </div>
+
 
             <!-- Paste Embed Code Section -->
             <div class="jamjar paste_embed_code">
@@ -71,9 +94,11 @@
             <label>Your new embed code</label>
             <textarea id="output_embed_code"></textarea><br/>
             
-            <label>Here's how it will look</label>
-            <div id="preview">
-              <div id="placeholder_preview">Your video here</div>
+            <div id="preview_area">
+              <label>Here's how it will look</label>
+              <div id="preview">
+                <div id="placeholder_preview">Your video here</div>
+              </div>
             </div>
           </div> <!-- #results -->
 
