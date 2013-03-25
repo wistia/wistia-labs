@@ -145,8 +145,8 @@ Wistia.plugin("chapters", function(video, options) {
 
   showChapterList();
 
-  video.bind("widthchanged", refreshCss);
-  video.bind("heightchanged", refreshCss);
+  video.bind("widthchange", refreshCss);
+  video.bind("heightchange", refreshCss);
 
   // Return an object with a public interface
   // for the plugin, if you want.

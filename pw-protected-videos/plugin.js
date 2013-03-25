@@ -259,7 +259,7 @@ Wistia.plugin("passwordProtected", function(video, options) {
   }
 
   // If the video dimensions change, update the overlay.
-  video.bind("widthchanged", fit).bind("heightchanged", fit);
+  video.bind("widthchange", fit).bind("heightchange", fit);
 
   return {
     reprotect: function() {

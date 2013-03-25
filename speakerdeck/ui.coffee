@@ -125,7 +125,7 @@ class Prez
     return if $('#next_slide').hasClass('disabled')
 
     # if the video hasn't started yet, play it and bail
-    if window.previewEmbed.state() is 'unknown'
+    if window.previewEmbed.state() is 'beforeplay'
       window.previewEmbed.play()
       @addTiming(1,0)
     else

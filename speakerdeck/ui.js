@@ -141,7 +141,7 @@ Prez = (function() {
     if ($('#next_slide').hasClass('disabled')) {
       return;
     }
-    if (window.previewEmbed.state() === 'unknown') {
+    if (window.previewEmbed.state() === 'beforeplay') {
       window.previewEmbed.play();
       return this.addTiming(1, 0);
     } else {
