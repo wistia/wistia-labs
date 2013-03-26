@@ -254,8 +254,17 @@ function reloadOutputEmbed() {
       log(" *** Logo image loaded.");
       try {
         $grid.minimap.addItem('logo', e.target, [parseInt($('#logo_x_offset').val()), parseInt($('#logo_y_offset').val())]);
+
+        // Update the output embed code.
+        var init_mapping = $grid.minimap.posFor('logo');
+        updateOutputEmbedOptions({
+          'plugin.logoOverVideo.pos':     init_mapping.grid,
+          'plugin.logoOverVideo.xOffset': init_mapping.offset[0],
+          'plugin.logoOverVideo.yOffset': init_mapping.offset[1]
+        });
+
         $grid.minimap.on('logo-stop', function(e, mapping){
-          $('#logo_pos').val(mapping.grid);
+          // XXX: Deprecated.
           $('#logo_x_offset').val(mapping.offset[0]);
           $('#logo_y_offset').val(mapping.offset[1]);
 
@@ -281,7 +290,13 @@ function reloadOutputEmbed() {
 
     // Create preview embed.
     $("#output_embed_code").val(outputEmbedCode.toString());
-    outputEmbedCode.previewInElem('preview', {type: 'api'});
+    outputEmbedCode.previewInElem('preview', {type: 'api'}, function(){
+      // Set the initial logo position.
+      if (wistiaEmbed) {
+        var init_mapping = $grid.minimap.posFor('logo');
+        wistiaEmbed.plugin.logoOverVideo.pos(init_mapping.offset[0], init_mapping.offset[1], init_mapping.grid);
+      }
+    });
 
   } else {
     log(" !!! Error reloading from source embed!");
