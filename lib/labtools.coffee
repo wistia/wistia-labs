@@ -205,7 +205,8 @@
       pairs = []
       for i in [0...elem.attributes.length]
         attr = elem.attributes.item(i)
-        pairs.push "#{attr.nodeName.toLowerCase()}=\"#{attr.nodeValue}\""
+        if attr.nodeValue?
+          pairs.push "#{attr.nodeName.toLowerCase()}=\"#{attr.nodeValue}\""
       tag = elem.tagName.toLowerCase()
 
       contents = ""
