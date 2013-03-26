@@ -264,6 +264,13 @@ Wistia.plugin("passwordProtected", function(video, options) {
   // If the video dimensions change, update the overlay.
   video.bind("widthchange", fit).bind("heightchange", fit);
 
+  // We don't know when the font loads, and it looks horrible in 
+  // IE7 unless we fit after the font is ready. So let's just 
+  // spam `fit()`.
+  Wistia.timeout(video.uuid + "_pw_protected1", fit, 500)
+  Wistia.timeout(video.uuid + "_pw_protected2", fit, 1500)
+  Wistia.timeout(video.uuid + "_pw_protected3", fit, 4000)
+
   return {
     reprotect: function() {
       Wistia.localStorage(savedPasswordKey(), "");
