@@ -335,23 +335,21 @@ window.setupLabInterface = function($) {
     // Logo settings.
 
     // Logo image url.
-    $("#logo_url").on("keyup", function(){
+    $("#logo_url").on("blur", function(){
       log(" --- Logo image URL altered, updating.");
       replaceGridLogo();
       wistiaEmbed.plugin.logoOverVideo.setLogo($('#logo_url').val());
       updateOutputEmbedOption('plugin.logoOverVideo.logoUrl', $('#logo_url').val());
     });
 
-    // Logo link url.
-    $("#logo_link").on("keyup", function(){
+    // Logo link url and title.
+    $("#logo_link, #logo_title").on("blur", function(){
       log(" --- Logo link URL altered, updating.");
-      updateOutputEmbedOption('plugin.logoOverVideo.logoLink',  $('#logo_link').val());
-    });
-
-    // Logo link title.
-    $("#logo_title").on("keyup", function(){
-      log(" --- Logo link title altered, updating.");
-      updateOutputEmbedOption('plugin.logoOverVideo.logoTitle', $('#logo_title').val());
+      wistiaEmbed.plugin.logoOverVideo.setLink($('#logo_link').val(), $('#logo_title').val());
+      updateOutputEmbedOptions({
+        'plugin.logoOverVideo.logoLink':  $('#logo_link').val(),
+        'plugin.logoOverVideo.logoTitle': $('#logo_title').val()
+      });
     });
 
     // Logo opacity sliders
