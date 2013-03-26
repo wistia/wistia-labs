@@ -270,7 +270,7 @@ function updateOutput() {
       output_embed.setOption('plugin.logoOverVideo.hoverOpacity', parseFloat($('#logo_hover_opacity').val().slice(0,-1)) / 100.0);
 
       $("#output_embed_code").val(output_embed.toString());
-      output_embed.previewInElem('preview');
+      output_embed.previewInElem('preview', {type: 'api'});
 
       return output_embed;
     }
