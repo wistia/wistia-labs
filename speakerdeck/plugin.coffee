@@ -50,13 +50,13 @@ Wistia.plugin 'speakerdeck', (video, options) ->
     suppressSlideSyncTemporarily()
     speakerDeck.goToSlide(10000)
     setTimeout ->
-      numberOfSlides = speakerDeck.currentSlide.number if speakerDeck.currentSlide
+      numberOfSlides = speakerDeck.currentSlide?.number
       speakerDeck.goToSlide(1)
     , 10
 
     # bind to slide change
     speakerDeck.on('change', (slide) ->
-      slideChange(slide.number)
+      slideChange(slide.number) if slide
     )
 
     ready = true
@@ -79,7 +79,7 @@ Wistia.plugin 'speakerdeck', (video, options) ->
     t ?= video.time()
 
     slideNum = timings.slideForTime(t)
-    if speakerDeck.currentSlide.number isnt slideNum
+    if speakerDeck.currentSlide?.number isnt slideNum
       suppressSlideSyncTemporarily()
       speakerDeck.goToSlide(slideNum)
 
@@ -107,7 +107,7 @@ Wistia.plugin 'speakerdeck', (video, options) ->
   {
     updateTimings: updateTimings
     numberOfSlides: -> numberOfSlides
-    currentSlide: -> speakerDeck.currentSlide.number
+    currentSlide: -> speakerDeck.currentSlide?.number or 0
     ready: (callback) ->
       if ready
         callback()

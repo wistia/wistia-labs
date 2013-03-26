@@ -66,13 +66,15 @@ Wistia.plugin('speakerdeck', function(video, options) {
     suppressSlideSyncTemporarily();
     speakerDeck.goToSlide(10000);
     setTimeout(function() {
-      if (speakerDeck.currentSlide) {
-        numberOfSlides = speakerDeck.currentSlide.number;
-      }
+      var _ref;
+
+      numberOfSlides = (_ref = speakerDeck.currentSlide) != null ? _ref.number : void 0;
       return speakerDeck.goToSlide(1);
     }, 10);
     speakerDeck.on('change', function(slide) {
-      return slideChange(slide.number);
+      if (slide) {
+        return slideChange(slide.number);
+      }
     });
     ready = true;
     if (readyCallback) {
@@ -87,7 +89,7 @@ Wistia.plugin('speakerdeck', function(video, options) {
     }, 100);
   };
   updateSlideForTime = function(t) {
-    var slideNum;
+    var slideNum, _ref;
 
     if (!speakerDeck) {
       return;
@@ -96,7 +98,7 @@ Wistia.plugin('speakerdeck', function(video, options) {
       t = video.time();
     }
     slideNum = timings.slideForTime(t);
-    if (speakerDeck.currentSlide.number !== slideNum) {
+    if (((_ref = speakerDeck.currentSlide) != null ? _ref.number : void 0) !== slideNum) {
       suppressSlideSyncTemporarily();
       return speakerDeck.goToSlide(slideNum);
     }
@@ -119,7 +121,9 @@ Wistia.plugin('speakerdeck', function(video, options) {
       return numberOfSlides;
     },
     currentSlide: function() {
-      return speakerDeck.currentSlide.number;
+      var _ref;
+
+      return ((_ref = speakerDeck.currentSlide) != null ? _ref.number : void 0) || 0;
     },
     ready: function(callback) {
       if (ready) {
