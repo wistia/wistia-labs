@@ -200,13 +200,42 @@
     "#{if options.ssl then "https:" else "http:"}//#{W.constant.embedHost}/embed/medias/#{hashedId}?#{W.url.jsonToParams(options)}"
   
 
+  W.EmbedCode._attrWhitelist =
+    "allowfullscreen": true
+    "allowscriptaccess": true
+    "allowtransparency": true
+    "alt": true
+    "bgcolor": true
+    "charset": true
+    "class": true
+    "classid": true
+    "flashvars": true
+    "frameborder": true
+    "height": true
+    "href": true
+    "id": true
+    "name": true
+    "scrolling": true
+    "src": true
+    "style": true
+    "title": true
+    "type": true
+    "value": true
+    "width": true
+    "wmode": true
+
+
   W.EmbedCode.serializeElem = (elem) ->
     if elem.nodeType is 1
       pairs = []
       for i in [0...elem.attributes.length]
         attr = elem.attributes.item(i)
-        if attr.nodeValue? and attr.nodeValue isnt ""
-          pairs.push "#{attr.nodeName.toLowerCase()}=\"#{attr.nodeValue}\""
+        name = attr.nodeName.toLowerCase()
+        val = attr.nodeValue
+        isValidName = W.EmbedCode._attrWhitelist[name] or /^data-/.test(name)
+        isValidVal = val? and val isnt ""
+        if isValidName and isValidVal
+          pairs.push "#{name}=\"#{val}\""
       tag = elem.tagName.toLowerCase()
 
       contents = ""
