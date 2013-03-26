@@ -198,6 +198,25 @@
 
   W.EmbedCode.oembedUrl = (hashedId, options = {}) ->
     "#{if options.ssl then "https:" else "http:"}//#{W.constant.embedHost}/embed/medias/#{hashedId}?#{W.url.jsonToParams(options)}"
+  
+
+  W.EmbedCode.serializeElem = (elem) ->
+    if elem.nodeType is 1
+      pairs = []
+      for i in [0...elem.attributes.length]
+        attr = elem.attributes.item(i)
+        pairs.push "#{attr.nodeName.toLowerCase()}=\"#{attr.nodeValue}\""
+      tag = elem.tagName.toLowerCase()
+
+      contents = ""
+      for child in elem.childNodes
+        contents += W.EmbedCode.serializeElem(child)
+      if /^(br|hr|img|link|meta|input)$/i.test(tag)
+        "<#{tag} #{pairs.join(" ")} />"
+      else
+        "<#{tag} #{pairs.join(" ")}>#{contents}</#{tag}>"
+    else
+      elem.nodeValue
 
 
   # #### Parse an Embed Code
@@ -325,7 +344,8 @@
 
 
     toString: ->
-      @_embedCode.replace(/&amp;/g, "&")
+      result = "#{W.EmbedCode.serializeElem(@_$popover[0])}\n#{@_scripts.join("\n")}"
+      result.replace(/&amp;/g, "&")
 
 
   W.PopoverEmbedCode.parse = (embedCode) ->
@@ -400,7 +420,8 @@
 
 
     toString: ->
-      @_embedCode.replace(/&amp;/g, "&")
+      result = W.EmbedCode.serializeElem(@_$iframe[0])
+      result.replace(/&amp;/g, "&")
 
 
   W.IframeEmbedCode.parse = (embedCode) ->
@@ -529,6 +550,11 @@
         width: @width()
       , @options(), options
       W.EmbedCode.fromOembed(@hashedId(), options, callback)
+
+
+    toString: ->
+      result = "#{W.EmbedCode.serializeElem(@_containerElem[0])}\n#{@_scripts.join("\n")}"
+      result.replace(/&amp;/g, "&")
 
 
   W.ApiEmbedCode.parse = (embedCode) ->
