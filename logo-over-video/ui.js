@@ -60,6 +60,16 @@ function MiniMap(elem, embed){
     this._objects = {};
   };
 
+  // Check to see if the specified element is in the set of objects being
+  // tracked by this minimap.
+  this.hasItem = function(name){
+    if (this._objects[name]) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   // Add a draggable element to the grid. The dimensions of this element will
   // be scaled using the relative size difference between the grid and embed.
   // The offset coordinates will also be re-scaled appropriately.
@@ -177,91 +187,6 @@ function MiniMap(elem, embed){
   };
 }
 
-// TODO: Refactor!
-var logo_minimap;
-
-// ---- Initialize UI grid for logo placement.
-function updateLogoGrid(oembed, callback){
-  // Initialize the video grid, if necessary.
-  if (logo_minimap === undefined) {
-    logo_minimap = new MiniMap($('#wlov-grid')[0], oembed);
-
-    // Add an event handler to update the input fields.
-    logo_minimap.on('logo-stop', function(e, mapping){
-      $('#logo_pos').val(mapping.grid);
-      $('#logo_x_offset').val(mapping.offset[0]);
-      $('#logo_y_offset').val(mapping.offset[1]);
-
-      // Update the output embed code.
-      oembed.setOption('plugin.logoOverVideo.pos',     mapping.grid);
-      oembed.setOption('plugin.logoOverVideo.xOffset', mapping.offset[0]);
-      oembed.setOption('plugin.logoOverVideo.yOffset', mapping.offset[1]);
-      $("#output_embed_code").val(oembed.toString());
-
-      if (wistiaEmbed !== undefined) {
-        wistiaEmbed.plugin.logoOverVideo.pos(mapping.offset[0], mapping.offset[1], mapping.grid);
-      }
-    });
-  } else {
-    logo_minimap.clear();
-  }
-
-  // Create the logo image element.
-  var $logo = $('<img/>');
-
-  // Bind a handler to the load event.
-  $logo.load(function(e){
-    // Set the logo dimension text fields.
-    $('#logo_height').val(e.target.height);
-    $('#logo_width').val(e.target.width);
-
-    // Execute the callback to finish loading behavior.
-    callback();
-
-    // Add the logo element to the draggable grid.
-    logo_minimap.addItem('logo', e.target, [parseInt($('#logo_x_offset').val()), parseInt($('#logo_y_offset').val())]);
-  });
-
-  // Set the src to trigger image loading.
-  $logo.attr('src', $('#logo_url').val());
-}
-
-function updateOutput() {
-  var sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
-  var outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
-
-  if (sourceEmbedCode && sourceEmbedCode.isValid()) {
-
-    // TODO: refactor me
-    function finishUpdate(output_embed) {
-      // Set custom options on the embed code.
-      output_embed.setOption('plugin.logoOverVideo.src',          'http://argo/logo-over-video/plugin.js');
-      output_embed.setOption('plugin.logoOverVideo.debug',        true);
-      output_embed.setOption('plugin.logoOverVideo.logoUrl',      $('#logo_url').val());
-      output_embed.setOption('plugin.logoOverVideo.logoLink',     $('#logo_link').val());
-      output_embed.setOption('plugin.logoOverVideo.logoTitle',    $('#logo_title').val());
-
-      $("#output_embed_code").val(output_embed.toString());
-      output_embed.previewInElem('preview', {type: 'api'});
-
-      return output_embed;
-    }
-    
-    // Update the logo grid, then trigger a full refresh.
-    updateLogoGrid(outputEmbedCode, function(){
-      finishUpdate(outputEmbedCode);
-    });
-
-  } else {
-
-    // Show an error if invalid. We can be more specific 
-    // if we expect a certain problem.
-    $("#output_embed_code").val("Please enter a valid Wistia embed code.");
-    $("#preview").html('<div id="placeholder_preview">Your video here</div>');
-  }
-}
-
-
 // Updating is kind of a heavy operation; we don't want to 
 // do it on every single keystroke.
 var updateOutputTimeout;
@@ -270,6 +195,7 @@ function debounceUpdateOutput() {
   updateOutputTimeout = setTimeout(updateOutput, 500);
 }
 
+// Update a single embed code option.
 function updateOutputEmbedOption(option, value) {
   var outputEmbedCode = Wistia.EmbedCode.parse($("#output_embed_code").val());
   if (outputEmbedCode && outputEmbedCode.isValid()) {
@@ -279,23 +205,100 @@ function updateOutputEmbedOption(option, value) {
   }
 };
 
+// Bulk update of embed code options and textarea.
+function updateOutputEmbedOptions(options) {
+  var outputEmbedCode = Wistia.EmbedCode.parse($("#output_embed_code").val());
+  if (outputEmbedCode && outputEmbedCode.isValid()) {
+    log("Updating output embed options:", options);
+    for (k in options) {
+      outputEmbedCode.setOption(k, options[k]);
+    }
+    $("#output_embed_code").val(outputEmbedCode.toString());
+  }
+};
+
+// Reload the output embed and re-initialize the plugin.
+function reloadOutputEmbed() {
+  log(" >>> Reloading output embed from source embed code.")
+  var outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
+
+  if (outputEmbedCode && outputEmbedCode.isValid()) {
+
+    // Set the base options.
+    outputEmbedCode.setOption('plugin.logoOverVideo.src',       pluginSrc(outputEmbedCode));
+    outputEmbedCode.setOption('plugin.logoOverVideo.debug',     true);
+
+    // TODO: Migrate these options.
+    outputEmbedCode.setOption('plugin.logoOverVideo.logoUrl',   $('#logo_url').val());
+    outputEmbedCode.setOption('plugin.logoOverVideo.logoLink',  $('#logo_link').val());
+    outputEmbedCode.setOption('plugin.logoOverVideo.logoTitle', $('#logo_title').val());
+
+    // Update the MiniMap.
+    var $grid = $('#wlov-grid')[0];
+
+    if (!$grid.minimap) {
+      log(" --- Initializing the MiniMap.");
+      $grid.minimap = new MiniMap($grid, outputEmbedCode);
+    } else {
+      log(" --- Clearing the MiniMap.");
+      // TODO: Make sure this behaves sanely.
+      $grid.minimap.clear();
+    }
+
+    // XXX: Move this!
+    // Create the logo image element.
+    var $logo = $('<img/>');
+
+    // Bind a handler to the load event.
+    $logo.load(function(e){
+      log(" *** Logo image loaded.");
+      try {
+        $grid.minimap.addItem('logo', e.target, [parseInt($('#logo_x_offset').val()), parseInt($('#logo_y_offset').val())]);
+        $grid.minimap.on('logo-stop', function(e, mapping){
+          $('#logo_pos').val(mapping.grid);
+          $('#logo_x_offset').val(mapping.offset[0]);
+          $('#logo_y_offset').val(mapping.offset[1]);
+
+          // Update the output embed code.
+          updateOutputEmbedOptions({
+            'plugin.logoOverVideo.pos':     mapping.grid,
+            'plugin.logoOverVideo.xOffset': mapping.offset[0],
+            'plugin.logoOverVideo.yOffset': mapping.offset[1]
+          });
+
+          if (wistiaEmbed !== undefined) {
+            wistiaEmbed.plugin.logoOverVideo.pos(mapping.offset[0], mapping.offset[1], mapping.grid);
+          }
+        });
+
+      } catch (err) {
+        log("Minimap logo add error.", err);
+      }
+    });
+
+    // Set the src to trigger image loading.
+    $logo.attr('src', $('#logo_url').val());
+
+    // Create preview embed.
+    $("#output_embed_code").val(outputEmbedCode.toString());
+    outputEmbedCode.previewInElem('preview', {type: 'api'});
+
+  } else {
+    log(" !!! Error reloading from source embed!");
+  }
+}
+
 // Assign all DOM bindings on doc-ready in here. We can also 
 // run whatever initialization code we might need.
 window.setupLabInterface = function($) {
   $(function() {
-    // Update the output whenever a configuration input changes.
-    $("#configure")
-      .on("keyup", "input[type=text], textarea", debounceUpdateOutput)
-      .on("change", "select", debounceUpdateOutput)
-      .on("click", ":radio,:checkbox", debounceUpdateOutput);
-  });
 
-  $(function() {
     /////////////////////
     // Source embed code.
     // TODO: Only trigger if the keyup coincides with a change.
     $("#source_embed_code").on("keyup", function(){
       log(" --- Source embed code altered, refreshing.");
+      reloadOutputEmbed();
     });
 
     /////////////////////
@@ -307,16 +310,19 @@ window.setupLabInterface = function($) {
     // Logo image url.
     $("#logo_url").on("keyup", function(){
       log(" --- Logo image URL altered, updating.");
+      updateOutputEmbedOption('plugin.logoOverVideo.logoTitle', $('#logo_url').val());
     });
 
     // Logo link url.
     $("#logo_link").on("keyup", function(){
       log(" --- Logo link URL altered, updating.");
+      updateOutputEmbedOption('plugin.logoOverVideo.logoLink',  $('#logo_link').val());
     });
 
     // Logo link title.
     $("#logo_title").on("keyup", function(){
       log(" --- Logo link title altered, updating.");
+      updateOutputEmbedOption('plugin.logoOverVideo.logoTitle', $('#logo_title').val());
     });
 
     // Logo opacity sliders
