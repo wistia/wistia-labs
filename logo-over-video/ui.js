@@ -1,7 +1,7 @@
 window.jsFileName = 'plugin.js';
-window.jsProductionPath = 'fast.wistia.com/labs/logo-over-video';
+//window.jsProductionPath = 'fast.wistia.com/labs/logo-over-video';
+window.jsProductionPath = 'argo/logo-over-video';
 
-Math.PHI = 1.6180339887505;
 var debug = true;
 
 // A reasonably safe log function.
@@ -26,13 +26,6 @@ function log(){
 //
 function MiniMap(elem, embed){
   var self = this;
-  // Internal variables.
-  this._grid_map = {
-    'minimap-object-ti': 'top_inside',
-    'minimap-object-ri': 'right_inside',
-    'minimap-object-bi': 'bottom_inside',
-    'minimap-object-li': 'left_inside',
-  };
   this._objects = {};
   this._elem = elem;
   this._embed = embed;
@@ -99,46 +92,83 @@ function MiniMap(elem, embed){
 
     // Add draggable functionality and events.
     $(elem).draggable({
-      containment: 'parent', //this._elem, //'.wlov-contain',
+      containment: 'parent',
       scroll: false,
-      //grid:   this._grid_dimensions,
-      //drag: function(e){ $(self).trigger(name + '-' + 'drag',  self.posFor(name));
-
-      //  var pos = self.posFor(name);
-      //  log("DRAG:", pos.offset);
-      //  var px = pos.offset[0];
-      //  var py = pos.offset[1];
-      //  var bx = self._base_width;
-      //  var by = self._base_height;
-
-      //  var mxf = Math.pow(Math.PHI, 1);
-      //  var myf = Math.pow(Math.PHI, 2);
-
-      //  var xl1 = bx / mxf;
-      //  var xl2 = bx - (bx / mxf);
-      //  var yl1 = by / myf;
-      //  var yl2 = by - (by / myf);
-      //  console.log("LIMITS:", Math.round(xl1), Math.round(xl2), Math.round(yl1), Math.round(yl2));
-
-      //  $('#wlov-inner-containment').css({
-      //    'top':    Math.round(yl2/2) + 'px',
-      //    'left':   Math.round(xl2/2) + 'px',
-      //    'width':  Math.round(xl1) + 'px',
-      //    'height': Math.round(yl1) + 'px',
-      //  });
-
-      //},
       start:  function(e){ $(self).trigger(name + '-' + 'start', self.posFor(name)); },
       stop:   function(e){ $(self).trigger(name + '-' + 'stop',  self.posFor(name)); }
     });
+  };
+
+  // Retrieve the video grid corner to use for this object.
+  this.videoGrid = function(name) {
+    // Find the coordinate offset of the center.
+    var c_off = this.centerOf(name);
+
+    var xo = c_off[0];
+    var yo = c_off[1];
+
+    var x0 = this._base_width / 2;
+    var y0 = this._base_height / 2;
+
+    // Find the right quadrant.
+    var quadrant = null;
+    if ( (xo <= x0) && (yo <= y0) ){
+      quadrant = 'top_inside';
+    } else if ( (xo > x0) && (yo <= y0) ){
+      quadrant = 'right_inside';
+    } else if ( (xo > x0) && (yo > y0) ){
+      quadrant = 'bottom_inside';
+    } else if ( (xo <= x0) && (yo > y0) ){
+      quadrant = 'left_inside';
+    }
+
+    return quadrant;
+  };
+
+  // Retrieve the centroid coordinate for a minimap object.
+  this.centerOf = function(name) {
+    log("Finding center coordinate:", name);
+    var off_xy = [$(this._objects[name]).css('left'), $(this._objects[name]).css('top')].map(function(x){ return parseInt(x.slice(0, -2)); });
+    var size_xy = [$(this._objects[name]).css('width'), $(this._objects[name]).css('height')].map(function(x){ return parseInt(x.slice(0, -2)); });
+    log(off_xy, size_xy);
+
+    // Return the offset of the object's center.
+    return [off_xy[0] + (size_xy[0] / 2), off_xy[1] + (size_xy[1] / 2)];
   };
 
   // TODO: refactor me!
   // Retrieve the embed position mapping for the item.
   this.posFor = function(name) {
     var base_coord = [$(this._objects[name]).css('left'), $(this._objects[name]).css('top')].map(function(x){ return parseInt(x.slice(0, -2)); });
-    base_coord[0] = this._base_width - (base_coord[0] + $(this._objects[name]).width());
-    return { grid: 'right_inside', offset: [ Math.round(base_coord[0] / this._x_scale), Math.round(base_coord[1] / this._y_scale)] };
+    //base_coord[0] = this._base_width - (base_coord[0] + $(this._objects[name]).width());
+
+    var grid_pos = this.videoGrid(name);
+    var off_c = [];
+
+    // Transform offsets based on grid position.
+    switch(grid_pos){
+      case 'top_inside':
+        //base_coord[0] = this._base_width - (base_coord[0] + $(this._objects[name]).width());
+        off_c = [ Math.round(base_coord[0] / this._x_scale), Math.round(base_coord[1] / this._y_scale)];
+        break;
+      case 'right_inside':
+        base_coord[0] = this._base_width - (base_coord[0] + $(this._objects[name]).width());
+        off_c = [ Math.round(base_coord[0] / this._x_scale), Math.round(base_coord[1] / this._y_scale)];
+        break;
+      case 'bottom_inside':
+        base_coord[0] = this._base_width - (base_coord[0] + $(this._objects[name]).width());
+        base_coord[1] = this._base_height - base_coord[1] - $(this._objects[name]).height();
+        off_c = [ Math.round(base_coord[0] / this._x_scale), Math.round(base_coord[1] / this._y_scale)];
+        break;
+      case 'left_inside':
+        //base_coord[0] = -1 * (base_coord[0] + $(this._objects[name]).width());
+        base_coord[1] = this._base_height - base_coord[1] - $(this._objects[name]).height();
+        off_c = [ Math.round(base_coord[0] / this._x_scale), Math.round(base_coord[1] / this._y_scale)];
+        break;
+    };
+
+    // Return the video grid position and the properly transformed offset coordinates.
+    return { grid: grid_pos, offset: off_c };
   };
 
   // Add event handlers for movement.
@@ -158,13 +188,18 @@ function updateLogoGrid(oembed, callback){
 
     // Add an event handler to update the input fields.
     logo_minimap.on('logo-stop', function(e, mapping){
+      $('#logo_pos').val(mapping.grid);
       $('#logo_x_offset').val(mapping.offset[0]);
       $('#logo_y_offset').val(mapping.offset[1]);
 
+      // Update the output embed code.
+      oembed.setOption('plugin.logoOverVideo.pos',     mapping.grid);
+      oembed.setOption('plugin.logoOverVideo.xOffset', mapping.offset[0]);
+      oembed.setOption('plugin.logoOverVideo.yOffset', mapping.offset[1]);
+      $("#output_embed_code").val(oembed.toString());
+
       if (wistiaEmbed !== undefined) {
-        wistiaEmbed.plugin.logoOverVideo.pos(mapping.offset[0], mapping.offset[1]);
-      } else {
-        //updateOutput();
+        wistiaEmbed.plugin.logoOverVideo.pos(mapping.offset[0], mapping.offset[1], mapping.grid);
       }
     });
   } else {
@@ -200,28 +235,21 @@ function updateOutput() {
     // TODO: refactor me
     function finishUpdate(output_embed) {
       // Set custom options on the embed code.
-      //var oe = output_embed;
-      output_embed.setOption('plugin.logoOverVideo.src',          pluginSrc(sourceEmbedCode));
+      output_embed.setOption('plugin.logoOverVideo.src',          'http://argo/logo-over-video/plugin.js');
       output_embed.setOption('plugin.logoOverVideo.debug',        true);
-      output_embed.setOption('plugin.logoOverVideo.pos',          $('#logo_pos').val());
-      output_embed.setOption('plugin.logoOverVideo.xOffset',      parseInt($('#logo_x_offset').val()));
-      output_embed.setOption('plugin.logoOverVideo.yOffset',      parseInt($('#logo_y_offset').val()));
       output_embed.setOption('plugin.logoOverVideo.logoUrl',      $('#logo_url').val());
       output_embed.setOption('plugin.logoOverVideo.logoLink',     $('#logo_link').val());
       output_embed.setOption('plugin.logoOverVideo.logoTitle',    $('#logo_title').val());
-      output_embed.setOption('plugin.logoOverVideo.opacity',      parseFloat($('#logo_opacity').val().slice(0,-1)) / 100.0);
-      output_embed.setOption('plugin.logoOverVideo.hoverOpacity', parseFloat($('#logo_hover_opacity').val().slice(0,-1)) / 100.0);
+
+      $("#output_embed_code").val(output_embed.toString());
+      output_embed.previewInElem('preview', {type: 'api'});
 
       return output_embed;
     }
     
     // Update the logo grid, then trigger a full refresh.
     updateLogoGrid(outputEmbedCode, function(){
-      // Display the output.
-      $("#output_embed_code").val(outputEmbedCode.toString());
-      var api_preview_embed = outputEmbedCode.previewInElem('preview', { type: 'api' }, function(){
-        log("In callback!!!", this);
-      });
+      finishUpdate(outputEmbedCode);
     });
 
   } else {
@@ -242,6 +270,14 @@ function debounceUpdateOutput() {
   updateOutputTimeout = setTimeout(updateOutput, 500);
 }
 
+function updateOutputEmbedOption(option, value) {
+  var outputEmbedCode = Wistia.EmbedCode.parse($("#output_embed_code").val());
+  if (outputEmbedCode && outputEmbedCode.isValid()) {
+    log("Updating output embed option:", option, value);
+    outputEmbedCode.setOption(option, value);
+    $("#output_embed_code").val(outputEmbedCode.toString());
+  }
+};
 
 // Assign all DOM bindings on doc-ready in here. We can also 
 // run whatever initialization code we might need.
@@ -255,7 +291,35 @@ window.setupLabInterface = function($) {
   });
 
   $(function() {
-    // Logo UI interactions.
+    /////////////////////
+    // Source embed code.
+    // TODO: Only trigger if the keyup coincides with a change.
+    $("#source_embed_code").on("keyup", function(){
+      log(" --- Source embed code altered, refreshing.");
+    });
+
+    /////////////////////
+    // Logo placement.
+
+    /////////////////////
+    // Logo settings.
+
+    // Logo image url.
+    $("#logo_url").on("keyup", function(){
+      log(" --- Logo image URL altered, updating.");
+    });
+
+    // Logo link url.
+    $("#logo_link").on("keyup", function(){
+      log(" --- Logo link URL altered, updating.");
+    });
+
+    // Logo link title.
+    $("#logo_title").on("keyup", function(){
+      log(" --- Logo link title altered, updating.");
+    });
+
+    // Logo opacity sliders
     $( "#logo_opacity_slider" ).slider({
       range: "min",
       min: 0.0,
@@ -263,9 +327,11 @@ window.setupLabInterface = function($) {
       value: 33.0,
       slide: function( event, ui ) {
         $( "#logo_opacity" ).val( ui.value + '%' );
-        //$('#logo_opacity').focus().val(ui.value + '%').keyup().blur();
+      },
+      stop: function( event, ui ) {
         if (wistiaEmbed !== undefined) {
           wistiaEmbed.plugin.logoOverVideo.defaultOpacity(parseFloat(ui.value) / 100.0);
+          updateOutputEmbedOption('plugin.logoOverVideo.opacity', parseFloat(ui.value) / 100.0);
         }
       }
     });
@@ -278,9 +344,11 @@ window.setupLabInterface = function($) {
       value: 90.0,
       slide: function( event, ui ) {
         $( "#logo_hover_opacity" ).val( ui.value + '%' );
-        //$('#logo_hover_opacity').focus().val(ui.value + '%').keyup().blur();
+      },
+      stop: function( event, ui ) {
         if (wistiaEmbed !== undefined) {
           wistiaEmbed.plugin.logoOverVideo.hoverOpacity(parseFloat(ui.value) / 100.0);
+          updateOutputEmbedOption('plugin.logoOverVideo.hoverOpacity', parseFloat(ui.value) / 100.0);
         }
       }
     });

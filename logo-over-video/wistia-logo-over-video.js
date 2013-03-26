@@ -9,13 +9,13 @@ Wistia.plugin("logoOverVideo", function(video, options) {
   log("Debug:", video, options);
 
   var logo_url = options.logoUrl || null;
-  var logo_opacity = options.opacity || 0.33;
-  var logo_hover_opacity = options.hoverOpacity || 0.9;
+  var logo_opacity = options.opacity || null;
+  var logo_hover_opacity = options.hoverOpacity || null;
   var logo_link = options.logoLink || null;
   var logo_link_title = options.logoTitle || null;
   var grid_pos = options.pos || 'right_inside';
-  var x_off = options.xOffset ? (options.xOffset + 'px') : '10px';
-  var y_off = options.yOffset ? (options.yOffset + 'px') : '10px';
+  var x_off = options.xOffset + 'px' || '10px';
+  var y_off = options.yOffset + 'px' || '10px';
   var w_logo = options.w || '100%';
   var h_logo = options.h || 'auto';
 
@@ -35,7 +35,6 @@ Wistia.plugin("logoOverVideo", function(video, options) {
       logo_img_elem.style.opacity = value;
       // For old IE and other things that are terrible.
       logo_img_elem.style.filter = "alpha(opacity=" + Math.round(100*value) + ")";
-      logo_img_elem.className = 'wistia-video-logo';
     }
   };
 
@@ -55,52 +54,11 @@ Wistia.plugin("logoOverVideo", function(video, options) {
   }
 
   // Set the logo position.
-  function positionLogo(xo, yo, grid){
-    log("Positioning the logo element.", [xo, yo], grid);
+  function positionLogo(xo, yo){
+    log("Positioning the logo element.", [xo, yo]);
     logo_elem.style.position = "absolute";
-    //logo_elem.style.right = parseInt(xo) + 'px';
-    //logo_elem.style.top = parseInt(yo) + 'px';
-
-    // Unset positioning styles.
-    logo_elem.style.removeProperty('right');
-    logo_elem.style.removeProperty('left');
-    logo_elem.style.removeProperty('top');
-    logo_elem.style.removeProperty('bottom');
-
-    // XXX: Verify coordinate mappings.
-    // Use the correct offset coordinates based on the grid position.
-    switch(grid){
-      case 'top_inside':
-        logo_elem.style.left = parseInt(xo) + 'px';
-        logo_elem.style.top = parseInt(yo) + 'px';
-        break;
-      case 'right_inside':
-        logo_elem.style.right = parseInt(xo) + 'px';
-        logo_elem.style.top = parseInt(yo) + 'px';
-        break;
-      case 'bottom_inside':
-        logo_elem.style.right = parseInt(xo) + 'px';
-        logo_elem.style.bottom = parseInt(yo) + 'px';
-        break;
-      case 'left_inside':
-        logo_elem.style.left = parseInt(xo) + 'px';
-        logo_elem.style.bottom = parseInt(yo) + 'px';
-        break;
-    };
-
-    // XXX: Refactor.
-    // Re-inject if a grid position is specified.
-    if (grid !== undefined) {
-      log("Updating video grid position.");
-      // TODO: Handle unlinked elements.
-      try {
-        if (link_elem.parentNode == video.grid[grid_pos]) {
-          video.grid[grid_pos].removeChild(link_elem);
-        }
-        grid_pos = grid;
-        video.grid[grid_pos].appendChild(link_elem);
-      } catch(err){ log(err); }
-    }
+    logo_elem.style.right = parseInt(xo) + 'px';
+    logo_elem.style.top = parseInt(yo) + 'px';
   }
 
   // XXX: Changing the link to url via the interface will break due to nested element wrapping.
@@ -111,7 +69,6 @@ Wistia.plugin("logoOverVideo", function(video, options) {
       link_elem = document.createElement('a');
       link_elem.href = logo_link;
       link_elem.target = '_blank';
-      link_elem.className = 'wistia-video-logo';
 
       // Set the title, if one is supplied.
       if (logo_link_title !== null) {
@@ -161,7 +118,7 @@ Wistia.plugin("logoOverVideo", function(video, options) {
   bindHoverEvents();
 
   // Set the position of the logo element.
-  positionLogo(x_off, y_off, grid_pos);
+  positionLogo(x_off, y_off);
 
   // Set the logo link, if specified.
   linkLogo();
