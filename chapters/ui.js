@@ -5,6 +5,7 @@ function updateOutput() {
   var sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
   window.outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
 
+  console.log("updateOutput");
   if (sourceEmbedCode && sourceEmbedCode.isValid()) {
     // Set custom options on the embed code.
 
@@ -124,6 +125,7 @@ window.resetInterface = function() {
   $("#chapters_location").val("right").keyup().change();
   $("#chapters_show_timestamps").val("yes").keyup().change();
   $(".chapter_time_input").parent().remove();
+  chapterCount = 1;
 };
 
 window.showExample = function() {

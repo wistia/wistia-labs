@@ -551,7 +551,7 @@
         @css('width', w)
         this
       else
-        @css('width')
+        parseInt(@css('width'), 10)
 
 
     height: (h) ->
@@ -559,7 +559,7 @@
         @css('height', h)
         this
       else
-        @css('height')
+        parseInt(@css('height'), 10)
 
 
     ssl: ->
