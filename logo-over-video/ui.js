@@ -220,6 +220,12 @@ function updateLogoGrid(oembed, callback){
       $('#logo_x_offset').val(mapping.offset[0]);
       $('#logo_y_offset').val(mapping.offset[1]);
 
+      // Update the output embed code.
+      oembed.setOption('plugin.logoOverVideo.pos',     mapping.grid);
+      oembed.setOption('plugin.logoOverVideo.xOffset', mapping.offset[0]);
+      oembed.setOption('plugin.logoOverVideo.yOffset', mapping.offset[1]);
+      $("#output_embed_code").val(oembed.toString());
+
       if (wistiaEmbed !== undefined) {
         wistiaEmbed.plugin.logoOverVideo.pos(mapping.offset[0], mapping.offset[1], mapping.grid);
       }
@@ -256,13 +262,9 @@ function updateOutput() {
 
     // TODO: refactor me
     function finishUpdate(output_embed) {
-      log(pluginSrc(sourceEmbedCode));
       // Set custom options on the embed code.
       output_embed.setOption('plugin.logoOverVideo.src',          'http://argo/logo-over-video/plugin.js');
       output_embed.setOption('plugin.logoOverVideo.debug',        true);
-      output_embed.setOption('plugin.logoOverVideo.pos',          $('#logo_pos').val());
-      output_embed.setOption('plugin.logoOverVideo.xOffset',      parseInt($('#logo_x_offset').val()));
-      output_embed.setOption('plugin.logoOverVideo.yOffset',      parseInt($('#logo_y_offset').val()));
       output_embed.setOption('plugin.logoOverVideo.logoUrl',      $('#logo_url').val());
       output_embed.setOption('plugin.logoOverVideo.logoLink',     $('#logo_link').val());
       output_embed.setOption('plugin.logoOverVideo.logoTitle',    $('#logo_title').val());
@@ -298,6 +300,14 @@ function debounceUpdateOutput() {
   updateOutputTimeout = setTimeout(updateOutput, 500);
 }
 
+function updateOutputEmbedOption(option, value) {
+  var outputEmbedCode = Wistia.EmbedCode.parse($("#output_embed_code").val());
+  if (outputEmbedCode && outputEmbedCode.isValid()) {
+    log("Updating output embed option:", option, value);
+    outputEmbedCode.setOption(option, value);
+    $("#output_embed_code").val(outputEmbedCode.toString());
+  }
+};
 
 // Assign all DOM bindings on doc-ready in here. We can also 
 // run whatever initialization code we might need.
@@ -319,9 +329,11 @@ window.setupLabInterface = function($) {
       value: 33.0,
       slide: function( event, ui ) {
         $( "#logo_opacity" ).val( ui.value + '%' );
-        //$('#logo_opacity').focus().val(ui.value + '%').keyup().blur();
+      },
+      stop: function( event, ui ) {
         if (wistiaEmbed !== undefined) {
           wistiaEmbed.plugin.logoOverVideo.defaultOpacity(parseFloat(ui.value) / 100.0);
+          updateOutputEmbedOption('plugin.logoOverVideo.opacity', parseFloat(ui.value) / 100.0);
         }
       }
     });
@@ -334,9 +346,11 @@ window.setupLabInterface = function($) {
       value: 90.0,
       slide: function( event, ui ) {
         $( "#logo_hover_opacity" ).val( ui.value + '%' );
-        //$('#logo_hover_opacity').focus().val(ui.value + '%').keyup().blur();
+      },
+      stop: function( event, ui ) {
         if (wistiaEmbed !== undefined) {
           wistiaEmbed.plugin.logoOverVideo.hoverOpacity(parseFloat(ui.value) / 100.0);
+          updateOutputEmbedOption('plugin.logoOverVideo.hoverOpacity', parseFloat(ui.value) / 100.0);
         }
       }
     });
