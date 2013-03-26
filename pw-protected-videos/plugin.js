@@ -209,7 +209,7 @@ Wistia.plugin("passwordProtected", function(video, options) {
 
     var inputElem = document.getElementById(uuid + "_password_input");
     inputElem.onkeyup = function(e) {
-      e = window.e != null ? window.e : e;
+      e = window.event != null ? window.event : e;
       keycode = e.which || e.keyCode;
       if (keycode === 13) {
         checkPassword(e);
