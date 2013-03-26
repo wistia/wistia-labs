@@ -205,7 +205,7 @@
       pairs = []
       for i in [0...elem.attributes.length]
         attr = elem.attributes.item(i)
-        if attr.nodeValue?
+        if attr.nodeValue? and attr.nodeValue isnt ""
           pairs.push "#{attr.nodeName.toLowerCase()}=\"#{attr.nodeValue}\""
       tag = elem.tagName.toLowerCase()
 
