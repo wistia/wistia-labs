@@ -214,12 +214,17 @@ Wistia.plugin("passwordProtected", function(video, options) {
       e = window.event != null ? window.event : e;
       keycode = e.which || e.keyCode;
       if (keycode === 13) {
+        e.preventDefault && e.preventDefault();
+        e.returnValue = false;
         checkPassword(e);
       } else {
         var errorTextElem = document.getElementById(uuid + "_error_text");
         errorTextElem.innerHTML = "&nbsp;";
       }
     };
+
+    var formElem = document.getElementById(uuid + "_challenge_container");
+    formElem.onsubmit = function() { return false; };
   }
 
   function removeOverlay() {
