@@ -104,7 +104,8 @@ Wistia.plugin("passwordProtected", function(video, options) {
         seed: options.seed
       });
     });
-    e.preventDefault();
+    e.preventDefault?();
+    e.returnValue = false;
   }
 
   function addCss() {
