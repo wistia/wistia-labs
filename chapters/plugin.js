@@ -118,7 +118,7 @@ Wistia.plugin("chapters", function(video, options) {
     chapterListDiv.innerHTML = chapterListHtml;
 
     locationObj.appendChild(chapterListDiv);
-    refreshCss();
+    fit();
 
     for (var i = 1; i <= getNumChapters(); i++) {
       chapterLink = document.getElementById(uuid + "_chapter_" + i);
@@ -143,10 +143,14 @@ Wistia.plugin("chapters", function(video, options) {
     document.getElementById(uuid).style.display = "none";
   }
 
+  function fit() {
+    refreshCss();
+    video.fit();
+  }
+
   showChapterList();
 
-  video.bind("widthchange", refreshCss);
-  video.bind("heightchange", refreshCss);
+  video.bind("widthchange", fit).bind("heightchange", fit);
 
   // Return an object with a public interface
   // for the plugin, if you want.
