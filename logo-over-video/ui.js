@@ -2,7 +2,6 @@ window.jsFileName = 'plugin.js';
 //window.jsProductionPath = 'fast.wistia.com/labs/logo-over-video';
 window.jsProductionPath = 'argo/logo-over-video';
 
-Math.PHI = 1.6180339887505;
 var debug = true;
 
 // A reasonably safe log function.
@@ -93,35 +92,8 @@ function MiniMap(elem, embed){
 
     // Add draggable functionality and events.
     $(elem).draggable({
-      containment: 'parent', //this._elem, //'.wlov-contain',
+      containment: 'parent',
       scroll: false,
-      //grid:   this._grid_dimensions,
-      //drag: function(e){ $(self).trigger(name + '-' + 'drag',  self.posFor(name));
-
-      //  var pos = self.posFor(name);
-      //  log("DRAG:", pos.offset);
-      //  var px = pos.offset[0];
-      //  var py = pos.offset[1];
-      //  var bx = self._base_width;
-      //  var by = self._base_height;
-
-      //  var mxf = Math.pow(Math.PHI, 1);
-      //  var myf = Math.pow(Math.PHI, 2);
-
-      //  var xl1 = bx / mxf;
-      //  var xl2 = bx - (bx / mxf);
-      //  var yl1 = by / myf;
-      //  var yl2 = by - (by / myf);
-      //  console.log("LIMITS:", Math.round(xl1), Math.round(xl2), Math.round(yl1), Math.round(yl2));
-
-      //  $('#wlov-inner-containment').css({
-      //    'top':    Math.round(yl2/2) + 'px',
-      //    'left':   Math.round(xl2/2) + 'px',
-      //    'width':  Math.round(xl1) + 'px',
-      //    'height': Math.round(yl1) + 'px',
-      //  });
-
-      //},
       start:  function(e){ $(self).trigger(name + '-' + 'start', self.posFor(name)); },
       stop:   function(e){ $(self).trigger(name + '-' + 'stop',  self.posFor(name)); }
     });
@@ -268,8 +240,6 @@ function updateOutput() {
       output_embed.setOption('plugin.logoOverVideo.logoUrl',      $('#logo_url').val());
       output_embed.setOption('plugin.logoOverVideo.logoLink',     $('#logo_link').val());
       output_embed.setOption('plugin.logoOverVideo.logoTitle',    $('#logo_title').val());
-      output_embed.setOption('plugin.logoOverVideo.opacity',      parseFloat($('#logo_opacity').val().slice(0,-1)) / 100.0);
-      output_embed.setOption('plugin.logoOverVideo.hoverOpacity', parseFloat($('#logo_hover_opacity').val().slice(0,-1)) / 100.0);
 
       $("#output_embed_code").val(output_embed.toString());
       output_embed.previewInElem('preview', {type: 'api'});
@@ -321,7 +291,35 @@ window.setupLabInterface = function($) {
   });
 
   $(function() {
-    // Logo UI interactions.
+    /////////////////////
+    // Source embed code.
+    // TODO: Only trigger if the keyup coincides with a change.
+    $("#source_embed_code").on("keyup", function(){
+      log(" --- Source embed code altered, refreshing.");
+    });
+
+    /////////////////////
+    // Logo placement.
+
+    /////////////////////
+    // Logo settings.
+
+    // Logo image url.
+    $("#logo_url").on("keyup", function(){
+      log(" --- Logo image URL altered, updating.");
+    });
+
+    // Logo link url.
+    $("#logo_link").on("keyup", function(){
+      log(" --- Logo link URL altered, updating.");
+    });
+
+    // Logo link title.
+    $("#logo_title").on("keyup", function(){
+      log(" --- Logo link title altered, updating.");
+    });
+
+    // Logo opacity sliders
     $( "#logo_opacity_slider" ).slider({
       range: "min",
       min: 0.0,
