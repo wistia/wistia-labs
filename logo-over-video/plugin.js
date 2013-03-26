@@ -19,23 +19,41 @@ Wistia.plugin("logoOverVideo", function(video, options) {
   var w_logo = options.w || '100%';
   var h_logo = options.h || 'auto';
 
-  var logo_elem, logo_img_elem, link_elem;
+  var root_elem, logo_elem, link_elem;
 
   // Load and configure the logo image.
-  function loadLogoImage() {
-    logo_elem = document.createElement('img');
-    logo_img_elem = logo_elem;
-    logo_elem.src = logo_url;
+  function loadLogoImage(url) {
+    var elem = document.createElement('img');
+    elem.src = url;
+    return elem;
   }
 
+  //function replaceLogo(new_logo) {
+  //  try {
+  //    root_elem = link_elem ? link_elem : logo_elem;
+
+  //    if (root_elem.parentNode == video.grid[grid_pos]) {
+  //      video.grid[grid_pos].replaceChild(root_elem);
+  //    }
+
+  //    // Set the new grid position and append the logo element.
+  //    grid_pos = grid;
+  //    video.grid[grid_pos].appendChild(root_elem);
+
+  //  } catch(err){
+  //    log(err);
+  //  }
+  //}
+
+  // TODO: Closure.
   // Helper setting logo opacity.
   function setOpacity(value) {
     log("Setting logo opacity:", value);
     if (value !== null) {
-      logo_img_elem.style.opacity = value;
+      logo_elem.style.opacity = value;
       // For old IE and other things that are terrible.
-      logo_img_elem.style.filter = "alpha(opacity=" + Math.round(100*value) + ")";
-      logo_img_elem.className = 'wistia-video-logo';
+      logo_elem.style.filter = "alpha(opacity=" + Math.round(100*value) + ")";
+      logo_elem.className = 'wistia-video-logo';
     }
   };
 
@@ -58,8 +76,6 @@ Wistia.plugin("logoOverVideo", function(video, options) {
   function positionLogo(xo, yo, grid){
     log("Positioning the logo element.", [xo, yo], grid);
     logo_elem.style.position = "absolute";
-    //logo_elem.style.right = parseInt(xo) + 'px';
-    //logo_elem.style.top = parseInt(yo) + 'px';
 
     // Unset positioning styles.
     logo_elem.style.removeProperty('right');
@@ -88,41 +104,46 @@ Wistia.plugin("logoOverVideo", function(video, options) {
         break;
     };
 
-    // XXX: Refactor.
-    // Re-inject if a grid position is specified.
-    if (grid !== undefined) {
-      log("Updating video grid position.");
-      // TODO: Handle unlinked elements.
-      try {
-        if (link_elem.parentNode == video.grid[grid_pos]) {
-          video.grid[grid_pos].removeChild(link_elem);
-        }
-        grid_pos = grid;
-        video.grid[grid_pos].appendChild(link_elem);
-      } catch(err){ log(err); }
+    // Try to update the element position.
+    try {
+      root_elem = link_elem ? link_elem : logo_elem;
+
+      // Remove if attached the previous grid element.
+      if (root_elem.parentNode == video.grid[grid_pos]) {
+        video.grid[grid_pos].removeChild(root_elem);
+      }
+
+      // Set the new grid position and append the logo element.
+      grid_pos = grid;
+      video.grid[grid_pos].appendChild(root_elem);
+
+    } catch(err){
+      log(err);
     }
   }
 
   // XXX: Changing the link to url via the interface will break due to nested element wrapping.
   // Wrap the logo with an anchor, if a link was specified.
-  function linkLogo(){
-    if (logo_link !== null) {
-      log('Wrapping img with link:', logo_link);
-      link_elem = document.createElement('a');
-      link_elem.href = logo_link;
-      link_elem.target = '_blank';
-      link_elem.className = 'wistia-video-logo';
+  function linkLogo(link_url, link_title){
+    if (link_url) {
+      log('Wrapping img with link:', link_url);
+      elem = document.createElement('a');
+      elem.href = link_url;
+      elem.target = '_blank';
+      elem.className = 'wistia-video-logo';
 
       // Set the title, if one is supplied.
-      if (logo_link_title !== null) {
-        link_elem.title = logo_link_title;
+      if (link_title) {
+        elem.title = link_title;
       }
 
       //link_elem.appendChild(logo_elem);
       //logo_elem = a_elem;
+      return elem;
     }
   }
 
+  // XXX: Deprecate, we should only need one injection scheme for initial and replace.
   // Append the logo element via the API.
   function injectLogo(){
     if (video.grid[grid_pos] !== undefined){
@@ -134,11 +155,6 @@ Wistia.plugin("logoOverVideo", function(video, options) {
         video.grid[grid_pos].appendChild(logo_elem);
       }
     }
-  }
-
-  function testFunc(x){
-    console.log("Testing function!", x);
-    console.log(options);
   }
 
   function defaultOpacity(a){
@@ -153,9 +169,52 @@ Wistia.plugin("logoOverVideo", function(video, options) {
     logo_hover_opacity = parseFloat(a);
   }
 
+  function replaceLogo(new_logo){
+    // Replace the DOM node.
+    logo_elem.parentNode.replaceChild(new_logo, logo_elem);
+    logo_elem = new_logo;
+
+    log("Old logo replaced");
+
+    bindHoverEvents();
+
+    log("Events bound.");
+
+    // Trigger repositioning.
+    positionLogo(x_off, y_off, grid_pos);
+    log("New logo positioned");
+
+    // Reset opacity.
+    setOpacity(logo_opacity);
+
+  };
+
+  function setLogo(new_logo_url, new_link_url, new_link_title) {
+    log("setting the logo url.", new_logo_url);
+
+    // XXX: Refactor, deprecate old method.
+    var new_logo_elem = loadLogoImage(new_logo_url);
+
+    log("New logo created");
+
+    // replace the logo image
+    replaceLogo(new_logo_elem);
+
+    // Update logo link
+    if (new_link_url) {
+      setLink(new_link_url, new_link_title);
+    }
+  }
+
+  function setLink(new_link_url, new_link_title) {
+    log("setting the logo link.", new_link_url, new_link_title);
+    link_elem = linkLogo(logo_link, logo_link_title);
+  }
+
+  // Initialize....
 
   // Load the logo image.
-  loadLogoImage();
+  logo_elem = loadLogoImage(logo_url);
 
   // Bind logo hover events.
   bindHoverEvents();
@@ -164,7 +223,7 @@ Wistia.plugin("logoOverVideo", function(video, options) {
   positionLogo(x_off, y_off, grid_pos);
 
   // Set the logo link, if specified.
-  linkLogo();
+  link_elem = linkLogo(logo_link, logo_link_title);
 
   // Inject the logo into the wistia embed.
   injectLogo();
@@ -175,8 +234,6 @@ Wistia.plugin("logoOverVideo", function(video, options) {
   // Return an object with a public interface 
   // for the plugin, if you want.
   return {
-    testfunc: testFunc,
-
     // Position
     pos: positionLogo,
 
@@ -184,5 +241,9 @@ Wistia.plugin("logoOverVideo", function(video, options) {
     opacity: setOpacity,
     defaultOpacity: defaultOpacity,
     hoverOpacity: hoverOpacity,
+
+    // Logo URL, link URL, link title.
+    setLogo: setLogo,
+    setLink: setLink
   };
 });

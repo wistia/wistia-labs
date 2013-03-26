@@ -3,6 +3,11 @@ window.jsProductionPath = 'fast.wistia.com/labs/logo-over-video';
 
 var debug = true;
 
+test_logos = [
+  'http://argo/white-on-transparent.png',
+  'http://embed.wistia.com/deliveries/83d5e93e57ae5287ebc227cd84f17ec2584eb99f.png?image_crop_resized=144x75'
+];
+
 // A reasonably safe log function.
 function log(){
   if (debug && (console !== undefined)) { console.log.apply(console, arguments); }
@@ -55,6 +60,7 @@ function MiniMap(elem, embed){
 
   // Remove all draggable items from the grid.
   this.clear = function(){
+    $(this).unbind();
     $(this._elem).find('.minimap-object').remove();
     this._objects = {};
   };
@@ -232,60 +238,13 @@ function reloadOutputEmbed() {
     outputEmbedCode.setOption('plugin.logoOverVideo.logoLink',  $('#logo_link').val());
     outputEmbedCode.setOption('plugin.logoOverVideo.logoTitle', $('#logo_title').val());
 
-    // Update the MiniMap.
+    // update the MiniMap.
     var $grid = $('#wlov-grid')[0];
-
     if (!$grid.minimap) {
       log(" --- Initializing the MiniMap.");
       $grid.minimap = new MiniMap($grid, outputEmbedCode);
-    } else {
-      log(" --- Clearing the MiniMap.");
-      // TODO: Make sure this behaves sanely.
-      $grid.minimap.clear();
     }
-
-    // XXX: Move this!
-    // Create the logo image element.
-    var $logo = $('<img/>');
-
-    // Bind a handler to the load event.
-    $logo.load(function(e){
-      log(" *** Logo image loaded.");
-      try {
-        $grid.minimap.addItem('logo', e.target, [parseInt($('#logo_x_offset').val()), parseInt($('#logo_y_offset').val())]);
-
-        // Update the output embed code.
-        var init_mapping = $grid.minimap.posFor('logo');
-        updateOutputEmbedOptions({
-          'plugin.logoOverVideo.pos':     init_mapping.grid,
-          'plugin.logoOverVideo.xOffset': init_mapping.offset[0],
-          'plugin.logoOverVideo.yOffset': init_mapping.offset[1]
-        });
-
-        $grid.minimap.on('logo-stop', function(e, mapping){
-          // XXX: Deprecated.
-          $('#logo_x_offset').val(mapping.offset[0]);
-          $('#logo_y_offset').val(mapping.offset[1]);
-
-          // Update the output embed code.
-          updateOutputEmbedOptions({
-            'plugin.logoOverVideo.pos':     mapping.grid,
-            'plugin.logoOverVideo.xOffset': mapping.offset[0],
-            'plugin.logoOverVideo.yOffset': mapping.offset[1]
-          });
-
-          if (wistiaEmbed !== undefined) {
-            wistiaEmbed.plugin.logoOverVideo.pos(mapping.offset[0], mapping.offset[1], mapping.grid);
-          }
-        });
-
-      } catch (err) {
-        log("Minimap logo add error.", err);
-      }
-    });
-
-    // Set the src to trigger image loading.
-    $logo.attr('src', $('#logo_url').val());
+    replaceGridLogo();
 
     // Create preview embed.
     $("#output_embed_code").val(outputEmbedCode.toString());
@@ -300,6 +259,60 @@ function reloadOutputEmbed() {
   } else {
     log(" !!! Error reloading from source embed!");
   }
+}
+
+// Update the minimap with a new logo.
+function replaceGridLogo(logo_url) {
+  // Update the preview and output embed.
+  //wistiaEmbed.plugin.logoOverVideo.setLogo($('#logo_url').val());
+  //updateOutputEmbedOption('plugin.logoOverVideo.logoUrl', $('#logo_url').val());
+
+  // Update the minimap grid.
+  var $grid = $('#wlov-grid')[0];
+  $grid.minimap.clear();
+  // XXX: Move this!
+  // Create the logo image element.
+  var $logo = $('<img/>');
+
+  // Bind a handler to the load event.
+  $logo.load(function(e){
+    log(" *** Logo image loaded.");
+    try {
+      $grid.minimap.addItem('logo', e.target, [parseInt($('#logo_x_offset').val()), parseInt($('#logo_y_offset').val())]);
+
+      // Update the output embed code.
+      var init_mapping = $grid.minimap.posFor('logo');
+      updateOutputEmbedOptions({
+        'plugin.logoOverVideo.pos':     init_mapping.grid,
+        'plugin.logoOverVideo.xOffset': init_mapping.offset[0],
+        'plugin.logoOverVideo.yOffset': init_mapping.offset[1]
+      });
+
+      $grid.minimap.on('logo-stop', function(e, mapping){
+        // XXX: Deprecated.
+        $('#logo_x_offset').val(mapping.offset[0]);
+        $('#logo_y_offset').val(mapping.offset[1]);
+
+        // Update the output embed code.
+        updateOutputEmbedOptions({
+          'plugin.logoOverVideo.pos':     mapping.grid,
+          'plugin.logoOverVideo.xOffset': mapping.offset[0],
+          'plugin.logoOverVideo.yOffset': mapping.offset[1]
+        });
+
+        if (wistiaEmbed !== undefined) {
+          wistiaEmbed.plugin.logoOverVideo.pos(mapping.offset[0], mapping.offset[1], mapping.grid);
+        }
+      });
+
+    } catch (err) {
+      log("Minimap logo add error.", err);
+    }
+  });
+
+  // Set the src to trigger image loading.
+  $logo.attr('src', $('#logo_url').val());
+
 }
 
 // Assign all DOM bindings on doc-ready in here. We can also 
@@ -324,7 +337,9 @@ window.setupLabInterface = function($) {
     // Logo image url.
     $("#logo_url").on("keyup", function(){
       log(" --- Logo image URL altered, updating.");
-      updateOutputEmbedOption('plugin.logoOverVideo.logoTitle', $('#logo_url').val());
+      replaceGridLogo();
+      wistiaEmbed.plugin.logoOverVideo.setLogo($('#logo_url').val());
+      updateOutputEmbedOption('plugin.logoOverVideo.logoUrl', $('#logo_url').val());
     });
 
     // Logo link url.
