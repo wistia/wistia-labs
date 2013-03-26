@@ -26,7 +26,9 @@ class VideoFoam
       <script src="//fast.wistia.com/static/embed_shepherd-v1.js"></script>
       <script>
       wistiaEmbeds.onFind(function(video) {
-        video.params.videoFoam = true;
+        video.ready(function() {
+          video.params.videoFoam = true;
+        });
       });
       </script>
       """
