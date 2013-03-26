@@ -97,6 +97,7 @@ Wistia.plugin("passwordProtected", function(video, options) {
   });
 
   function checkPassword(e) {
+    e = window.event != null ? window.event : e;
     var passwordInput = document.getElementById(uuid + "_password_input");
     fireBaseReady(function() {
       loadVideoByPassword(Sha256.hash(passwordInput.value), {
