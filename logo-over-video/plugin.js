@@ -9,13 +9,13 @@ Wistia.plugin("logoOverVideo", function(video, options) {
   log("Debug:", video, options);
 
   var logo_url = options.logoUrl || null;
-  var logo_opacity = options.opacity || null;
-  var logo_hover_opacity = options.hoverOpacity || null;
+  var logo_opacity = options.opacity || 0.33;
+  var logo_hover_opacity = options.hoverOpacity || 0.9;
   var logo_link = options.logoLink || null;
   var logo_link_title = options.logoTitle || null;
   var grid_pos = options.pos || 'right_inside';
-  var x_off = options.xOffset + 'px' || '10px';
-  var y_off = options.yOffset + 'px' || '10px';
+  var x_off = options.xOffset ? (options.xOffset + 'px') : '10px';
+  var y_off = options.yOffset ? (options.yOffset + 'px') : '10px';
   var w_logo = options.w || '100%';
   var h_logo = options.h || 'auto';
 
@@ -93,10 +93,13 @@ Wistia.plugin("logoOverVideo", function(video, options) {
     if (grid !== undefined) {
       log("Updating video grid position.");
       // TODO: Handle unlinked elements.
-      video.grid[grid_pos].removeChild(link_elem);
-      grid_pos = grid;
-      video.grid[grid_pos].appendChild(link_elem);
-      log("VID: ", grid_pos, video);
+      try {
+        if (link_elem.parentNode == video.grid[grid_pos]) {
+          video.grid[grid_pos].removeChild(link_elem);
+        }
+        grid_pos = grid;
+        video.grid[grid_pos].appendChild(link_elem);
+      } catch(err){ log(err); }
     }
   }
 
@@ -158,7 +161,7 @@ Wistia.plugin("logoOverVideo", function(video, options) {
   bindHoverEvents();
 
   // Set the position of the logo element.
-  positionLogo(x_off, y_off);
+  positionLogo(x_off, y_off, grid_pos);
 
   // Set the logo link, if specified.
   linkLogo();
