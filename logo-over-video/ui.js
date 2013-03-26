@@ -1,6 +1,5 @@
 window.jsFileName = 'plugin.js';
-//window.jsProductionPath = 'fast.wistia.com/labs/logo-over-video';
-window.jsProductionPath = 'argo/logo-over-video';
+window.jsProductionPath = 'fast.wistia.com/labs/logo-over-video';
 
 var debug = true;
 
