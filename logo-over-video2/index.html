@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Logo Over Video</title>
+    <link rel="stylesheet" href="http://wistia.com/labs/css/labs.css" />
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/themes/cupertino/jquery-ui.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+    <script src="http://fast.wistia.com/static/app-jquery-jquery_jamjar.js"></script>
+    <script src="http://fast.wistia.com/static/E-v1.js"></script>
+    <script src="http://fast.wistia.com/static/embed_shepherd-v1.js"></script>
+    <script src="http://wistia.com/labs/lib/globalui.js"></script>
+    <script>
+      loadRelativeCss(["style.css"]);
+      loadRelativeScripts(["../lib/labtools.js", "plugin.js", "ui.js"], function() {
+        setupLabInterface(jQuery);
+      });
+    </script>
+  </head>
+  <body>
+    <div id="nonfooter">
+
+
+      <div id="header">
+        <div class="cols">
+          <div class="col1 col">
+            <h1>Logo Over Video</h1>
+          </div><div class="col2 col">
+            The logo over video plugin enables Wistia users to apply their own
+            logo to any video they upload.
+          </div>
+        </div>
+      </div>
+
+
+      <div id="body" class="cols">
+        <div class="col1 col">
+          <div id="configure">
+
+
+            <!-- Paste Embed Code Section -->
+            <div class="jamjar paste_embed_code">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Paste embed code</div>
+              </div>
+              <div class="jamjar_body">
+                <div class="source_embed_code_field_pair field_pair">
+                  <p style="margin-top:0;">Get it from the SuperEmbed Builder.</p>
+                  <textarea name="source_embed_code" id="source_embed_code"></textarea>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- logo placement section -->
+            <div class="jamjar wlov-placement-section">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Logo Placement</div>
+              </div>
+              <div class="jamjar_body">
+                <p style="margin-top:0;">Right side, left side, up side, down side.</p>
+                <h3 style="margin-bottom:.25em;">Grid</h3>
+                <div id='wlov-grid' class='wlov-contain'></div>
+                <input id="logo_x_offset" type="hidden" value="10"/>
+                <input id="logo_y_offset" type="hidden" value="10"/>
+                <input id="logo_pos" type="hidden" value="right_inside"/>
+              </div>
+            </div>
+
+            <!-- logo settings section -->
+            <div class="jamjar wlov-settings-section">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Logo Settings</div>
+              </div>
+              <div class="jamjar_body">
+                <p style="margin-top:0;">Link your logo to a website or change transparency settings.</p>
+                <h3 style="margin-bottom:.25em;">Logo URL</h3>
+                <input id="logo_url" type="text" value="Enter your Logo's URL" />
+                <h3 style="margin-bottom:.25em;">Link URL</h3>
+                <input id="logo_link" type="text" value="Link to Your Organization" />
+                <h3 style="margin-bottom:.25em;">Link Title</h3>
+                <input id="logo_title" type="text" value="Hover Text For Your Logo" />
+
+                <h3 style="margin-bottom:.25em;">Transparency</h3>
+                <div class="logo_slider_container">
+                  <div class="logo_slider" id="logo_opacity_slider"></div>
+                  <input id="logo_opacity" type="text" value="1.0" />
+                </div>
+
+                <h3 style="margin-bottom:.25em;">Hover Transparency</h3>
+                <div class="logo_slider_container">
+                  <div class="logo_slider" id="logo_hover_opacity_slider"></div>
+                  <input id="logo_hover_opacity" type="text" value="1.0" />
+                </div>
+              </div>
+            </div>
+
+          </div> <!-- #configure -->
+        </div><div class="col2 col">
+
+
+          <div id="results">
+            <div id="alert" style="display:none;"></div>
+            
+            <label>Your new embed code</label>
+            <textarea id="output_embed_code"></textarea><br/>
+            
+            <label>Here's how it will look</label>
+            <div id="preview">
+              <div id="placeholder_preview">Your video here</div>
+            </div>
+          </div> <!-- #results -->
+
+
+        </div> <!-- .col2 -->
+      </div> <!-- #body -->
+      <div id="footerpad">&nbsp;</div>
+    </div> <!-- #nonfooter -->
+    <div id="footer">&nbsp;</div>
+
+    <!-- TESTING -->
+    <script>
+      $(document).ready(function(){
+        // Trigger a refresh.
+        setTimeout(function(){
+          $('#source_embed_code').focus().keyup().blur();
+        }, 1000);
+      });
+    </script>
+
+  </body>
+</html>
