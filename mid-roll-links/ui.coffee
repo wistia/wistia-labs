@@ -1,7 +1,7 @@
 window.jsFileName = 'plugin.js'
 window.jsProductionPath = 'fast.wistia.com/labs/mid-roll-links'
 
-class midroll
+class Midroll
   constructor: ->
     @previewEmbedded = false
     @change = false
@@ -23,23 +23,32 @@ class midroll
 
     $("a[name=remove_all]").on 'click', (e) =>
       e.preventDefault()
-      @removeAllInputs()
-      @addMidrollInput()
-      @debounceUpdates()
+      @clearAll()
 
     $("a[name=see_example]").on 'click', (e) =>
       e.preventDefault()
-      @removeAllInputs()
-      $("#source_embed_code").val(@exampleEmbedCode)
-      @previewEmbedded = false
-      @debounceUpdates()
-      @addMidrollData("YOU SHOULD CLICK HERE", "unclebenny.com", 2, 10)
-      @addMidrollData("CHECK OUT UNCLE BENNY!", "unclebenny.com", 8, 14)
-      @addMidrollData("BUY OUR STUFF!", "unclebenny.com", 12, 22)
-      @debounceUpdates()
+      @setupExample()
 
     # Update the output whenever a configuration input changes
     $("#configure").on("keyup", "input[type=text], textarea", => @debounceUpdates())
+
+
+  setupExample: ->
+    @removeAllInputs()
+    $("#source_embed_code").val(@exampleEmbedCode)
+    @previewEmbedded = false
+    @debounceUpdates()
+    @addMidrollData("YOU SHOULD CLICK HERE", "unclebenny.com", 2, 10)
+    @addMidrollData("CHECK OUT UNCLE BENNY!", "unclebenny.com", 8, 14)
+    @addMidrollData("BUY OUR STUFF!", "unclebenny.com", 12, 22)
+    @debounceUpdates()
+
+  clearAll: ->
+    $("#source_embed_code").val("")
+    @previewEmbedded = false
+    @removeAllInputs()
+    @addMidrollInput()
+    @debounceUpdates()
 
 
   # Updating is kind of a heavy operation; we don't want to 
@@ -155,6 +164,35 @@ class midroll
 # Assign all DOM bindings on doc-ready in here. We can also 
 # run whatever initialization code we might need.
 window.setupLabInterface = ($) ->
-  $(->
-    window.midroll = new midroll()
-  )
+  $ ->
+    window.midroll = new Midroll()
+
+    if !Wistia.localStorage("midRollLinks.cleared")
+      showExample()
+      $(".show_example_text").hide()
+      $(".clear_example_text").show()
+     else
+      $(".show_example_text").show()
+      $(".clear_example_text").hide()
+
+    $("#clear_example").click (event) ->
+      event.preventDefault()
+      resetInterface()
+      $(".show_example_text").show()
+      $(".clear_example_text").hide()
+      Wistia.localStorage("midRollLinks.cleared", true)
+
+    $("#show_example").click (event) ->
+      event.preventDefault()
+      showExample()
+      $(".show_example_text").hide()
+      $(".clear_example_text").show()
+      Wistia.localStorage("midRollLinks.cleared", false)
+
+window.resetInterface = ->
+  midroll.clearAll()
+
+window.showExample = ->
+  midroll.setupExample()
+
+setupLabInterface(jQuery)
