@@ -15,8 +15,7 @@ Wistia.plugin 'speakerdeck', (video, options) ->
         return pair[1] if slide is pair[0]
       null
 
-  # stop those timings son
-  timings = new Timings()
+
   updateTimings = (pairs) ->
     timings = new Timings(pairs)
     updateSlideForTime()
@@ -86,6 +85,16 @@ Wistia.plugin 'speakerdeck', (video, options) ->
 
   video.bind 'timechange', updateSlideForTime
 
+
+
+  # setup those initial timings, son
+  timingStr = options.timings || ''
+  timingPairs = []
+  for tStr in timingStr.split('_')
+    t = tStr.split('-')
+    timingPairs.push [parseInt(t[0]), parseInt(t[1])]
+
+  timings = new Timings(timingPairs)
 
   position = options.position || 'right'
   width = options.width || video.width()

@@ -114,7 +114,7 @@ Prez = (function() {
   };
 
   Prez.prototype.setupExample = function() {
-    $('#source_embed_code').val('<iframe src="http://fast.wistia.net/embed/iframe/ylwyrd86it?controlsVisibleOnLoad=true&version=v1&videoHeight=360&videoWidth=640&volumeControl=true" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" width="640" height="360"></iframe>');
+    $('#source_embed_code').val('<iframe src="http://fast.wistia.net/embed/iframe/t79u6vepnd?playerColor=81b7db&version=v1&videoHeight=270&videoWidth=480" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" width="480" height="270"></iframe>');
     $('#presentation_url').val('https://speakerdeck.com/ezrafishman/the-bschwartz-labz-preso');
     $('#presentation_position').val('right');
     this.clearTimings();
@@ -154,6 +154,7 @@ Prez = (function() {
     return Wistia.timeout('updateTimings', function() {
       var _ref, _ref1;
 
+      _this.updateEmbedCode();
       if (!((_ref = window.previewEmbed) != null ? (_ref1 = _ref.plugin) != null ? _ref1.speakerdeck : void 0 : void 0)) {
         return;
       }
@@ -172,6 +173,22 @@ Prez = (function() {
       _results.push([parseInt($(row).find('input.slide').val()), parseInt($(row).find('input.time').val())]);
     }
     return _results;
+  };
+
+  Prez.prototype.timingsForPlugin = function() {
+    var t;
+
+    return ((function() {
+      var _i, _len, _ref, _results;
+
+      _ref = this.timings();
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        t = _ref[_i];
+        _results.push("" + t[0] + "-" + t[1]);
+      }
+      return _results;
+    }).call(this)).join('_');
   };
 
   Prez.prototype.addTiming = function(slide, time) {
@@ -337,6 +354,7 @@ Prez = (function() {
         this.outputEmbedCode.setOption("plugin.speakerdeck.height", this.prezHeight());
         this.outputEmbedCode.setOption("plugin.speakerdeck.aspect", this.prezSlideAspect());
         this.outputEmbedCode.setOption("plugin.speakerdeck.position", this.prezPosition);
+        this.outputEmbedCode.setOption("plugin.speakerdeck.timings", this.timingsForPlugin());
       }
       return $("#output_embed_code").val(this.outputEmbedCode.toString());
     } else {

@@ -96,7 +96,7 @@ class Prez
 
   # sets up the sweet example video
   setupExample: ->
-    $('#source_embed_code').val('<iframe src="http://fast.wistia.net/embed/iframe/ylwyrd86it?controlsVisibleOnLoad=true&version=v1&videoHeight=360&videoWidth=640&volumeControl=true" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" width="640" height="360"></iframe>')
+    $('#source_embed_code').val('<iframe src="http://fast.wistia.net/embed/iframe/t79u6vepnd?playerColor=81b7db&version=v1&videoHeight=270&videoWidth=480" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" width="480" height="270"></iframe>')
     $('#presentation_url').val('https://speakerdeck.com/ezrafishman/the-bschwartz-labz-preso')
     $('#presentation_position').val('right')
     @clearTimings()
@@ -136,6 +136,7 @@ class Prez
 
   updateTimings: ->
     Wistia.timeout 'updateTimings', =>
+      @updateEmbedCode()
       return unless window.previewEmbed?.plugin?.speakerdeck
       window.previewEmbed.plugin.speakerdeck.updateTimings(@timings())
       @timeChange()
@@ -149,6 +150,11 @@ class Prez
     for row in @$timingsTable.find('tbody tr')
       [ parseInt($(row).find('input.slide').val()),
         parseInt($(row).find('input.time').val()) ]
+
+  
+  # we take the timings array and encode it so it fits in the URL
+  timingsForPlugin: ->
+    ("#{t[0]}-#{t[1]}" for t in @timings()).join('_')
 
 
   addTiming: (slide, time) ->
@@ -303,6 +309,7 @@ class Prez
         @outputEmbedCode.setOption("plugin.speakerdeck.height", @prezHeight())
         @outputEmbedCode.setOption("plugin.speakerdeck.aspect", @prezSlideAspect())
         @outputEmbedCode.setOption("plugin.speakerdeck.position", @prezPosition)
+        @outputEmbedCode.setOption("plugin.speakerdeck.timings", @timingsForPlugin())
 
       # Display the output.
       $("#output_embed_code").val(@outputEmbedCode.toString())
