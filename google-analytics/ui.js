@@ -125,3 +125,5 @@ window.showExample = function() {
   resetInterface();
   $("#source_embed_code").val("<iframe src=\"http://fast.wistia.net/embed/iframe/i58yer6i2f?playerColor=81b7db&version=v1&videoHeight=272&videoWidth=640\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"640\" height=\"272\"></iframe>").keyup().change();
 };
+
+setupLabInterface(jQuery);

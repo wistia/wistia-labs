@@ -191,3 +191,5 @@ window.setupLabInterface = function($) {
     return window.midroll = new midroll();
   });
 };
+
+setupLabInterface(jQuery);

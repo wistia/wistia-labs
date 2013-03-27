@@ -120,3 +120,5 @@ window.showExample = function() {
   $("#challenge").val("Enter the password to view this video.");
   $("#password").val("wistia");
 };
+
+setupLabInterface(jQuery);

@@ -389,3 +389,5 @@ window.setupLabInterface = function($) {
     return window.prez = new Prez();
   });
 };
+
+setupLabInterface(jQuery);

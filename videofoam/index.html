@@ -3,18 +3,15 @@
   <head>
     <title>Video Foam</title>
     <link rel="stylesheet" href="../css/labs.css" />
+    <link rel="stylesheet" href="style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="http://fast.wistia.com/static/app-jquery-jquery_jamjar.js"></script>
     <script src="http://fast.wistia.com/static/E-v1.js"></script>
     <script src="../lib/globalui.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script>
     <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/>
-    <script>
-      loadRelativeCss(["style.css"]);
-      loadRelativeScripts(["../lib/labtools.js", "ui.js"], function() {
-        setupLabInterface(jQuery);
-      });
-    </script>
+    <script src="../lib/labtools.js"></script>
+    <script src="ui.js"></script>
     <style>
       .foamed {
         padding: 15px;

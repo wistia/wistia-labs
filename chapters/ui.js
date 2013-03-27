@@ -136,3 +136,5 @@ window.showExample = function() {
   generateChapter("What's up?", 15);
   generateChapter("Goodbye!", 40);
 };
+
+setupLabInterface(jQuery);
