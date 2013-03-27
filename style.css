@@ -78,6 +78,10 @@ body {
   margin: 0;
 }
 
+.lab_logo {
+  margin-top: 20px;
+}
+
 .back_to_labs {
   font-size: 24px;
   font-weight: bold;
