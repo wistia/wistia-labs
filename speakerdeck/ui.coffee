@@ -71,14 +71,14 @@ class Prez
     # load/clear example
     $('#load_example').on 'click', =>
       @setupExample()
-      $('#header .load').hide()
-      $('#header .clear').show()
+      $('#lab_header .load').hide()
+      $('#lab_header .clear').show()
       false
 
     $('#clear_example').on 'click', =>
       @clearAll()
-      $('#header .clear').hide()
-      $('#header .load').show()
+      $('#lab_header .clear').hide()
+      $('#lab_header .load').show()
       false
 
 
@@ -106,6 +106,7 @@ class Prez
     @addTiming(4,24)
     @addTiming(5,33)
     @updatePresentation()
+    Wistia.localStorage("speakerdeck.cleared", false)
 
 
   # clears the example and all inputs
@@ -117,6 +118,7 @@ class Prez
     @clearTimings()
     @updateEmbedCodeAndPreview()
     $("#output_embed_code").val('')
+    Wistia.localStorage("speakerdeck.cleared", true)
 
 
   # sets up a new timing for the next slide at the current time
@@ -362,6 +364,15 @@ class Prez
 window.setupLabInterface = ($) ->
   $(->
     window.prez = new Prez()
+    if !Wistia.localStorage("speakerdeck.cleared")
+      prez.setupExample()
+      $('#lab_header .load').hide()
+      $('#lab_header .clear').show()
+    else
+      prez.clearAll()
+      $('#lab_header .clear').hide()
+      $('#lab_header .load').show()
+
   )
 
 setupLabInterface(jQuery)

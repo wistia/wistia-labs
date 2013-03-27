@@ -81,14 +81,14 @@ Prez = (function() {
     });
     $('#load_example').on('click', function() {
       _this.setupExample();
-      $('#header .load').hide();
-      $('#header .clear').show();
+      $('#lab_header .load').hide();
+      $('#lab_header .clear').show();
       return false;
     });
     $('#clear_example').on('click', function() {
       _this.clearAll();
-      $('#header .clear').hide();
-      $('#header .load').show();
+      $('#lab_header .clear').hide();
+      $('#lab_header .load').show();
       return false;
     });
   }
@@ -123,7 +123,8 @@ Prez = (function() {
     this.addTiming(3, 16);
     this.addTiming(4, 24);
     this.addTiming(5, 33);
-    return this.updatePresentation();
+    this.updatePresentation();
+    return Wistia.localStorage("speakerdeck.cleared", false);
   };
 
   Prez.prototype.clearAll = function() {
@@ -133,7 +134,8 @@ Prez = (function() {
     $('#presentation_position').val('right');
     this.clearTimings();
     this.updateEmbedCodeAndPreview();
-    return $("#output_embed_code").val('');
+    $("#output_embed_code").val('');
+    return Wistia.localStorage("speakerdeck.cleared", true);
   };
 
   Prez.prototype.nextSlide = function() {
@@ -404,7 +406,16 @@ Prez = (function() {
 
 window.setupLabInterface = function($) {
   return $(function() {
-    return window.prez = new Prez();
+    window.prez = new Prez();
+    if (!Wistia.localStorage("speakerdeck.cleared")) {
+      prez.setupExample();
+      $('#lab_header .load').hide();
+      return $('#lab_header .clear').show();
+    } else {
+      prez.clearAll();
+      $('#lab_header .clear').hide();
+      return $('#lab_header .load').show();
+    }
   });
 };
 
