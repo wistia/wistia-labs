@@ -326,10 +326,12 @@ a.darkbutton, button.dark {
 #configure_col {
   background: #f1eeea;
   border-top: 5px solid #cbcfd4;
+  min-height: 1200px;
 }
 #preview_col {
   background: #f7f6f4;
   border-top: 5px solid #2478bd;
+  min-height: 1200px;
 }
 
 h1 {
