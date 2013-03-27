@@ -4,7 +4,7 @@ body {
 }
 
 #lab_header {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: normal;
   line-height: 1.6em;
 }
@@ -50,7 +50,7 @@ body {
   *display: inline;
   font-size: 18px;
   line-height: 1.8em;
-  padding: 60px;
+  padding: 50px;
   vertical-align: top;
   zoom: 1;
 }
@@ -61,7 +61,7 @@ body {
 }
 
 #all_labs li .col1 {
-  padding: 0 60px 0 0;
+  padding: 0 50px 0 0;
   width: 94px;
 }
 
@@ -79,10 +79,10 @@ body {
 }
 
 .lab_logo {
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .back_to_labs {
-  font-size: 24px;
+  font-size: 32px;
   font-weight: bold;
 }
