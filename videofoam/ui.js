@@ -31,7 +31,7 @@ VideoFoam = (function() {
     this.sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
     this.outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
     if ($("#mode_all").is(":checked")) {
-      return $("#output_embed_code").val("<script src=\"//fast.wistia.com/static/embed_shepherd-v1.js\"></script>\n<script>\nwistiaEmbeds.onFind(function(video) {\n  video.ready(function() {\n    video.params.videoFoam = true;\n  });\n});\n</script>");
+      return $("#output_embed_code").val("<script src=\"//fast.wistia.com/static/embed_shepherd-v1.js\"></script>\n<script>\nwistiaEmbeds.onFind(function(video) {\n  video.videoFoam(true);\n});\n</script>");
     } else if (this.sourceEmbedCode && this.sourceEmbedCode.isValid()) {
       isIframe = Wistia.EmbedCode.isIframe(this.sourceEmbedCode);
       isPopover = Wistia.EmbedCode.isPopover(this.sourceEmbedCode);
