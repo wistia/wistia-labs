@@ -130,11 +130,12 @@ window.resetInterface = function() {
 
 window.showExample = function() {
   resetInterface();
-  $("#source_embed_code").val("<iframe src=\"http://fast.wistia.net/embed/iframe/c0bcb3b617?playerColor=81b7db&version=v1&videoHeight=304&videoWidth=540\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"540\" height=\"304\"></iframe>");
+  $("#source_embed_code").val("<iframe src=\"http://fast.wistia.net/embed/iframe/bf8qg4d9e2?playerColor=81b7db&version=v1&videoHeight=304&videoWidth=540\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"540\" height=\"304\"></iframe>");
   chapterCount = 1;
-  generateChapter("Hello", 5);
-  generateChapter("What's up?", 15);
-  generateChapter("Goodbye!", 40);
+  generateChapter("Robby", 6);
+  generateChapter("Milo", 7);
+  generateChapter("YMCA", 10);
+  generateChapter("Ironing", 12);
 };
 
 setupLabInterface(jQuery);
