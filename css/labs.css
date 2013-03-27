@@ -21,6 +21,37 @@
   src: url("http://fast.wistia.com/fonts/interstate-light-italic/interstate-lightitalic.eot");
   src: url("http://fast.wistia.com/fonts/interstate-light-italic/interstate-lightitalic.eot?#iefix") format("embedded-opentype"), url("http://fast.wistia.com/fonts/interstate-light-italic/interstate-lightitalic.woff") format("woff"), url("http://fast.wistia.com/fonts/interstate-light-italic/interstate-lightitalic.ttf") format("truetype"), url("http://fast.wistia.com/fonts/interstate-light-italic/interstate-lightitalic.svg#interstate-lightitalic") format("svg");
   font-style: italic; }
+@font-face {
+  font-family: "Avenir";
+  src: url("/fonts/avenir/avenir-35.eot?#iefix");
+  src: url("/fonts/avenir/avenir-35.eot?#iefix") format("eot"), url("/fonts/avenir/avenir-35.woff") format("woff"), url("/fonts/avenir/avenir-35.ttf") format("truetype"), url("/fonts/avenir/avenir-35.svg#Avenir-35") format("svg");
+  font-weight: 200; }
+
+@font-face {
+  font-family: "Avenir";
+  src: url("/fonts/avenir/avenir-35-oblique.eot?#iefix");
+  src: url("/fonts/avenir/avenir-35-oblique.eot?#iefix") format("eot"), url("/fonts/avenir/avenir-35-oblique.woff") format("woff"), url("/fonts/avenir/avenir-35-oblique.ttf") format("truetype"), url("/fonts/avenir/avenir-35-oblique.svg#avenir-35-oblique") format("svg");
+  font-style: italic;
+  font-weight: 200; }
+
+@font-face {
+  font-family: "Avenir";
+  src: url("/fonts/avenir/avenir-45.eot?#iefix");
+  src: url("/fonts/avenir/avenir-45.eot?#iefix") format("eot"), url("/fonts/avenir/avenir-45.woff") format("woff"), url("/fonts/avenir/avenir-45.ttf") format("truetype"), url("/fonts/avenir/avenir-45.svg#avenir-45") format("svg");
+  font-weight: 400; }
+
+@font-face {
+  font-family: "Avenir";
+  src: url("/fonts/avenir/avenir-65.eot?#iefix");
+  src: url("/fonts/avenir/avenir-65.eot?#iefix") format("eot"), url("/fonts/avenir/avenir-65.woff") format("woff"), url("/fonts/avenir/avenir-65.ttf") format("truetype"), url("/fonts/avenir/avenir-65.svg#avenir-65") format("svg");
+  font-weight: 500; }
+
+@font-face {
+  font-family: "Avenir";
+  src: url("/fonts/avenir/avenir-85.eot?#iefix");
+  src: url("/fonts/avenir/avenir-85.eot?#iefix") format("eot"), url("/fonts/avenir/avenir-85.woff") format("woff"), url("/fonts/avenir/avenir-85.ttf") format("truetype"), url("/fonts/avenir/avenir-85.svg#avenir-85") format("svg");
+  font-weight: 700; }
+  
 
 html {
   height: 100%;
@@ -29,7 +60,7 @@ html {
 body {
   background: #f7f6f4;
   color: #404040;
-  font-family: Interstate, Helvetica, Arial, Sans-Serif;
+  font-family: Avenir, Helvetica, Arial, Sans-Serif;
   font-size: 16px;
   height: 100%;
   margin: 0;
