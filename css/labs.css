@@ -315,8 +315,9 @@ a.darkbutton, button.dark {
   width: 213px;
 }
 #lab_header .col2 {
+  line-height: 1.7em;
   padding: 30px 0 30px 30px;
-  width: 797px;
+  width: 700px;
 }
 #lab_header h1 {
   font-size: 22px;
@@ -341,7 +342,7 @@ h1 {
 
 .lab_logo {
   height: 98px;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   vertical-align: top;
   width: 94px;
 }
