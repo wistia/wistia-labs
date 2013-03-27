@@ -14,3 +14,7 @@
 #configure input[type=text] {
   width: 250px;
 }
+
+#preview_col {
+  border-top-color: #faa928;
+}

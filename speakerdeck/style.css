@@ -152,3 +152,7 @@ h1 {
   font-size: 18px; 
   margin: 0 0 10px 0;
 }
+
+#preview_col {
+  border-top-color: #f17598;
+}

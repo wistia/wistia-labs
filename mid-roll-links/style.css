@@ -40,3 +40,7 @@
   width: 100px;
   zoom: 1;
 }
+
+#preview_col {
+  border-top-color: #9da6b1;
+}

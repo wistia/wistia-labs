@@ -42,3 +42,7 @@
 #configure input[type=submit] {
   width: 268px;
 }
+
+#preview_col {
+  border-top-color: #5bbd83;
+}

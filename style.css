@@ -17,6 +17,7 @@ body {
 #preview_col {
   background: #fff;
   border-left: 1px solid #dcdee2;
+  border-top-color: #606060;
   padding: 0;
   width: 948px;
 }

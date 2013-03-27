@@ -176,7 +176,7 @@ Wistia.plugin("midrollLinks", function(video, options) {
           "  font-weight: bold;" +
           "  font-size: 18px;\n" +
           "  margin: " + margin + ";\n" +
-          "  padding: 5px;\n" +
+          "  padding: 5px 10px;\n" +
           "  text-align: center;\n" +
           "}"
       );

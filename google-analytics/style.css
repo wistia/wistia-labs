@@ -34,3 +34,7 @@
 #event_notifications {
   margin-top: 1em;
 }
+
+#preview_col {
+  border-top-color: #4fa6dc;
+}

@@ -324,12 +324,12 @@ a.darkbutton, button.dark {
 }
 
 #configure_col {
-  background: #f1eeea;
+  background: #eceef1;
   border-top: 5px solid #cbcfd4;
   min-height: 1200px;
 }
 #preview_col {
-  background: #f7f6f4;
+  background: #f5f7fa;
   border-top: 5px solid #2478bd;
   min-height: 1200px;
 }
@@ -432,3 +432,28 @@ h1 {
   text-align: left;
   width: 970px;
 }
+
+.jamjar1 .jamjar_head {
+  background: #7c858e !important;
+}
+
+.jamjar1 .jamjar_foot {
+  background: #6d757d !important;
+}
+
+.jamjar3 .jamjar_head {
+  background: #cbd0d6 !important;
+}
+
+.jamjar3 .jamjar_foot {
+  background: #bbbfc5 !important;
+}
+
+.jamjar2 .jamjar_head {
+  background: #9ea7b1 !important;
+}
+
+.jamjar2 .jamjar_foot {
+  background: #8f97a0 !important;
+}
+
