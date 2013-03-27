@@ -353,11 +353,22 @@ h1 {
   font-size: 20px;
 }
 .back_to_labs:hover {
-  color: #565967;
+  color: #2c2c2c;
 }
 .back_to_labs .arrow {
-  font-size: 26px;
-  font-weight: bold;
+  background: url(../images/arrow.png);
+  display: inline-block;
+  *display: inline;
+  height: 16px;
+  text-indent: -99999em;
+  position: relative;
+  top: 2px;
+  vertical-align: top;
+  width: 18px;
+  zoom: 1;
+}
+.back_to_labs:hover .arrow {
+  background-position: 0 -16px;
 }
 .back_to_labs .text {
   display: block;
