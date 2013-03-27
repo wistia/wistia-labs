@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+require "net/http"
+require "uri"
+
+APP_PATH = File.expand_path('../..',  __FILE__)
+
+uri = URI.parse("http://wistia.com/common/header")
+response = Net::HTTP.get_response(uri)
+
+if response.code.to_i == 200
+  header_content = response.body
+  replacement_content = <<-eos
+<!-- COMMON_HEADER_START -->
+#{header_content}
+<!-- COMMON_HEADER_END -->
+  eos
+  common_header_regexp = /\<!--\s*COMMON_HEADER_START\s*--\>(.*?)\<!--\s*COMMON_HEADER_END\s*--\>/m
+
+  Dir["#{APP_PATH}/**/*.html"].each do |filename|
+    contents = File.read(filename)
+    contents.gsub!(common_header_regexp, replacement_content)
+    File.open(filename, 'w') do |file|
+      file.puts contents
+    end
+  end
+end
