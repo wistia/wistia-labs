@@ -53,7 +53,6 @@ a:hover {
   color: #54b8ff;
 }
 
-
 textarea, input {
   border: 1px dotted #a5a5a5;
   font-family: Interstate, Helvetica, Arial, Sans-Serif;
@@ -67,12 +66,23 @@ textarea.example, input.example {
 }
 
 #nonfooter {
-  min-height: 100%;
   position: relative;
 }
 
 #body {
   height: 100%;
+}
+
+#left_gutter {
+  background: #f1eeea;
+  border-top: 5px solid #cbcfd4;
+  width: 0;
+}
+
+#right_gutter {
+  background: #f7f6f4;
+  border-top: 5px solid #cbcfd4;
+  width: 0;
 }
 
 #footerpad {
@@ -248,7 +258,6 @@ a.darkbutton, button.dark {
 }
 
 .col1 {
-  background: #f1efeb;
   color: #696969;
   min-height: 100%;
   padding: 30px;
@@ -260,24 +269,63 @@ a.darkbutton, button.dark {
   padding: 30px;
 }
 
-#header {
+#lab_header {
   background: #fff;
+  color: #363947;
+  font-size: 17px;
 }
-#header .col {
+#lab_header .col {
   background: transparent;
   padding: 0;
 }
-#header .col1 {
-  padding: 30px;
+#lab_header .col1 {
+  padding: 30px 0;
+  text-align: center;
+  width: 213px;
 }
-#header .col2 {
-  padding: 30px;
-  width: 600px;
+#lab_header .col2 {
+  padding: 30px 0 30px 30px;
+  width: 797px;
+}
+#lab_header h1 {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+#configure_col {
+  background: #f1eeea;
+  border-top: 5px solid #cbcfd4;
+}
+#preview_col {
+  background: #f7f6f4;
+  border-top: 5px solid #2478bd;
 }
 
 h1 {
   font-weight: normal;
   margin-top: 0;
+}
+
+.lab_logo {
+  height: 98px;
+  vertical-align: top;
+  width: 94px;
+}
+
+.back_to_labs {
+  color: #363947;
+  display: block;
+  font-size: 20px;
+}
+.back_to_labs:hover {
+  color: #565967;
+}
+.back_to_labs .arrow {
+  font-size: 26px;
+  font-weight: bold;
+}
+.back_to_labs .text {
+  display: block;
 }
 
 .checkbox_field_pair {
@@ -339,4 +387,14 @@ h1 {
 #configure .timeat_entry .sep {
   font-weight: bold;
   margin: 0 2px;
+}
+
+.outer_container {
+  text-align: center;
+}
+
+.inner_container {
+  margin: 0 auto;
+  text-align: left;
+  width: 970px;
 }
