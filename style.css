@@ -1,5 +1,6 @@
 body {
   background: #fff;
+  overflow-x: hidden;
 }
 
 #lab_header {
