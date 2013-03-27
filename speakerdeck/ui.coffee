@@ -356,3 +356,5 @@ window.setupLabInterface = ($) ->
   $(->
     window.prez = new Prez()
   )
+
+setupLabInterface(jQuery)
