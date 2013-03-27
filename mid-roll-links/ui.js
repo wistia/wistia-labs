@@ -14,7 +14,7 @@ Midroll = (function() {
 
     this.previewEmbedded = false;
     this.change = false;
-    this.exampleEmbedCode = "<div id=\"wistia_r2wybv7xr0\" class=\"wistia_embed\" style=\"width:640px;height:360px;\" data-video-width=\"640\" data-video-height=\"360\">&nbsp;</div><script charset=\"ISO-8859-1\" src=\"http://fast.wistia.com/static/concat/E-v1.js\"></script> <script> wistiaEmbed = Wistia.embed(\"r2wybv7xr0\", { version: \"v1\", videoWidth: 640, videoHeight: 360, volumeControl: true, controlsVisibleOnLoad: true }); </script>";
+    this.exampleEmbedCode = "<div id=\"wistia_s1kuzpsgq0\" class=\"wistia_embed\" style=\"width:640px;height:360px;\" data-video-width=\"640\" data-video-height=\"360\">&nbsp;</div><script charset=\"ISO-8859-1\" src=\"http://fast.wistia.com/static/concat/E-v1.js\"></script> <script> wistiaEmbed = Wistia.embed(\"s1kuzpsgq0\", { version: \"v1\", videoWidth: 640, videoHeight: 360, volumeControl: true, controlsVisibleOnLoad: true }); </script>";
     $(document).on("click", ".turn_off_fullscreen", function(event) {
       var source;
 
@@ -49,9 +49,8 @@ Midroll = (function() {
     $("#source_embed_code").val(this.exampleEmbedCode);
     this.previewEmbedded = false;
     this.debounceUpdates();
-    this.addMidrollData("YOU SHOULD CLICK HERE", "unclebenny.com", 2, 10);
-    this.addMidrollData("CHECK OUT UNCLE BENNY!", "unclebenny.com", 8, 14);
-    this.addMidrollData("BUY OUR STUFF!", "unclebenny.com", 12, 22);
+    this.addMidrollData("I'm Jeff!", "http://jeffvincent.me", 0, 6);
+    this.addMidrollData("Get candy necklaces!", "http://www.amazon.com/CANDY-NECKLACE-36-count-Tub/dp/B002HY1YJI", 10, 15);
     return this.debounceUpdates();
   };
 
@@ -135,7 +134,7 @@ Midroll = (function() {
       linkHref = _this.maybeAddHttp($(entry).find("input[name=link_href]").val());
       start = $(entry).find("input[name=start]").val();
       end = $(entry).find("input[name=end]").val();
-      if (linkText && linkHref && parseInt(start, 10) && end) {
+      if (linkText && linkHref && /^\d+$/.test(start) && /^\d+$/.test(end)) {
         return result.push({
           linkText: linkText,
           linkHref: linkHref,
