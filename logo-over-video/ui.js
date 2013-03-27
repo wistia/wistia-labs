@@ -4,7 +4,7 @@ window.jsProductionPath = 'fast.wistia.com/labs/logo-over-video';
 var debug = true;
 
 test_logos = [
-  'http://argo/white-on-transparent.png',
+  'http://profile1.seomoz.org/img/users/medium/238610.jpg',
   'http://embed.wistia.com/deliveries/83d5e93e57ae5287ebc227cd84f17ec2584eb99f.png?image_crop_resized=144x75'
 ];
 
@@ -143,8 +143,14 @@ function MiniMap(elem, embed){
   // Retrieve the centroid coordinate for a minimap object.
   this.centerOf = function(name) {
     log("Finding center coordinate:", name);
-    var off_xy = [$(this._objects[name]).css('left'), $(this._objects[name]).css('top')].map(function(x){ return parseInt(x.slice(0, -2)); });
-    var size_xy = [$(this._objects[name]).css('width'), $(this._objects[name]).css('height')].map(function(x){ return parseInt(x.slice(0, -2)); });
+    var off_xy = [
+      parseInt($(this._objects[name]).css("left"), 10) || 0,
+      parseInt($(this._objects[name]).css("top"), 10) || 0
+    ];
+    var size_xy = [
+      parseInt($(this._objects[name]).css("width"), 10) || 0,
+      parseInt($(this._objects[name]).css("height"), 10) || 0
+    ];
     log(off_xy, size_xy);
 
     // Return the offset of the object's center.
@@ -154,8 +160,10 @@ function MiniMap(elem, embed){
   // TODO: refactor me!
   // Retrieve the embed position mapping for the item.
   this.posFor = function(name) {
-    var base_coord = [$(this._objects[name]).css('left'), $(this._objects[name]).css('top')].map(function(x){ return parseInt(x.slice(0, -2)); });
-    //base_coord[0] = this._base_width - (base_coord[0] + $(this._objects[name]).width());
+    var base_coord = [
+      parseInt($(this._objects[name]).css("left"), 10) || 0,
+      parseInt($(this._objects[name]).css("top"), 10) || 0
+    ];
 
     var grid_pos = this.videoGrid(name);
     var off_c = [];
@@ -163,7 +171,6 @@ function MiniMap(elem, embed){
     // Transform offsets based on grid position.
     switch(grid_pos){
       case 'top_inside':
-        //base_coord[0] = this._base_width - (base_coord[0] + $(this._objects[name]).width());
         off_c = [ Math.round(base_coord[0] / this._x_scale), Math.round(base_coord[1] / this._y_scale)];
         break;
       case 'right_inside':
@@ -230,13 +237,15 @@ function reloadOutputEmbed() {
   if (outputEmbedCode && outputEmbedCode.isValid()) {
 
     // Set the base options.
-    outputEmbedCode.setOption('plugin.logoOverVideo.src',       pluginSrc(outputEmbedCode));
-    outputEmbedCode.setOption('plugin.logoOverVideo.debug',     true);
+    outputEmbedCode.setOption('plugin.logoOverVideo.src', pluginSrc(outputEmbedCode));
 
     // TODO: Migrate these options.
-    outputEmbedCode.setOption('plugin.logoOverVideo.logoUrl',   $('#logo_url').val());
-    outputEmbedCode.setOption('plugin.logoOverVideo.logoLink',  $('#logo_link').val());
-    outputEmbedCode.setOption('plugin.logoOverVideo.logoTitle', $('#logo_title').val());
+    if (/^http/.test($("#logo_url").val())) {
+      outputEmbedCode.setOption('plugin.logoOverVideo.logoUrl', $('#logo_url').val());
+    } else {
+      outputEmbedCode.setOption('plugin.logoOverVideo.logoUrl', "#");
+    }
+    outputEmbedCode.setOption('plugin.logoOverVideo.logoLink', $('#logo_link').val());
 
     // update the MiniMap.
     var $grid = $('#wlov-grid')[0];
@@ -269,7 +278,10 @@ function replaceGridLogo(logo_url) {
 
   // Update the minimap grid.
   var $grid = $('#wlov-grid')[0];
-  $grid.minimap.clear();
+  if ($grid.minimap) {
+    $grid.minimap.clear();
+  }
+
   // XXX: Move this!
   // Create the logo image element.
   var $logo = $('<img/>');
@@ -300,7 +312,7 @@ function replaceGridLogo(logo_url) {
           'plugin.logoOverVideo.yOffset': mapping.offset[1]
         });
 
-        if (wistiaEmbed !== undefined) {
+        if (wistiaEmbed) {
           wistiaEmbed.plugin.logoOverVideo.pos(mapping.offset[0], mapping.offset[1], mapping.grid);
         }
       });
@@ -352,40 +364,6 @@ window.setupLabInterface = function($) {
       });
     });
 
-    // Logo opacity sliders
-    $( "#logo_opacity_slider" ).slider({
-      range: "min",
-      min: 0.0,
-      max: 100.0,
-      value: 33.0,
-      slide: function( event, ui ) {
-        $( "#logo_opacity" ).val( ui.value + '%' );
-      },
-      stop: function( event, ui ) {
-        if (wistiaEmbed !== undefined) {
-          wistiaEmbed.plugin.logoOverVideo.defaultOpacity(parseFloat(ui.value) / 100.0);
-          updateOutputEmbedOption('plugin.logoOverVideo.opacity', parseFloat(ui.value) / 100.0);
-        }
-      }
-    });
-    $( "#logo_opacity" ).val( $( "#logo_opacity_slider" ).slider( "value" ) + '%' );
-
-    $( "#logo_hover_opacity_slider" ).slider({
-      range: "min",
-      min: 0.0,
-      max: 100.0,
-      value: 90.0,
-      slide: function( event, ui ) {
-        $( "#logo_hover_opacity" ).val( ui.value + '%' );
-      },
-      stop: function( event, ui ) {
-        if (wistiaEmbed !== undefined) {
-          wistiaEmbed.plugin.logoOverVideo.hoverOpacity(parseFloat(ui.value) / 100.0);
-          updateOutputEmbedOption('plugin.logoOverVideo.hoverOpacity', parseFloat(ui.value) / 100.0);
-        }
-      }
-    });
-    $( "#logo_hover_opacity" ).val( $( "#logo_hover_opacity_slider" ).slider( "value" ) + '%' );
   });
 
 };
