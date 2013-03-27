@@ -1,0 +1,307 @@
+
+html {
+  height: 100%;
+}
+
+body {
+  background: #f7f6f4;
+  color: #404040;
+  font-family: Interstate, Helvetica, Arial, Sans-Serif;
+  font-size: 16px;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 strong {
+  font-weight: 900;
+}
+
+a {
+  color: #3498ea;
+  text-decoration: none;
+}
+a:hover {
+  color: #54b8ff;
+}
+
+
+textarea, input {
+  border: 1px dotted #a5a5a5;
+  font-family: Interstate, Helvetica, Arial, Sans-Serif;
+  font-size: 14px;
+  outline: 0;
+  padding: 6px 8px;
+}
+
+textarea.example, input.example {
+  color: #ccc;
+}
+
+#nonfooter {
+  height: 100%;
+  min-height: 100%;
+  position: relative;
+}
+
+#footerpad {
+  height: 0;
+  padding-bottom: 0;
+  font-size: 0;
+  line-height: 0;
+}
+
+* html #nonfooter {
+  height: 100%;
+}
+
+#footer {
+  clear: both;
+  height: 0;
+  background: white;
+  margin-top: 0;
+}
+
+.jamjar {
+  color: #666666;
+  font-family: Interstate, Helvetica, Arial, sans-serif;
+  margin-bottom: 18px;
+}
+
+.jamjar_head {
+  background: #56ADF8;
+  color: white;
+  position: relative; }
+
+.jamjar_title {
+  background: transparent url(http://fast.wistia.com/images/zebra/elements/expanded_arrow_white.gif) no-repeat 12px 17px;
+  color: white;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 10px 10px 10px 31px; }
+
+.jamjar_help {
+  background: url(http://fast.wistia.com/images/zebra/elements/questionhelp_light.png);
+  cursor: pointer;
+  display: inline-block;
+  *display: inline;
+  height: 26px;
+  opacity: 0.5;
+  position: absolute;
+  right: 10px;
+  text-indent: -99999em;
+  top: 8px;
+  vertical-align: top;
+  width: 26px;
+  zoom: 1; }
+  .jamjar_help:hover {
+    opacity: 1; }
+
+.jamjar_subhead {
+  padding: 8px 10px 8px 31px; }
+
+.jamjar_body {
+  background: white;
+  font-size: 14px;
+  padding: 18px; }
+
+.jamjar_foot {
+  background: #469DE8;
+  font-size: 0;
+  height: 5px;
+  line-height: 0; }
+
+.jamjar_closed .jamjar_title {
+  background-image: url(http://fast.wistia.com/images/zebra/elements/collapsed_arrow_white.gif);
+  background-position: 15px 15px; }
+.jamjar_closed .jamjar_subhead {
+  display: none; }
+.jamjar_closed .jamjar_body {
+  display: none; }
+
+.jamjar_no_control .jamjar_title {
+  background-image: none;
+  cursor: default;
+  padding-left: 10px; }
+
+.paste_embed_code .jamjar_head {
+  background-color: #55C6FF;
+}
+
+.paste_embed_code .jamjar_foot {
+  background-color: #45B6FF;
+}
+
+.midroll .jamjar_head {
+  background-color: #0092D1;
+}
+
+.midroll .jamjar_foot {
+  background-color: #0082C1;
+}
+
+.screen_name .jamjar_head {
+  background-color: #005E8B;
+}
+
+.screen_name .jamjar_foot {
+  background-color: #004E7B;
+}
+
+.cols {
+  white-space: nowrap;
+}
+.col {
+  display: inline-block;
+  *display: inline;
+  vertical-align: top;
+  white-space: normal;
+  zoom: 1;
+}
+
+.col1 {
+  background: #f1efeb;
+  color: #696969;
+  height: 100%;
+  padding: 30px;
+  position: relative;
+  width: 306px;
+}
+
+.col2 {
+  padding: 30px;
+}
+
+#header {
+  background: #fff;
+}
+#header .col {
+  background: transparent;
+  padding: 0;
+}
+#header .col1 {
+  padding: 30px;
+}
+#header .col2 {
+  padding: 30px;
+}
+
+h1 {
+  font-weight: normal;
+  margin-top: 0;
+}
+
+.checkbox_field_pair {
+  margin-bottom: 10px;
+}
+.checkbox_field_pair.last {
+  margin-bottom: 0;
+}
+
+.screen_name_field_pair {
+  position: relative;
+}
+
+.screen_name_field_pair .at {
+  color: #ccc;
+  font-size: 16px;
+  left: 6px;
+  position: absolute;
+  top: 10px;
+}
+.screen_name_field_pair .at.dark {
+  color: #404040;
+}
+
+#configure .screen_name_field_pair input[type=text] {
+  background: transparent;
+  padding-left: 23px;
+  position: relative;
+  width: 235px;
+}
+
+
+#new_embed_code {
+  font-family: Courier;
+  font-size: 13px;
+  height: 112px;
+  width: 585px;
+}
+
+#configure input[type=text] {
+  width: 250px;
+}
+
+#configure textarea {
+  height: 112px;
+  width: 250px;
+}
+
+#results label {
+  display: block;
+  margin: 1em 0;
+}
+
+#placeholder_preview {
+  border: 1px dotted #a5a5a5;
+  height: 350px;
+  line-height: 360px;
+  text-align: center;
+  width: 600px;
+}
+
+#configure .midrolls input[name=start], #configure .midrolls input[name=end] {
+  text-align: center;
+  width: 35px;
+}
+
+#configure .midrolls input[name=screen_name] {
+  background: transparent;
+  padding-left: 23px;
+  position: relative;
+  width: 115px;
+}
+
+.name_range_combo {
+  position: relative;
+}
+
+.name_range_combo .at {
+  color: #ccc;
+  font-size: 16px;
+  position: absolute;
+  left: 6px;
+  top: 10px;
+}
+
+.name_range_combo .at.dark {
+  color: #404040;
+}
+
+.midrolls label {
+  display: inline-block;
+  *display: inline;
+  vertical-align: top;
+  zoom: 1;
+}
+
+.midrolls label.screen_name {
+  padding-left: 1px;
+  width: 148px;
+}
+
+.midrolls label.start, .midrolls label.end {
+  text-align: center;
+  width: 52px;
+}
+
+.more_options {
+  margin-top: 1em;
+}
+
+#alert {
+  width: 600px;
+}
+
+
