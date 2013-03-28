@@ -309,7 +309,7 @@ a.darkbutton, button.dark {
 }
 
 .white_arrow {
-  background: transparent url("/images/white_arrow.png") no-repeat 10% 10%;
+  background: transparent url("/labs/images/white_arrow.png") no-repeat 10% 10%;
   display: inline-block;
   margin: 0 4px -2px 0;
   height: 16px;
