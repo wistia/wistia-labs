@@ -176,8 +176,6 @@
     autoDimOff = ->
       options.autoDim = false
       video.unbind "play", dim
-      video.unbind "pause", undim
-      video.unbind "end", undim
 
 
     # Set up dimming bindings and turn it on.
@@ -185,8 +183,6 @@
       autoDimOff()
       options.autoDim = true
       video.bind "play", dim
-      video.bind "pause", undim
-      video.bind "end", undim
 
 
     # ### Initialize
@@ -210,9 +206,7 @@
 
     # Clicking the backdrop should pause and undim.
     for k, elem of elems
-      bindEvent elem, "click", ->
-        video.pause() if options.autoDim
-        undim()
+      bindEvent elem, "click", undim
 
     # Setup autodim bindings on load.
     autoDimOn() if options.autoDim

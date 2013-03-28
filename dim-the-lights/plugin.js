@@ -140,16 +140,12 @@
     };
     autoDimOff = function() {
       options.autoDim = false;
-      video.unbind("play", dim);
-      video.unbind("pause", undim);
-      return video.unbind("end", undim);
+      return video.unbind("play", dim);
     };
     autoDimOn = function() {
       autoDimOff();
       options.autoDim = true;
-      video.bind("play", dim);
-      video.bind("pause", undim);
-      return video.bind("end", undim);
+      return video.bind("play", dim);
     };
     uuid = W.seqId();
     options = W.extend({
@@ -169,12 +165,7 @@
     }
     for (k in elems) {
       elem = elems[k];
-      bindEvent(elem, "click", function() {
-        if (options.autoDim) {
-          video.pause();
-        }
-        return undim();
-      });
+      bindEvent(elem, "click", undim);
     }
     if (options.autoDim) {
       autoDimOn();
