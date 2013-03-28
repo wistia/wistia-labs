@@ -46,7 +46,7 @@
   W.plugin "dimTheLights", (video, options = {}) ->
 
     # Popovers are already dimmed.
-    return if video.options?.popover
+    return if /popover=true/.test(video.src)
 
     # ### Internal Functions
 

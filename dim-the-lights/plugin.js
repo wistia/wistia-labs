@@ -50,12 +50,12 @@
     return Math.max(body.scrollWidth, body.offsetWidth, html.clientWidth, html.scrollWidth, html.offsetWidth);
   };
   return W.plugin("dimTheLights", function(video, options) {
-    var addStyle, autoDimOff, autoDimOn, container, dim, dimmed, elem, elems, k, positionElems, removeStyle, styleElem, undim, uuid, _i, _len, _ref, _ref1;
+    var addStyle, autoDimOff, autoDimOn, container, dim, dimmed, elem, elems, k, positionElems, removeStyle, styleElem, undim, uuid, _i, _len, _ref;
 
     if (options == null) {
       options = {};
     }
-    if ((_ref = video.options) != null ? _ref.popover : void 0) {
+    if (/popover=true/.test(video.src)) {
       return;
     }
     positionElems = function() {
@@ -156,9 +156,9 @@
     options.autoDim = W.obj.cast(options.autoDim);
     container = video.iframe ? video.iframe : video.container;
     elems = {};
-    _ref1 = ['left', 'right', 'top', 'bottom'];
-    for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-      k = _ref1[_i];
+    _ref = ['left', 'right', 'top', 'bottom'];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      k = _ref[_i];
       elems[k] = document.createElement("div");
       elems[k].id = "" + uuid + "_" + k;
       elems[k].className = "wistia-dim-backdrop";
