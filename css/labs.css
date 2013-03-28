@@ -300,6 +300,28 @@ a.darkbutton, button.dark {
   padding: 30px;
 }
 
+.webinar_link {
+  background-color: #0e7ac4;
+}
+
+.white_arrow {
+  background: transparent url("/images/white_arrow.png") no-repeat 10% 10%;
+  display: inline-block;
+  height: 16px;
+  width: 18px;
+}
+
+.webinar_link p {
+  margin: 0;
+  padding: 10px 0;
+  text-align: center;
+  color: white;
+}
+
+.webinar_link a {
+  color: yellow;
+}
+
 #lab_header {
   background: #fff;
   color: #363947;
