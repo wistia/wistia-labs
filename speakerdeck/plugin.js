@@ -37,9 +37,16 @@ Wistia.plugin('speakerdeck', function(video, options) {
     return Timings;
 
   })();
+  timingStr = options.timings || '';
+  timingPairs = [];
+  _ref = timingStr.split('_');
+  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+    tStr = _ref[_i];
+    t = tStr.split('-');
+    timingPairs.push([parseInt(t[0]), parseInt(t[1])]);
+  }
+  timings = new Timings(timingPairs);
   updateTimings = function(pairs) {
-    var timings;
-
     timings = new Timings(pairs);
     return updateSlideForTime();
   };
@@ -67,9 +74,9 @@ Wistia.plugin('speakerdeck', function(video, options) {
     suppressSlideSyncTemporarily();
     speakerDeck.goToSlide(10000);
     setTimeout(function() {
-      var _ref;
+      var _ref1;
 
-      numberOfSlides = (_ref = speakerDeck.currentSlide) != null ? _ref.number : void 0;
+      numberOfSlides = (_ref1 = speakerDeck.currentSlide) != null ? _ref1.number : void 0;
       return speakerDeck.goToSlide(1);
     }, 10);
     speakerDeck.on('change', function(slide) {
@@ -90,7 +97,7 @@ Wistia.plugin('speakerdeck', function(video, options) {
     }, 100);
   };
   updateSlideForTime = function(t) {
-    var slideNum, _ref;
+    var slideNum, _ref1;
 
     if (!speakerDeck) {
       return;
@@ -99,21 +106,12 @@ Wistia.plugin('speakerdeck', function(video, options) {
       t = video.time();
     }
     slideNum = timings.slideForTime(t);
-    if (((_ref = speakerDeck.currentSlide) != null ? _ref.number : void 0) !== slideNum) {
+    if (((_ref1 = speakerDeck.currentSlide) != null ? _ref1.number : void 0) !== slideNum) {
       suppressSlideSyncTemporarily();
       return speakerDeck.goToSlide(slideNum);
     }
   };
   video.bind('timechange', updateSlideForTime);
-  timingStr = options.timings || '';
-  timingPairs = [];
-  _ref = timingStr.split('_');
-  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-    tStr = _ref[_i];
-    t = tStr.split('-');
-    timingPairs.push([parseInt(t[0]), parseInt(t[1])]);
-  }
-  timings = new Timings(timingPairs);
   position = options.position || 'right';
   width = options.width || video.width();
   height = options.height || video.height();

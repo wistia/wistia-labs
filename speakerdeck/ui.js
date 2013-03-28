@@ -142,8 +142,10 @@ Prez = (function() {
     if ($('#next_slide').hasClass('disabled')) {
       return;
     }
-    if (window.previewEmbed.state() === 'beforeplay') {
+    if (window.previewEmbed.state() !== 'playing') {
       window.previewEmbed.play();
+    }
+    if (this.timings().length === 0) {
       return this.addTiming(1, 0);
     } else {
       return this.addTiming(window.previewEmbed.plugin.speakerdeck.currentSlide() + 1, parseInt(window.previewEmbed.time()));

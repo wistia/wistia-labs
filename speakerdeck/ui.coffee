@@ -125,9 +125,11 @@ class Prez
   nextSlide: ->
     return if $('#next_slide').hasClass('disabled')
 
-    # if the video hasn't started yet, play it and bail
-    if window.previewEmbed.state() is 'beforeplay'
+    # if the video hasn't started yet, play it
+    if window.previewEmbed.state() isnt 'playing'
       window.previewEmbed.play()
+
+    if @timings().length == 0
       @addTiming(1,0)
     else
       @addTiming(
