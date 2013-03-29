@@ -3,9 +3,9 @@ window.jsProductionPath = 'fast.wistia.com/labs/chapters';
 
 function updateOutput() {
   var sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
+
   window.outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
 
-  console.log("updateOutput");
   if (sourceEmbedCode && sourceEmbedCode.isValid()) {
     // Set custom options on the embed code.
 

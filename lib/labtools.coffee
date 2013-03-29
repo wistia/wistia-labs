@@ -339,21 +339,23 @@
       if h?
         @_hrefUrl.path[@_hrefUrl.path.length - 1] = h
         @_$popover.attr("href", @_hrefUrl.absolute())
-        @parse(@_$popoverFrag.html())
+        @parse(@_$popoverFrag.html() + "\n" + @_scripts.join("\n"))
         this
       else
         @_hrefUrl.path[@_hrefUrl.path.length - 1]
 
 
     _classConfig: ->
-      ("#{key}=#{val}" for key, val of @_config).join(",")
+      "wistia-popover[" +
+        ("#{key}=#{val}" for key, val of @_config).join(",") +
+        "]"
 
 
     width: (w) ->
       if w?
         @_config.width = w
         @_$popover.attr('class', @_classConfig())
-        @parse(@_$popoverFrag.html())
+        @parse(@_$popoverFrag.html() + "\n" + @_scripts.join("\n"))
         this
       else
         @_width
@@ -363,7 +365,7 @@
       if h?
         @_config.height = h
         @_$popover.attr('class', @_classConfig())
-        @parse(@_$popoverFrag.html())
+        @parse(@_$popoverFrag.html() + "\n" + @_scripts.join("\n"))
         this
       else
         @_height
@@ -374,6 +376,7 @@
 
 
     toString: ->
+      console.log @_scripts
       result = "#{W.EmbedCode.serializeElem(@_$popover[0])}\n#{@_scripts.join("\n")}"
       result.replace(/&amp;/g, "&")
 
