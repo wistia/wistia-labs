@@ -469,3 +469,8 @@ h1 {
   background: #8f97a0 !important;
 }
 
+#resources .labs_specific_resources {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #dcdee2;
+}
