@@ -34,11 +34,12 @@
 
 #wistiacom_header {
   background: white;
+  border-top: 6px solid #eceef1;
   z-index: 100;
   position: relative; }
   #wistiacom_header .headcontainer {
     z-index: 100;
-    height: 140px;
+    height: 110px;
     margin: 0 auto;
     width: 1080px;
     position: relative; }
@@ -47,14 +48,13 @@
     background: url("http://wistia.com/images/elements/skeletor/logo.png") no-repeat;
     width: 220px;
     height: 40px;
-    top: 50px;
+    top: 36px;
     left: 0; }
   #wistiacom_header #logo a:hover {
     background-position: 0px -40px; }
   #wistiacom_header #nav {
     position: absolute;
-    top: 33px;
-    left: 280px; }
+    left: 338px; }
     #wistiacom_header #nav ul {
       display: inline-block;
       *display: inline;
@@ -63,58 +63,66 @@
       margin: 0;
       padding: 0;
       list-style: none;
-      height: 77px; }
-      #wistiacom_header #nav ul.sections {
-        border-left: 1px solid #eeeeee;
-        border-right: 1px solid #eeeeee;
-        width: 467px; }
-      #wistiacom_header #nav ul.actions a {
-        padding: 44px 0px 0px 60px;
-        font-size: 20px;
-        font-weight: 900; }
+      font-size: 0px; }
       #wistiacom_header #nav ul li {
-        float: left;
+        display: inline-block;
+        *display: inline;
+        vertical-align: top;
+        zoom: 1;
+        margin-top: -6px;
         position: relative;
         z-index: 0;
-        margin-top: -15px; }
-        #wistiacom_header #nav ul li .icon {
-          width: 70px;
-          height: 50px;
-          margin-bottom: 8px;
-          background-position: 0px 0px; }
-      #wistiacom_header #nav ul:first-child {
-        padding-left: 36px; }
-      #wistiacom_header #nav ul .features .icon {
-        background-image: url("http://wistia.com/images/elements/skeletor/header_nav_features.png"); }
-      #wistiacom_header #nav ul .pricing .icon {
-        background-image: url("http://wistia.com/images/elements/skeletor/header_nav_pricing.png"); }
-      #wistiacom_header #nav ul .learning .icon {
-        background-image: url("http://wistia.com/images/elements/skeletor/header_nav_learning.png"); }
-      #wistiacom_header #nav ul p {
-        margin: 0px;
-        text-align: center; }
+        width: 130px;
+        text-align: center;
+        border-top: 6px solid #eceef1; }
+        #wistiacom_header #nav ul li.features {
+          text-transform: uppercase; }
+          #wistiacom_header #nav ul li.features:hover {
+            border-top: 6px solid #faa928; }
+            #wistiacom_header #nav ul li.features:hover a {
+              color: #faa928; }
+        #wistiacom_header #nav ul li.pricing {
+          text-transform: uppercase; }
+          #wistiacom_header #nav ul li.pricing:hover {
+            border-top: 6px solid #f27398; }
+            #wistiacom_header #nav ul li.pricing:hover a {
+              color: #f27398; }
+        #wistiacom_header #nav ul li.learning {
+          margin-right: 92px;
+          text-transform: uppercase; }
+          #wistiacom_header #nav ul li.learning:hover {
+            border-top: 6px solid #56be8e; }
+            #wistiacom_header #nav ul li.learning:hover a {
+              color: #56be8e; }
+        #wistiacom_header #nav ul li.signup a {
+          letter-spacing: 1px; }
+          #wistiacom_header #nav ul li.signup a:hover {
+            color: #40aaef; }
+        #wistiacom_header #nav ul li.signup:hover {
+          border-top: 6px solid #40aaef; }
+        #wistiacom_header #nav ul li.login a {
+          letter-spacing: 1px; }
+          #wistiacom_header #nav ul li.login a:hover {
+            color: #0e7ac4; }
+        #wistiacom_header #nav ul li.login:hover {
+          border-top: 6px solid #0e7ac4; }
       #wistiacom_header #nav ul a {
         display: block;
-        padding: 12px 36px;
+        padding: 46px 0px;
         text-decoration: none;
         font-family: "Avenir", "Futura", sans-serif;
-        font-size: 16px;
-        font-weight: 700;
-        color: #bdc6d1;
-        text-shadow: 0 0px 2px white;
+        font-size: 17px;
+        font-weight: 500;
+        color: #555555;
+        letter-spacing: 2px;
         outline: none;
-        -webkit-font-smoothing: antialiased; }
+        margin: 0 auto;
+        -webkit-font-smoothing: subpixel-antialiased; }
         #wistiacom_header #nav ul a img {
           overflow: hidden;
           width: 70px;
           height: 50px;
           background-position: 0px 0px; }
-      #wistiacom_header #nav ul a:hover {
-        color: #9fa7b0; }
-        #wistiacom_header #nav ul a:hover .icon {
-          background-position: 0px -50px; }
-      #wistiacom_header #nav ul li.current a {
-        color: #9fa7b0; }
 </style>
 <div id='wistiacom_header'>
 <div class='headcontainer'>
@@ -122,29 +130,18 @@
 <a href='/'></a>
 </div>
 <div id='nav'>
-<ul class='sections'>
+<ul>
 <li class='features'>
-<a href='http://wistia.com/product'>
-<div class='icon'></div>
-<p>Features</p>
-</a>
+<a href='http://wistia.com/product'>Features</a>
 </li>
 <li class='pricing'>
-<a href='http://wistia.com/pricing'>
-<div class='icon'></div>
-<p>Pricing</p>
-</a>
+<a href='http://wistia.com/pricing'>Pricing</a>
 </li>
 <li class='learning'>
-<a href='http://wistia.com/learning'>
-<div class='icon'></div>
-<p>Learning</p>
-</a>
+<a href='http://wistia.com/learning'>Learning</a>
 </li>
-</ul>
-<ul class='actions'>
 <li class='signup'>
-<a href='/free/new'>Sign Up</a>
+<a href='http://wistia.com/free/new'>Sign Up</a>
 </li>
 <li class='login'>
 <a href='https://secure.wistia.com/login' style='padding-right: 0px'>Login</a>
@@ -155,6 +152,7 @@
 </div>
 
 <!-- COMMON_HEADER_END -->
+
 
 
       </div>
