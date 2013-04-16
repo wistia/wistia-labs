@@ -147,6 +147,11 @@ Wistia.plugin("resumable", function(video, options) {
   function showOverlay() {
     removeOverlay();
     if (resumeTime()) {
+      if (video.state() === "beforeplay") {
+        video.suppressPlay(true);
+      } else {
+        video.pause();
+      }
       var resumeScreen = document.createElement("div");
       resumeScreen.id = uuid;
       resumeScreen.innerHTML = "" +
@@ -167,10 +172,12 @@ Wistia.plugin("resumable", function(video, options) {
       var resumeSkipElem = document.getElementById(uuid + "_resume_skip");
 
       resumeSkipElem.onclick = function() {
+        video.suppressPlay(false);
         jumpToResumeTime();
         return false;
       };
       resumePlayElem.onclick = function() {
+        video.suppressPlay(false);
         playFromBeginning();
         return false;
       };

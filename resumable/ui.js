@@ -12,6 +12,7 @@ function updateOutput() {
 
     // Set custom options on the embed code.
     outputEmbedCode.setOption("plugin.resumable.src", pluginSrc(sourceEmbedCode));
+    outputEmbedCode.setOption("plugin.resumable.async", false);
 
     // Display the output.
     $("#output_embed_code").val(outputEmbedCode.toString());
