@@ -1,8 +1,7 @@
-Wistia.plugin("pluginName", function(video, options) {
-
-  // Cool plugin stuff goes here.
-
-  // Return an object with a public interface 
-  // for the plugin, if you want.
-  return {};
+Wistia.plugin("template", function(video, options) {
+  console.log("initializing template plugin for", video.hashedId());
+  console.log("options are", options);
+  video.ready(function() {
+    console.log(video.name(), "is ready");
+  });
 });

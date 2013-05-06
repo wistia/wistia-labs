@@ -1,22 +1,21 @@
+window.jsFileName = 'plugin.js';
+window.jsProductionPath = 'fast.wistia.com/labs/template';
+
 function updateOutput() {
   var sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
   var outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
 
   if (sourceEmbedCode && sourceEmbedCode.isValid()) {
 
-    // Set custom options on the embed code.
     // CHANGE ME!!!
-    outputEmbedCode.setOption("myCustomOption", "giraffe");
-    outputEmbedCode.setOption("nested.option", "cantelope");
-    outputEmbedCode.setOption("also.basic-objects", { extraConfig: true });
-    outputEmbedCode.setOption("anotherOption", $("#another_option").val());
+    // Here's where you modify the embed code to add and configure your plugin.
+    outputEmbedCode.setOption("plugin.template.src", pluginSrc(sourceEmbedCode));
+    outputEmbedCode.setOption("plugin.template.myOption", "awesome");
 
     // Display the output.
     $("#output_embed_code").val(outputEmbedCode.toString());
     outputEmbedCode.previewInElem("preview");
-
   } else {
-
     // Show an error if invalid. We can be more specific 
     // if we expect a certain problem.
     $("#output_embed_code").val("Please enter a valid Wistia embed code.");
@@ -43,5 +42,41 @@ window.setupLabInterface = function($) {
       .on("keyup", "input[type=text], textarea", debounceUpdateOutput)
       .on("change", "select", debounceUpdateOutput)
       .on("click", ":radio,:checkbox", debounceUpdateOutput);
+
+    if (!Wistia.localStorage("template.cleared")) {
+      showExample();
+      $(".show_example_text").hide();
+      $(".clear_example_text").show();
+    } else {
+      $(".show_example_text").show();
+      $(".clear_example_text").hide();
+    }
+
+    $("#clear_example").click(function(event) {
+      event.preventDefault();
+      resetInterface();
+      $(".show_example_text").show();
+      $(".clear_example_text").hide();
+      Wistia.localStorage("template.cleared", true);
+    });
+
+    $("#show_example").click(function(event) {
+      event.preventDefault();
+      showExample();
+      $(".show_example_text").hide();
+      $(".clear_example_text").show();
+      Wistia.localStorage("template.cleared", false);
+    });
   });
 };
+
+window.resetInterface = function() {
+  $("#source_embed_code").val("").keyup().change();
+};
+
+window.showExample = function() {
+  resetInterface();
+  $("#source_embed_code").val("<iframe src=\"http://fast.wistia.net/embed/iframe/kl7nfgwauq?playerColor=81b7db&version=v1&videoHeight=360&videoWidth=640\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"640\" height=\"360\"></iframe>").keyup().change();
+};
+
+setupLabInterface(jQuery);
