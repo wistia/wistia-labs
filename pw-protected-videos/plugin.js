@@ -4,7 +4,7 @@ Wistia.plugin("passwordProtected", function(video, options) {
   var fb;
   var gotSha256 = false;
   var gotFireBaseClient = false;
-  var fireBaseReady = Wistia.createReadyFunction(this);
+  var fireBaseReady = new Wistia.StopGo();
   var styleElem;
   var sha256Src = Wistia.proto() +
     '//' + pluginHost() + '/pw-protected-videos/sha256.js';
