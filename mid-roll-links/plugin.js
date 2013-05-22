@@ -169,14 +169,17 @@ Wistia.plugin("midrollLinks", function(video, options) {
           "}\n" +
           ".wistia_visible a {\n" +
           "  background-color: #" + colors.selectedBgColor + ";\n" +
-          "  border: 2px solid #" + colors.borderColor + ";\n" +
           "  color: #" + colors.selectedTextColor + ";\n" +
           "  font-family: 'Open Sans', sans-serif;\n" +
-          "  letter-spacing: 1px;\n" +
+          "  letter-spacing: 0px;\n" +
           "  font-weight: bold;" +
           "  font-size: 18px;\n" +
           "  margin: " + margin + ";\n" +
-          "  padding: 5px 10px;\n" +
+          "  padding: 5px 17px 7px;\n" +
+          "  border-radius: 20px;\n" +
+          "  -moz-box-shadow: 0px 0px 17px rgba(0,0,0,.2);\n" +
+          "  -webkit-box-shadow: 0px 0px 17px rgba(0,0,0,.2);\n" +
+          "  box-shadow: 0px 0px 17px rgba(0,0,0,.2);\n" +
           "  text-align: center;\n" +
           "}"
       );
