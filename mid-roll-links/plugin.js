@@ -2,7 +2,7 @@ Wistia.plugin("midrollLinks", function(video, options) {
   var isMobile = /ipad|iphone|ipod|android/i.test(navigator.userAgent);
   var links = options.links;
   var linkSpacing;
-  var margin = "6px";
+  var position = "6px";
 
   // load google font for plugin stylez
   window.WebFontConfig = {
@@ -174,7 +174,9 @@ Wistia.plugin("midrollLinks", function(video, options) {
           "  letter-spacing: 0px;\n" +
           "  font-weight: bold;" +
           "  font-size: 18px;\n" +
-          "  margin: " + margin + ";\n" +
+          "  position: absolute;\n" +
+          "  top: " + position + ";\n" +
+          "  right: " + position + ";\n" +
           "  padding: 5px 17px 7px;\n" +
           "  border-radius: 20px;\n" +
           "  -moz-box-shadow: 0px 0px 17px rgba(0,0,0,.2);\n" +
