@@ -60,7 +60,7 @@ Wistia.plugin("midrollLinks", function(video, options) {
   function addLinks(links) {
     var linkElemWrapper = document.createElement("div");
     linkElemWrapper.id = video.uuid + "_midroll";
-    linkElemWrapper.style.position = "relative";
+    linkElemWrapper.style.position = "absolute";
     linkElemWrapper.style.top = linkSpacing || "6px";
     linkElemWrapper.style.right = linkSpacing || "6px";
     linkElemWrapper.style.textAlign = "right";
