@@ -1,7 +1,6 @@
 Wistia.plugin("midrollLinks", function(video, options) {
   var isMobile = /ipad|iphone|ipod|android/i.test(navigator.userAgent);
   var links = options.links;
-  var linkSpacing;
   var margin = "6px";
 
   // load google font for plugin stylez
@@ -46,14 +45,12 @@ Wistia.plugin("midrollLinks", function(video, options) {
     }
   }
 
-  function setLinkSpacing() {
-    video.ready(function() {
-      if (video.data.media.branding || video.options.branding) {
-        linkSpacing = "20px";
-      } else {
-        linkSpacing = "6px";
-      }
-    });
+  var linkSpacing = function() {
+    if (video.data.media.branding || video.options.branding) {
+      return "20px";
+    } else {
+      return "6px";
+    }
   }
 
   // Each link in the link set has it's own scope. Not confusing at all.
@@ -61,10 +58,12 @@ Wistia.plugin("midrollLinks", function(video, options) {
     var linkElemWrapper = document.createElement("div");
     linkElemWrapper.id = video.uuid + "_midroll";
     linkElemWrapper.style.position = "absolute";
-    linkElemWrapper.style.top = linkSpacing || "6px";
-    linkElemWrapper.style.right = linkSpacing || "6px";
+    linkElemWrapper.style.right = "6px";
     linkElemWrapper.style.textAlign = "right";
     video.grid.right_inside.appendChild(linkElemWrapper);
+    video.ready(function() {
+      linkElemWrapper.style.top = linkSpacing();
+    });
 
     video.trigger("unbindlinks");
 
@@ -181,6 +180,7 @@ Wistia.plugin("midrollLinks", function(video, options) {
           "  -webkit-box-shadow: 0px 0px 17px rgba(0,0,0,.2);\n" +
           "  box-shadow: 0px 0px 17px rgba(0,0,0,.2);\n" +
           "  text-align: center;\n" +
+          "  text-decoration: none; \n" +
           "}"
       );
       styleElem.id = "wistia_midroll_links_css";
