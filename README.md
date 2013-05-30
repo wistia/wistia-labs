@@ -40,12 +40,22 @@ So, you think your new update is so special, huh? Actually it probably is, we
 should get it up there and live in a hurry!
 
 * First, commit your changes and push to master.
-* Next, get up-to-date on wistiacom, and then run `script/update_labs` (and
-  thank King Schnur for putting that together)
-* Run doomcrank: `./crank wistiacom production wistia:deploy:update`
+* If you have never run this before, run from wistiacom:
+
+    `git submodule update --init`
+
+* Next, get up-to-date on wistiacom, and then run:
+
+    `script/update_labs`
+    
+* Run doomcrank:
+
+    `./crank wistiacom production wistia:deploy:update`
+
 * If your update is to a plugin itself, you will also need to bust the cache
-  from Fastly, which you can do from a wistia-app machine
-  `Fastly.purge_key('labs')` 
+  from Fastly, which you can do from a wistia-app machine:
+
+    `Fastly.purge_key('labs')`
 
 ### Other Goodies
 
