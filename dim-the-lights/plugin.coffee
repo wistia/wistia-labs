@@ -216,6 +216,7 @@
     video.bind "widthchanged", positionElems
     video.bind "heightchanged", positionElems
     bindEvent window, "resize", positionElems
+    bindEvent window, "scroll", positionElems
 
     video.bind "down", undim
 
