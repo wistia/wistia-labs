@@ -31,7 +31,8 @@ function updateOutput() {
           outputEmbedCode.setOption("plugin.passwordProtected", {
             src: pluginSrc(sourceEmbedCode),
             seed: random,
-            challenge: $('#challenge').val()
+            challenge: $('#challenge').val(),
+            async: false
           });
 
           // replace the output with a dummy video

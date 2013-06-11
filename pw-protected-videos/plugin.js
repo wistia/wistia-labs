@@ -31,6 +31,7 @@ Wistia.plugin("passwordProtected", function(video, options) {
     errorTextElem.style.visibility = "visible";
     errorTextElem.innerHTML = "Loading the video...";
     Wistia.remote.media(hashedId, function(media) {
+      video.suppressPlay(false);
       video.replace(media, video.options);
       video.ready(removeOverlay);
       if (callback) {
@@ -267,6 +268,10 @@ Wistia.plugin("passwordProtected", function(video, options) {
       });
     }
   }
+
+  // Prevent playing
+  video.suppressPlay(true);
+  video.pause();
 
   // If the video dimensions change, update the overlay.
   video.bind("widthchange", fit).bind("heightchange", fit);
