@@ -376,7 +376,6 @@
 
 
     toString: ->
-      console.log @_scripts
       result = "#{W.EmbedCode.serializeElem(@_$popover[0])}\n#{@_scripts.join("\n")}"
       result.replace(/&amp;/g, "&")
 
