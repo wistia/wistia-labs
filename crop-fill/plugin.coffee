@@ -29,12 +29,14 @@
         video.height(targetWidth / videoAspect)
         newTop = -(video.height() - targetHeight) / 2
         video.container.style.top = "#{Math.round(newTop)}px"
+        video.container.style.left = '0px'
       else
         # target is taller than video, so match height and crop left/right
         video.height(targetHeight)
         video.width(targetHeight * videoAspect)
         newLeft = -(video.width() - targetWidth) / 2
         video.container.style.left = "#{Math.round(newLeft)}px"
+        video.container.style.top = '0px'
 
     # Poll on the parent dimensions every 500ms
     lastWidth = W.elem.width(target)

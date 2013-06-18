@@ -26,12 +26,14 @@
         video.width(targetWidth);
         video.height(targetWidth / videoAspect);
         newTop = -(video.height() - targetHeight) / 2;
-        return video.container.style.top = "" + (Math.round(newTop)) + "px";
+        video.container.style.top = "" + (Math.round(newTop)) + "px";
+        return video.container.style.left = '0px';
       } else {
         video.height(targetHeight);
         video.width(targetHeight * videoAspect);
         newLeft = -(video.width() - targetWidth) / 2;
-        return video.container.style.left = "" + (Math.round(newLeft)) + "px";
+        video.container.style.left = "" + (Math.round(newLeft)) + "px";
+        return video.container.style.top = '0px';
       }
     };
     lastWidth = W.elem.width(target);
