@@ -72,7 +72,7 @@ Wistia.plugin("wistiafollows", function(video, options) {
       imgPosition: "left"
     }, options || {});
 
-    var imgHtml = "<img src=\"" + midRollFollowImgSrc(person) + "\" style=\"border-radius:14px;height:28px;margin:0 0 10px 0;" + (options.imgPosition === "left" ? "margin-right:10px;" : "margin-left:10px;") + "vertical-align:top;\" />";
+    var imgHtml = "<img src=\"" + midRollFollowImgSrc(person) + "\" style=\"border-radius:14px;height:28px;margin:0 0 10px 0;" + (options.imgPosition === "left" ? "margin-right:10px;" : "margin-left:10px;") + "vertical-align:top;visibility:hidden;\" />";
     var linkHtml = "<a href=\"https://twitter.com/" + person.screenName + "\" target=\"_blank\" class=\"twitter-follow-button\" data-show-count=\"false\" data-show-screen-name=\"true\" data-size=\"large\" data-lang=\"en\" style=\"display:block;height:28px;\">Follow @" + person.screenName + "</a>";
 
     if (options.imgPosition === "left") {
@@ -181,7 +181,7 @@ Wistia.plugin("wistiafollows", function(video, options) {
       "<div class=\"wistia_postroll_follow_wrapper\" style=\"position:relative;top:" + postRollOffset + "px;\">" +
       "<img " +
         "src=\"" + postRollImgSrc() + "\" " +
-        "style=\"border-radius:64px;height:128px;margin-bottom:20px;vertical-align:top;width:128px;\"" +
+        "style=\"border-radius:64px;height:128px;margin-bottom:20px;vertical-align:top;visibility:hidden;width:128px;\"" +
       ">" +
       "<br>" +
       "<a " +
