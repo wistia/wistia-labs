@@ -34,6 +34,16 @@ modify its contents, which should include:
 
 Then you can access your lab at http://localhost:8000/mylabname/.
 
+
+### Using CoffeeScript
+
+Want to write your plugin in CoffeeScript? That's pretty cool.
+Just run this command and it will automatically recompile your `.coffee` to
+`.js` whenever you make changes.
+
+    coffee -bcw **/*.coffee
+
+
 ### Deploying Labs
 
 So, you think your new update is so special, huh? Actually it probably is, we
