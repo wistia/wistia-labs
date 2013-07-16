@@ -68,6 +68,11 @@ Wistia.plugin("googleAnalytics", function(video, options) {
     video.trigger("pushedtogoogleanalytics", "play");
     return this.unbind;
   });
+  video.bind("conversion", function() {
+    pushEvent("Conversion", video.name());
+    video.trigger("pushedtogoogleanalytics", "conversion");
+    return this.unbind;
+  });
   return {
     buckets: buckets,
     percentWatched: percentWatched,

@@ -80,9 +80,11 @@ window.setupLabInterface = function($) {
     });
     wistiaEmbeds.bind("pushedtogoogleanalytics", function(video, key, val) {
       if (key === "play") {
-        $("#event_notifications .events").append("<li>Pushed a play event to google analytics.</li>");
+        $("#event_notifications .events").append("<li>Pushed a play event to Google Analytics.</li>");
+      } else if (key === "conversion") {
+        $("#event_notifications .events").append("<li>Pushed an email conversion event to Google Analytics.</li>");
       } else {
-        $("#event_notifications .events").append("<li>Pushed an event to google analytics: " + Math.round(val * 100) + "% watched.</li>");
+        $("#event_notifications .events").append("<li>Pushed a " + Math.round(val * 100) + "% watched event to Google Analytics.</li>");
       }
     });
 

@@ -46,6 +46,13 @@ Wistia.plugin "googleAnalytics", (video, options = {}) ->
     video.trigger "pushedtogoogleanalytics", "play"
     @unbind
 
+
+  video.bind "conversion", ->
+    pushEvent "Conversion", video.name()
+    video.trigger "pushedtogoogleanalytics", "conversion"
+    @unbind
+
+
   return {
     buckets: buckets
     percentWatched: percentWatched
