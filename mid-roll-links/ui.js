@@ -99,27 +99,67 @@ Midroll = (function() {
         return _this.outputEmbedCode.previewInElem("preview", {
           type: 'api'
         }, function() {
-          window.previewEmbed.plugin.midrollLinks.update({
-            links: _this.midrollData,
-            playerColor: _this.playerColor
+          return _this.waitFor(function() {
+            var _ref;
+
+            return (_ref = window.previewEmbed.plugin) != null ? _ref.midrollLinks : void 0;
+          }).run(function() {
+            window.previewEmbed.plugin.midrollLinks.update({
+              links: _this.midrollData,
+              playerColor: _this.playerColor
+            });
+            return _this.change = false;
           });
-          return _this.change = false;
         });
       } else if (!_this.previewEmbedded) {
         return _this.outputEmbedCode.previewInElem("preview", {
           type: 'api'
         }, function() {
-          window.previewEmbed.plugin.midrollLinks.update({
-            links: _this.midrollData
+          return _this.waitFor(function() {
+            var _ref;
+
+            return (_ref = window.previewEmbed.plugin) != null ? _ref.midrollLinks : void 0;
+          }).run(function() {
+            window.previewEmbed.plugin.midrollLinks.update({
+              links: _this.midrollData
+            });
+            return _this.previewEmbedded = true;
           });
-          return _this.previewEmbedded = true;
         });
       } else {
-        return window.previewEmbed.plugin.midrollLinks.update({
-          links: _this.midrollData
+        return _this.waitFor(function() {
+          var _ref;
+
+          return (_ref = window.previewEmbed.plugin) != null ? _ref.midrollLinks : void 0;
+        }).run(function() {
+          return window.previewEmbed.plugin.midrollLinks.update({
+            links: _this.midrollData
+          });
         });
       }
     }, 250);
+  };
+
+  Midroll.prototype.waitFor = function(cond, timeout) {
+    var fn, result, startTime, timeoutId;
+
+    if (timeout == null) {
+      timeout = 5000;
+    }
+    result = new Wistia.StopGo();
+    timeoutId = Wistia.seqId();
+    startTime = new Date().getTime();
+    fn = function() {
+      if (new Date().getTime() - startTime > 5000) {
+        return typeof console !== "undefined" && console !== null ? console.log('Condition ', cond, ' never came true') : void 0;
+      } else if (cond()) {
+        return result.go();
+      } else {
+        return Wistia.timeout(timeoutId, fn, 100);
+      }
+    };
+    fn();
+    return result;
   };
 
   Midroll.prototype.midrollDataFromPage = function() {

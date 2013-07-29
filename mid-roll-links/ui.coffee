@@ -87,21 +87,39 @@ class Midroll
     Wistia.timeout 'updatePreview', =>
       if @change
         @outputEmbedCode.previewInElem("preview", { type: 'api' }, =>
-          window.previewEmbed.plugin.midrollLinks.update
-            links: @midrollData
-            playerColor: @playerColor
-          @change = false
+          @waitFor(-> window.previewEmbed.plugin?.midrollLinks).run =>
+            window.previewEmbed.plugin.midrollLinks.update
+              links: @midrollData
+              playerColor: @playerColor
+            @change = false
         )
       else if !@previewEmbedded
         @outputEmbedCode.previewInElem("preview", { type: 'api' }, =>
-          window.previewEmbed.plugin.midrollLinks.update
-            links: @midrollData
-          @previewEmbedded = true
+          @waitFor(-> window.previewEmbed.plugin?.midrollLinks).run =>
+            window.previewEmbed.plugin.midrollLinks.update
+              links: @midrollData
+            @previewEmbedded = true
         )
       else
-        window.previewEmbed.plugin.midrollLinks.update
-          links: @midrollData
+        @waitFor(-> window.previewEmbed.plugin?.midrollLinks).run =>
+          window.previewEmbed.plugin.midrollLinks.update
+            links: @midrollData
     , 250
+
+
+  waitFor: (cond, timeout = 5000) ->
+    result = new Wistia.StopGo()
+    timeoutId = Wistia.seqId()
+    startTime = new Date().getTime()
+    fn = ->
+      if new Date().getTime() - startTime > 5000
+        console?.log('Condition ', cond, ' never came true')
+      else if cond()
+        result.go()
+      else
+        Wistia.timeout timeoutId, fn, 100
+    fn()
+    result
 
 
   # get the mid rolls data off the page
