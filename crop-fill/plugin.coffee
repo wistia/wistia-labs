@@ -25,18 +25,19 @@
 
       if targetAspect > videoAspect
         # target is wider than video, so match width and crop top/bottom
-        video.width(targetWidth)
-        video.height(targetWidth / videoAspect)
+        video.width(targetWidth, { constrain: true })
         newTop = -(video.height() - targetHeight) / 2
         video.container.style.top = "#{Math.round(newTop)}px"
         video.container.style.left = '0px'
       else
         # target is taller than video, so match height and crop left/right
-        video.height(targetHeight)
-        video.width(targetHeight * videoAspect)
+        video.height(targetHeight, { constrain: true })
         newLeft = -(video.width() - targetWidth) / 2
         video.container.style.left = "#{Math.round(newLeft)}px"
         video.container.style.top = '0px'
+
+    debounceResize = ->
+      W.timeout "#{video.uuid}.cropFill.resize", resize, 50
 
     # Poll on the parent dimensions every 500ms
     lastWidth = W.elem.width(target)
@@ -56,8 +57,8 @@
 
     # Resize if the dimensions of the container or the video change
     watchTarget()
-    video.bind('widthchange', resize)
-    video.bind('heightchange', resize)
+    video.bind('widthchange', debounceResize)
+    video.bind('heightchange', debounceResize)
 
     # Resize ASAP
     video.hasData(resize)
