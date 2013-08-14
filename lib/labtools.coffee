@@ -133,10 +133,7 @@
     # Sometimes it can get it wrong. For instance, if the playerColor 
     # is all numbers and starts with a 0, it will cast to a number. But 
     # it should really be a string.
-    _castOptions: ->
-      playerColor = @_options.playerColor or ''
-      W.obj.castDeep(@_options)
-      @_options.playerColor = playerColor if playerColor
+    _castOptions: -> W.obj.castDeep(@_options)
 
 
     # ### Oembeds
@@ -201,28 +198,30 @@
   
 
   W.EmbedCode._attrWhitelist =
-    "allowfullscreen": true
-    "allowscriptaccess": true
-    "allowtransparency": true
-    "alt": true
-    "bgcolor": true
-    "charset": true
-    "class": true
-    "classid": true
-    "flashvars": true
-    "frameborder": true
-    "height": true
-    "href": true
-    "id": true
-    "name": true
-    "scrolling": true
-    "src": true
-    "style": true
-    "title": true
-    "type": true
-    "value": true
-    "width": true
-    "wmode": true
+    'allowfullscreen': true
+    'allowscriptaccess': true
+    'allowtransparency': true
+    'alt': true
+    'bgcolor': true
+    'charset': true
+    'class': true
+    'classid': true
+    'content': true
+    'flashvars': true
+    'frameborder': true
+    'height': true
+    'href': true
+    'id': true
+    'itemprop': true
+    'name': true
+    'scrolling': true
+    'src': true
+    'style': true
+    'title': true
+    'type': true
+    'value': true
+    'width': true
+    'wmode': true
 
 
   W.EmbedCode.serializeElem = (elem) ->
@@ -482,7 +481,7 @@
       @_handle = W.ApiEmbedCode.handle(@_rawEmbedCode)
       @_hashedId = W.ApiEmbedCode.hashedId(@_rawEmbedCode)
       @_rawOptions = W.ApiEmbedCode.rawOptions(@_rawEmbedCode)
-      @_options = W.ApiEmbedCode.parseOptions(@_rawOptions)
+      @_options = W.ApiEmbedCode.parseOptions(@_rawOptions) or null
       @_html = W.util.removeScriptTags(@_rawEmbedCode)
       @_scripts = W.util.scriptTags(@_rawEmbedCode)
       @_embedCode = @_embedCodeFrag.html().replace(/\s+$/g, "") + "\n" + @_scripts.join("\n")
@@ -492,7 +491,14 @@
     options: (newOptions) ->
       if newOptions?
         newRawOptions = W.ApiEmbedCode.evilJsonStringify(newOptions)
-        @parse(@_rawEmbedCode.replace(@_rawOptions, newRawOptions))
+        if @_rawOptions
+          @parse(@_rawEmbedCode.replace(@_rawOptions, newRawOptions))
+        else
+          matches = @_embedCode.match(W.ApiEmbedCode.rhashedid)
+          console.log 'hey!', matches
+          hashedIdAndOptions = "#{matches[0].replace("#{@_hashedId}\"", "#{@_hashedId}\", newRawOptions")}"
+          @parse(@_embedCode.replace(matches[0], hashedIdAndOptions))
+          @_rawEmbedCode.replace("\"#{}\"")
         this
       else
         W.extend {}, @_options
@@ -571,7 +577,7 @@
 
 
     isValid: ->
-      @_containerId and @_handle and @_hashedId and @_options and @height() and @width()
+      @_containerId and @_handle and @_hashedId and @height() and @width()
 
 
     fromOembed: (options, callback) ->
@@ -630,9 +636,12 @@
   # Please be careful.
   W.ApiEmbedCode.parseOptions = (rawOptions) ->
     try
-      eval("(" + rawOptions + ")")
+      if rawOptions
+        eval("(" + rawOptions + ")")
+      else
+        {}
     catch e
-      console?.log(matches[1])
+      console?.log(rawOptions)
       console?.log(e.stack)
       null
 
