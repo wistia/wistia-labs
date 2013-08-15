@@ -495,8 +495,7 @@
           @parse(@_rawEmbedCode.replace(@_rawOptions, newRawOptions))
         else
           matches = @_embedCode.match(W.ApiEmbedCode.rhashedid)
-          console.log 'hey!', matches
-          hashedIdAndOptions = "#{matches[0].replace("#{@_hashedId}\"", "#{@_hashedId}\", newRawOptions")}"
+          hashedIdAndOptions = "#{matches[0].replace("#{@_hashedId}\"", "#{@_hashedId}\", #{newRawOptions}")}"
           @parse(@_embedCode.replace(matches[0], hashedIdAndOptions))
           @_rawEmbedCode.replace("\"#{}\"")
         this
