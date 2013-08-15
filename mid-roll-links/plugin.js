@@ -143,47 +143,49 @@ Wistia.plugin("midrollLinks", function(video, options) {
     }
 
     function updateStylings() {
-      var colors = setColors(video.params.playerColor);
-      styleElem = Wistia.util.addInlineCss(document.body, ".wistia_initial {\n" +
-          "  opacity: 0;\n" +
-          "  filter: alpha(opacity=0);\n" +
-          "}\n" +
-          ".wistia_invisible {\n" +
-          "  opacity: 0;\n" +
-          "  filter: alpha(opacity=0);\n" +
-          "  -webkit-transition: opacity .4s ease-in-out;\n" +
-          "  -moz-transition: opacity .4s ease-in-out;\n" +
-          "  -o-transition: opacity .4s ease-in-out;\n" +
-          "  -ms-transition: opacity .4s ease-in-out;\n" +
-          "  transition: opacity .4s ease-in-out;\n" +
-          "}\n" +
-          ".wistia_visible {\n" +
-          "  opacity: 0.9;\n" +
-          "  filter: alpha(opacity=90);\n" +
-          "  -webkit-transition: opacity .4s ease-in-out;\n" +
-          "  -moz-transition: opacity .4s ease-in-out;\n" +
-          "  -o-transition: opacity .4s ease-in-out;\n" +
-          "  -ms-transition: opacity .4s ease-in-out;\n" +
-          "  transition: opacity .4s ease-in-out;\n" +
-          "}\n" +
-          ".wistia_visible a {\n" +
-          "  background-color: #" + colors.selectedBgColor + ";\n" +
-          "  color: #" + colors.selectedTextColor + ";\n" +
-          "  font-family: 'Open Sans', sans-serif;\n" +
-          "  letter-spacing: 0px;\n" +
-          "  font-weight: bold;" +
-          "  font-size: 18px;\n" +
-          "  margin: " + margin + ";\n" +
-          "  padding: 5px 17px 7px;\n" +
-          "  border-radius: 20px;\n" +
-          "  -moz-box-shadow: 0px 0px 17px rgba(0,0,0,.2);\n" +
-          "  -webkit-box-shadow: 0px 0px 17px rgba(0,0,0,.2);\n" +
-          "  box-shadow: 0px 0px 17px rgba(0,0,0,.2);\n" +
-          "  text-align: center;\n" +
-          "  text-decoration: none; \n" +
-          "}"
-      );
-      styleElem.id = "wistia_midroll_links_css";
+      video.hasData(function() {
+        var colors = setColors(video.params.playerColor);
+        styleElem = Wistia.util.addInlineCss(document.body, ".wistia_initial {\n" +
+            "  opacity: 0;\n" +
+            "  filter: alpha(opacity=0);\n" +
+            "}\n" +
+            ".wistia_invisible {\n" +
+            "  opacity: 0;\n" +
+            "  filter: alpha(opacity=0);\n" +
+            "  -webkit-transition: opacity .4s ease-in-out;\n" +
+            "  -moz-transition: opacity .4s ease-in-out;\n" +
+            "  -o-transition: opacity .4s ease-in-out;\n" +
+            "  -ms-transition: opacity .4s ease-in-out;\n" +
+            "  transition: opacity .4s ease-in-out;\n" +
+            "}\n" +
+            ".wistia_visible {\n" +
+            "  opacity: 0.9;\n" +
+            "  filter: alpha(opacity=90);\n" +
+            "  -webkit-transition: opacity .4s ease-in-out;\n" +
+            "  -moz-transition: opacity .4s ease-in-out;\n" +
+            "  -o-transition: opacity .4s ease-in-out;\n" +
+            "  -ms-transition: opacity .4s ease-in-out;\n" +
+            "  transition: opacity .4s ease-in-out;\n" +
+            "}\n" +
+            ".wistia_visible a {\n" +
+            "  background-color: #" + colors.selectedBgColor + ";\n" +
+            "  color: #" + colors.selectedTextColor + ";\n" +
+            "  font-family: 'Open Sans', sans-serif;\n" +
+            "  letter-spacing: 0px;\n" +
+            "  font-weight: bold;" +
+            "  font-size: 18px;\n" +
+            "  margin: " + margin + ";\n" +
+            "  padding: 5px 17px 7px;\n" +
+            "  border-radius: 20px;\n" +
+            "  -moz-box-shadow: 0px 0px 17px rgba(0,0,0,.2);\n" +
+            "  -webkit-box-shadow: 0px 0px 17px rgba(0,0,0,.2);\n" +
+            "  box-shadow: 0px 0px 17px rgba(0,0,0,.2);\n" +
+            "  text-align: center;\n" +
+            "  text-decoration: none; \n" +
+            "}"
+        );
+        styleElem.id = "wistia_midroll_links_css";
+      });
     }
 
     if (!document.getElementById("wistia_midroll_links_css")) {
