@@ -1,5 +1,5 @@
 window.jsFileName = 'plugin.js';
-window.jsProductionPath = 'dev1.cleeng.com/cleeng';
+window.jsProductionPath = 'wistia.com/labs/cleeng-pay-per-view';
 /*
 window.jsProductionPath = 'dev.cleeng-labs.com/cleeng/';
 */
@@ -61,7 +61,7 @@ var Cleeng = function () {}
 
 Cleeng.prototype = (function () {
     var video = {};
-    var demoUrl = 'https://play-staging.cleeng.com/movie.js?offerId=A400639992_US&width=600&height=353';
+    var demoUrl = 'https://play.cleeng.com/movie.js?offerId=A651489841_US&width=600&height=353';
 
     var setCookie = function (c_name, value, exdays) {
         var exdate = new Date();
@@ -314,9 +314,9 @@ Cleeng.applicationSecureKey = 'AgncXysDJg0XlIl0dbd270T8NsVOfLTBQA4t2EFkzg0j5PpK'
 */
 
 
-Cleeng.playEnv = 'play-staging.cleeng.com';
-Cleeng.applicationId = 'Pmb6cSu9dRty-mLvcfgbGh5MZCUzGzDSYoBkajsHyqEGjBmR';
-Cleeng.applicationSecureKey = 'PiiMIAwVnCNsQC7aD-hiLAuWDgYbh2KiWKH-jHT08JV8nlmq';
+Cleeng.playEnv = 'play.cleeng.com';
+Cleeng.applicationId = 'OEFpegyYqfsbr4OyI3ZtgX6FjZw0pWqVcjqj2ApPjtpV5U79';
+Cleeng.applicationSecureKey = 'QiHH4wW9NRZkusCDB_r2K3ut87gYgmGPLvP12zoFZ8ltscm5';
 
 
 function updateOutput(update) {
