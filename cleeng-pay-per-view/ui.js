@@ -1,7 +1,8 @@
 window.jsFileName = 'plugin.js';
 window.jsProductionPath = 'wistia.com/labs/cleeng-pay-per-view';
 /*
-window.jsProductionPath = 'dev.cleeng-labs.com/cleeng/';
+
+window.jsProductionPath = 'dev.wistia.com/cleeng-pay-per-view/';
 */
 
 function validateForm(id) {
@@ -190,8 +191,8 @@ Cleeng.prototype = (function () {
 
         var contentExternalData = {
             platform: 'wistia',
-            dimWidth: offerData.videoOptions.videoWidth,
-            dimHeight: offerData.videoOptions.videoHeight,
+            dimWidth: offerData.videoOptions.videoWidth?offerData.videoOptions.videoWidth:640,
+            dimHeight: offerData.videoOptions.videoHeight?offerData.videoOptions.videoHeight:360,
             hasPreview: false,
             previewVideoId: false,
             backgroundImage: typeof Cleeng.video.thumbnail_url == 'string' ? Cleeng.video.thumbnail_url : ''
@@ -201,7 +202,6 @@ Cleeng.prototype = (function () {
 
         contentExternalData = jQuery.extend(contentExternalData, offerData.videoOptions);
         $('.refundNote').hide();
-
         object.offerData = {
             "price": offerData.price,
             "title": offerData.title,
@@ -211,8 +211,8 @@ Cleeng.prototype = (function () {
             "contentExternalId": offerData.hashedId,
             "contentExternalData": JSON.stringify(contentExternalData)
         }
-        CleengApi.api(method, object, function (result) {
 
+        CleengApi.api(method, object, function (result) {
             if (typeof result.error == 'object') {
                 if (result.error.code == 1 || result.error.code == 3) {
                     callback({error: {
@@ -318,6 +318,12 @@ Cleeng.prototype = (function () {
 
 
 var Cleeng = new Cleeng();
+
+/*
+Cleeng.playEnv = 'dev.play.cleeng.com';
+Cleeng.applicationId = 'bRURLzfYPG5gKygfX3dHPH9TZP06KXgMfLeUsybMWNZyhR77';
+Cleeng.applicationSecureKey = 'c2nDBl9SMV8TkAkTSV7DCR5xs3YglLBMajSuXVCrW2pW4mah';
+*/
 
 Cleeng.playEnv = 'play.cleeng.com';
 Cleeng.applicationId = 'NkXF9hGiOcBAfilHOpXgXWNhkncAXL-XIaJgAROKEgcmLWvn';
