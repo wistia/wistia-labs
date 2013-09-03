@@ -250,6 +250,9 @@ Cleeng.prototype = (function () {
         applicationSecureKey: null,
         createVideoDetails: function (source_embed_code) {
             var source_embed_code = Wistia.EmbedCode.parse(source_embed_code);
+            if (source_embed_code==undefined || source_embed_code.hashedId() == undefined || source_embed_code.hashedId() == null) {
+                return false;
+            }
             $.ajax({
                 url: "http://fast.wistia.net/oembed?url=http://home.wistia.com/medias/" + source_embed_code.hashedId()
             }).done(function (video) {
@@ -315,17 +318,10 @@ Cleeng.prototype = (function () {
 
 
 var Cleeng = new Cleeng();
-/*
-
-Cleeng.playEnv = 'dev.play.cleeng.com';
-Cleeng.applicationId = 'Eg3qECmLwW84b8c6BvmHZwCg3_NIcRnqXoh_DinuEYF2ioIA';
-Cleeng.applicationSecureKey = 'AgncXysDJg0XlIl0dbd270T8NsVOfLTBQA4t2EFkzg0j5PpK';
-*/
-
 
 Cleeng.playEnv = 'play.cleeng.com';
-Cleeng.applicationId = 'OEFpegyYqfsbr4OyI3ZtgX6FjZw0pWqVcjqj2ApPjtpV5U79';
-Cleeng.applicationSecureKey = 'QiHH4wW9NRZkusCDB_r2K3ut87gYgmGPLvP12zoFZ8ltscm5';
+Cleeng.applicationId = 'NkXF9hGiOcBAfilHOpXgXWNhkncAXL-XIaJgAROKEgcmLWvn';
+Cleeng.applicationSecureKey = 'MjKkNXio2_M1uAUeOgvjKGGyd9gOsu5_eBTudTR2CgZpEVuz';
 
 
 function updateOutput(update) {
@@ -445,6 +441,13 @@ window.setupLabInterface = function ($) {
             Cleeng.clearOutput();
         });
 
+
+        $("#configure").on("change", "#source_embed_code", function (e) {
+            Cleeng.createVideoDetails($(this).val());
+            Cleeng.clearOutput();
+            $(".show_example_text").show();
+            $(".clear_example_text").hide();
+        });
 
         $("#configure").on("keydown", "#source_embed_code", function (e) {
             Cleeng.createVideoDetails($(this).val());
