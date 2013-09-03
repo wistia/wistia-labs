@@ -251,12 +251,21 @@
     background-color:#000;
     -webkit-border-radius:4px;
     -moz-border-radius:4px;
-    border-radius:4px
+    border-radius:4px;
 }
 .tooltip-arrow{
     position:absolute;
     width:0;
     height:0
+}
+#placeholder_preview{
+    height:auto;
+    min-height:300px;
+    line-height:22px;
+    width:auto
+}
+.loader {
+    line-height:380px;
 }
 </style>
 <div id='wistiacom_header'>
@@ -410,7 +419,7 @@ Powered by <a href="https://cleeng.com" target="_blank" title="Cleeng - content 
           </div>
           </div> <!-- #configure -->
               </div>
-        </div><div class="col2 col" id="preview_col">
+        </div><div class="col2 col" id="preview_col"  style="">
 
           <div id="results">
             <div id="alert" style="display:none;"></div>
