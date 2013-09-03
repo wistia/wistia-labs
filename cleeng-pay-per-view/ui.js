@@ -195,7 +195,8 @@ Cleeng.prototype = (function () {
             dimHeight: offerData.videoOptions.videoHeight?offerData.videoOptions.videoHeight:360,
             hasPreview: false,
             previewVideoId: false,
-            backgroundImage: typeof Cleeng.video.thumbnail_url == 'string' ? Cleeng.video.thumbnail_url : ''
+            backgroundImage: typeof Cleeng.video.thumbnail_url == 'string' ? Cleeng.video.thumbnail_url : '',
+            contentType: "video"
         };
         delete offerData.videoOptions.videoWidth;
         delete offerData.videoOptions.videoHeight;
