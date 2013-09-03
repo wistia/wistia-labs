@@ -101,6 +101,8 @@ Cleeng.prototype = (function () {
             window.setTimeout(function () {
                 $('#preview .iframe').show();
                 $('#preview .loader').html('');
+                $('.refundNote').show();
+                $(".restrictions").hide();
             }, 2000);
         });
     }
@@ -149,6 +151,10 @@ Cleeng.prototype = (function () {
         CleengApi.setAppId(Cleeng.applicationId);
         CleengApi[method](Cleeng.applicationSecureKey, function (result) {
             if (typeof result.authorizationSuccessful === 'boolean' && result.authorizationSuccessful == true) {
+
+                $(".show_example_text").show();
+                $(".clear_example_text").hide();
+
                 setCookie("publisherAccessToken", result.publisherToken, 7);
                 Cleeng.publisherToken = result.publisherToken;
                 CleengApi.api('getPublisher', {publisherToken: Cleeng.publisherToken}, function (result) {
@@ -156,6 +162,7 @@ Cleeng.prototype = (function () {
                     displayWelcome(Cleeng.publisherDisplayName);
                     injectCurrency(result.currency);
                     Cleeng.clearOutput();
+
                 });
             }
         });
@@ -193,6 +200,7 @@ Cleeng.prototype = (function () {
         delete offerData.videoOptions.videoHeight;
 
         contentExternalData = jQuery.extend(contentExternalData, offerData.videoOptions);
+        $('.refundNote').hide();
 
         object.offerData = {
             "price": offerData.price,
@@ -285,6 +293,7 @@ Cleeng.prototype = (function () {
         },
         clearOutput: function() {
 
+            $(".refundNote").hide();
             $(".restrictions").hide();
             $('#output_embed_code').val('');
             $('#preview .iframe').html('');
