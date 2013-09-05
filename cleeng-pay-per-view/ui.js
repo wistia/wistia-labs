@@ -95,8 +95,9 @@ Cleeng.prototype = (function () {
         $('#preview .loader').html('<img src="loading.gif">');
         $('#preview .iframe').hide();
         jQuery.getScript(demoUrl, function () {
-
             $('#preview .iframe').html(window._cleeng_play_frames);
+
+            $('#cleeng_video_frame').attr('src', demoUrl);
             delete window._cleeng_play_frames;
             $('#output_embed_code').val('<script type="text/javascript" src="' + demoUrl + '"></script>');
             window.setTimeout(function () {
@@ -256,7 +257,6 @@ Cleeng.prototype = (function () {
             $.ajax({
                 url: "http://fast.wistia.net/oembed?url=http://home.wistia.com/medias/" + source_embed_code.hashedId()
             }).done(function (video) {
-                    console.log(video)
                 Cleeng.video = video;
                 $('.cleeng #title').val(Cleeng.video.title);
             });
