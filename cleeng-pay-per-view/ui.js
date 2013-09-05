@@ -163,7 +163,6 @@ Cleeng.prototype = (function () {
                     displayWelcome(Cleeng.publisherDisplayName);
                     injectCurrency(result.currency);
                     Cleeng.clearOutput();
-
                 });
             }
         });
@@ -257,6 +256,7 @@ Cleeng.prototype = (function () {
             $.ajax({
                 url: "http://fast.wistia.net/oembed?url=http://home.wistia.com/medias/" + source_embed_code.hashedId()
             }).done(function (video) {
+                    console.log(video)
                 Cleeng.video = video;
                 $('.cleeng #title').val(Cleeng.video.title);
             });
