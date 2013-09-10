@@ -62,7 +62,7 @@ var Cleeng = function () {}
 
 Cleeng.prototype = (function () {
     var video = {};
-    var demoUrl = 'https://play.cleeng.com/movie.js?offerId=A651489841_US&width=600&height=353';
+    var demoUrl = 'https://play.cleeng.com/movie.js?offerId=R651489841_US&width=600&height=353';
 
     var setCookie = function (c_name, value, exdays) {
         var exdate = new Date();
