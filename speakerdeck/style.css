@@ -26,11 +26,11 @@
 
 @font-face {
   font-family: 'wistia-icons';
-  src: url('http://fast.wistia.com/fonts/wistia-icons.eot');
-  src: url('http://fast.wistia.com/fonts/wistia-icons.eot?#iefix') format('embedded-opentype'),
-  url('http://fast.wistia.com/fonts/wistia-icons.svg#wistia-icons') format('svg'),
-  url('http://fast.wistia.com/fonts/wistia-icons.woff') format('woff'),
-  url('http://fast.wistia.com/fonts/wistia-icons.ttf') format('truetype');
+  src: url('http://fast.wistia.com/assets/fonts/wistia-icons.eot');
+  src: url('http://fast.wistia.com/assets/fonts/wistia-icons.eot?#iefix') format('embedded-opentype'),
+  url('http://fast.wistia.com/assets/fonts/wistia-icons.svg#wistia-icons') format('svg'),
+  url('http://fast.wistia.com/assets/fonts/wistia-icons.woff') format('woff'),
+  url('http://fast.wistia.com/assets/fonts/wistia-icons.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }

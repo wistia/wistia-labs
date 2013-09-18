@@ -326,16 +326,13 @@ class Prez
   
   updatePreview: ->
     if @sourceEmbedCode and @sourceEmbedCode.isValid()
-      # window.previewEmbed.remove() if window.previewEmbed
-      # window.previewEmbed = null
       Wistia.timeout 'updatePreview', =>
         @outputEmbedCode.previewInElem("preview", { type: 'api' }, =>
           window.previewEmbed.bind "timechange", (t) => @timeChange(t)
 
-          # if the plugin is live ...
-          if window.previewEmbed.plugin.speakerdeck
-            @updateTimings()
-            $('#next_slide').removeClass('disabled')
+          # update the timings and make the next slide button available
+          @updateTimings()
+          $('#next_slide').removeClass('disabled')
         )
       , 250
     else
