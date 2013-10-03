@@ -58,7 +58,7 @@ function pluginSrc(sourceEmbedCode) {
 
     function resizeGutters() {
       var contentWidth = $("#configure_col").width() + $("#preview_col").width();
-      var offset = Math.max(0, ($(window).width() - 909) / 2);
+      var offset = Math.max(0, ($(window).width() - 1090) / 2);
       $("#configure_col").css("padding-left", offset);
       $("#preview_col").css("padding-right", offset);
     }

@@ -1,9 +1,4 @@
 window.jsFileName = 'plugin.js';
-window.jsProductionPath = 'wistia.com/labs/cleeng-pay-per-view';
-/*
-
-window.jsProductionPath = 'dev.wistia.com/cleeng-pay-per-view/';
-*/
 
 function validateForm(id) {
 	// validate the comment form when it is submitted
@@ -139,12 +134,14 @@ Cleeng.prototype = (function () {
     }
     var displayWelcome = function(publisherDisplayName) {
         $('.cleeng_welcome p').html('Welcome, <b>' + publisherDisplayName + '</b> (<a href="#" id="cleeng_logout">logout</a>)');
+        $('.cleeng_already').html('Welcome, <b>' + publisherDisplayName + '</b> (<a href="#" id="cleeng_logout">logout</a>)');
         $(".cleeng .cleeng_login").hide();
         $(".cleeng .cleeng_setup").show();
 
     }
     var hideWelcome = function() {
         $('.cleeng_welcome p').html('');
+        $('.cleeng_already').html('Already have an account? <a id="cleeng_login_bar" href="#">Login</a>');
         $(".cleeng .cleeng_login").show();
         $(".cleeng .cleeng_setup").hide();
     }
@@ -320,12 +317,6 @@ Cleeng.prototype = (function () {
 
 var Cleeng = new Cleeng();
 
-/*
-Cleeng.playEnv = 'dev.play.cleeng.com';
-Cleeng.applicationId = 'bRURLzfYPG5gKygfX3dHPH9TZP06KXgMfLeUsybMWNZyhR77';
-Cleeng.applicationSecureKey = 'c2nDBl9SMV8TkAkTSV7DCR5xs3YglLBMajSuXVCrW2pW4mah';
-*/
-
 Cleeng.playEnv = 'play.cleeng.com';
 Cleeng.applicationId = 'NkXF9hGiOcBAfilHOpXgXWNhkncAXL-XIaJgAROKEgcmLWvn';
 Cleeng.applicationSecureKey = 'MjKkNXio2_M1uAUeOgvjKGGyd9gOsu5_eBTudTR2CgZpEVuz';
@@ -415,6 +406,10 @@ window.setupLabInterface = function ($) {
         });
 
         $('#configure').on('click', '#cleeng_login', function (e) {
+            e.preventDefault();
+            Cleeng.login();
+        });
+        $('#configure').on('click', '#cleeng_login_bar', function (e) {
             e.preventDefault();
             Cleeng.login();
         });

@@ -1,0 +1,264 @@
+@font-face {
+  font-family: "Avenir";
+  src: url("/fonts/avenir/avenir-85.eot?#iefix");
+  src: url("/fonts/avenir/avenir-85.eot?#iefix") format("eot"), url("/fonts/avenir/avenir-85.woff") format("woff"), url("/fonts/avenir/avenir-85.ttf") format("truetype"), url("/fonts/avenir/avenir-85.svg#avenir-85") format("svg");
+  font-weight: 700;
+  font-style: normal; }
+
+#wistiacom_header {
+  background: white;
+  border-top: 6px solid #eceef1;
+  z-index: 100;
+  position: relative; }
+  #wistiacom_header .headcontainer {
+    z-index: 100;
+    height: 110px;
+    margin: 0 auto;
+    width: 1080px;
+    position: relative; }
+  #logo a {
+    background: url("http://wistia.com/images/elements/skeletor/logo.png") no-repeat;
+    width: 220px;
+    height: 40px;
+    float:left;
+    margin:40px 10px;
+  }
+  #wistiacom_header #logo a:hover {
+    background-position: 0px -40px; }
+  #wistiacom_header #nav {
+    position: absolute;
+    left: 338px; }
+    #wistiacom_header #nav ul {
+      display: inline-block;
+      *display: inline;
+      vertical-align: top;
+      zoom: 1;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: 0px; }
+      #wistiacom_header #nav ul li {
+        display: inline-block;
+        *display: inline;
+        vertical-align: top;
+        zoom: 1;
+        margin-top: -6px;
+        position: relative;
+        z-index: 0;
+        width: 130px;
+        text-align: center;
+        border-top: 6px solid #eceef1; }
+        #wistiacom_header #nav ul li.features {
+          text-transform: uppercase; }
+          #wistiacom_header #nav ul li.features:hover {
+            border-top: 6px solid #faa928; }
+            #wistiacom_header #nav ul li.features:hover a {
+              color: #faa928; }
+        #wistiacom_header #nav ul li.pricing {
+          text-transform: uppercase; }
+          #wistiacom_header #nav ul li.pricing:hover {
+            border-top: 6px solid #f27398; }
+            #wistiacom_header #nav ul li.pricing:hover a {
+              color: #f27398; }
+        #wistiacom_header #nav ul li.learning {
+          margin-right: 92px;
+          text-transform: uppercase; }
+          #wistiacom_header #nav ul li.learning:hover {
+            border-top: 6px solid #56be8e; }
+            #wistiacom_header #nav ul li.learning:hover a {
+              color: #56be8e; }
+        #wistiacom_header #nav ul li.signup a {
+          letter-spacing: 1px; }
+          #wistiacom_header #nav ul li.signup a:hover {
+            color: #40aaef; }
+        #wistiacom_header #nav ul li.signup:hover {
+          border-top: 6px solid #40aaef; }
+        #wistiacom_header #nav ul li.login a {
+          letter-spacing: 1px; }
+          #wistiacom_header #nav ul li.login a:hover {
+            color: #0e7ac4; }
+        #wistiacom_header #nav ul li.login:hover {
+          border-top: 6px solid #0e7ac4; }
+      #wistiacom_header #nav ul a {
+        display: block;
+        padding: 46px 0px;
+        text-decoration: none;
+        font-family: "Avenir", "Futura", sans-serif;
+        font-size: 17px;
+        font-weight: 500;
+        color: #555555;
+        letter-spacing: 2px;
+        outline: none;
+        margin: 0 auto;
+        -webkit-font-smoothing: subpixel-antialiased; }
+        #wistiacom_header #nav ul a img {
+          overflow: hidden;
+          width: 70px;
+          height: 50px;
+          background-position: 0px 0px; }
+        .cleeng_login {
+            margin-bottom:15px;
+        }
+        .cleeng a {
+            color:#78a300;
+        }
+        .cleeng .jamjar_head{
+            background-color: #78a300 !important;
+        }
+        .cleeng  .jamjar_foot {
+            background-color: #78a300 !important;
+        }
+
+    .cleeng .alert{
+        color:#B94A48
+    }
+    .cleeng .button_row.update{
+        margin-top:1em;display:none;
+        clear:both;
+    }
+    .cleeng input.error{
+       /* background-color:#ffe4d4;*/
+    }
+    .cleeng label.error{
+        float: left;
+        color: #B94A48;
+        /*background-color: #ffe4d4;*/
+        vertical-align: top;
+        padding: 2px 0px 2px 0px;
+        /*border: 1px solid #EED3D7;*/
+        border-radius: 4px;
+        margin-top: 4px;
+        width: 88%;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+        margin-bottom:4px;
+    }
+
+    .cleeng_setup{
+        display:none;
+    }
+    .cleeng .create_new_offer{
+        float:right;
+        margin-top:20px;
+    }
+    .restrictions{
+        display:none;
+    }
+    .refundNote{
+        display:none;
+    }
+    .cleeng.protection_in_progress{
+        line-height: 20px;
+        height:210px;
+        float:left;
+        width:100%;
+        padding-top:140px;
+    }
+.tooltip{
+    position:absolute;
+    z-index:1020;
+    display:block;
+    visibility:visible;
+    padding:5px;
+    font-size:11px;
+    opacity:0;
+    filter:alpha(opacity=0)
+}
+.tooltip.in{
+    opacity:.8;
+    filter:alpha(opacity=80)
+}
+.tooltip.top{
+    margin-top:-2px
+}
+.tooltip.right{
+    margin-left:2px
+}
+.tooltip.bottom{
+    margin-top:2px
+}
+.tooltip.left{
+    margin-left:-2px
+}
+.tooltip.top .tooltip-arrow{
+    bottom:0;
+    left:50%;
+    margin-left:-5px;
+    border-left:5px solid transparent;
+    border-right:5px solid transparent;
+    border-top:5px solid #000
+}
+.tooltip.left .tooltip-arrow{
+    top:50%;
+    right:0;
+    margin-top:-5px;
+    border-top:5px solid transparent;
+    border-bottom:5px solid transparent;
+    border-left:5px solid #000
+}
+.tooltip.bottom .tooltip-arrow{
+    top:0;
+    left:50%;
+    margin-left:-5px;
+    border-left:5px solid transparent;
+    border-right:5px solid transparent;
+    border-bottom:5px solid #000
+}
+.tooltip.right .tooltip-arrow{
+    top:50%;
+    left:0;
+    margin-top:-5px;
+    border-top:5px solid transparent;
+    border-bottom:5px solid transparent;
+    border-right:5px solid #000
+}
+.tooltip-inner{
+    max-width:200px;
+    padding:3px 8px;
+    color:#fff;
+    text-align:center;
+    text-decoration:none;
+    background-color:#000;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+}
+.tooltip-arrow{
+    position:absolute;
+    width:0;
+    height:0
+}
+#placeholder_preview{
+    height:auto;
+    min-height:335px;
+    line-height:22px;
+    width:auto
+}
+.loader {
+    line-height:360px;
+}
+.brand{
+    display: block;
+    padding: 12px 20px 12px;
+    font-size: 20px;
+    font-weight: 200;
+    line-height: 1;
+    color: #999999;
+    width:1085px;
+    margin:0 auto;
+}
+.cleeng_bar {
+    background-color:#68af0b;
+    height:20px;
+    min-width:940px\9
+}
+.cleeng_bar .cleeng_already{
+    width:1040px;
+    margin:0 auto;
+    text-align: right;
+    color:#ffffff;
+    font-size:14px;
+}
+.cleeng_bar .cleeng_already a{
+    font-weight: bold;
+    color:#ffffff;
+}

@@ -1,306 +1,75 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Cleeng Pay-per-view - Wistia Lab</title>
-    <link rel="stylesheet" href="../css/labs.css" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/css/labs.css"/>
+    <link rel="stylesheet" href="/style.css"/>
+    <link rel="stylesheet" href="/css/cleeng.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-      <script src="http://fast.wistia.com/assets/app/jquery/jquery_jamjar.js"></script>
-    <script src="../lib/jquery.timeatentry.js"></script>
+    <script src="http://fast.wistia.com/assets/app/jquery/jquery_jamjar.js"></script>
+    <script src="/js/jquery.timeatentry.js"></script>
     <script src="http://fast.wistia.com/static/E-v1.js"></script>
     <script src="http://fast.wistia.com/static/embed_shepherd-v1.js"></script>
-    <script src="../lib/globalui.js"></script>
-    <script src="../lib/labtools.js"></script>
+    <script src="/js/globalui.js"></script>
+    <script src="/js/labtools.js"></script>
     <script type="text/javascript" src="https://cleeng.com/js-api/3.0/api.js"></script>
 
-<!--
-    <script type="text/javascript" src="https://dev.cleeng.com/js-api/3.0/api.js"></script>
--->
+    <script type="text/javascript" src="jquery.validate.min.js"></script>
+    <script type="text/javascript" src="bootstrap-tooltip.js"></script>
+    <script src="plugin.js"></script>
+    <script src="ui.js?1=1"></script>
 
-   <script type="text/javascript" src="jquery.validate.min.js"></script>
-   <script type="text/javascript" src="bootstrap-tooltip.js"></script>
-   <script src="plugin.js"></script>
-   <script src="ui.js?1=1"></script>
+</head>
+<body>
+<div id="nonfooter">
 
-  </head>
-  <body>
-    <div id="nonfooter">
+<div id="common_header">
+    <!-- COMMON_HEADER_START -->
+    <style type='text/css'>
 
-      <div id="common_header">
-        <!-- COMMON_HEADER_START -->
-<style type='text/css'>
-@font-face {
-  font-family: "Avenir";
-  src: url("/fonts/avenir/avenir-85.eot?#iefix");
-  src: url("/fonts/avenir/avenir-85.eot?#iefix") format("eot"), url("/fonts/avenir/avenir-85.woff") format("woff"), url("/fonts/avenir/avenir-85.ttf") format("truetype"), url("/fonts/avenir/avenir-85.svg#avenir-85") format("svg");
-  font-weight: 700;
-  font-style: normal; }
 
-#wistiacom_header {
-  background: white;
-  border-top: 6px solid #eceef1;
-  z-index: 100;
-  position: relative; }
-  #wistiacom_header .headcontainer {
-    z-index: 100;
-    height: 110px;
-    margin: 0 auto;
-    width: 1080px;
-    position: relative; }
-  #wistiacom_header #logo a {
-    position: absolute;
-    background: url("http://wistia.com/images/elements/skeletor/logo.png") no-repeat;
-    width: 220px;
-    height: 40px;
-    top: 36px;
-    left: 0; }
-  #wistiacom_header #logo a:hover {
-    background-position: 0px -40px; }
-  #wistiacom_header #nav {
-    position: absolute;
-    left: 338px; }
-    #wistiacom_header #nav ul {
-      display: inline-block;
-      *display: inline;
-      vertical-align: top;
-      zoom: 1;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      font-size: 0px; }
-      #wistiacom_header #nav ul li {
-        display: inline-block;
-        *display: inline;
-        vertical-align: top;
-        zoom: 1;
-        margin-top: -6px;
-        position: relative;
-        z-index: 0;
-        width: 130px;
-        text-align: center;
-        border-top: 6px solid #eceef1; }
-        #wistiacom_header #nav ul li.features {
-          text-transform: uppercase; }
-          #wistiacom_header #nav ul li.features:hover {
-            border-top: 6px solid #faa928; }
-            #wistiacom_header #nav ul li.features:hover a {
-              color: #faa928; }
-        #wistiacom_header #nav ul li.pricing {
-          text-transform: uppercase; }
-          #wistiacom_header #nav ul li.pricing:hover {
-            border-top: 6px solid #f27398; }
-            #wistiacom_header #nav ul li.pricing:hover a {
-              color: #f27398; }
-        #wistiacom_header #nav ul li.learning {
-          margin-right: 92px;
-          text-transform: uppercase; }
-          #wistiacom_header #nav ul li.learning:hover {
-            border-top: 6px solid #56be8e; }
-            #wistiacom_header #nav ul li.learning:hover a {
-              color: #56be8e; }
-        #wistiacom_header #nav ul li.signup a {
-          letter-spacing: 1px; }
-          #wistiacom_header #nav ul li.signup a:hover {
-            color: #40aaef; }
-        #wistiacom_header #nav ul li.signup:hover {
-          border-top: 6px solid #40aaef; }
-        #wistiacom_header #nav ul li.login a {
-          letter-spacing: 1px; }
-          #wistiacom_header #nav ul li.login a:hover {
-            color: #0e7ac4; }
-        #wistiacom_header #nav ul li.login:hover {
-          border-top: 6px solid #0e7ac4; }
-      #wistiacom_header #nav ul a {
-        display: block;
-        padding: 46px 0px;
-        text-decoration: none;
-        font-family: "Avenir", "Futura", sans-serif;
-        font-size: 17px;
-        font-weight: 500;
-        color: #555555;
-        letter-spacing: 2px;
-        outline: none;
-        margin: 0 auto;
-        -webkit-font-smoothing: subpixel-antialiased; }
-        #wistiacom_header #nav ul a img {
-          overflow: hidden;
-          width: 70px;
-          height: 50px;
-          background-position: 0px 0px; }
-        .cleeng_login {
-            margin-bottom:15px;
-        }
-        .cleeng a {
-            color:#78a300;
-        }
-        .cleeng .jamjar_head{
-            background-color: #78a300 !important;
-        }
-        .cleeng  .jamjar_foot {
-            background-color: #78a300 !important;
-        }
+    </style>
 
-    .cleeng .alert{
-        color:#B94A48
-    }
-    .cleeng .button_row.update{
-        margin-top:1em;display:none;
-        clear:both;
-    }
-    .cleeng input.error{
-       /* background-color:#ffe4d4;*/
-    }
-    .cleeng label.error{
-        float: left;
-        color: #B94A48;
-        /*background-color: #ffe4d4;*/
-        vertical-align: top;
-        padding: 2px 0px 2px 0px;
-        /*border: 1px solid #EED3D7;*/
-        border-radius: 4px;
-        margin-top: 4px;
-        width: 88%;
-        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-        margin-bottom:4px;
-    }
-
-    .cleeng_setup{
-        display:none;
-    }
-    .cleeng .create_new_offer{
-        float:right;
-        margin-top:20px;
-    }
-    .restrictions{
-        display:none;
-    }
-    .refundNote{
-        display:none;
-    }
-    .cleeng.protection_in_progress{
-        line-height: 20px;
-        height:210px;
-        float:left;
-        width:100%;
-        padding-top:140px;
-    }
-.tooltip{
-    position:absolute;
-    z-index:1020;
-    display:block;
-    visibility:visible;
-    padding:5px;
-    font-size:11px;
-    opacity:0;
-    filter:alpha(opacity=0)
-}
-.tooltip.in{
-    opacity:.8;
-    filter:alpha(opacity=80)
-}
-.tooltip.top{
-    margin-top:-2px
-}
-.tooltip.right{
-    margin-left:2px
-}
-.tooltip.bottom{
-    margin-top:2px
-}
-.tooltip.left{
-    margin-left:-2px
-}
-.tooltip.top .tooltip-arrow{
-    bottom:0;
-    left:50%;
-    margin-left:-5px;
-    border-left:5px solid transparent;
-    border-right:5px solid transparent;
-    border-top:5px solid #000
-}
-.tooltip.left .tooltip-arrow{
-    top:50%;
-    right:0;
-    margin-top:-5px;
-    border-top:5px solid transparent;
-    border-bottom:5px solid transparent;
-    border-left:5px solid #000
-}
-.tooltip.bottom .tooltip-arrow{
-    top:0;
-    left:50%;
-    margin-left:-5px;
-    border-left:5px solid transparent;
-    border-right:5px solid transparent;
-    border-bottom:5px solid #000
-}
-.tooltip.right .tooltip-arrow{
-    top:50%;
-    left:0;
-    margin-top:-5px;
-    border-top:5px solid transparent;
-    border-bottom:5px solid transparent;
-    border-right:5px solid #000
-}
-.tooltip-inner{
-    max-width:200px;
-    padding:3px 8px;
-    color:#fff;
-    text-align:center;
-    text-decoration:none;
-    background-color:#000;
-    -webkit-border-radius:4px;
-    -moz-border-radius:4px;
-    border-radius:4px;
-}
-.tooltip-arrow{
-    position:absolute;
-    width:0;
-    height:0
-}
-#placeholder_preview{
-    height:auto;
-    min-height:335px;
-    line-height:22px;
-    width:auto
-}
-.loader {
-    line-height:360px;
-}
-</style>
-<div id='wistiacom_header'>
-<div class='headcontainer'>
-<div id='logo'>
-<a href='/'></a>
-</div>
-<div id='nav'>
-<ul>
-<li class='features'>
-<a href='http://wistia.com/product'>Features</a>
-</li>
-<li class='pricing'>
-<a href='http://wistia.com/pricing'>Pricing</a>
-</li>
-<li class='learning'>
-<a href='http://wistia.com/learning'>Learning</a>
-</li>
-
-</ul>
-</div>
-</div>
+    <!-- COMMON_HEADER_END -->
 </div>
 
-<!-- COMMON_HEADER_END -->
-      </div>
+<div id="configure">
 
+    <div>
+        <div style="background:#fff;height:80px;">
+            <div>
+                <a class="brand" href="https://cleeng.com" title="Cleeng, content monetization"><img
+                        src="https://resources.play.cleeng.com/img/cleeng-logo.png"></a>
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- /navbar-inner -->
+        <div class="cleeng_bar">
 
-      <div id="lab_header" class="outer_container">
+            <div class="cleeng_already">
+                Already have an account? <a id="cleeng_login_bar" href="#">Login</a>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="lab_header" class="outer_container">
         <div class="inner_container">
-          <div class="cols">
-            <div class="col2 col">
-              <h1>Snackable Premium Video with Cleeng pay-per-view</h1>
-              <p>
-                  No matter if you sell one or many videos - Cleeng turns them into delicious bite-size pieces of content - easy to purchase & instantly accessible from any device in the world.
+
+            <div class="cols">
+                <div class="col1 col">
+                    <div id='logo'>
+                        <a href='/'></a>
+                    </div>
+
+                </div>
+                <div class="col2 col">
+
+                    <h1>Snackable Premium Video with Cleeng pay-per-view</h1>
+
+                    <p>
+                        No matter if you sell one or many videos - Cleeng turns them into delicious bite-size pieces of
+                        content - easy to purchase & instantly accessible from any device in the world.
                 <span class="clear_example_text">
                   Play around with the example to see how it works,
                   then <a href="#" id="clear_example">clear it</a> and paste in your own
@@ -309,160 +78,184 @@
                   Just paste in a Wistia embed code and start customizing,
                   or <a href="#" id="show_example">show me an example</a>.
                 </span>
-              </p>
+                    </p>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </div>
 
 
-      <div id="body" class="cols">
+    <div id="body" class="cols">
         <div class="col1 col" id="configure_col">
-          <div id="configure">
 
             <!-- Paste Embed Code Section -->
             <div class="jamjar paste_embed_code jamjar2">
-              <div class="jamjar_head">
-                <div class="jamjar_title">Paste embed code</div>
-              </div>
-              <div class="jamjar_body">
-                <div class="source_embed_code_field_pair field_pair">
-                  <p style="margin-top:0;">Get it from the SuperEmbed Builder.</p>
-                  <textarea name="source_embed_code" id="source_embed_code"></textarea>
+                <div class="jamjar_head">
+                    <div class="jamjar_title">Paste embed code</div>
                 </div>
-              </div>
+                <div class="jamjar_body">
+                    <div class="source_embed_code_field_pair field_pair">
+                        <textarea name="source_embed_code" id="source_embed_code"></textarea>
+                    </div>
+                </div>
             </div>
 
-              <!-- Some other section. Change me! -->
-              <div class="jamjar cleeng jamjar2">
-                  <div class="jamjar_head cleeng">
-                      <div class="jamjar_title">Sell Video</div>
-                  </div>
-                  <div class="jamjar_body cleeng">
+            <!-- Some other section. Change me! -->
+            <div class="jamjar cleeng jamjar2">
+                <div class="jamjar_head cleeng">
+                    <div class="jamjar_title">Sell Video</div>
+                </div>
+                <div class="jamjar_body cleeng">
 
-                      <div   class="cleeng_login">
-                          <p style="margin-top:0;">
-                          To sell your videos you need to: <a title="Cleeng login" id="cleeng_login" href="#">Log-in</a> or <a  title="Cleeng register an account"  id="cleeng_register" href="#">Register an account</a>
-                                                          with Cleeng.
-<br><br>
-                              Wistia has partnered with <a  target="_BLANK" href="https://cleeng.com">Cleeng</a>, a free service to sell your videos and other content.
-                              They take care of access control, payments, receipts, customer support and pay-out your earnings.
-                              <br>
-                              <br>
-                              Check <a target="_BLANK" href="https://cleeng.com">cleeng.com</a> for all options.
+                    <div class="cleeng_login">
+                        <p style="margin-top:0;">
+                            To sell your videos you need to: <a title="Cleeng login" id="cleeng_login"
+                                                                href="#">Log-in</a> or <a
+                                title="Cleeng register an account" id="cleeng_register" href="#">Register an account</a>
+                            with Cleeng.
+                            <br><br>
+                            Wistia has partnered with <a target="_BLANK" href="https://cleeng.com">Cleeng</a>, a free
+                            service to sell your videos and other content.
+                            They take care of access control, payments, receipts, customer support and pay-out your
+                            earnings.
+                            <br>
+                            <br>
+                            Check <a target="_BLANK" href="https://cleeng.com">cleeng.com</a> for all options.
+                        </p>
+                    </div>
+                    <div class="cleeng_welcome">
+                        <p style="margin-top:0;">
+                        </p>
+                    </div>
+                    <div class="cleeng_setup">
+                        <form action="" id="cleengForm" enctype="multipart/form-data">
+                            <p style="margin-top:0;">
+                                After you've pasted your embed code, fill out the fields
+                                below.
                             </p>
-                      </div>
-                      <div class="cleeng_welcome">
-                          <p style="margin-top:0;">
-                          </p>
-                      </div>
-                      <div class="cleeng_setup">
-                          <form action="" id="cleengForm" enctype="multipart/form-data">
-                              <p style="margin-top:0;">
-                                  After you've pasted your embed code, fill out the fields
-                                  below.
-                              </p>
-                              <div class="publisherToken error"></div>
-                              <h3 style="margin-bottom:.25em;">Title</h3>
-                              <input type="text" name="title" id="title" placeholder="My first premium video on Wistia!" maxlength="70">
-                              <div class="title error"></div>
 
-                              <h3 style="margin-bottom:.25em;">Description / teaser</h3>
-                              <input id="description" type="text"  maxlength="110" placeholder="..." value="A cool teaser so to make you buy this amazing video!">
-                              <div class="description error"></div>
+                            <div class="publisherToken error"></div>
+                            <h3 style="margin-bottom:.25em;">Title</h3>
+                            <input type="text" name="title" id="title" placeholder="My first premium video on Wistia!"
+                                   maxlength="70">
 
-                              <h3 style="margin-bottom:.25em;">Price <span class='currency'></span></h3>
-                              <input id="price" type="text" name="price" placeholder="2.99" value="">
-                              <div class="price error"></div>
+                            <div class="title error"></div>
 
-                              <h3 style="margin-bottom:.25em;">Rental period</h3>
-                              <select name="rental_time" id="period">
-                                  <option value="">Unlimited</option>
-                                  <option value="24">24 hour</option>
-                                  <option value="48"  selected="selected">48 hour</option>
-                                  <option value="168">7 days</option>
-                                  <option value="720">30 days</option>
-                                  <option value="2160">90 days</option>
-                              </select>
-                              <div class="period error"></div>
+                            <h3 style="margin-bottom:.25em;">Description / teaser</h3>
+                            <input id="description" type="text" maxlength="110" placeholder="..."
+                                   value="A cool teaser so to make you buy this amazing video!">
 
-                              <h3 style="margin-bottom:.25em;">Landing page (<a id="cleeng_tooltip" data-toggle="tooltip" href="#" title="Specify the URL of the landing page from which the video is offered. This is used for (social) sharing, email confirmations and the library of the visitor.">?</a>) </h3>
-                              <input name="url" id="url" type="text" placeholder="http://your-domain.com/video-for-sale" value="">
-                              <div class="url error"></div>
+                            <div class="description error"></div>
 
-                              <p class="alert"></p>
+                            <h3 style="margin-bottom:.25em;">Price <span class='currency'></span></h3>
+                            <input id="price" type="text" name="price" placeholder="2.99" value="">
 
-                              <div class="button_row update">
-                                  <a id="update_video" class="button" href="#">Update</a>
-                                  <a   class="button_row update create_new_offer" href="#">Create new offer!</a>
+                            <div class="price error"></div>
 
-                              </div>
+                            <h3 style="margin-bottom:.25em;">Rental period</h3>
+                            <select name="rental_time" id="period">
+                                <option value="">Unlimited</option>
+                                <option value="24">24 hour</option>
+                                <option value="48" selected="selected">48 hour</option>
+                                <option value="168">7 days</option>
+                                <option value="720">30 days</option>
+                                <option value="2160">90 days</option>
+                            </select>
 
-                              <div class="button_row create" style="margin-top:1em;">
-                                  <a id="create_video" class="button" href="#">Create</a>
-                              </div>
-                          </form>
-                    <br>
-                    Powered by <a href="https://cleeng.com" target="_blank" title="Cleeng - content monetization solutions"><img src="http://d2ck31vttkr8sc.cloudfront.net/img/cleeng_logo_small.png"
-                                                                                                                                 /></a>
-                  </div>
-          </div>
+                            <div class="period error"></div>
 
-              </div> <!-- #configure -->
-              <div class="jamjar cleeng jamjar2">
+                            <h3 style="margin-bottom:.25em;">Landing page (<a id="cleeng_tooltip" data-toggle="tooltip"
+                                                                              href="#"
+                                                                              title="Specify the URL of the landing page from which the video is offered. This is used for (social) sharing, email confirmations and the library of the visitor.">?</a>)
+                            </h3>
+                            <input name="url" id="url" type="text" placeholder="http://your-domain.com/video-for-sale"
+                                   value="">
+
+                            <div class="url error"></div>
+
+                            <p class="alert"></p>
+
+                            <div class="button_row update">
+                                <a id="update_video" class="button" href="#">Update</a>
+                                <a class="button_row update create_new_offer" href="#">Create new offer!</a>
+
+                            </div>
+
+                            <div class="button_row create" style="margin-top:1em;">
+                                <a id="create_video" class="button" href="#">Create</a>
+                            </div>
+                        </form>
+                        <br>
+                        Powered by <a href="https://cleeng.com" target="_blank"
+                                      title="Cleeng - content monetization solutions"><img
+                            src="http://d2ck31vttkr8sc.cloudfront.net/img/cleeng_logo_small.png"
+                            /></a>
+                    </div>
+                </div>
+
+            </div>
+            <!-- #configure -->
+            <div class="jamjar cleeng jamjar2">
                 <div class="jamjar_head cleeng">
                     <div class="jamjar_title">Do you need help?</div>
                 </div>
                 <div class="jamjar_body cleeng">
 
 
-                Any questions about this Lab or how to integrate Cleeng? <br>Shoot Cleeng
+                    Any questions about this Lab or how to integrate Cleeng? <br>Shoot Cleeng
                     an
-                        <a href="mailto:support@cleeng.zendesk.com">email</a>
-                     with a short description. Our friendly support chaps will be happy to help you.
+                    <a href="mailto:support@cleeng.zendesk.com">email</a>
+                    with a short description. Our friendly support chaps will be happy to help you.
 
-                 </div>
-                 </div>
+                </div>
+            </div>
 
-              </div>
-        </div><div class="col2 col" id="preview_col"  style="">
+        </div>
+        <div class="col2 col" id="preview_col">
 
-          <div id="results">
-            <div id="alert" style="display:none;"></div>
-            
-            <label>Your new embed code</label>
-            <textarea id="output_embed_code">
-            </textarea><br/>
-            
-            <div id="preview_area" class="cleeng">
-              <label>Here's how it will look</label>
-              <div id="preview">
-                <div id="placeholder_preview">
-                    <div class="iframe">
-                    </div>
-                    <div class="loader">
-                        <img src="loading.gif">
+            <div id="results">
+                <div id="alert" style="display:none;"></div>
+
+                <label>Your new embed code</label>
+                <textarea id="output_embed_code">
+                </textarea><br/>
+
+                <div id="preview_area" class="cleeng">
+                    <label>Here's how it will look</label>
+
+                    <div id="preview">
+                        <div id="placeholder_preview">
+                            <div class="iframe">
+                            </div>
+                            <div class="loader">
+                                <img src="loading.gif">
+                            </div>
+                        </div>
                     </div>
                 </div>
-              </div>
             </div>
-          </div> <!-- #results -->
+            <!-- #results -->
 
-          <p class="refundNote">You test - we pay back: <a href="mailto:theteam@cleeng.com?subject=Can you refund my purchase?&body=Hey Cleeng,%0D%0A%0D%0Anice to test you!
+            <p class="refundNote">You test - we pay back: <a href="mailto:theteam@cleeng.com?subject=Can you refund my purchase?&body=Hey Cleeng,%0D%0A%0D%0Anice to test you!
           %0D%0ACan you refund my purchase?
-          %0D%0AThanks,%0D%0A(here your name)" >drop us a note</a> and we will refund this purchase right away</p>
+          %0D%0AThanks,%0D%0A(here your name)">drop us a note</a> and we will refund this purchase right away</p>
 
-          <p class="restrictions">
-              Please, ensure that your video is domain restricted to <span style="text-decoration: underline">play.cleeng.com</span>.<br> Learn how to configure this in the
-              <a target="_blank" href="http://wistia.com/doc/domain-restrictions">Wistia documentation</a>.
-          </p>
+            <p class="restrictions">
+                Please, ensure that your video is domain restricted to <span style="text-decoration: underline">play.cleeng.com</span>.<br>
+                Learn how to configure this in the
+                <a target="_blank" href="http://wistia.com/doc/domain-restrictions">Wistia documentation</a>.
+            </p>
+        </div>
 
 
-        </div> <!-- .col2 -->
-      </div> <!-- #body -->
-      <div id="footerpad">&nbsp;</div>
-    </div> <!-- #nonfooter -->
-    <div id="footer">&nbsp;</div>
+    </div>
+    <!-- .col2 -->
+</div>
+<!-- #body -->
+<div id="footerpad">&nbsp;</div>
+</div>
+<!-- #nonfooter -->
+<div id="footer">&nbsp;</div>
 
-  </body>
+</body>
 </html>
