@@ -105,24 +105,49 @@ Cleeng.prototype = (function () {
     }
     var __construct = function () {
 
-        Cleeng.publisherToken = getCookie('publisherAccessToken');
-        if (Cleeng.publisherToken != null) {
-            CleengApi.api('getPublisher', {publisherToken: Cleeng.publisherToken}, function (result) {
 
-                if (typeof result.firstName == 'string' && result.firstName != '') {
-                    Cleeng.publisherDisplayName = result.firstName+' '+result.lastName;
-                    displayWelcome(Cleeng.publisherDisplayName);
-                    injectCurrency(result.currency);
-                    Cleeng.clearOutput();
+        window.__cleeng_autologin_callback = function (data) {
+            if (typeof data.key !== 'undefined') {
 
-                } else if(typeof result.firstName == 'string' && result.email != '') {
-                    Cleeng.publisherDisplayName = result.email;
-                    displayWelcome(Cleeng.publisherDisplayName);
-                    injectCurrency(result.currency);
-                    Cleeng.clearOutput();
-                }
-            });
-        }
+                CleengApi.api('publisherAutologin',
+                {
+                                  applicationId :Cleeng.applicationId,
+                                   applicationSecureKey : Cleeng.applicationSecureKey,
+                                   sessionKey : data.key
+                }, function(result) {
+                    if (result.success) {
+
+                        Cleeng.publisherToken = result.publisherToken
+                        if (Cleeng.publisherToken != null) {
+
+                            CleengApi.api('getPublisher', {publisherToken: Cleeng.publisherToken}, function (result) {
+
+                                if (typeof result.firstName == 'string' && result.firstName != '') {
+                                    Cleeng.publisherDisplayName = result.firstName+' '+result.lastName;
+                                    displayWelcome(Cleeng.publisherDisplayName);
+                                    injectCurrency(result.currency);
+                                    Cleeng.clearOutput();
+
+                                } else if(typeof result.firstName == 'string' && result.email != '') {
+                                    Cleeng.publisherDisplayName = result.email;
+                                    displayWelcome(Cleeng.publisherDisplayName);
+                                    injectCurrency(result.currency);
+                                    Cleeng.clearOutput();
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        };
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        var autologinUrl = 'https://cleeng.com/autologin/autologin.js';
+        script.src = autologinUrl + '?callback=__cleeng_autologin_callback&r=' + Math.random();
+        var head = document.getElementsByTagName("head")[0];
+        head.insertBefore(script, head.firstChild);
+
+
     }
     __construct();
 
@@ -396,6 +421,8 @@ function debounceUpdateOutput(update) {
 // run whatever initialization code we might need.
 window.setupLabInterface = function ($) {
     $(function () {
+
+
         // Update the output whenever the user clicks the update button.
         $("#configure").on("click", "#update_video", function (e) {
             e.preventDefault();
