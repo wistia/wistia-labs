@@ -141,7 +141,7 @@ Cleeng.prototype = (function () {
     }
     var hideWelcome = function() {
         $('.cleeng_welcome p').html('');
-        $('.cleeng_already').html('Already have an account? <a id="cleeng_login_bar" href="#">Login</a>');
+        $('.cleeng_already').html('Already have a Cleeng account? <a id="cleeng_login_bar" href="#">Login</a>');
         $(".cleeng .cleeng_login").show();
         $(".cleeng .cleeng_setup").hide();
     }
