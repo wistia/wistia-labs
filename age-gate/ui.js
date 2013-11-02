@@ -11,19 +11,15 @@ function updateOutput() {
     // Here's where you modify the embed code to add and configure your plugin.
     outputEmbedCode.setOption("plugin.ageGate.src", pluginSrc(sourceEmbedCode));
 
-    if ($("#age-gate-18").is(":checked")) {
-      outputEmbedCode.setOption("plugin.ageGate.ageRestriction", 18)
-    }
+    ageRestriction = parseInt(document.getElementById("age-gate").value) || 18;
 
-    if ($("#age-gate-21").is(":checked")) {
-      outputEmbedCode.setOption("plugin.ageGate.ageRestriction", 21)
-    }
+    outputEmbedCode.setOption("plugin.ageGate.ageRestriction", ageRestriction);
 
     // Display the output.
     $("#output_embed_code").val(outputEmbedCode.toString());
     outputEmbedCode.previewInElem("preview");
   } else {
-    // Show an error if invalid. We can be more specific 
+    // Show an error if invalid. We can be more specific
     // if we expect a certain problem.
     $("#output_embed_code").val("Please enter a valid Wistia embed code.");
     $("#preview").html('<div id="placeholder_preview">Your video here</div>');
@@ -31,22 +27,23 @@ function updateOutput() {
 }
 
 
-// Updating is kind of a heavy operation; we don't want to 
+// Updating is kind of a heavy operation; we don't want to
 // do it on every single keystroke.
 var updateOutputTimeout;
 function debounceUpdateOutput() {
   clearTimeout(updateOutputTimeout);
-  updateOutputTimeout = setTimeout(updateOutput, 500);
+  updateOutputTimeout = setTimeout(updateOutput, 1000);
 }
 
 
-// Assign all DOM bindings on doc-ready in here. We can also 
+// Assign all DOM bindings on doc-ready in here. We can also
 // run whatever initialization code we might need.
 window.setupLabInterface = function($) {
   $(function() {
     // Update the output whenever a configuration input changes.
     $("#configure")
-      .on("keyup", "input[type=text], textarea", debounceUpdateOutput)
+      .on("keyup", "input[type=text], input[type=number], textarea", debounceUpdateOutput)
+      .on("change", "input[type=number]", debounceUpdateOutput)
       .on("change", "select", debounceUpdateOutput)
       .on("click", ":radio,:checkbox", debounceUpdateOutput);
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Age-Gate</title>
+    <title>Age Gate</title>
     <link rel="stylesheet" href="../css/labs.css" />
     <link rel="stylesheet" href="style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
@@ -159,9 +159,9 @@
                 <span class="text"><span class="arrow">&#8592;</span> Back to Labs</span>
               </a>
             </div><div class="col2 col">
-              <h1>Age-Gate</h1>
+              <h1>Age Gate</h1>
               <p>
-                Require an age limit for your video.
+                Require an minimum age for your video.
                 <span class="clear_example_text">
                   Play around with the example to see how it works,
                   then <a href="#" id="clear_example">clear it</a> and paste in your own
@@ -196,15 +196,14 @@
 
             <div class="jamjar age-gate jamjar2">
               <div class="jamjar_head">
-                <div class="jamjar_title">Age Requirement</div>
+                <div class="jamjar_title">Age Restriction</div>
               </div>
               <div class="jamjar_body">
                 <p style="margin-top:0;">
-                  After you've pasted your embed code, select either 18+ or 21+.
+                  After you've pasted your embed code, enter the minimum age for this video.
                 </p>
-                <h3 style="margin-bottom:.25em;margin-right:0.5em;display:inline-block">Age Restriction:</h3>
-                <input id="age-gate-18" type="radio" name="age-gate" value="eighteen" /><label style="margin-right:0.3em;">18+</label>
-                <input id="age-gate-21" type="radio" name="age-gate" value="twentyone" /><label style="margin-right:0.3em;">21+</label>
+                <h3 style="margin-bottom:.25em;margin-right:0.25em;display:inline-block">Minimum Age:</h3>
+                <input id="age-gate" type="number" name="age-gate" value="18" style="width:70px"/>
               </div>
             </div>
 

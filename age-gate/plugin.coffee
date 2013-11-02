@@ -36,7 +36,7 @@
 
     ageGateChallengeText = W.elem.fromObject {
       id: "#{uuid}-challenge-text"
-      innerHTML: "Are you at least #{ageRestriction} years old?"
+      innerHTML: "Are you at least #{ageRestriction} year#{if (ageRestriction == 0 or ageRestriction > 1) then 's' else ''} of age?"
       style:
         "font-size": "28px"
         "font-weight": 300

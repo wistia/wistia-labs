@@ -35,7 +35,7 @@
     });
     ageGateChallengeText = W.elem.fromObject({
       id: "" + uuid + "-challenge-text",
-      innerHTML: "Are you at least " + ageRestriction + " years old?",
+      innerHTML: "Are you at least " + ageRestriction + " year" + (ageRestriction === 0 || ageRestriction > 1 ? 's' : '') + " of age?",
       style: {
         "font-size": "28px",
         "font-weight": 300,
