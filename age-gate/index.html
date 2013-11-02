@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Age-Gate</title>
+    <link rel="stylesheet" href="../css/labs.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://fast.wistia.com/assets/app/jquery/jquery_jamjar.js"></script>
+    <script src="../lib/jquery.timeatentry.js"></script>
+    <script src="http://fast.wistia.com/static/E-v1.js"></script>
+    <script src="http://fast.wistia.com/static/embed_shepherd-v1.js"></script>
+    <script src="../lib/globalui.js"></script>
+    <script src="../lib/labtools.js"></script>
+    <script src="plugin.js"></script>
+    <script src="ui.js"></script>
+  </head>
+  <body>
+    <div id="nonfooter">
+
+      <div id="common_header">
+        <!-- COMMON_HEADER_START -->
+<style type='text/css'>
+@font-face {
+  font-family: "Avenir";
+  src: url("/fonts/avenir/avenir-85.eot?#iefix");
+  src: url("/fonts/avenir/avenir-85.eot?#iefix") format("eot"), url("/fonts/avenir/avenir-85.woff") format("woff"), url("/fonts/avenir/avenir-85.ttf") format("truetype"), url("/fonts/avenir/avenir-85.svg#avenir-85") format("svg");
+  font-weight: 700;
+  font-style: normal; }
+
+#wistiacom_header {
+  background: white;
+  border-top: 6px solid #eceef1;
+  z-index: 100;
+  position: relative; }
+  #wistiacom_header .headcontainer {
+    z-index: 100;
+    height: 110px;
+    margin: 0 auto;
+    width: 1080px;
+    position: relative; }
+  #wistiacom_header #logo a {
+    position: absolute;
+    background: url("http://wistia.com/images/elements/skeletor/logo.png") no-repeat;
+    width: 220px;
+    height: 40px;
+    top: 36px;
+    left: 0; }
+  #wistiacom_header #logo a:hover {
+    background-position: 0px -40px; }
+  #wistiacom_header #nav {
+    position: absolute;
+    left: 338px; }
+    #wistiacom_header #nav ul {
+      display: inline-block;
+      *display: inline;
+      vertical-align: top;
+      zoom: 1;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: 0px; }
+      #wistiacom_header #nav ul li {
+        display: inline-block;
+        *display: inline;
+        vertical-align: top;
+        zoom: 1;
+        margin-top: -6px;
+        position: relative;
+        z-index: 0;
+        width: 130px;
+        text-align: center;
+        border-top: 6px solid #eceef1; }
+        #wistiacom_header #nav ul li.features {
+          text-transform: uppercase; }
+          #wistiacom_header #nav ul li.features:hover {
+            border-top: 6px solid #faa928; }
+            #wistiacom_header #nav ul li.features:hover a {
+              color: #faa928; }
+        #wistiacom_header #nav ul li.pricing {
+          text-transform: uppercase; }
+          #wistiacom_header #nav ul li.pricing:hover {
+            border-top: 6px solid #f27398; }
+            #wistiacom_header #nav ul li.pricing:hover a {
+              color: #f27398; }
+        #wistiacom_header #nav ul li.learning {
+          margin-right: 92px;
+          text-transform: uppercase; }
+          #wistiacom_header #nav ul li.learning:hover {
+            border-top: 6px solid #56be8e; }
+            #wistiacom_header #nav ul li.learning:hover a {
+              color: #56be8e; }
+        #wistiacom_header #nav ul li.signup a {
+          letter-spacing: 1px; }
+          #wistiacom_header #nav ul li.signup a:hover {
+            color: #40aaef; }
+        #wistiacom_header #nav ul li.signup:hover {
+          border-top: 6px solid #40aaef; }
+        #wistiacom_header #nav ul li.login a {
+          letter-spacing: 1px; }
+          #wistiacom_header #nav ul li.login a:hover {
+            color: #0e7ac4; }
+        #wistiacom_header #nav ul li.login:hover {
+          border-top: 6px solid #0e7ac4; }
+      #wistiacom_header #nav ul a {
+        display: block;
+        padding: 46px 0px;
+        text-decoration: none;
+        font-family: "Avenir", "Futura", sans-serif;
+        font-size: 17px;
+        font-weight: 500;
+        color: #555555;
+        letter-spacing: 2px;
+        outline: none;
+        margin: 0 auto;
+        -webkit-font-smoothing: subpixel-antialiased; }
+        #wistiacom_header #nav ul a img {
+          overflow: hidden;
+          width: 70px;
+          height: 50px;
+          background-position: 0px 0px; }
+</style>
+<div id='wistiacom_header'>
+<div class='headcontainer'>
+<div id='logo'>
+<a href='/'></a>
+</div>
+<div id='nav'>
+<ul>
+<li class='features'>
+<a href='http://wistia.com/product'>Features</a>
+</li>
+<li class='pricing'>
+<a href='http://wistia.com/pricing'>Pricing</a>
+</li>
+<li class='learning'>
+<a href='http://wistia.com/learning'>Learning</a>
+</li>
+<li class='signup'>
+<a href='http://wistia.com/free/new'>Sign Up</a>
+</li>
+<li class='login'>
+<a href='https://secure.wistia.com/login' style='padding-right: 0px'>Login</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- COMMON_HEADER_END -->
+      </div>
+
+
+      <div id="lab_header" class="outer_container">
+        <div class="inner_container">
+          <div class="cols">
+            <div class="col1 col">
+              <a href=".." class="back_to_labs">
+                <img src="../images/dim-the-lights.png" class="lab_logo" />
+                <span class="text"><span class="arrow">&#8592;</span> Back to Labs</span>
+              </a>
+            </div><div class="col2 col">
+              <h1>Age-Gate</h1>
+              <p>
+                Require an age limit for your video.
+                <span class="clear_example_text">
+                  Play around with the example to see how it works,
+                  then <a href="#" id="clear_example">clear it</a> and paste in your own
+                  embed code!
+                </span><span class="show_example_text" style="display:none;">
+                  Just paste in a Wistia embed code and start customizing,
+                  or <a href="#" id="show_example">show me an example</a>.
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div id="body" class="cols">
+        <div class="col1 col" id="configure_col">
+          <div id="configure">
+
+            <!-- Paste Embed Code Section -->
+            <div class="jamjar paste_embed_code jamjar2">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Paste embed code</div>
+              </div>
+              <div class="jamjar_body">
+                <div class="source_embed_code_field_pair field_pair">
+                  <p style="margin-top:0;">Get it from the SuperEmbed Builder.</p>
+                  <textarea name="source_embed_code" id="source_embed_code"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="jamjar age-gate jamjar2">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Age Requirement</div>
+              </div>
+              <div class="jamjar_body">
+                <p style="margin-top:0;">
+                  After you've pasted your embed code, select either 18+ or 21+.
+                </p>
+                <h3 style="margin-bottom:.25em;margin-right:0.5em;display:inline-block">Age Restriction:</h3>
+                <input id="age-gate-18" type="radio" name="age-gate" value="eighteen" /><label style="margin-right:0.3em;">18+</label>
+                <input id="age-gate-21" type="radio" name="age-gate" value="twentyone" /><label style="margin-right:0.3em;">21+</label>
+              </div>
+            </div>
+
+          </div> <!-- #configure -->
+        </div><div class="col2 col" id="preview_col">
+
+
+          <div id="results">
+            <div id="alert" style="display:none;"></div>
+
+            <label>Your new embed code</label>
+            <textarea id="output_embed_code"></textarea><br/>
+
+            <div id="preview_area">
+              <label>Here's how it will look</label>
+              <div id="preview">
+                <div id="placeholder_preview">Your video here</div>
+              </div>
+            </div>
+          </div> <!-- #results -->
+
+
+        </div> <!-- .col2 -->
+      </div> <!-- #body -->
+      <div id="footerpad">&nbsp;</div>
+    </div> <!-- #nonfooter -->
+    <div id="footer">&nbsp;</div>
+
+  </body>
+</html>
