@@ -60,7 +60,7 @@ AgeRestriction = (function() {
   AgeRestriction.prototype.debounceUpdates = function() {
     var updateOutputTimeout;
     clearTimeout("updateOutputTimeout");
-    return updateOutputTimeout = setTimeout(this.updateOutputEmbedCode, 500);
+    return updateOutputTimeout = setTimeout(this.updateOutputEmbedCode, 100);
   };
 
   AgeRestriction.prototype.updateOutputEmbedCode = function() {
@@ -100,7 +100,7 @@ AgeRestriction = (function() {
           return _this.previewEmbedded = true;
         });
       }
-    }, 250);
+    }, 100);
   };
 
   AgeRestriction.prototype.waitFor = function(cond, timeout) {

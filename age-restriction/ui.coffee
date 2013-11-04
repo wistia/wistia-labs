@@ -48,7 +48,7 @@ class AgeRestriction
 
   debounceUpdates: ->
     clearTimeout("updateOutputTimeout")
-    updateOutputTimeout = setTimeout(@updateOutputEmbedCode, 500)
+    updateOutputTimeout = setTimeout(@updateOutputEmbedCode, 100)
 
   updateOutputEmbedCode: =>
     @sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val())
@@ -79,7 +79,7 @@ class AgeRestriction
           window.previewEmbed.plugin?ageRestriction.updateType(@type)
           window.previewEmbed.plugin?ageRestriction.updateAge(@minimumAge)
           @previewEmbedded = true
-    , 250
+    , 100
 
   waitFor: (cond, timeout = 5000) ->
     result = new Wistia.StopGo()
