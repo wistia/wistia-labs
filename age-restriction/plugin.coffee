@@ -159,7 +159,7 @@
 
     updateAge = (age) ->
       return unless age
-      age = parseInt(age)
+      minimumAge = parseInt(age)
       document.getElementById("#{uuid}-minimum-age").innerHTML = age
 
     submitButton.onclick = checkAge

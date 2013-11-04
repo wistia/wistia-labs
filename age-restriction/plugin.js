@@ -156,7 +156,7 @@
       if (!age) {
         return;
       }
-      age = parseInt(age);
+      minimumAge = parseInt(age);
       return document.getElementById("" + uuid + "-minimum-age").innerHTML = age;
     };
     submitButton.onclick = checkAge;
