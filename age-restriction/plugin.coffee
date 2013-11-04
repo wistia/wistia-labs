@@ -86,13 +86,13 @@
 
     yesButton = W.elem.fromObject {
       id: "#{uuid}-yes-button"
-      innerHTML: "Yes I am <span class='#{uuid}-minimum-age'>#{minimumAge}</span> or over"
+      innerHTML: "I'm <span class='#{uuid}-minimum-age'>#{minimumAge}</span> or over"
       style: buttonStyle
     }
 
     noButton = W.elem.fromObject {
       id: "#{uuid}-no-button"
-      innerHTML: "No I am under <span class='#{uuid}-minimum-age'>#{minimumAge}</span>"
+      innerHTML: "I'm under <span class='#{uuid}-minimum-age'>#{minimumAge}</span>"
       style: buttonStyle
     }
 
