@@ -200,10 +200,20 @@
               </div>
               <div class="jamjar_body">
                 <p style="margin-top:0;">
-                  After you've pasted your embed code, enter the minimum age for this video.
+                  After you've pasted your embed code, select the restriction type and enter the minimum age for this video.
                 </p>
-                <h3 style="margin-bottom:.25em;margin-right:0.25em;display:inline-block">Minimum Age:</h3>
-                <input id="minimum-age" type="number" name="minimum-age" value="18" style="width:70px"/>
+                <div>
+                  <h3 style="margin-bottom:.25em;margin-right:0.25em;display:inline-block">Restriction Type:</h3>
+                  <input id="age" type="radio" name="restriction-type" checked="checked"/><label>Age</label>
+                  <input id="dob" type="radio" name="restriction-type" /><label>DOB</label>
+                </div>
+                <div>
+                  <h3 style="margin-bottom:.25em;margin-right:0.25em;display:inline-block">Minimum Age:</h3>
+                  <input id="minimum-age" type="number" name="minimum-age" value="18" style="width:70px"/>
+                </div>
+                <div class="button_row" style="margin-top:1em;">
+                  <a href="#" name="reset" class="button">Reset Preview</a>
+                </div>
               </div>
             </div>
 

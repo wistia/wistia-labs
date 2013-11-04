@@ -2,6 +2,7 @@
 
   W.plugin "ageRestriction", (video, options = {}) ->
 
+    return unless options.type
     return unless options.minimumAge
 
     minimumAge = parseInt(options.minimumAge)
@@ -11,42 +12,92 @@
     video.suppressPlay(true)
     video.pause()
 
-    # Create Age Gate elements
+    standardFontSize = "#{video.height()/ 20}px"
+    largeFontSize = "#{video.height() / 15}px"
+
+    inlineCss = """
+      ##{uuid}-dob::-webkit-inner-spin-button,
+      ##{uuid}-dob::-webkit-calendar-picker-indicator {
+        display: none;
+        -webkit-appearance: none;
+      }
+    """
+
+    buttonStyle =
+      "background-color": "#3498ea"
+      "border": "0"
+      "border-radius": "0"
+      "color": "#fff"
+      "cursor": "pointer"
+      "display": "inline-block"
+      "font-size": standardFontSize
+      "height": "40px"
+      "line-height": "40px"
+      "margin-right": "10px"
+      "outline": "0"
+      "padding": "0 10px"
+      "vertical-align": "top"
+
+    challengeTextStyle =
+      "font-size": largeFontSize
+      "font-weight": 700
+      "margin": "0 auto"
+      "padding-bottom": "1em"
+      "width": "85%"
+
     elem = W.elem.fromObject {
-        id: uuid
-        style:
-          "background-color": "#333"
-          "color": "#fff"
-          "font-family": "Open Sans,Arial,sans-serif"
-          "height": "#{video.height()}px"
-          "left": 0
-          "top": 0
-          "position": "absolute"
-          "text-align": "center"
-          "width": "#{video.width()}px"
-          "z-index": 100
+      id: uuid
+      style:
+        "background-color": "#333"
+        "color": "#fff"
+        "font-family": "Open Sans,Arial,sans-serif"
+        "height": "#{video.height()}px"
+        "left": 0
+        "top": 0
+        "position": "absolute"
+        "text-align": "center"
+        "width": "#{video.width()}px"
+        "z-index": 100
       }
 
     container = W.elem.fromObject {
       id: "#{uuid}-container"
       style:
-        "margin-top": "#{video.height() / 5}px"
+        "margin-top": "#{video.height() / 4}px"
     }
 
-    challengeTextLineOne = W.elem.fromObject {
-      id: "#{uuid}-challenge-text-line-one"
-      innerHTML: "<div>You must be at least <span id='#{uuid}-minimum-age'>#{minimumAge}</span></div><div>to view this video.</div>"
+    errorText = W.elem.fromObject {
+      id: "#{uuid}-error-text"
+      innerHTML: "<div>You are not old enough to view this video.</div>"
       style:
-        "font-size": "28px"
+        "color": "#f5d535"
+        "display": "none"
+        "font-size": largeFontSize
         "font-weight": 700
-        "letter-spacing": "1px"
-        "line-height": "1.5em"
         "margin": "0 auto"
-        "width": "55%"
+        "width": "85%"
     }
 
-    challengeTextLineTwo = W.elem.fromObject {
-      id: "#{uuid}-challenge-text-line-two"
+    challengeText = W.elem.fromObject {
+      id: "#{uuid}-challenge-text"
+      innerHTML: "<div>You must be at least <span class='#{uuid}-minimum-age'>#{minimumAge}</span> to view this video."
+      style: challengeTextStyle
+    }
+
+    yesButton = W.elem.fromObject {
+      id: "#{uuid}-yes-button"
+      innerHTML: "Yes I am <span class='#{uuid}-minimum-age'>#{minimumAge}</span> or over"
+      style: buttonStyle
+    }
+
+    noButton = W.elem.fromObject {
+      id: "#{uuid}-no-button"
+      innerHTML: "No I am under <span class='#{uuid}-minimum-age'>#{minimumAge}</span>"
+      style: buttonStyle
+    }
+
+    challengeSubtitle = W.elem.fromObject {
+      id: "#{uuid}-challenge-subtitle"
       innerHTML: "Please enter your date of birth."
       style:
         "font-style": "italic"
@@ -58,7 +109,7 @@
       id: "#{uuid}-dob-form"
       tagName: "form"
       style:
-        "margin": "20px 0"
+        "margin-bottom": "1em"
     }
 
     dateOfBirth = W.elem.fromObject {
@@ -69,101 +120,110 @@
         "border": "0"
         "border-radius": "0"
         "color": "#666"
-        "font-size": "16px"
+        "font-size": standardFontSize
         "font-family": "Open Sans,Arial,sans-serif"
         "height": "40px"
         "line-height": "40px"
         "margin": "0"
         "outline": "none"
-        "padding": "0 0 0 10px"
+        "padding": "0 10px"
         "text-transform": "uppercase"
         "vertical-align": "top"
-        "width": "160px"
+        "width": "140px"
     }
-
-    inlineCss = """
-      ##{uuid}-dob::-webkit-inner-spin-button,
-      ##{uuid}-dob::-webkit-calendar-picker-indicator {
-        display: none;
-        -webkit-appearance: none;
-      }
-    """
 
     submitButton = W.elem.fromObject {
       id: "#{uuid}-submit-button"
       tagName: "input"
       type: "submit"
-      value: "Submit"
-      style:
-        "background-color": "#3498ea"
-        "border": "0"
-        "border-radius": "0"
-        "color": "#fff"
-        "cursor": "pointer"
-        "display": "inline-block"
-        "font-size": "16px"
-        "height": "40px"
-        "line-height": "40px"
-        "outline": "0"
-        "padding": "0"
-        "text-transform": "uppercase"
-        "vertical-align": "top"
-        "width": "100px"
+      value: "Play"
+      style: buttonStyle
     }
 
-    errorText = W.elem.fromObject {
-      id: "#{uuid}-error-text"
-      innerHTML: "<div>You are not old enough</div></div>to view this video.</div>"
-      style:
-        "color": "#f5d535"
-        "display": "none"
-        "font-size": "28px"
-        "font-weight": 700
-        "letter-spacing": "1px"
-        "line-height": "1.5em"
-        "margin": "0 auto"
-        "padding-top": "1em"
-        "width": "55%"
-    }
+    createAgeElements = ->
+      W.elem.append container, challengeText
+      W.elem.append container, yesButton
+      W.elem.append container, noButton
 
-    # Append all age gate elements to DOM
-    W.util.addInlineCss(elem, inlineCss)
-    W.elem.append container, challengeTextLineOne
-    W.elem.append dobForm, dateOfBirth
-    W.elem.append dobForm, submitButton
-    W.elem.append container, dobForm
-    W.elem.append container, challengeTextLineTwo
-    W.elem.append container, errorText
-    W.elem.append elem, container
-    W.elem.append video.grid.top_inside, elem
+      yesButton.onclick = playVideo
+      noButton.onclick = displayErrorMessage
+
+    createDOBElements = ->
+      W.util.addInlineCss(elem, inlineCss)
+      W.elem.append dobForm, dateOfBirth
+      W.elem.append dobForm, submitButton
+      W.elem.append container, challengeText
+      W.elem.append container, dobForm
+      W.elem.append container, challengeSubtitle
+
+      submitButton.onclick = checkAge
+
+    createSharedElements= ->
+      W.elem.append container, errorText
+      W.elem.append elem, container
+      W.elem.append video.grid.top_inside, elem
 
     # Setup click handlers
     playVideo = ->
-      if (elem && (parent = elem.parentNode))
-        parent.removeChild(elem)
-        elem = null
-
+      removeExitingForm()
+      removeOverlay()
       video.suppressPlay(false)
+      video.play()
 
     displayErrorMessage = ->
-      dobForm.style.display = "none"
-      challengeTextLineTwo.style.display = "none"
+      if yesButton? && noButton?
+        yesButton.style.display = "none"
+        noButton.style.display = "none"
+      if dobForm? && challengeSubtitle?
+        dobForm.style.display = "none"
+        challengeSubtitle.style.display = "none"
       errorText.style.display = "block"
 
     checkAge = ->
-      dob = dateOfBirth.value
+      dob = document.getElementById("#{uuid}-dob").value
       age = Math.floor((Date.now() - new Date(dob)) / (1000 * 60 * 60 * 24 * 365.25))
 
       if age >= minimumAge then playVideo() else displayErrorMessage()
       false
 
+    removeExitingForm = ->
+      if (container && (parent = container.parentNode))
+        parent.removeChild(container)
+        container = null
+
+    removeOverlay = ->
+      if (elem && (parent = elem.parentNode))
+        parent.removeChild(elem)
+        elem = null
+
     updateAge = (age) ->
       return unless age
       minimumAge = parseInt(age)
-      document.getElementById("#{uuid}-minimum-age").innerHTML = age
+      elements = document.getElementsByClassName("#{uuid}-minimum-age")
+      for e in elements
+        e.innerHTML = age
 
-    submitButton.onclick = checkAge
+    updateType = (type) ->
+      return unless type
+      removeExitingForm()
 
-    { updateAge: updateAge }
+      container = W.elem.fromObject {
+          id: "#{uuid}-container"
+          style:
+            "margin-top": "#{video.height() / 4}px"
+        }
+
+      if type == 'age'then createAgeElements()
+      if type == 'dob' then createDOBElements()
+      createSharedElements()
+
+    createAgeElements() if options.type =="age"
+    createDOBElements() if options.type =="dob"
+    createSharedElements()
+
+    {
+      updateAge: updateAge
+      updateType: updateType
+    }
 
 )(Wistia)

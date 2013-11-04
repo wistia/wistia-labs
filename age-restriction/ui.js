@@ -27,7 +27,17 @@ AgeRestriction = (function() {
       e.preventDefault();
       return _this.setupExample();
     });
+    $("a[name=reset]").on('click', function(e) {
+      e.preventDefault();
+      _this.change = false;
+      _this.previewEmbedded = false;
+      return _this.debounceUpdates();
+    });
     $("#configure input[type=number]").on("change", function() {
+      _this.change = true;
+      return _this.debounceUpdates();
+    });
+    $("#configure input[type=radio]").on("change", function() {
       _this.change = true;
       return _this.debounceUpdates();
     });
@@ -58,7 +68,9 @@ AgeRestriction = (function() {
     this.outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
     if (this.sourceEmbedCode && this.sourceEmbedCode.isValid()) {
       this.minimumAge = this.getMinimumAge();
+      this.type = this.getType();
       this.outputEmbedCode.setOption("plugin.ageRestriction.src", pluginSrc(this.sourceEmbedCode));
+      this.outputEmbedCode.setOption("plugin.ageRestriction.type", this.type);
       this.outputEmbedCode.setOption("plugin.ageRestriction.minimumAge", this.minimumAge);
       $("#output_embed_code").val(this.outputEmbedCode.toString());
       return this.updatePreview();
@@ -72,14 +84,18 @@ AgeRestriction = (function() {
     var _this = this;
     return Wistia.timeout("updatePreview", function() {
       if (_this.change) {
+        window.previewEmbed.plugin.ageRestriction.updateType(_this.type);
         return window.previewEmbed.plugin.ageRestriction.updateAge(_this.minimumAge);
       } else if (!_this.previewEmbedded) {
         return _this.outputEmbedCode.previewInElem("preview", {
           type: "api"
         }, function() {
-          var _base;
+          var _base, _base1;
           if (typeof (_base = window.previewEmbed).plugin === "function") {
-            _base.plugin(ageRestriction.updateAge(_this.minimumAge));
+            _base.plugin(ageRestriction.updateType(_this.type));
+          }
+          if (typeof (_base1 = window.previewEmbed).plugin === "function") {
+            _base1.plugin(ageRestriction.updateAge(_this.minimumAge));
           }
           return _this.previewEmbedded = true;
         });
@@ -110,6 +126,14 @@ AgeRestriction = (function() {
 
   AgeRestriction.prototype.getMinimumAge = function() {
     return parseInt($("#minimum-age").val());
+  };
+
+  AgeRestriction.prototype.getType = function() {
+    if ($("input#age").is(':checked')) {
+      return "age";
+    } else if ($("input#dob").is(':checked')) {
+      return "dob";
+    }
   };
 
   return AgeRestriction;

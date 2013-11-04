@@ -20,7 +20,17 @@ class AgeRestriction
       e.preventDefault()
       @setupExample()
 
+    $("a[name=reset]").on 'click', (e) =>
+      e.preventDefault()
+      @change = false
+      @previewEmbedded = false
+      @debounceUpdates()
+
     $("#configure input[type=number]").on "change", =>
+      @change = true
+      @debounceUpdates()
+
+    $("#configure input[type=radio]").on "change", =>
       @change = true
       @debounceUpdates()
 
@@ -46,8 +56,10 @@ class AgeRestriction
 
     if @sourceEmbedCode and @sourceEmbedCode.isValid()
       @minimumAge = @getMinimumAge()
+      @type = @getType()
 
       @outputEmbedCode.setOption("plugin.ageRestriction.src", pluginSrc(@sourceEmbedCode))
+      @outputEmbedCode.setOption("plugin.ageRestriction.type", @type)
       @outputEmbedCode.setOption("plugin.ageRestriction.minimumAge", @minimumAge)
 
       $("#output_embed_code").val(@outputEmbedCode.toString())
@@ -60,9 +72,11 @@ class AgeRestriction
   updatePreview: =>
     Wistia.timeout "updatePreview", =>
       if @change
+        window.previewEmbed.plugin.ageRestriction.updateType(@type)
         window.previewEmbed.plugin.ageRestriction.updateAge(@minimumAge)
       else if !@previewEmbedded
         @outputEmbedCode.previewInElem "preview", { type: "api" }, =>
+          window.previewEmbed.plugin?ageRestriction.updateType(@type)
           window.previewEmbed.plugin?ageRestriction.updateAge(@minimumAge)
           @previewEmbedded = true
     , 250
@@ -84,6 +98,11 @@ class AgeRestriction
   getMinimumAge: ->
     parseInt($("#minimum-age").val())
 
+  getType: ->
+    if $("input#age").is(':checked')
+      "age"
+    else if $("input#dob").is(':checked')
+      "dob"
 
 # Assign all DOM bindings on doc-ready in here. We can also 
 # run whatever initialization code we might need.
