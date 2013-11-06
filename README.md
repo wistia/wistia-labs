@@ -60,7 +60,7 @@ should get it up there and live in a hurry!
     
 * Run doomcrank:
 
-    `./crank wistiacom production wistia:deploy:update`
+    `./crank wistiacom production wistiacom:deploy:update`
 
 * If your update is to a plugin itself, you will also need to bust the cache
   from Fastly, which you can do from a wistia-app machine:
