@@ -46,6 +46,7 @@ Wistia.plugin("resumable", function(video, options) {
     "top: 0;\n" +
     "white-space: normal;\n" +
     "width: " + video.videoWidth() + "px;\n" +
+    "z-index: 1;\n" +
     "}\n" +
     "#" + uuid + "_content {\n" +
     "  position: relative;\n" +
@@ -149,6 +150,7 @@ Wistia.plugin("resumable", function(video, options) {
     if (resumeTime()) {
       if (video.state() === "beforeplay") {
         video.suppressPlay(true);
+        video.pause();
       } else {
         video.pause();
       }
@@ -188,14 +190,16 @@ Wistia.plugin("resumable", function(video, options) {
     }
   }
 
-  if (!showOverlay()) {
-    setTime(0);
-  }
-  
-  video.bind("secondchange", setTime)
+  video.hasData(function() {
+    if (!showOverlay()) {
+      setTime(0);
+    }
+    
+    video.bind("secondchange", setTime)
 
-  video.bind("end", function() {
-    setTime(0);
+    video.bind("end", function() {
+      setTime(0);
+    });
   });
 
   video.bind("widthchange", fit).bind("heightchange", fit);
