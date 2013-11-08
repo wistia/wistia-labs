@@ -2,13 +2,24 @@ Wistia.plugin "googleAnalytics", (video, options = {}) ->
 
   # Define a way to get the percent watched of a video.
   buckets = []
+
   percentWatched = ->
     watched = 0
     for bucket in buckets
       watched += 1 if bucket
     watched / buckets.length
+
   video.ready ->
     buckets.push(false) for i in [0..Math.floor(video.duration())]
+
+    # first second is a freebie. if someone clicks play and watches straight
+    # through, we don't always get a secondchange event for the first second.
+    buckets[0] = true
+
+    # if this video is already playing, assume they've watched up to now
+    if video.state() is 'playing'
+      buckets[s] = true for s in [0..Math.floor(video.time())]
+
   video.bind "secondchange", (s) ->
     buckets[s] = true
 

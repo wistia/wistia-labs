@@ -17,12 +17,18 @@ Wistia.plugin("googleAnalytics", function(video, options) {
     return watched / buckets.length;
   };
   video.ready(function() {
-    var i, _i, _ref, _results;
-    _results = [];
+    var i, s, _i, _j, _ref, _ref1, _results;
     for (i = _i = 0, _ref = Math.floor(video.duration()); 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
-      _results.push(buckets.push(false));
+      buckets.push(false);
     }
-    return _results;
+    buckets[0] = true;
+    if (video.state() === 'playing') {
+      _results = [];
+      for (s = _j = 0, _ref1 = Math.floor(video.time()); 0 <= _ref1 ? _j <= _ref1 : _j >= _ref1; s = 0 <= _ref1 ? ++_j : --_j) {
+        _results.push(buckets[s] = true);
+      }
+      return _results;
+    }
   });
   video.bind("secondchange", function(s) {
     return buckets[s] = true;
