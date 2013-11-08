@@ -5,7 +5,7 @@ class AgeRestriction
   constructor: ->
     @previewEmbedded = false
     @change = false
-    @exampleEmbedCode = '<div id="wistia_r13i3i9qye" class="wistia_embed" style="width:640px;height:360px;"></div><script charset="ISO-8859-1" src="http://fast.wistia.com/assets/external/E-v1.js"></script><script>wistiaEmbed = Wistia.embed("r13i3i9qye");</script>'
+    @exampleEmbedCode = '<div id="wistia_6s43yb8v80" class="wistia_embed" style="width:640px;height:360px;"> </div><script charset="ISO-8859-1" src="http://fast.wistia.com/assets/external/E-v1.js"></script><script>wistiaEmbed = Wistia.embed("6s43yb8v80");</script>'
 
     $("#source_embed_code").on "keyup", =>
       @previewEmbedded = false
