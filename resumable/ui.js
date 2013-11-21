@@ -109,7 +109,7 @@ window.resetInterface = function() {
 
 window.showExample = function() {
   resetInterface();
-  $("#source_embed_code").val("<iframe src=\"http://fast.wistia.net/embed/iframe/oefj398m6q?playerColor=81b7db&version=v1&videoHeight=304&videoWidth=540\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"540\" height=\"304\"></iframe>").keyup().change();
+  $("#source_embed_code").val('<div id="wistia_oefj398m6q" class="wistia_embed" style="width:640px;height:360px;"> </div><script charset="ISO-8859-1" src="//fast.wistia.com/assets/external/E-v1.js"></script><script>wistiaEmbed = Wistia.embed("oefj398m6q");</script>');
 };
 
 setupLabInterface(jQuery);

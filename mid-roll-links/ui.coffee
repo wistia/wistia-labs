@@ -5,7 +5,7 @@ class Midroll
   constructor: ->
     @previewEmbedded = false
     @change = false
-    @exampleEmbedCode = "<div id=\"wistia_s1kuzpsgq0\" class=\"wistia_embed\" style=\"width:640px;height:360px;\" data-video-width=\"640\" data-video-height=\"360\">&nbsp;</div><script charset=\"ISO-8859-1\" src=\"http://fast.wistia.com/static/concat/E-v1.js\"></script> <script> wistiaEmbed = Wistia.embed(\"s1kuzpsgq0\", { version: \"v1\", videoWidth: 640, videoHeight: 360, volumeControl: true, controlsVisibleOnLoad: true }); </script>"
+    @exampleEmbedCode = '<div id="wistia_s1kuzpsgq0" class="wistia_embed" style="width:640px;height:360px;"> </div><script charset="ISO-8859-1" src="//fast.wistia.com/assets/external/E-v1.js"></script><script>wistiaEmbed = Wistia.embed("s1kuzpsgq0");</script>'
 
     $(document).on "click", ".turn_off_fullscreen", (event) =>
       event.preventDefault()

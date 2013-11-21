@@ -22,7 +22,7 @@ function updateOutput() {
 
     // Display the output.
     if (isIframe) {
-      var result = outputEmbedCode.toString() + "\n<script src=\"http://fast.wistia.com/static/iframe-api-v1.js\"></script>"
+      var result = outputEmbedCode.toString() + "\n<script src=\"//fast.wistia.com/static/iframe-api-v1.js\"></script>"
       $("#output_embed_code").val(result);
     } else {
       $("#output_embed_code").val(outputEmbedCode.toString());
@@ -125,7 +125,7 @@ window.resetInterface = function() {
 
 window.showExample = function() {
   resetInterface();
-  $("#source_embed_code").val("<iframe src=\"http://fast.wistia.net/embed/iframe/ryantprymg?playerColor=81b7db&version=v1&videoHeight=360&videoWidth=640\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"640\" height=\"360\"></iframe>").keyup().change();
+  $("#source_embed_code").val('<div id="wistia_ryantprymg" class="wistia_embed" style="width:640px;height:360px;"> </div><script charset="ISO-8859-1" src="//fast.wistia.com/assets/external/E-v1.js"></script><script>wistiaEmbed = Wistia.embed("ryantprymg");</script>');
 };
 
 setupLabInterface(jQuery);

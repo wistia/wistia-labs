@@ -130,7 +130,7 @@ window.resetInterface = function() {
 
 window.showExample = function() {
   resetInterface();
-  $("#source_embed_code").val("<iframe src=\"http://fast.wistia.net/embed/iframe/bf8qg4d9e2?playerColor=81b7db&version=v1&videoHeight=304&videoWidth=540\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" width=\"540\" height=\"304\"></iframe>");
+  $("#source_embed_code").val('<div id="wistia_bf8qg4d9e2" class="wistia_embed" style="width:640px;height:360px;"> </div><script charset="ISO-8859-1" src="//fast.wistia.com/assets/external/E-v1.js"></script><script>wistiaEmbed = Wistia.embed("bf8qg4d9e2");</script>');
   chapterCount = 1;
   generateChapter("Robby", 6);
   generateChapter("Milo", 7);
