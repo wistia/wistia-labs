@@ -34,12 +34,14 @@ Wistia.plugin("googleAnalytics", function(video, options) {
     return buckets[s] = true;
   });
   pushEvent = function(name, val) {
-    if (!window._gaq) {
-      if (typeof console !== "undefined" && console !== null) {
-        console.log("Could not send data to google analytics because _gaq is not defined.");
-      }
-    } else {
+    if (window._gaq != null) {
       return _gaq.push(['_trackEvent', 'Video', name, val]);
+    } else if (window.ga != null) {
+      return ga('send', 'event', 'Video', name, val);
+    } else {
+      if (typeof console !== "undefined" && console !== null) {
+        console.log("Could not send data to google analytics because neither ga nor _gaq is defined.");
+      }
     }
   };
   _ref = [.25, .5, .75, 1];
