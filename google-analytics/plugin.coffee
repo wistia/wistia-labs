@@ -26,11 +26,13 @@ Wistia.plugin "googleAnalytics", (video, options = {}) ->
 
   # Push an event to google analytics using their _gaq handle.
   pushEvent = (name, val) ->
-    if !window._gaq
-      console?.log "Could not send data to google analytics because _gaq is not defined."
-      return
-    else
+    if window.ga?
+      ga('send', 'event', 'Video', name, val)
+    else if window._gaq?
       _gaq.push(['_trackEvent', 'Video', name, val])
+    else
+      console?.log "Could not send data to google analytics because neither ga nor _gaq is defined."
+      return
 
   
   # Trigger events so we can 
