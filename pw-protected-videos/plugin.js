@@ -137,6 +137,7 @@ Wistia.plugin("passwordProtected", function(video, options) {
       "left: 0;" +
       "background-color: #333;" +
       "text-align: center;" +
+      "z-index: 2;" +
       "}" +
 
       "#" + uuid + "_challenge_text {" +
