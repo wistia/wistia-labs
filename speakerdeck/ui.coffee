@@ -322,8 +322,8 @@ class Prez
       # Show an error if invalid. We can be more specific 
       # if we expect a certain problem.
       $("#output_embed_code").val("Enter a valid Wistia embed code.")
-      
-  
+
+
   updatePreview: ->
     if @sourceEmbedCode and @sourceEmbedCode.isValid()
       Wistia.timeout 'updatePreview', =>
@@ -342,7 +342,7 @@ class Prez
   # given a speakerdeck URL and a callback, call the callback with the output of
   # the oEmbed endpoint
   #
-  # see here for example: 
+  # see here for example:
   # https:#speakerdeck.com/oembed.json?url=https%3A%2F%2Fspeakerdeck.com%2Ftammielis%2Fdesigning-for-humans-not-robots
   #
   getPresentationData: (url, callback) ->
@@ -350,15 +350,13 @@ class Prez
     speakerDeckOembedUrl = "https://speakerdeck.com/oembed.json?url=#{encodeURIComponent(url)}"
 
     $.getJSON(
-      "http://jsonp.ru/?callback=?",
+      "http://jsonp.jit.su/?callback=?",
       { url: speakerDeckOembedUrl },
-      (raw) ->
-        data = $.parseJSON(raw['body'])
-        callback(data)
+      (data) -> callback(data)
     )
 
 
-# Assign all DOM bindings on doc-ready in here. We can also 
+# Assign all DOM bindings on doc-ready in here. We can also
 # run whatever initialization code we might need.
 window.setupLabInterface = ($) ->
   $(->

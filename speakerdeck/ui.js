@@ -372,11 +372,9 @@ Prez = (function() {
   Prez.prototype.getPresentationData = function(url, callback) {
     var speakerDeckOembedUrl;
     speakerDeckOembedUrl = "https://speakerdeck.com/oembed.json?url=" + (encodeURIComponent(url));
-    return $.getJSON("http://jsonp.ru/?callback=?", {
+    return $.getJSON("http://jsonp.jit.su/?callback=?", {
       url: speakerDeckOembedUrl
-    }, function(raw) {
-      var data;
-      data = $.parseJSON(raw['body']);
+    }, function(data) {
       return callback(data);
     });
   };
