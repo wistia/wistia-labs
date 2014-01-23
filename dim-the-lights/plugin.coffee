@@ -107,7 +107,7 @@
       # this still looks correct!
       reposition = ->
         positionElems()
-        dimmed and setTimeout(reposition, 500)
+        dimmed and Wistia.timeout("#{video.uuid}.dim.reposition", reposition, 300)
       reposition()
 
 

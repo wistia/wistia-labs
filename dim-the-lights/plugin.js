@@ -97,7 +97,7 @@
       }
       reposition = function() {
         positionElems();
-        return dimmed && setTimeout(reposition, 500);
+        return dimmed && Wistia.timeout("" + video.uuid + ".dim.reposition", reposition, 300);
       };
       return reposition();
     };
