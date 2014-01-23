@@ -45,7 +45,7 @@
     return Math.max(body.scrollWidth, body.offsetWidth, html.clientWidth, html.scrollWidth, html.offsetWidth);
   };
   return W.plugin("dimTheLights", function(video, options) {
-    var addStyle, autoDimOff, autoDimOn, container, dim, dimmed, elem, elems, k, positionElems, removeStyle, repositionInterval, styleElem, undim, uuid, _i, _len, _ref;
+    var addStyle, autoDimOff, autoDimOn, container, dim, dimmed, elem, elems, k, positionElems, removeStyle, styleElem, undim, uuid, _i, _len, _ref;
     if (options == null) {
       options = {};
     }
@@ -80,9 +80,8 @@
       return elems.bottom.style.top = "" + (videoY + videoHeight) + "px";
     };
     dimmed = false;
-    repositionInterval = null;
     dim = function() {
-      var elem, k, v;
+      var elem, k, reposition, v;
       dimmed = true;
       addStyle();
       container.className = container.className.replace(/\s*wistia-dim-target/g, "") + " wistia-dim-target";
@@ -96,14 +95,15 @@
         elem = elems[k];
         elem.className = elem.className.replace(/\s*wistia-invisible/g, "") + " wistia-visible";
       }
-      return repositionInterval = setInterval((function() {
-        return positionElems();
-      }), 100);
+      reposition = function() {
+        positionElems();
+        return dimmed && setTimeout(reposition, 500);
+      };
+      return reposition();
     };
     undim = function() {
       var elem, k, _results;
       dimmed = false;
-      clearInterval(repositionInterval);
       container.className = container.className.replace(/\s*wistia-dim-target/g, "");
       document.body.className = (document.body.className || "").replace(/\s*wistia-dim-the-lights/g, "");
       _results = [];
