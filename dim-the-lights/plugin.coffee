@@ -103,6 +103,13 @@
       for k, elem of elems
         elem.className = elem.className.replace(/\s*wistia-invisible/g, "") + " wistia-visible"
 
+      # reposition the mask repeatedly so that if anything moves on the page,
+      # this still looks correct!
+      reposition = ->
+        positionElems()
+        dimmed and Wistia.timeout("#{video.uuid}.dim.reposition", reposition, 300)
+      reposition()
+
 
     # TO UNDIM:
     #

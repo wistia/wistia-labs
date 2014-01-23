@@ -81,7 +81,7 @@
     };
     dimmed = false;
     dim = function() {
-      var elem, k, v, _results;
+      var elem, k, reposition, v;
       dimmed = true;
       addStyle();
       container.className = container.className.replace(/\s*wistia-dim-target/g, "") + " wistia-dim-target";
@@ -91,12 +91,15 @@
         document.body.appendChild(v);
       }
       positionElems();
-      _results = [];
       for (k in elems) {
         elem = elems[k];
-        _results.push(elem.className = elem.className.replace(/\s*wistia-invisible/g, "") + " wistia-visible");
+        elem.className = elem.className.replace(/\s*wistia-invisible/g, "") + " wistia-visible";
       }
-      return _results;
+      reposition = function() {
+        positionElems();
+        return dimmed && Wistia.timeout("" + video.uuid + ".dim.reposition", reposition, 300);
+      };
+      return reposition();
     };
     undim = function() {
       var elem, k, _results;
