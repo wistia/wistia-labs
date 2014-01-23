@@ -92,6 +92,7 @@
     # 4. Position and resize the backdrops around the video.
     # 5. Add a class to show the backdrops. It's animated with CSS3 transitions.
     dimmed = false
+    repositionInterval = null
     dim = ->
       dimmed = true
       addStyle()
@@ -103,6 +104,10 @@
       for k, elem of elems
         elem.className = elem.className.replace(/\s*wistia-invisible/g, "") + " wistia-visible"
 
+      # reposition the mask repeatedly so that if anything moves on the page,
+      # this still looks correct!
+      repositionInterval = setInterval((-> positionElems()), 100)
+
 
     # TO UNDIM:
     #
@@ -111,6 +116,7 @@
     # 3. Remove the backdrop elements when fadeout is complete.
     undim = ->
       dimmed = false
+      clearInterval(repositionInterval)
       container.className = container.className.replace(/\s*wistia-dim-target/g, "")
       document.body.className = (document.body.className or "").replace(/\s*wistia-dim-the-lights/g, "")
       for k, elem of elems
