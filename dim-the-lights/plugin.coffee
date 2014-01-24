@@ -2,16 +2,36 @@
 
   # ### Non-plugin Helper Functions
 
+  isBoxModel = null
+
   # Get the absolute offset of an element.
   pageOffset = (elem) ->
-    curLeft = curTop = 0
-    if elem.offsetParent
-      while elem
-        curLeft += elem.offsetLeft
-        curTop += elem.offsetTop
-        elem = elem.offsetParent
-    left: curLeft
-    top: curTop
+    body = document.body
+    win = document.defaultView or document.window
+    docElem = document.documentElement
+
+    # Check the status of the box model
+    unless isBoxModel?
+      box = document.createElement('div')
+      box.style.paddingLeft = box.style.width = "1px"
+      body.appendChild(box)
+      isBoxModel = box.offsetWidth == 2
+      body.removeChild(box)
+
+    box = elem.getBoundingClientRect()
+
+    clientTop  = docElem.clientTop  or body.clientTop  or 0
+    clientLeft = docElem.clientLeft or body.clientLeft or 0
+
+    if win?.pageYOffset?
+      scrollTop = win.pageYOffset
+      scrollLeft = win.pageXOffset
+    else
+      scrollTop  = (isBoxModel and docElem.scrollTop)  or body.scrollTop
+      scrollLeft = (isBoxModel and docElem.scrollLeft) or body.scrollLeft
+
+    top: box.top  + scrollTop  - clientTop
+    left: box.left + scrollLeft - clientLeft
 
 
   # Different event listeners for IE and normal 
