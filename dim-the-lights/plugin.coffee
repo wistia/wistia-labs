@@ -7,7 +7,7 @@
   # Get the absolute offset of an element.
   pageOffset = (elem) ->
     body = document.body
-    win = document.defaultView
+    win = document.defaultView or document.window
     docElem = document.documentElement
 
     # Check the status of the box model
@@ -23,7 +23,7 @@
     clientTop  = docElem.clientTop  or body.clientTop  or 0
     clientLeft = docElem.clientLeft or body.clientLeft or 0
 
-    if win.pageYOffset?
+    if win?.pageYOffset?
       scrollTop = win.pageYOffset
       scrollLeft = win.pageXOffset
     else

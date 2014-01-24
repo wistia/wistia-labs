@@ -5,7 +5,7 @@
   pageOffset = function(elem) {
     var body, box, clientLeft, clientTop, docElem, scrollLeft, scrollTop, win;
     body = document.body;
-    win = document.defaultView;
+    win = document.defaultView || document.window;
     docElem = document.documentElement;
     if (isBoxModel == null) {
       box = document.createElement('div');
@@ -17,7 +17,7 @@
     box = elem.getBoundingClientRect();
     clientTop = docElem.clientTop || body.clientTop || 0;
     clientLeft = docElem.clientLeft || body.clientLeft || 0;
-    if (win.pageYOffset != null) {
+    if ((win != null ? win.pageYOffset : void 0) != null) {
       scrollTop = win.pageYOffset;
       scrollLeft = win.pageXOffset;
     } else {
