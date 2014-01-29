@@ -20,7 +20,6 @@
         onScreen = true;
       } else {
         if (onScreen) {
-          video.rebuild();
           video.pause();
         }
         onScreen = false;
