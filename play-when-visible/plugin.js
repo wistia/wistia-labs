@@ -1,11 +1,19 @@
 (function(W) {
   W.plugin('playWhenVisible', function(video, options) {
+    function isOnScreen() {
+      var offset = W.elem.offset(video.grid.center);
+      var offsetTop = offset.top;
+      var offsetBottom = offsetTop + video.videoHeight();
+      var scrollTop = W.util.scrollTop();
+      var scrollBottom = W.util.scrollTop() + W.elem.height(window)
+      return (offsetTop >= scrollTop && offsetTop < scrollBottom) ||
+        (offsetBottom >= scrollTop && offsetBottom < scrollBottom) ||
+        (offsetTop <= scrollTop && offsetBottom >= scrollBottom);
+    }
+
     var onScreen = false;
     function togglePlayWhenVisible() {
-      var offset = W.elem.offset(video.container);
-      var scrollTop = W.util.scrollTop();
-      var scrollBottom = W.util.scrollTop() + W.elem.height(window);
-      if (offset.top > scrollTop && offset.top < scrollBottom) {
+      if (isOnScreen()) {
         if (!onScreen) {
           video.play();
         }
