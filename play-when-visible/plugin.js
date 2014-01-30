@@ -28,8 +28,10 @@
     function debounceTogglePlayWhenVisible() {
       W.timeout("" + video.uuid + ".debounce_toggle_play_when_visible", togglePlayWhenVisible, 300);
     }
-    W.elem.bind(window, 'scroll', debounceTogglePlayWhenVisible)
-    W.elem.bind(window, 'resize', debounceTogglePlayWhenVisible)
-    togglePlayWhenVisible();
+    if (!W.detect.iphone) {
+      W.elem.bind(window, 'scroll', debounceTogglePlayWhenVisible)
+      W.elem.bind(window, 'resize', debounceTogglePlayWhenVisible)
+      togglePlayWhenVisible();
+    }
   });
 }(Wistia));
