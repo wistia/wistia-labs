@@ -199,6 +199,10 @@
 
   W.EmbedCode._attrWhitelist =
     'allowfullscreen': true
+    'mozallowfullscreen': true
+    'webkitallowfullscreen': true
+    'oallowfullscreen': true
+    'msallowfullscreen': true
     'allowscriptaccess': true
     'allowtransparency': true
     'alt': true
@@ -233,8 +237,12 @@
         val = attr.nodeValue
         isValidName = W.EmbedCode._attrWhitelist[name] or /^data-/.test(name)
         isValidVal = val? and val isnt ""
-        if isValidName and isValidVal
-          pairs.push "#{name}=\"#{val}\""
+        if isValidName
+          if val? and val isnt ''
+            pairs.push "#{name}=\"#{val}\""
+          else
+            pairs.push name
+
       tag = elem.tagName.toLowerCase()
 
       contents = ""
