@@ -1,0 +1,28 @@
+.paste_embed_code .jamjar_head {
+  background-color: #55C6FF;
+}
+
+.paste_embed_code .jamjar_foot {
+  background-color: #45B6FF;
+}
+
+.another-section .jamjar_head {
+  background-color: #0092D1;
+}
+
+.another-section .jamjar_foot {
+  background-color: #0082C1;
+}
+
+#source_embed_code {
+  height: 112px;
+  width: 250px;
+}
+
+#configure input[type=text] {
+  width: 250px;
+}
+
+#preview_col {
+  border-top-color: #56646e;
+}
