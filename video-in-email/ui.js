@@ -7,7 +7,7 @@ VideoInEmail = (function() {
     this.outputVideoCode = __bind(this.outputVideoCode, this);
     this.updateVideoCode = __bind(this.updateVideoCode, this);
     this.updatePreview = __bind(this.updatePreview, this);
-    this.updateOutputEmbedCode = __bind(this.updateOutputEmbedCode, this);
+    this.updateOutput = __bind(this.updateOutput, this);
     var _this = this;
     this.previewEmbedded = false;
     this.change = false;
@@ -20,6 +20,7 @@ VideoInEmail = (function() {
     $("#video_width").on("keyup", function() {
       _this.previewEmbedded = false;
       _this.change = false;
+      _this.updateEmbedWidth($("#video_width").val());
       return _this.debounceUpdates();
     });
     $("#fallback_link").on("keyup", function() {
@@ -71,22 +72,29 @@ VideoInEmail = (function() {
     return this.debounceUpdates();
   };
 
+  VideoInEmail.prototype.updateEmbedWidth = function(newWidth) {
+    var newEmbed, newHeight, oldHeight, oldWidth;
+    oldHeight = Wistia.EmbedCode.parse($("#source_embed_code").val()).height();
+    oldWidth = Wistia.EmbedCode.parse($("#source_embed_code").val()).width();
+    newHeight = Math.round(oldHeight * newWidth / oldWidth);
+    newEmbed = Wistia.EmbedCode.parse($("#source_embed_code").val()).width(newWidth).height(newHeight);
+    return $("#source_embed_code").val(newEmbed);
+  };
+
   VideoInEmail.prototype.debounceUpdates = function() {
     var updateOutputTimeout;
     clearTimeout("updateOutputTimeout");
-    return updateOutputTimeout = setTimeout(this.updateOutputEmbedCode, 100);
+    return updateOutputTimeout = setTimeout(this.updateOutput, 100);
   };
 
-  VideoInEmail.prototype.updateOutputEmbedCode = function() {
+  VideoInEmail.prototype.updateOutput = function() {
     this.sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
-    this.outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
     if (this.sourceEmbedCode && this.sourceEmbedCode.isValid()) {
       this.width = this.getVideoWidth();
-      $("#output_embed_code").val(this.outputEmbedCode.toString());
       this.updatePreview();
       return this.updateVideoCode();
     } else {
-      $("#output_embed_code").val("Please enter a valid Wistia embed code.");
+      $("#video_code").val("Please enter a valid Wistia embed code.");
       return $("#preview").html("<div id=\"placeholder_preview\">Your video here</div>");
     }
   };
@@ -97,7 +105,7 @@ VideoInEmail = (function() {
       if (_this.change) {
 
       } else if (!_this.previewEmbedded) {
-        return _this.outputEmbedCode.previewInElem("preview", {
+        return _this.sourceEmbedCode.previewInElem("preview", {
           type: "api"
         }, function() {
           return _this.previewEmbedded = true;

@@ -16,6 +16,7 @@ class VideoInEmail
     $("#video_width").on "keyup", =>
       @previewEmbedded = false
       @change = false
+      @updateEmbedWidth($("#video_width").val())
       @debounceUpdates()
 
     $("#fallback_link").on "keyup", =>
@@ -63,30 +64,34 @@ class VideoInEmail
     @change = false
     @debounceUpdates()
 
+  updateEmbedWidth: (newWidth) ->
+    oldHeight = Wistia.EmbedCode.parse($("#source_embed_code").val()).height()
+    oldWidth = Wistia.EmbedCode.parse($("#source_embed_code").val()).width()
+    newHeight = Math.round(oldHeight * newWidth / oldWidth)
+
+    newEmbed = Wistia.EmbedCode.parse($("#source_embed_code").val()).width(newWidth).height(newHeight)
+    $("#source_embed_code").val(newEmbed)
+
   debounceUpdates: ->
     clearTimeout("updateOutputTimeout")
-    updateOutputTimeout = setTimeout(@updateOutputEmbedCode, 100)
+    updateOutputTimeout = setTimeout(@updateOutput, 100)
 
-  updateOutputEmbedCode: =>
+  updateOutput: =>
     @sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val())
-    @outputEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val())
 
     if @sourceEmbedCode and @sourceEmbedCode.isValid()
       @width = @getVideoWidth()
-
-      $("#output_embed_code").val(@outputEmbedCode.toString())
-
       @updatePreview()
       @updateVideoCode()
     else
-      $("#output_embed_code").val("Please enter a valid Wistia embed code.")
+      $("#video_code").val("Please enter a valid Wistia embed code.")
       $("#preview").html("<div id=\"placeholder_preview\">Your video here</div>")
 
   updatePreview: =>
     Wistia.timeout "updatePreview", =>
       if @change
       else if !@previewEmbedded
-        @outputEmbedCode.previewInElem "preview", { type: "api" }, =>
+        @sourceEmbedCode.previewInElem "preview", { type: "api" }, =>
           @previewEmbedded = true
     , 100
 
