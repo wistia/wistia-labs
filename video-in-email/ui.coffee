@@ -16,7 +16,8 @@ class VideoInEmail
     $("#video_width").on "keyup", =>
       @previewEmbedded = false
       @change = false
-      @updateEmbedWidth($("#video_width").val())
+      width = parseInt($("#video_width").val())
+      @updateEmbedWidth(width) if width and width > 0
       @debounceUpdates()
 
     $("#fallback_link").on "keyup", =>
