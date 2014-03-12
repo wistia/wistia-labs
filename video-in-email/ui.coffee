@@ -2,27 +2,21 @@
 
 class VideoInEmail
   constructor: ->
-    @previewEmbedded = false
-    @change = false
     @exampleEmbedCode = """
     <iframe src="//fast.wistia.net/embed/iframe/7phpe910v3" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" allowfullscreen mozallowfullscreen webkitallowfullscreen oallowfullscreen msallowfullscreen width="600" height="338"></iframe>
     """
 
-    $("#source_embed_code").on "keyup", =>
-      @previewEmbedded = false
-      @change = false
+    $("#source_embed_code").on 'keyup', =>
+      @updateEmbedCodes()
       @debounceUpdates()
 
-    $("#video_width").on "keyup", =>
-      @previewEmbedded = false
-      @change = false
-      width = parseInt($("#video_width").val())
-      @updateEmbedWidth(width) if width and width > 0
+    $("#video_width").on 'keyup', =>
       @debounceUpdates()
 
-    $("#fallback_link").on "keyup", =>
-      @previewEmbedded = false
-      @change = false
+    $("#video_width").on 'change', =>
+      @debounceUpdates()
+
+    $("#fallback_link").on 'keyup', =>
       @debounceUpdates()
 
     $("a[name=remove_all]").on 'click', (e) =>
@@ -35,66 +29,45 @@ class VideoInEmail
 
     $("a[name=reset]").on 'click', (e) =>
       e.preventDefault()
-      @change = false
-      @previewEmbedded = false
       @debounceUpdates()
 
-    $("#configure input[type=number]").on "change", =>
-      @change = true
-      @debounceUpdates()
-
-    $("#configure input[type=radio]").on "change", =>
-      @change = true
-      @debounceUpdates()
-
-    $("#configure textarea").on "change", =>
-      @change = true
-      @debounceUpdates()
+  updateEmbedCodes: ->
+    @previewEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val())
+    @sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val())
 
   setupExample: ->
     $("#source_embed_code").val(@exampleEmbedCode)
     $("#video_width").val(600)
-    $("#fallback_link").val("https://home.wistia.com/medias/7phpe910v3")
-    @previewEmbedded = false
-    @change = false
+    $("#fallback_link").val("http://wistia.com")
+    @updateEmbedCodes()
     @debounceUpdates()
 
   clearAll: ->
     $("#source_embed_code").val("")
-    @previewEmbedded = false
-    @change = false
+    @updateEmbedCodes()
     @debounceUpdates()
 
-  updateEmbedWidth: (newWidth) ->
-    oldHeight = Wistia.EmbedCode.parse($("#source_embed_code").val()).height()
-    oldWidth = Wistia.EmbedCode.parse($("#source_embed_code").val()).width()
-    newHeight = Math.round(oldHeight * newWidth / oldWidth)
-
-    newEmbed = Wistia.EmbedCode.parse($("#source_embed_code").val()).width(newWidth).height(newHeight)
-    $("#source_embed_code").val(newEmbed)
-
   debounceUpdates: ->
-    clearTimeout("updateOutputTimeout")
-    updateOutputTimeout = setTimeout(@updateOutput, 100)
+    clearTimeout(@_updateOutputTimeout)
+    @_updateOutputTimeout = setTimeout(@updateOutput, 100)
 
   updateOutput: =>
-    @sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val())
-
     if @sourceEmbedCode and @sourceEmbedCode.isValid()
       @width = @getVideoWidth()
-      @updatePreview()
       @updateVideoCode()
+      @updatePreview()
     else
       $("#video_code").val("Please enter a valid Wistia embed code.")
       $("#preview").html("<div id=\"placeholder_preview\">Your video here</div>")
 
   updatePreview: =>
-    Wistia.timeout "updatePreview", =>
-      if @change
-      else if !@previewEmbedded
-        @sourceEmbedCode.previewInElem "preview", { type: "api" }, =>
-          @previewEmbedded = true
-    , 100
+    return if @previewEmbedCode.width() is @getVideoWidth() and @previewLive
+
+    @previewEmbedCode.
+      width(@getVideoWidth()).
+      height(@getVideoHeight()).
+      previewInElem "preview", { type: "api" }, =>
+        @previewLive = true
 
   updateVideoCode: =>
     hashedId = Wistia.EmbedCode.parse($("#source_embed_code").val()).hashedId()
@@ -102,20 +75,24 @@ class VideoInEmail
       mp4Url = media.assets.iphone.url.replace('.bin', '/video.mp4')
       posterUrl = media.assets.still.url
       playerColor = media.embed_options.playerColor
-      $('#video_code').val(@outputVideoCode(@getVideoWidth(), posterUrl, mp4Url, @getFallbackLink(), posterUrl, playerColor))
+      $('#video_code').val(@outputVideoCode(posterUrl, mp4Url, posterUrl, playerColor))
       styles = { height: '200px', width: '585px', 'font-family': 'Courier' }
       $('#video_code').css(styles)
 
-  outputVideoCode: (width, poster, mp4, fallbackLink, fallbackImage, playerColor) =>
+  outputVideoCode: (poster, mp4, fallbackImage, playerColor) =>
     """
-    <video width="#{width}" poster="#{poster}" controls="controls">
+    <video width="#{@getVideoWidth()}" height="#{@getVideoHeight()}" poster="#{poster}" controls="controls">
       <source src="#{mp4}" type="video/mp4"/>
-      <a href="#{fallbackLink}"><img src="#{fallbackImage.replace('.bin', '.jpg')}?image_play_button=true&image_play_button_color=#{playerColor}&image_resize=#{width}" width="#{width}"/></a>
+      <a href="#{@getFallbackLink()}"><img src="#{fallbackImage.replace('.bin', '.jpg')}?image_play_button=true&image_play_button_color=#{playerColor}&image_resize=#{@getVideoWidth()}" width="#{@getVideoWidth()}" height="#{@getVideoHeight()}"/></a>
     </video>
     """
 
   getVideoWidth: ->
     parseInt($("#video_width").val())
+
+  getVideoHeight: ->
+    aspect = @sourceEmbedCode.width() / @sourceEmbedCode.height()
+    Math.round(@getVideoWidth() / aspect)
 
   getFallbackLink: ->
     $("#fallback_link").val()

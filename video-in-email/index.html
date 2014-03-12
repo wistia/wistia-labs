@@ -201,7 +201,7 @@
               <div class="jamjar_body">
                 <div class="source_embed_code_field_pair field_pair">
                   <p style="margin-top:0;">Set the width (in pixels), height will scale automatically.</p>
-                  <input name="video_width" id="video_width"></input>
+                  <input name="video_width" id="video_width" type="number"></input>
                 </div>
               </div>
             </div>
@@ -214,7 +214,7 @@
               <div class="jamjar_body">
                 <div class="source_embed_code_field_pair field_pair">
                   <p style="margin-top:0;">Where do you want the thumbnail image to link if video is not supported?</p>
-                  <input name="fallback_link" id="fallback_link"></input>
+                  <input name="fallback_link" id="fallback_link" type="url"></input>
                 </div>
               </div>
             </div>
@@ -228,7 +228,7 @@
           <div id="results">
             <div id="alert" style="display:none;"></div>
 
-            <label>Your HTML5 video code</label>
+            <label>Your email embed code</label>
             <textarea id="video_code" onclick="this.focus();this.select()"></textarea><br/>
 
             <div id="preview_area">

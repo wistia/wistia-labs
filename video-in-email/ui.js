@@ -9,27 +9,18 @@ VideoInEmail = (function() {
     this.updatePreview = __bind(this.updatePreview, this);
     this.updateOutput = __bind(this.updateOutput, this);
     var _this = this;
-    this.previewEmbedded = false;
-    this.change = false;
     this.exampleEmbedCode = "<iframe src=\"//fast.wistia.net/embed/iframe/7phpe910v3\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\" class=\"wistia_embed\" name=\"wistia_embed\" allowfullscreen mozallowfullscreen webkitallowfullscreen oallowfullscreen msallowfullscreen width=\"600\" height=\"338\"></iframe>";
-    $("#source_embed_code").on("keyup", function() {
-      _this.previewEmbedded = false;
-      _this.change = false;
+    $("#source_embed_code").on('keyup', function() {
+      _this.updateEmbedCodes();
       return _this.debounceUpdates();
     });
-    $("#video_width").on("keyup", function() {
-      var width;
-      _this.previewEmbedded = false;
-      _this.change = false;
-      width = parseInt($("#video_width").val());
-      if (width && width > 0) {
-        _this.updateEmbedWidth(width);
-      }
+    $("#video_width").on('keyup', function() {
       return _this.debounceUpdates();
     });
-    $("#fallback_link").on("keyup", function() {
-      _this.previewEmbedded = false;
-      _this.change = false;
+    $("#video_width").on('change', function() {
+      return _this.debounceUpdates();
+    });
+    $("#fallback_link").on('keyup', function() {
       return _this.debounceUpdates();
     });
     $("a[name=remove_all]").on('click', function(e) {
@@ -42,61 +33,39 @@ VideoInEmail = (function() {
     });
     $("a[name=reset]").on('click', function(e) {
       e.preventDefault();
-      _this.change = false;
-      _this.previewEmbedded = false;
-      return _this.debounceUpdates();
-    });
-    $("#configure input[type=number]").on("change", function() {
-      _this.change = true;
-      return _this.debounceUpdates();
-    });
-    $("#configure input[type=radio]").on("change", function() {
-      _this.change = true;
-      return _this.debounceUpdates();
-    });
-    $("#configure textarea").on("change", function() {
-      _this.change = true;
       return _this.debounceUpdates();
     });
   }
 
+  VideoInEmail.prototype.updateEmbedCodes = function() {
+    this.previewEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
+    return this.sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
+  };
+
   VideoInEmail.prototype.setupExample = function() {
     $("#source_embed_code").val(this.exampleEmbedCode);
     $("#video_width").val(600);
-    $("#fallback_link").val("https://home.wistia.com/medias/7phpe910v3");
-    this.previewEmbedded = false;
-    this.change = false;
+    $("#fallback_link").val("http://wistia.com");
+    this.updateEmbedCodes();
     return this.debounceUpdates();
   };
 
   VideoInEmail.prototype.clearAll = function() {
     $("#source_embed_code").val("");
-    this.previewEmbedded = false;
-    this.change = false;
+    this.updateEmbedCodes();
     return this.debounceUpdates();
   };
 
-  VideoInEmail.prototype.updateEmbedWidth = function(newWidth) {
-    var newEmbed, newHeight, oldHeight, oldWidth;
-    oldHeight = Wistia.EmbedCode.parse($("#source_embed_code").val()).height();
-    oldWidth = Wistia.EmbedCode.parse($("#source_embed_code").val()).width();
-    newHeight = Math.round(oldHeight * newWidth / oldWidth);
-    newEmbed = Wistia.EmbedCode.parse($("#source_embed_code").val()).width(newWidth).height(newHeight);
-    return $("#source_embed_code").val(newEmbed);
-  };
-
   VideoInEmail.prototype.debounceUpdates = function() {
-    var updateOutputTimeout;
-    clearTimeout("updateOutputTimeout");
-    return updateOutputTimeout = setTimeout(this.updateOutput, 100);
+    clearTimeout(this._updateOutputTimeout);
+    return this._updateOutputTimeout = setTimeout(this.updateOutput, 100);
   };
 
   VideoInEmail.prototype.updateOutput = function() {
-    this.sourceEmbedCode = Wistia.EmbedCode.parse($("#source_embed_code").val());
     if (this.sourceEmbedCode && this.sourceEmbedCode.isValid()) {
       this.width = this.getVideoWidth();
-      this.updatePreview();
-      return this.updateVideoCode();
+      this.updateVideoCode();
+      return this.updatePreview();
     } else {
       $("#video_code").val("Please enter a valid Wistia embed code.");
       return $("#preview").html("<div id=\"placeholder_preview\">Your video here</div>");
@@ -105,17 +74,14 @@ VideoInEmail = (function() {
 
   VideoInEmail.prototype.updatePreview = function() {
     var _this = this;
-    return Wistia.timeout("updatePreview", function() {
-      if (_this.change) {
-
-      } else if (!_this.previewEmbedded) {
-        return _this.sourceEmbedCode.previewInElem("preview", {
-          type: "api"
-        }, function() {
-          return _this.previewEmbedded = true;
-        });
-      }
-    }, 100);
+    if (this.previewEmbedCode.width() === this.getVideoWidth() && this.previewLive) {
+      return;
+    }
+    return this.previewEmbedCode.width(this.getVideoWidth()).height(this.getVideoHeight()).previewInElem("preview", {
+      type: "api"
+    }, function() {
+      return _this.previewLive = true;
+    });
   };
 
   VideoInEmail.prototype.updateVideoCode = function() {
@@ -127,7 +93,7 @@ VideoInEmail = (function() {
       mp4Url = media.assets.iphone.url.replace('.bin', '/video.mp4');
       posterUrl = media.assets.still.url;
       playerColor = media.embed_options.playerColor;
-      $('#video_code').val(_this.outputVideoCode(_this.getVideoWidth(), posterUrl, mp4Url, _this.getFallbackLink(), posterUrl, playerColor));
+      $('#video_code').val(_this.outputVideoCode(posterUrl, mp4Url, posterUrl, playerColor));
       styles = {
         height: '200px',
         width: '585px',
@@ -137,12 +103,18 @@ VideoInEmail = (function() {
     });
   };
 
-  VideoInEmail.prototype.outputVideoCode = function(width, poster, mp4, fallbackLink, fallbackImage, playerColor) {
-    return "<video width=\"" + width + "\" poster=\"" + poster + "\" controls=\"controls\">\n  <source src=\"" + mp4 + "\" type=\"video/mp4\"/>\n  <a href=\"" + fallbackLink + "\"><img src=\"" + (fallbackImage.replace('.bin', '.jpg')) + "?image_play_button=true&image_play_button_color=" + playerColor + "&image_resize=" + width + "\" width=\"" + width + "\"/></a>\n</video>";
+  VideoInEmail.prototype.outputVideoCode = function(poster, mp4, fallbackImage, playerColor) {
+    return "<video width=\"" + (this.getVideoWidth()) + "\" height=\"" + (this.getVideoHeight()) + "\" poster=\"" + poster + "\" controls=\"controls\">\n  <source src=\"" + mp4 + "\" type=\"video/mp4\"/>\n  <a href=\"" + (this.getFallbackLink()) + "\"><img src=\"" + (fallbackImage.replace('.bin', '.jpg')) + "?image_play_button=true&image_play_button_color=" + playerColor + "&image_resize=" + (this.getVideoWidth()) + "\" width=\"" + (this.getVideoWidth()) + "\" height=\"" + (this.getVideoHeight()) + "\"/></a>\n</video>";
   };
 
   VideoInEmail.prototype.getVideoWidth = function() {
     return parseInt($("#video_width").val());
+  };
+
+  VideoInEmail.prototype.getVideoHeight = function() {
+    var aspect;
+    aspect = this.sourceEmbedCode.width() / this.sourceEmbedCode.height();
+    return Math.round(this.getVideoWidth() / aspect);
   };
 
   VideoInEmail.prototype.getFallbackLink = function() {
