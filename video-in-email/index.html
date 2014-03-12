@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Wistia Labs</title>
-    <link rel="stylesheet" href="./css/labs.css" />
-    <link rel="stylesheet" href="./style.css" />
+    <title>Video In Email</title>
+    <link rel="stylesheet" href="../css/labs.css" />
+    <link rel="stylesheet" href="style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="http://fast.wistia.com/assets/app/jquery/jquery_jamjar.js"></script>
-    <script src="./lib/jquery.timeatentry.js"></script>
+    <script src="../lib/jquery.timeatentry.js"></script>
     <script src="http://fast.wistia.com/static/E-v1.js"></script>
     <script src="http://fast.wistia.com/static/embed_shepherd-v1.js"></script>
-    <script src="./lib/globalui.js"></script>
+    <script src="../lib/globalui.js"></script>
+    <script src="../lib/labtools.js"></script>
+    <script src="plugin.js"></script>
+    <script src="ui.js"></script>
   </head>
   <body>
     <div id="nonfooter">
@@ -144,10 +147,6 @@
 </div>
 
 <!-- COMMON_HEADER_END -->
-
-
-
-
       </div>
 
 
@@ -156,14 +155,21 @@
           <div class="cols">
             <div class="col1 col">
               <a href=".." class="back_to_labs">
-                <img src="./images/labs.png" class="lab_logo" />
-                <span class="text">Wistia Labs</span>
+                <img src="../images/video-in-email.png" class="lab_logo" />
+                <span class="text"><span class="arrow">&#8592;</span> Back to Labs</span>
               </a>
             </div><div class="col2 col">
+              <h1>Video In Email</h1>
               <p>
-                Wistia Labs is a testing ground for the<br/>
-                newest and most experimental video<br/>
-                marketing tools.
+                Transform a video embed code into an HTML5 video tag that you can embed in an email.
+                <span class="clear_example_text">
+                  Play around with the example to see how it works,
+                  then <a href="#" id="clear_example">clear it</a> and paste in your own
+                  embed code!
+                </span><span class="show_example_text" style="display:none;">
+                  Just paste in a Wistia embed code and start customizing,
+                  or <a href="#" id="show_example">show me an example</a>.
+                </span>
               </p>
             </div>
           </div>
@@ -172,118 +178,69 @@
 
 
       <div id="body" class="cols">
-        <div class="col1 col" id="configure_col" style="width: 160px;">
-          <div id="resources">
-            <h3>Resources</h3>
-            <ul class="labs_specific_resources">
-              <li>
-                <a href="http://home.wistia.com/medias/oy8fj54xm7"
-                  target="_blank">
-                  Wistia Labs Webinar
-                </a>
-              </li>
-            </ul>
-            <ul>
-              <li><a href="http://wistia.com/labs/">Wistia Labs</a></li>
-              <li><a href="http://wistia.com/blog">Blog</a></li>
-              <li><a href="http://wistia.com/learning">Learning Center</a></li>
-              <li><a href="http://50grove.com">Video Producers</a></li>
-              <li><a href="http://wistia.com/doc/developers">Developers HQ</a></li>
-              <li><a href="http://wistia.com/doc">Documentation</a></li>
-            </ul>
-          </div>
+        <div class="col1 col" id="configure_col">
+          <div id="configure">
+
+            <!-- Paste Embed Code Section -->
+            <div class="jamjar paste_embed_code jamjar2">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Paste embed code</div>
+              </div>
+              <div class="jamjar_body">
+                <div class="source_embed_code_field_pair field_pair">
+                  <textarea name="source_embed_code" id="source_embed_code"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Video Width Section -->
+            <div class="jamjar paste_embed_code jamjar2">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Video width</div>
+              </div>
+              <div class="jamjar_body">
+                <div class="source_embed_code_field_pair field_pair">
+                  <p style="margin-top:0;">Set the width (in pixels), height will scale automatically.</p>
+                  <input name="video_width" id="video_width" type="number"></input>
+                </div>
+              </div>
+            </div>
+
+            <!-- Link for Fallback Image Section -->
+            <div class="jamjar paste_embed_code jamjar2">
+              <div class="jamjar_head">
+                <div class="jamjar_title">Link for fallback image</div>
+              </div>
+              <div class="jamjar_body">
+                <div class="source_embed_code_field_pair field_pair">
+                  <p style="margin-top:0;">Where do you want the thumbnail image to link if video is not supported?</p>
+                  <input name="fallback_link" id="fallback_link" type="url"></input>
+                </div>
+              </div>
+            </div>
+
+
+
+          </div> <!-- #configure -->
         </div><div class="col2 col" id="preview_col">
-          <div id="all_labs">
-            <ul>
-              <li data-href="./twitter-follows/">
-                <div class="col col1">
-                  <img src="images/twitter-follows.png" alt="" />
-                </div><div class="col col2">
-                  <h3>Twitter Lab</h3>
-                  <p>Add a Twitter Follow Button to your video</p>
-                </div>
-              </li><li data-href="./videofoam/">
-                <div class="col col1">
-                  <img src="images/videofoam.png" alt="" />
-                </div><div class="col col2">
-                  <h3>Video Foam</h3>
-                  <p>Make your videos responsive to your website layout</p>
-                </div>
-              </li><li data-href="./google-analytics/">
-                <div class="col col1">
-                  <img src="images/google-analytics.png" alt="" />
-                </div><div class="col col2">
-                  <h3>Google Analytics</h3>
-                  <p>Automatically push video event data to Google Analytics</p>
-                </div>
-              </li><li data-href="./resumable/">
-                <div class="col col1">
-                  <img src="images/resumable.png" alt="" />
-                </div><div class="col col2">
-                  <h3>Resumable Video</h3>
-                  <p>Allow viewers to pick up where they left off</p>
-                </div>
-              </li><li data-href="./dim-the-lights/">
-                <div class="col col1">
-                  <img src="images/dim-the-lights.png" alt="" />
-                </div><div class="col col2">
-                  <h3>Dim The Lights</h3>
-                  <p>Put the focus on your video when it's playing</p>
-                </div>
-              </li><li data-href="./pw-protected-videos/">
-                <div class="col col1">
-                  <img src="images/pw-protected-videos.png" alt="" />
-                </div><div class="col col2">
-                  <h3>Password Protected Videos</h3>
-                  <p>Require a password to watch your video</p>
-                </div>
-              </li><li data-href="./speakerdeck/">
-                <div class="col col1">
-                  <img src="images/speakerdeck.png" alt="" />
-                </div><div class="col col2">
-                  <h3>Presentation Sync</h3>
-                  <p>Synchronize your video with your presentation slides</p>
-                </div>
-              </li><li data-href="./mid-roll-links/">
-                <div class="col col1">
-                  <img src="images/mid-roll-links.png" alt="" />
-                </div><div class="col col2">
-                  <h3>Mid-roll Links</h3>
-                  <p>Add clickable links anywhere in your video</p>
-                </div>
-              </li><li data-href="./chapters/">
-                <div class="col col1">
-                  <img src="images/chapters.png" alt="" />
-                </div><div class="col col2">
-                  <h3>Chaptering</h3>
-                  <p>Add chapters for easy navigation</p>
-                </div>
-              </li><li data-href="./turnstile-golden-ticket/">
-                <div class="col col1">
-                  <img src="images/turnstile-golden-ticket.png" alt="" />
-                </div><div class="col col2">
-                  <h3>Turnstile Golden Ticket</h3>
-                  <p>Enter your email once to get access for the whole site</p>
-                </div>
-              </li>
-              </li><li data-href="./age-restriction/">
-                <div class="col col1">
-                  <img src="images/age-restriction.png" alt="" />
-                </div><div class="col col2">
-                  <h3>Age Restriction</h3>
-                  <p>Require a minimum age for your video.</p>
-                </div>
-              </li>
-              </li><li data-href="./video-in-email/">
-                <div class="col col1">
-                  <img src="images/video-in-email.png" alt="" />
-                </div><div class="col col2">
-                  <h3>Video In Email</h3>
-                  <p>Embed video directly in an email!</p>
-                </div>
-              </li>
-            </ul>
-          </div>
+
+
+          <div id="results">
+            <div id="alert" style="display:none;"></div>
+
+            <label>Your email embed code</label>
+            <textarea id="video_code" onclick="this.focus();this.select()"></textarea><br/>
+
+            <div id="preview_area">
+              <label>Here's how it will look</label>
+              <div id="preview">
+                <div id="placeholder_preview">Your video here</div>
+              </div>
+            </div>
+
+          </div> <!-- #results -->
+
+
         </div> <!-- .col2 -->
       </div> <!-- #body -->
       <div id="footerpad">&nbsp;</div>
@@ -294,5 +251,6 @@
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-KSJ3B');</script>
+
   </body>
 </html>
