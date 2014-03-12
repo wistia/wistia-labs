@@ -91,22 +91,20 @@ class VideoInEmail
     , 100
 
   updateVideoCode: =>
-    Wistia.timeout "updateVideoCode", =>
-      $('#video_code').val(@outputVideoCode())
+    hashedId = Wistia.EmbedCode.parse($("#source_embed_code").val()).hashedId()
+    Wistia.remote.media hashedId, (media) =>
+      mp4Url = media.assets.iphone.url.replace('.bin', '/video.mp4')
+      posterUrl = media.assets.still.url
+      playerColor = media.embed_options.playerColor
+      $('#video_code').val(@outputVideoCode(@getVideoWidth(), posterUrl, mp4Url, @getFallbackLink(), posterUrl, playerColor))
       styles = { height: '200px', width: '585px', 'font-family': 'Courier' }
       $('#video_code').css(styles)
-    , 100
-    Wistia.hashedId = Wistia.EmbedCode.parse($("#source_embed_code").val()).hashedId()
-    Wistia.remote.media "#{Wistia.hashedId}", (media) ->
-      Wistia.mp4Url = media.assets.iphone.url.replace('.bin', '/video.mp4')
-      Wistia.posterUrl = media.assets.still.url
-      Wistia.playerColor = media.embed_options.playerColor
 
-  outputVideoCode: =>
+  outputVideoCode: (width, poster, mp4, fallbackLink, fallbackImage, playerColor) =>
     """
-    <video width="#{@getVideoWidth()}" poster="#{@getPosterUrl()}" controls="controls">
-      <source src="#{@getVideoMp4()}" type="video/mp4"/>
-      <a href="#{@getFallbackLink()}"><img src="#{@getPosterUrl().replace('.bin', '.jpg')}?image_play_button=true&image_play_button_color=#{@getPlayerColor()}&image_resize=#{@getVideoWidth()}" width="#{@getVideoWidth()}"/></a>
+    <video width="#{width}" poster="#{poster}" controls="controls">
+      <source src="#{mp4}" type="video/mp4"/>
+      <a href="#{fallbackLink}"><img src="#{fallbackImage.replace('.bin', '.jpg')}?image_play_button=true&image_play_button_color=#{playerColor}&image_resize=#{width}" width="#{width}"/></a>
     </video>
     """
 
@@ -115,15 +113,6 @@ class VideoInEmail
 
   getFallbackLink: ->
     $("#fallback_link").val()
-
-  getVideoMp4: ->
-    return Wistia.mp4Url
-
-  getPosterUrl: ->
-    return Wistia.posterUrl
-
-  getPlayerColor: ->
-    return Wistia.playerColor
 
 
 # Assign all DOM bindings on doc-ready in here. We can also

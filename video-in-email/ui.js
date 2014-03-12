@@ -107,27 +107,26 @@ VideoInEmail = (function() {
   };
 
   VideoInEmail.prototype.updateVideoCode = function() {
-    var _this = this;
-    Wistia.timeout("updateVideoCode", function() {
-      var styles;
-      $('#video_code').val(_this.outputVideoCode());
+    var hashedId,
+      _this = this;
+    hashedId = Wistia.EmbedCode.parse($("#source_embed_code").val()).hashedId();
+    return Wistia.remote.media(hashedId, function(media) {
+      var mp4Url, playerColor, posterUrl, styles;
+      mp4Url = media.assets.iphone.url.replace('.bin', '/video.mp4');
+      posterUrl = media.assets.still.url;
+      playerColor = media.embed_options.playerColor;
+      $('#video_code').val(_this.outputVideoCode(_this.getVideoWidth(), posterUrl, mp4Url, _this.getFallbackLink(), posterUrl, playerColor));
       styles = {
         height: '200px',
         width: '585px',
         'font-family': 'Courier'
       };
       return $('#video_code').css(styles);
-    }, 100);
-    Wistia.hashedId = Wistia.EmbedCode.parse($("#source_embed_code").val()).hashedId();
-    return Wistia.remote.media("" + Wistia.hashedId, function(media) {
-      Wistia.mp4Url = media.assets.iphone.url.replace('.bin', '/video.mp4');
-      Wistia.posterUrl = media.assets.still.url;
-      return Wistia.playerColor = media.embed_options.playerColor;
     });
   };
 
-  VideoInEmail.prototype.outputVideoCode = function() {
-    return "<video width=\"" + (this.getVideoWidth()) + "\" poster=\"" + (this.getPosterUrl()) + "\" controls=\"controls\">\n  <source src=\"" + (this.getVideoMp4()) + "\" type=\"video/mp4\"/>\n  <a href=\"" + (this.getFallbackLink()) + "\"><img src=\"" + (this.getPosterUrl().replace('.bin', '.jpg')) + "?image_play_button=true&image_play_button_color=" + (this.getPlayerColor()) + "&image_resize=" + (this.getVideoWidth()) + "\" width=\"" + (this.getVideoWidth()) + "\"/></a>\n</video>";
+  VideoInEmail.prototype.outputVideoCode = function(width, poster, mp4, fallbackLink, fallbackImage, playerColor) {
+    return "<video width=\"" + width + "\" poster=\"" + poster + "\" controls=\"controls\">\n  <source src=\"" + mp4 + "\" type=\"video/mp4\"/>\n  <a href=\"" + fallbackLink + "\"><img src=\"" + (fallbackImage.replace('.bin', '.jpg')) + "?image_play_button=true&image_play_button_color=" + playerColor + "&image_resize=" + width + "\" width=\"" + width + "\"/></a>\n</video>";
   };
 
   VideoInEmail.prototype.getVideoWidth = function() {
@@ -136,18 +135,6 @@ VideoInEmail = (function() {
 
   VideoInEmail.prototype.getFallbackLink = function() {
     return $("#fallback_link").val();
-  };
-
-  VideoInEmail.prototype.getVideoMp4 = function() {
-    return Wistia.mp4Url;
-  };
-
-  VideoInEmail.prototype.getPosterUrl = function() {
-    return Wistia.posterUrl;
-  };
-
-  VideoInEmail.prototype.getPlayerColor = function() {
-    return Wistia.playerColor;
   };
 
   return VideoInEmail;
