@@ -225,10 +225,11 @@ Cleeng.prototype = (function () {
 
         contentExternalData = jQuery.extend(contentExternalData, offerData.videoOptions);
         $('.refundNote').hide();
+
         object.offerData = {
             "price": offerData.price,
-            "title": offerData.title,
-            "description": offerData.description,
+            "title": encodeURIComponent(offerData.title),
+            "description": encodeURIComponent(offerData.description),
             "url": offerData.url,
             "period": offerData.rental_time,
             "contentExternalId": offerData.hashedId,
