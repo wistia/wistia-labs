@@ -230,7 +230,7 @@ Cleeng.prototype = (function () {
             "price": offerData.price,
             "title": encodeURIComponent(offerData.title),
             "description": encodeURIComponent(offerData.description),
-            "url": offerData.url,
+            "url": encodeURIComponent(offerData.url),
             "period": offerData.rental_time,
             "contentExternalId": offerData.hashedId,
             "contentExternalData": JSON.stringify(contentExternalData)
