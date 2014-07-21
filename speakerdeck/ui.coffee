@@ -350,9 +350,16 @@ class Prez
     speakerDeckOembedUrl = "https://speakerdeck.com/oembed.json?url=#{encodeURIComponent(url)}"
 
     $.getJSON(
-      "http://jsonp.jit.su/?callback=?",
-      { url: speakerDeckOembedUrl },
-      (data) -> callback(data)
+      "http://query.yahooapis.com/v1/public/yql",
+      {
+        q:      "select * from json where url=\"#{speakerDeckOembedUrl}\"",
+        format: "json"
+      },
+      (data) ->
+        if (data.query.results)
+          callback(data.query.results.json)
+        else
+          console.log 'Failed to get data from SpeakerDeck\'s oEmbed endpoint'
     )
 
 

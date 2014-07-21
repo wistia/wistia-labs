@@ -372,10 +372,15 @@ Prez = (function() {
   Prez.prototype.getPresentationData = function(url, callback) {
     var speakerDeckOembedUrl;
     speakerDeckOembedUrl = "https://speakerdeck.com/oembed.json?url=" + (encodeURIComponent(url));
-    return $.getJSON("http://jsonp.jit.su/?callback=?", {
-      url: speakerDeckOembedUrl
+    return $.getJSON("http://query.yahooapis.com/v1/public/yql", {
+      q: "select * from json where url=\"" + speakerDeckOembedUrl + "\"",
+      format: "json"
     }, function(data) {
-      return callback(data);
+      if (data.query.results) {
+        return callback(data.query.results.json);
+      } else {
+        return console.log('Failed to get data from SpeakerDeck\'s oEmbed endpoint');
+      }
     });
   };
 
