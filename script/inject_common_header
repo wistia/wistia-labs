@@ -19,9 +19,14 @@ if response.code.to_i == 200
 
   Dir["#{APP_PATH}/**/*.html"].each do |filename|
     contents = File.read(filename)
-    contents.gsub!(common_header_regexp, replacement_content)
-    File.open(filename, 'w') do |file|
-      file.puts contents
+    matches = contents.match(common_header_regexp)
+    if matches
+      contents.gsub!(matches[0], replacement_content.gsub(/\\/, '\&\&'))
+      File.open(filename, 'w') do |file|
+        file.puts contents
+      end
+    else
+      puts "Didn't find common header template for #{filename}"
     end
   end
 end
