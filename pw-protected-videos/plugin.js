@@ -1,5 +1,8 @@
 Wistia.plugin("passwordProtected", function(video, options) {
-
+  if (video._initializedPasswordProtected) {
+    return;
+  }
+  video._initializedPasswordProtected = true;
   var uuid = Wistia.seqId("wistia_password_protected_");
   var fb;
   var gotSha256 = false;
@@ -32,11 +35,11 @@ Wistia.plugin("passwordProtected", function(video, options) {
     errorTextElem.innerHTML = "Loading the video...";
     Wistia.remote.media(hashedId, function(media) {
       video.suppressPlay(false);
-      video.replace(media, video.options);
       video.ready(removeOverlay);
       if (callback) {
         callback();
       }
+      video.replace(media, video.options);
     });
   }
 
@@ -110,7 +113,10 @@ Wistia.plugin("passwordProtected", function(video, options) {
   }
 
   function addCss() {
-    styleElem = Wistia.util.addInlineCss(document.getElementById(uuid), getCss());
+    var elem = document.getElementById(uuid);
+    if (elem) {
+      styleElem = Wistia.util.addInlineCss(elem, getCss());
+    }
   }
 
   function removeCss() {
@@ -245,6 +251,9 @@ Wistia.plugin("passwordProtected", function(video, options) {
 
   function centerVertically() {
     var overlayElem = document.getElementById(uuid);
+    if (!overlayElem) {
+      return;
+    }
     var containerElem = document.getElementById(uuid + "_challenge_container");
     var overlayHeight = Wistia.util.elemHeight(overlayElem);
     var containerHeight = Wistia.util.elemHeight(containerElem);
@@ -270,6 +279,17 @@ Wistia.plugin("passwordProtected", function(video, options) {
     }
   }
 
+  function remove() {
+    removeOverlay();
+    removeCss();
+    video.plugins[uuid] = null;
+    Wistia.removeData ['plugins', 'passwordProtected', video.uuid, uuid];
+    delete video.plugins[uuid];
+    delete video.plugin['passwordProtected'];
+    video.unbind("widthchange", fit);
+    video.unbind("heightchange", fit);
+  }
+
   // Prevent playing
   video.suppressPlay(true);
   video.pause();
@@ -291,6 +311,7 @@ Wistia.plugin("passwordProtected", function(video, options) {
     savedPasswordKey: savedPasswordKey,
     fit: fit,
     firebase: function() { return fb; },
-    options: function() { return options; }
+    options: function() { return options; },
+    remove: remove
   };
 });
