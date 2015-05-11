@@ -5,7 +5,7 @@ require "uri"
 
 APP_PATH = File.expand_path('../..',  __FILE__)
 
-uri = URI.parse("http://wistia.com/common/header")
+uri = URI.parse("http://wistia.com/common/navigation.html")
 response = Net::HTTP.get_response(uri)
 
 if response.code.to_i == 200
