@@ -132,8 +132,10 @@ class Prez
     if @timings().length == 0
       @addTiming(1,0)
     else
+      t = @timings()
+      lastSlide = t[t.length - 1][0]
       @addTiming(
-        window.previewEmbed.plugin.speakerdeck.currentSlide() + 1
+        lastSlide + 1
         parseInt(window.previewEmbed.time())
       )
 
@@ -193,7 +195,7 @@ class Prez
 
     @updateTimings()
     @alreadyTimed = true
-    
+
 
   sortTimings: ->
     $rows = @$timingsTable.find('tbody tr')

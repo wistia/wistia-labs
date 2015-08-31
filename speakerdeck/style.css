@@ -83,7 +83,7 @@
 #configure .timeat_entry .minutes {
   border: 0;
   text-align: right;
-  width: 60px;
+  width: 55px;
 }
 
 #configure .timeat_entry .seconds {
