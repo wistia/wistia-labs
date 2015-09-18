@@ -23,8 +23,8 @@
 
     # ### Preview
 
-    # `targetElem` can be a DOM element or the ID of a DOM element. We set the 
-    # HTML of that element to our embed code, and execute any included scripts 
+    # `targetElem` can be a DOM element or the ID of a DOM element. We set the
+    # HTML of that element to our embed code, and execute any included scripts
     # in the proper order.
     previewInElem: (targetElem, options = {}, callback) ->
       if typeof targetElem is 'string'
@@ -87,7 +87,7 @@
       W.obj.get(@options(), key)
 
 
-    # Extend the options hash starting at key. Extend recursively sets 
+    # Extend the options hash starting at key. Extend recursively sets
     # child elements from one javascript Object to another.
     #
     # For example:
@@ -127,20 +127,20 @@
 
 
     # For Popover and Iframe embed types, all parameters will be parsed
-    # first as strings. This method uses regexp matching to convert option 
+    # first as strings. This method uses regexp matching to convert option
     # values to the correct type.
     #
-    # Sometimes it can get it wrong. For instance, if the playerColor 
-    # is all numbers and starts with a 0, it will cast to a number. But 
+    # Sometimes it can get it wrong. For instance, if the playerColor
+    # is all numbers and starts with a 0, it will cast to a number. But
     # it should really be a string.
     _castOptions: -> W.obj.castDeep(@_options)
 
 
     # ### Oembeds
 
-    # Hit the oembed endpoint with this embed code's options. The 
-    # options argument lets you override the current options of this 
-    # embed code. In practice, this lets you switch between different 
+    # Hit the oembed endpoint with this embed code's options. The
+    # options argument lets you override the current options of this
+    # embed code. In practice, this lets you switch between different
     # embed types by changing the `embedType` option.
     fromOembed: (options, callback) ->
       options = W.extend
@@ -157,7 +157,7 @@
 
 
     # ### Helper Methods
-    
+
     ssl: ->
       false
 
@@ -184,7 +184,7 @@
 
   # #### Oembeds
 
-  # Get oembed data using just a hashed ID and options. The data 
+  # Get oembed data using just a hashed ID and options. The data
   # is returned in the typical oembed format,
   # [detailed in the Wistia docs](http://wistia.com/doc/oembed).
   W.EmbedCode.fromOembed = (hashedId, options = {}, callback) ->
@@ -195,7 +195,7 @@
 
   W.EmbedCode.oembedUrl = (hashedId, options = {}) ->
     "#{if options.ssl then "https:" else "http:"}//#{W.constant.embedHost}/embed/medias/#{hashedId}?#{W.url.jsonToParams(options)}"
-  
+
 
   W.EmbedCode._attrWhitelist =
     'allowfullscreen': true
@@ -258,13 +258,15 @@
 
   # #### Parse an Embed Code
 
-  # Given an embed code, return a parsed embed code object of 
+  # Given an embed code, return a parsed embed code object of
   # the correct type.
   W.EmbedCode.parse = (embedCode) ->
     if W.EmbedCode.isIframe(embedCode)
       W.IframeEmbedCode.parse(embedCode)
     else if W.EmbedCode.isPopover(embedCode)
       W.PopoverEmbedCode.parse(embedCode)
+    else if W.EmbedCode.isAsync(embedCode)
+      W.AsyncEmbedCode.parse(embedCode)
     else if W.EmbedCode.isApi(embedCode)
       W.ApiEmbedCode.parse(embedCode)
     else
@@ -295,7 +297,15 @@
       false
 
 
-  # An embed code is valid if it can be parsed, and if it 
+  W.EmbedCode.isAsync = (embedCode) ->
+    return true if embedCode instanceof W.AsyncEmbedCode and embedCode.isValid()
+    try
+      new W.AsyncEmbedCode(embedCode).isValid()
+    catch e
+      false
+
+
+  # An embed code is valid if it can be parsed, and if it
   # reports itself as valid.
   W.EmbedCode.isValid = (embedCode) ->
     !!W.EmbedCode.parse(embedCode)?.isValid()
@@ -336,7 +346,7 @@
         this
       else
         W.extend {}, @_options
-      
+
 
     isValid: ->
       @_$popover?.length and @_width and @_height and @_options
@@ -420,7 +430,7 @@
         this
       else
         W.extend {}, @_options
-      
+
 
     isValid: ->
       @_$iframe?.length and @_width and @_height and @_options
@@ -466,7 +476,7 @@
   W.IframeEmbedCode.parse = (embedCode) ->
     new W.IframeEmbedCode(embedCode)
 
-  
+
   # ## ApiEmbedCode Class
   #
   # SEO Embeds are just API embeds with extra content starting in
@@ -692,5 +702,150 @@
 
     result
 
+
+  # ## AsyncEmbedCode Class
+  #
+  # SEO Embeds are just API embeds with extra content starting in
+  # the container. So this class also works with SEO embed types.
+  class W.AsyncEmbedCode extends W.EmbedCode
+
+    constructor: (embedCode) ->
+      @parse(embedCode) if embedCode
+
+
+    parse: (embedCode) ->
+      @_embedCodeFrag = $("<div>")
+      @_rawEmbedCode = embedCode
+      @_rawHtml = W.util.removeScriptTags(embedCode).replace(/\n+$/g, "\n")
+      @_embedCodeFrag.html(@_rawHtml)
+      @_containerElem = @_embedCodeFrag.find(".wistia_embed:first")
+      @_containerContents = @_containerElem.html()
+      @_containerHtml = $("<div>").html(@_containerElem.clone()).html()
+      @_hashedId = W.AsyncEmbedCode.hashedId(@_rawEmbedCode)
+      @_options = W.embeds.optionsFromElemClass(@_containerElem)
+      @_html = W.util.removeScriptTags(@_rawEmbedCode)
+      @_scripts = W.util.scriptTags(@_rawEmbedCode)
+      @_embedCode = @_scripts.join("\n") + "\n" +
+        @_embedCodeFrag.html().replace(/\s+$/g, "")
+      this
+
+
+    options: (newOptions) ->
+      if newOptions?
+        @_options = newOptions
+        @_containerElem.removeAttr('class')
+        @_containerElem.addClass('wistia_embed')
+        @_containerElem.addClass("wistia_async_#{@_hashedId}")
+        if @optionsAsClasses().length > 400
+          @_optionsScript = @optionsAsJavascript()
+        else
+          @_optionsScript = null
+          @_containerElem.addClass(@optionsAsClasses())
+        this
+      else
+        W.obj.clone(@_options)
+
+
+    optionsAsClasses: ->
+      optionPairs = []
+      W.obj.eachLeaf @_options, (leafVal, path) =>
+        optionPairs.push(
+          encodeURIComponent(W.url._brack(path)) + "=" + encodeURIComponent(leafVal)
+        )
+      optionPairs.join(' ')
+
+
+    optionsAsJavascript: ->
+      """
+      <script>
+      window._wq = window._wq || [];
+      window._wq.push({ "#{@_hashedId}": #{W.ApiEmbedCode.evilJsonStringify(@_options)}})
+      </script>
+      """
+
+
+
+    containerContents: (newContents) ->
+      if newContents?
+        @_containerElem.html(newContents)
+        this
+      else
+        @_containerContents
+
+
+    containerHtml: ->
+      @_containerHtml
+
+
+    hashedId: (newHashedId) ->
+      if newHashedId?
+        @_hashedId = newHashedId
+        this
+      else
+        @_hashedId
+
+
+    css: (prop, val) ->
+      if val?
+        @_containerElem.css(prop, val)
+        this
+      else
+        @_containerElem.css(prop)
+
+
+    width: (w) ->
+      if w?
+        @css('width', w)
+        this
+      else
+        parseInt(@css('width'), 10)
+
+
+    height: (h) ->
+      if h?
+        @css('height', h)
+        this
+      else
+        parseInt(@css('height'), 10)
+
+
+    isValid: ->
+      @_hashedId and @height() and @width()
+
+
+    fromOembed: (options, callback) ->
+      options = W.extend
+        height: @height(),
+        width: @width()
+      , @options(), options
+      W.EmbedCode.fromOembed(@hashedId(), options, callback)
+
+
+    toString: ->
+      scripts = W.obj.clone(@_scripts)
+      scripts.unshift(@_optionsScript) if @_optionsScript
+      result = """
+        #{scripts.join("\n")}
+        #{W.EmbedCode.serializeElem(@_containerElem[0])}
+      """
+      result = result.replace(/&amp;/g, "&")
+      result
+
+
+  W.AsyncEmbedCode.parse = (embedCode) ->
+    new W.AsyncEmbedCode(embedCode)
+
+
+  W.AsyncEmbedCode.roptions = /Wistia\.embed\(.+?,\s*([\s\S]+)\s*\)/
+
+
+  W.AsyncEmbedCode.rhashedid = /wistia_async_([^ "]+)/
+
+
+  W.AsyncEmbedCode.hashedId = (embedCode) ->
+    if matches = embedCode.match(W.AsyncEmbedCode.rhashedid)
+      matches[1]
+    else
+      null
 
 )(Wistia, jQuery)
