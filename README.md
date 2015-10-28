@@ -57,10 +57,14 @@ should get it up there and live in a hurry!
 * Next, get up-to-date on wistiacom, and then run:
 
     `script/update_labs`
-    
-* Run doomcrank:
 
-    `./crank wistiacom production wistiacom:deploy:update`
+* Deploy wistiacom from skycrank:
+
+    `./cluster sevenkingdoms-wistiacom sync`
+
+* Bust the cache on cacheman (our Varnish cache in front of wistia.com)
+
+    `curl -X PURGE "http://wistia.com/labs/*"`
 
 * If your update is to a plugin itself, you will also need to bust the cache
   from Fastly, which you can do from a wistia-app machine:
