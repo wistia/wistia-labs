@@ -57,6 +57,10 @@
           @fromOembed (embedType: 'iframe', autoPlay: false), (data) ->
             targetElem.innerHTML = W.util.removeScriptTags(previewCode.toString()) + "<br/>" + data.html
             W.util.execScriptTags(previewCode.toString())
+        else if previewCode instanceof W.AsyncEmbedCode
+          targetElem.innerHTML = W.util.removeScriptTags(previewCode.toString())
+          W.util.execScriptTags(previewCode.toString(), callback)
+
       else
         console?.log("There was an error parsing the preview code:", embedCode)
 
@@ -762,7 +766,6 @@
       window._wq.push({ "#{@_hashedId}": #{W.ApiEmbedCode.evilJsonStringify(@_options)}})
       </script>
       """
-
 
 
     containerContents: (newContents) ->
