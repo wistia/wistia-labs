@@ -13,64 +13,84 @@
   </head>
   <body>
 
-<div id="wufoo-m1vmnn3l0x4bbg4" style='position: absolute; top: -9999px; left: -9999px;'>
-Fill out my <a href="https://wistiamike.wufoo.com/forms/m1vmnn3l0x4bbg4">online form</a>.
-</div>
-<a href="#wufoo-m1vmnn3l0x4bbg4" class='open-lightbox'>Lightbox</a>
-<div id="wistia_22wvimgajy" class="wistia_embed" style="width:640px;height:360px;"></div>
-<script charset="ISO-8859-1" src="//fast.wistia.com/assets/external/E-v1.js"></script>
-  <script>wistiaEmbed = Wistia.embed("22wvimgajy", {
-    plugin: {
-      wufooForm: {
-        src: "plugin.js"
-      }
-    }
-  });
-</script>
-    <script>
-    __savedHeight = 0;
-    function resizeTheColorbox(height) {
-      if (height > 0) {
-        __savedHeight = new Number(height);
-        var newHeight = __savedHeight + 50; // addition is the submit button offset
-        $(".open-lightbox").colorbox.resize({
-          height : newHeight
-        });
-      }
-    }
-    $(function() {
-      $(".open-lightbox").colorbox({
-        "inline" : true,
-        "href": "#wufoo-m1vmnn3l0x4bbg4 iframe",
-        "width": 500,
-        "innerHeight": $("#wufoo-m1vmnn3l0x4bbg4 iframe").height()   // Only deals with initial load
-      });
-    });
-    $(document).bind('cbox_complete', function(){
-      resizeTheColorbox(__savedHeight);
-    });
-  </script>
+    <div id="wufoo-m1vmnn3l0x4bbg4" style='position: absolute; top: -9999px; left: -9999px;'>
+      Fill out my <a href="https://wistiamike.wufoo.com/forms/m1vmnn3l0x4bbg4">online form</a>.
+    </div>
+    <a href="#wufoo-m1vmnn3l0x4bbg4" class='open-lightbox'>Lightbox</a>
 
-  </script>
-      <script type="text/javascript">var m1vmnn3l0x4bbg4;(function(d, t) {
-      var s = d.createElement(t), options = {
-      'userName':'wistiamike',
-      'formHash':'m1vmnn3l0x4bbg4',
-      'autoResize':true,
-      'resizeDone': resizeTheColorbox,
-      'height':'610',
-      'async':true,
-      'host':'wufoo.com',
-      'header':'show',
-      'ssl':true};
-      s.src = ('https:' == d.location.protocol ? 'https://' : 'http://') + 'www.wufoo.com/scripts/embed/form.js';
-      s.onload = s.onreadystatechange = function() {
-      var rs = this.readyState; if (rs) if (rs != 'complete') if (rs != 'loaded') return;
-      try { 
-        m1vmnn3l0x4bbg4 = new WufooForm();
-        m1vmnn3l0x4bbg4.initialize(options);m1vmnn3l0x4bbg4.display(); } catch (e) {}};
-      var scr = d.getElementsByTagName(t)[0], par = scr.parentNode; par.insertBefore(s, scr);
+    <div id="wistia_22wvimgajy" class="wistia_embed" style="width:640px;height:360px;"></div>
+
+    <script charset="ISO-8859-1" src="//fast.wistia.com/assets/external/E-v1.js"></script>
+      <script>wistiaEmbed = Wistia.embed("22wvimgajy", {
+        plugin: {
+          wufooForm: {
+            src: "plugin.js"
+          }
+        }
+      });
+    </script>
+
+    <script>
+      __savedHeight = 0;
+      function resizeTheColorbox(height) {
+        if (height > 0) {
+          __savedHeight = new Number(height);
+          var newHeight = __savedHeight + 50; // addition is the submit button offset
+          $(".open-lightbox").colorbox.resize({
+            height : newHeight
+          });
+        }
+      }
+
+      $(function() {
+        $(".open-lightbox").colorbox({
+          "inline" : true,
+          "href": "#wufoo-m1vmnn3l0x4bbg4 iframe",
+          "width": 500,
+          "innerHeight": $("#wufoo-m1vmnn3l0x4bbg4 iframe").height()   // Only deals with initial load
+        });
+      });
+
+      $(document).bind('cbox_complete', function(){
+        resizeTheColorbox(__savedHeight);
+      });
+    </script>
+
+    <script type="text/javascript">
+      var m1vmnn3l0x4bbg4;
+      (function(d, t) {
+        var s = d.createElement(t);
+        var options = {
+          'userName':'wistiamike',
+          'formHash':'m1vmnn3l0x4bbg4',
+          'autoResize':true,
+          'resizeDone': resizeTheColorbox,
+          'height':'610',
+          'async':true,
+          'host':'wufoo.com',
+          'header':'show',
+          'ssl':true
+        };
+        s.src = ('https:' == d.location.protocol ? 'https://' : 'http://') + 'www.wufoo.com/scripts/embed/form.js';
+        s.onload = s.onreadystatechange = function() {
+          var rs = this.readyState;
+          if (rs)
+            if (rs != 'complete')
+              if (rs != 'loaded')
+                return;
+          try {
+            m1vmnn3l0x4bbg4 = new WufooForm();
+            m1vmnn3l0x4bbg4.initialize(options);
+            m1vmnn3l0x4bbg4.display();
+          } catch (e) {
+
+          }
+        };
+
+        var scr = d.getElementsByTagName(t)[0]
+        var par = scr.parentNode;
+        par.insertBefore(s, scr);
       })(document, 'script');
-      </script>
+    </script>
   </body>
 </html>
