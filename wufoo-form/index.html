@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Wufoo Form</title>
+    <link rel="stylesheet" href="../css/labs.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://fast.wistia.com/static/E-v1.js"></script>
+    <script src="http://fast.wistia.com/static/embed_shepherd-v1.js"></script>
+    <script src="plugin.js"></script>
+  </head>
+  <body>
+  <div style="position:relative">
+    <div id="wufoo-m1vmnn3l0x4bbg4" style="display:none;position:absolute;z-index:10;width:100%;background-color:white">
+    Fill out my <a href="https://wistiamike.wufoo.com/forms/m1vmnn3l0x4bbg4">online form</a>.
+    </div>
+    <div id="wistia_22wvimgajy" class="wistia_embed" style="width:640px;height:360px;"></div>
+  </div>
+
+  <script charset="ISO-8859-1" src="//fast.wistia.com/assets/external/E-v1.js"></script>
+  <script>wistiaEmbed = Wistia.embed("22wvimgajy", {
+    plugin: {
+      wufooForm: {
+        src: "plugin.js"
+      }
+    }
+  });
+  </script>
+      <script type="text/javascript">var m1vmnn3l0x4bbg4;(function(d, t) {
+      var s = d.createElement(t), options = {
+      'userName':'wistiamike',
+      'formHash':'m1vmnn3l0x4bbg4',
+      'autoResize':true,
+      'height':'610',
+      'async':true,
+      'host':'wufoo.com',
+      'header':'show',
+      'ssl':true};
+      s.src = ('https:' == d.location.protocol ? 'https://' : 'http://') + 'www.wufoo.com/scripts/embed/form.js';
+      s.onload = s.onreadystatechange = function() {
+      var rs = this.readyState; if (rs) if (rs != 'complete') if (rs != 'loaded') return;
+      try { 
+        m1vmnn3l0x4bbg4 = new WufooForm();
+        m1vmnn3l0x4bbg4.initialize(options);m1vmnn3l0x4bbg4.display(); } catch (e) {}};
+      var scr = d.getElementsByTagName(t)[0], par = scr.parentNode; par.insertBefore(s, scr);
+      })(document, 'script');
+      </script>
+  </body>
+</html>
