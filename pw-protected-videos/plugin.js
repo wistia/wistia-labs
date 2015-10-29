@@ -33,14 +33,12 @@ Wistia.plugin("passwordProtected", function(video, options) {
     var errorTextElem = document.getElementById(uuid + "_error_text");
     errorTextElem.style.visibility = "visible";
     errorTextElem.innerHTML = "Loading the video...";
-    Wistia.remote.media(hashedId, function(media) {
-      video.suppressPlay(false);
-      video.ready(removeOverlay);
-      if (callback) {
-        callback();
-      }
-      video.replace(media, video.options);
-    });
+    video.suppressPlay(false);
+    video.replaceWith(hashedId, video.options)
+    video.ready(removeOverlay);
+    if (callback) {
+      callback();
+    }
   }
 
   function loadVideoByPassword(hashedPw, options) {
