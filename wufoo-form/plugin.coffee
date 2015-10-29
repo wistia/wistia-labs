@@ -5,8 +5,7 @@
    W.plugin "wufooForm", (video, options = {}) ->
 
     showForm = ->
-      wufooForm = $("#wufoo-m1vmnn3l0x4bbg4")
-      wufooForm.show()
+      $('.open-lightbox').trigger('click')
 
     video.bind("end", showForm)
   

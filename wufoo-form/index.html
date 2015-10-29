@@ -3,20 +3,22 @@
   <head>
     <title>Wufoo Form</title>
     <link rel="stylesheet" href="../css/labs.css" />
+    <link rel='stylesheet' href='../lib/colorbox/colorbox.css' media='screen'>
+    <link rel="stylesheet" href="style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="http://fast.wistia.com/static/E-v1.js"></script>
     <script src="http://fast.wistia.com/static/embed_shepherd-v1.js"></script>
+    <script src="../lib/jquery.colorbox-min.js"></script>
     <script src="plugin.js"></script>
   </head>
   <body>
-  <div style="position:relative">
-    <div id="wufoo-m1vmnn3l0x4bbg4" style="display:none;position:absolute;z-index:10;width:100%;background-color:white">
-    Fill out my <a href="https://wistiamike.wufoo.com/forms/m1vmnn3l0x4bbg4">online form</a>.
-    </div>
-    <div id="wistia_22wvimgajy" class="wistia_embed" style="width:640px;height:360px;"></div>
-  </div>
 
-  <script charset="ISO-8859-1" src="//fast.wistia.com/assets/external/E-v1.js"></script>
+<div id="wufoo-m1vmnn3l0x4bbg4" style='position: absolute; top: -9999px; left: -9999px;'>
+Fill out my <a href="https://wistiamike.wufoo.com/forms/m1vmnn3l0x4bbg4">online form</a>.
+</div>
+<a href="#wufoo-m1vmnn3l0x4bbg4" class='open-lightbox'>Lightbox</a>
+<div id="wistia_22wvimgajy" class="wistia_embed" style="width:640px;height:360px;"></div>
+<script charset="ISO-8859-1" src="//fast.wistia.com/assets/external/E-v1.js"></script>
   <script>wistiaEmbed = Wistia.embed("22wvimgajy", {
     plugin: {
       wufooForm: {
@@ -24,12 +26,38 @@
       }
     }
   });
+</script>
+    <script>
+    __savedHeight = 0;
+    function resizeTheColorbox(height) {
+      if (height > 0) {
+        __savedHeight = new Number(height);
+        var newHeight = __savedHeight + 50; // addition is the submit button offset
+        $(".open-lightbox").colorbox.resize({
+          height : newHeight
+        });
+      }
+    }
+    $(function() {
+      $(".open-lightbox").colorbox({
+        "inline" : true,
+        "href": "#wufoo-m1vmnn3l0x4bbg4 iframe",
+        "width": 500,
+        "innerHeight": $("#wufoo-m1vmnn3l0x4bbg4 iframe").height()   // Only deals with initial load
+      });
+    });
+    $(document).bind('cbox_complete', function(){
+      resizeTheColorbox(__savedHeight);
+    });
+  </script>
+
   </script>
       <script type="text/javascript">var m1vmnn3l0x4bbg4;(function(d, t) {
       var s = d.createElement(t), options = {
       'userName':'wistiamike',
       'formHash':'m1vmnn3l0x4bbg4',
       'autoResize':true,
+      'resizeDone': resizeTheColorbox,
       'height':'610',
       'async':true,
       'host':'wufoo.com',

@@ -6,9 +6,7 @@
       options = {};
     }
     showForm = function() {
-      var wufooForm;
-      wufooForm = $("#wufoo-m1vmnn3l0x4bbg4");
-      return wufooForm.show();
+      return $('.open-lightbox').trigger('click');
     };
     video.bind("end", showForm);
     return {};
