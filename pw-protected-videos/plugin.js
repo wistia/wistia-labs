@@ -34,8 +34,12 @@ Wistia.plugin("passwordProtected", function(video, options) {
     errorTextElem.style.visibility = "visible";
     errorTextElem.innerHTML = "Loading the video...";
     video.suppressPlay(false);
-    video.replaceWith(hashedId, video.options)
+    var newOpts = Wistia.obj.clone(video.options);
+    Wistia.obj.unset(newOpts, "plugin.passwordProtected");
     video.ready(removeOverlay);
+    video.ready(function() {
+      video.replaceWith(hashedId, newOpts);
+    });
     if (callback) {
       callback();
     }
