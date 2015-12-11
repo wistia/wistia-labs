@@ -10,6 +10,7 @@ response = Net::HTTP.get_response(uri)
 
 if response.code.to_i == 200
   header_content = response.body
+  header_content = "<script>window.disableWistiaIntegrationTracking = true;</script>" + header_content
   replacement_content = <<-eos
 <!-- COMMON_HEADER_START -->
 #{header_content}
