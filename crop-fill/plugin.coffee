@@ -6,7 +6,7 @@
     # We need it for all resizing calculations.
     videoAspect = null
     video.hasData ->
-      still = video.data.media.assets.still
+      still = W.Video.stillAsset(video._mediaData)
       videoAspect = still.width / still.height
 
     # To position this properly, the target needs to have a position from 
