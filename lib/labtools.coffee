@@ -190,7 +190,7 @@
 
   # Get oembed data using just a hashed ID and options. The data
   # is returned in the typical oembed format,
-  # [detailed in the Wistia docs](http://wistia.com/doc/oembed).
+  # [detailed in the Wistia docs](https://wistia.com/doc/oembed).
   W.EmbedCode.fromOembed = (hashedId, options = {}, callback) ->
     $.getJSON "#{window.location.protocol}//#{W.constant.oembedHost}/oembed.json?callback=?",
       url: W.EmbedCode.oembedUrl(hashedId, options),

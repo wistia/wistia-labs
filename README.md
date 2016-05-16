@@ -64,7 +64,7 @@ should get it up there and live in a hurry!
 
 * Bust the cache on cacheman (our Varnish cache in front of wistia.com)
 
-    `curl -X PURGE "http://wistia.com/labs/*"`
+    `curl -X PURGE "https://wistia.com/labs/*"`
 
 * If your update is to a plugin itself, you will also need to bust the cache
   from Fastly, which you can do from a wistia-app machine:
@@ -89,5 +89,5 @@ To get:
 ### More Information
 
 For more information about plugins, you might want to [check out 
-the Plugin API docs](http://wistia.com/doc/plugin-api) and 
-[the Embed Shepherd docs](http://wistia.com/doc/embed-shepherd).
+the Plugin API docs](https://wistia.com/doc/plugin-api) and
+[the Embed Shepherd docs](https://wistia.com/doc/embed-shepherd).
