@@ -75,14 +75,14 @@ textarea.example, input.example {
   position: relative; }
 
 .jamjar_title {
-  background: transparent url(http://fast.wistia.com/images/zebra/elements/expanded_arrow_white.gif) no-repeat 12px 17px;
+  background: transparent url(//fast.wistia.com/images/zebra/elements/expanded_arrow_white.gif) no-repeat 12px 17px;
   color: white;
   cursor: pointer;
   font-size: 20px;
   padding: 10px 10px 10px 31px; }
 
 .jamjar_help {
-  background: url(http://fast.wistia.com/images/zebra/elements/questionhelp_light.png);
+  background: url(//fast.wistia.com/images/zebra/elements/questionhelp_light.png);
   cursor: pointer;
   display: inline-block;
   *display: inline;
@@ -113,7 +113,7 @@ textarea.example, input.example {
   line-height: 0; }
 
 .jamjar_closed .jamjar_title {
-  background-image: url(http://fast.wistia.com/images/zebra/elements/collapsed_arrow_white.gif);
+  background-image: url(//fast.wistia.com/images/zebra/elements/collapsed_arrow_white.gif);
   background-position: 15px 15px; }
 .jamjar_closed .jamjar_subhead {
   display: none; }

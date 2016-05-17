@@ -1,25 +1,25 @@
 @font-face {
   font-family: "interstate";
-  src: url("http://fast.wistia.com/assets/fonts/interstate-light/interstate-light.eot");
-  src: url("http://fast.wistia.com/assets/fonts/interstate-light/interstate-light.eot?#iefix") format("embedded-opentype"), url("http://fast.wistia.com/assets/fonts/interstate-light/interstate-light.woff") format("woff"), url("http://fast.wistia.com/assets/fonts/interstate-light/interstate-light.ttf") format("truetype"), url("http://fast.wistia.com/assets/fonts/interstate-light/interstate-light.svg#interstate-light") format("svg");
+  src: url("//fast.wistia.com/assets/fonts/interstate-light/interstate-light.eot");
+  src: url("//fast.wistia.com/assets/fonts/interstate-light/interstate-light.eot?#iefix") format("embedded-opentype"), url("//fast.wistia.com/assets/fonts/interstate-light/interstate-light.woff") format("woff"), url("//fast.wistia.com/assets/fonts/interstate-light/interstate-light.ttf") format("truetype"), url("//fast.wistia.com/assets/fonts/interstate-light/interstate-light.svg#interstate-light") format("svg");
   font-weight: 400; }
 
 @font-face {
   font-family: "interstate";
-  src: url("http://fast.wistia.com/assets/fonts/interstate-regular/interstate-regular.eot");
-  src: url("http://fast.wistia.com/assets/fonts/interstate-regular/interstate-regular.eot?#iefix") format("embedded-opentype"), url("http://fast.wistia.com/assets/fonts/interstate-regular/interstate-regular.woff") format("woff"), url("http://fast.wistia.com/assets/fonts/interstate-regular/interstate-regular.ttf") format("truetype"), url("http://fast.wistia.com/assets/fonts/interstate-regular/interstate-regular.svg#interstate-regular") format("svg");
+  src: url("//fast.wistia.com/assets/fonts/interstate-regular/interstate-regular.eot");
+  src: url("//fast.wistia.com/assets/fonts/interstate-regular/interstate-regular.eot?#iefix") format("embedded-opentype"), url("//fast.wistia.com/assets/fonts/interstate-regular/interstate-regular.woff") format("woff"), url("//fast.wistia.com/assets/fonts/interstate-regular/interstate-regular.ttf") format("truetype"), url("//fast.wistia.com/assets/fonts/interstate-regular/interstate-regular.svg#interstate-regular") format("svg");
   font-weight: 700; }
 
 @font-face {
   font-family: "interstate";
-  src: url("http://fast.wistia.com/assets/fonts/interstate-bold/interstate-bold.eot");
-  src: url("http://fast.wistia.com/assets/fonts/interstate-bold/interstate-bold.eot?#iefix") format("embedded-opentype"), url("http://fast.wistia.com/assets/fonts/interstate-bold/interstate-bold.woff") format("woff"), url("http://fast.wistia.com/assets/fonts/interstate-bold/interstate-bold.ttf") format("truetype"), url("http://fast.wistia.com/assets/fonts/interstate-bold/interstate-bold.svg#interstate-bold") format("svg");
+  src: url("//fast.wistia.com/assets/fonts/interstate-bold/interstate-bold.eot");
+  src: url("//fast.wistia.com/assets/fonts/interstate-bold/interstate-bold.eot?#iefix") format("embedded-opentype"), url("//fast.wistia.com/assets/fonts/interstate-bold/interstate-bold.woff") format("woff"), url("//fast.wistia.com/assets/fonts/interstate-bold/interstate-bold.ttf") format("truetype"), url("//fast.wistia.com/assets/fonts/interstate-bold/interstate-bold.svg#interstate-bold") format("svg");
   font-weight: 900; }
 
 @font-face {
   font-family: "interstate";
-  src: url("http://fast.wistia.com/assets/fonts/interstate-light-italic/interstate-lightitalic.eot");
-  src: url("http://fast.wistia.com/assets/fonts/interstate-light-italic/interstate-lightitalic.eot?#iefix") format("embedded-opentype"), url("http://fast.wistia.com/assets/fonts/interstate-light-italic/interstate-lightitalic.woff") format("woff"), url("http://fast.wistia.com/assets/fonts/interstate-light-italic/interstate-lightitalic.ttf") format("truetype"), url("http://fast.wistia.com/assets/fonts/interstate-light-italic/interstate-lightitalic.svg#interstate-lightitalic") format("svg");
+  src: url("//fast.wistia.com/assets/fonts/interstate-light-italic/interstate-lightitalic.eot");
+  src: url("//fast.wistia.com/assets/fonts/interstate-light-italic/interstate-lightitalic.eot?#iefix") format("embedded-opentype"), url("//fast.wistia.com/assets/fonts/interstate-light-italic/interstate-lightitalic.woff") format("woff"), url("//fast.wistia.com/assets/fonts/interstate-light-italic/interstate-lightitalic.ttf") format("truetype"), url("//fast.wistia.com/assets/fonts/interstate-light-italic/interstate-lightitalic.svg#interstate-lightitalic") format("svg");
   font-style: italic; }
 @font-face {
   font-family: "Avenir";
@@ -227,14 +227,14 @@ a.darkbutton, button.dark {
   position: relative; }
 
 .jamjar_title {
-  background: transparent url(http://fast.wistia.com/assets/images/zebra/elements/expanded_arrow_white.gif) no-repeat 12px 17px;
+  background: transparent url(//fast.wistia.com/assets/images/zebra/elements/expanded_arrow_white.gif) no-repeat 12px 17px;
   color: white;
   cursor: pointer;
   font-size: 20px;
   padding: 10px 10px 10px 31px; }
 
 .jamjar_help {
-  background: url(http://fast.wistia.com/assets/images/zebra/elements/questionhelp_light.png);
+  background: url(//fast.wistia.com/assets/images/zebra/elements/questionhelp_light.png);
   cursor: pointer;
   display: inline-block;
   *display: inline;
@@ -265,7 +265,7 @@ a.darkbutton, button.dark {
   line-height: 0; }
 
 .jamjar_closed .jamjar_title {
-  background-image: url(http://fast.wistia.com/images/zebra/elements/collapsed_arrow_white.gif);
+  background-image: url(//fast.wistia.com/images/zebra/elements/collapsed_arrow_white.gif);
   background-position: 15px 15px; }
 .jamjar_closed .jamjar_subhead {
   display: none; }
