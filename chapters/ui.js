@@ -133,7 +133,7 @@ window.showExample = function() {
   $("#source_embed_code").val('<div id="wistia_bf8qg4d9e2" class="wistia_embed" style="width:640px;height:360px;"> </div><script charset="ISO-8859-1" src="//fast.wistia.com/assets/external/E-v1.js"></script><script>wistiaEmbed = Wistia.embed("bf8qg4d9e2");</script>');
   chapterCount = 1;
   generateChapter("Robby", 6);
-  generateChapter("Milo", 7);
+  generateChapter("Milo", 8);
   generateChapter("YMCA", 10);
   generateChapter("Ironing", 12);
 };
