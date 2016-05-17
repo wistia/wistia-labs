@@ -4,8 +4,8 @@ window.jsProductionPath = 'fast.wistia.com/labs/logo-over-video';
 var debug = true;
 
 test_logos = [
-  'http://profile1.seomoz.org/img/users/medium/238610.jpg',
-  'http://embed.wistia.com/deliveries/83d5e93e57ae5287ebc227cd84f17ec2584eb99f.png?image_crop_resized=144x75'
+  'https://profile1.seomoz.org/img/users/medium/238610.jpg',
+  'https://embed-ssl.wistia.com/deliveries/83d5e93e57ae5287ebc227cd84f17ec2584eb99f.png?image_crop_resized=144x75'
 ];
 
 // A reasonably safe log function.
