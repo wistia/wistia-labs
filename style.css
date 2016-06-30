@@ -86,3 +86,40 @@ body {
   font-size: 32px;
   font-weight: bold;
 }
+
+.sticker {
+  background-color: #3FBCFB;
+  color: white;
+  font-weight: bold;
+  font-size: 13px;
+  margin-top: -5px;
+  line-height: 26px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.pw-original p, .pw-original img, .pw-original h3 {
+  opacity: .25;
+}
+
+.pw-on-hover {
+  display: inline-block;
+  width: 344px;
+  text-align: center;
+}
+
+.pw-title {
+  font-size: 22px;
+  line-height: 23px;
+  font-weight: bold;
+  margin: -5px 0 5px 0;
+}
+
+.pw-text {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.blue-text {
+  color: #3FBCFB;
+}
