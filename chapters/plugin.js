@@ -91,6 +91,10 @@ Wistia.plugin("chapters", function(video, options) {
     return mins + ":" + secs;
   }
 
+  function escapeStr(str) {
+    return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, '&quot;');
+  }
+
   function createChapterList() {
     var locationObj;
     if (options.location == "left") {
@@ -107,7 +111,7 @@ Wistia.plugin("chapters", function(video, options) {
       if (options["show_timestamps"] == "yes") {
         chapterListHtml += "(" + secondsToTime(options["ch_" + i + "_time"]) + ") ";
       }
-      chapterListHtml += options["ch_" + i + "_title"];
+      chapterListHtml += escapeStr(options["ch_" + i + "_title"]);
       chapterListHtml += '</li>';
       chapterListHtml += '</a>';
 
