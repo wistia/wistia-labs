@@ -98,11 +98,11 @@ body {
   text-transform: uppercase;
 }
 
-.pw-original p, .pw-original img, .pw-original h3 {
+.in-beta-original p, .in-beta-original img, .in-beta-original h3 {
   opacity: .25;
 }
 
-.pw-on-hover {
+.in-beta-on-hover {
   display: inline-block;
   width: 344px;
   text-align: center;
