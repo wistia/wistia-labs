@@ -46,7 +46,7 @@ Wistia.plugin("resumable", function(video, options) {
     "top: 0;\n" +
     "white-space: normal;\n" +
     "width: " + video.videoWidth() + "px;\n" +
-    "z-index: 2;\n" +
+    "z-index: 8;\n" +
     "}\n" +
     "#" + uuid + "_content {\n" +
     "  position: relative;\n" +
