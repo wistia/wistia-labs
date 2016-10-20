@@ -3,6 +3,21 @@ Wistia.plugin("passwordProtected", function(video, options) {
     return;
   }
   video._initializedPasswordProtected = true;
+
+  video.embedded(function() {
+    try {
+      Wistia.Metrics.count("player/password-protected-lab-loaded", 1, {
+        url: location.href,
+        referrer: document.referrer,
+        media_hashed_id: video.hashedId(),
+        account_id: video._mediaData.accountKey
+      });
+    } catch(e) {
+      console.log(e.message);
+      console.log(e.stack);
+    }
+  });
+
   var uuid = Wistia.seqId("wistia_password_protected_");
   var fb;
   var gotSha256 = false;

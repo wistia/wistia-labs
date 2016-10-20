@@ -152,6 +152,20 @@ Wistia.plugin("chapters", function(video, options) {
     video.fit();
   }
 
+  video.embedded(function() {
+    try {
+      Wistia.Metrics.count("player/chapters-lab-loaded", 1, {
+        url: location.href,
+        referrer: document.referrer,
+        media_hashed_id: video.hashedId(),
+        account_id: video._mediaData.accountKey
+      });
+    } catch(e) {
+      console.log(e.message);
+      console.log(e.stack);
+    }
+  });
+
   showChapterList();
 
   video.bind("widthchange", fit).bind("heightchange", fit);
