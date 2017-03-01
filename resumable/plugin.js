@@ -1,12 +1,12 @@
 Wistia.plugin("resumable", function(video, options) {
 
   var uuid = Wistia.seqId("wistia_resumable");
-    
+
   function resumableKey() {
     return [video.params.pageUrl || location.href, video.hashedId(), "resume_time"];
   }
 
-  function setTime(t) {  
+  function setTime(t) {
     return Wistia.localStorage(resumableKey(), t);
   }
 
@@ -146,47 +146,52 @@ Wistia.plugin("resumable", function(video, options) {
   }
 
   function showOverlay() {
-    removeOverlay();
-    if (resumeTime()) {
-      if (video.state() === "beforeplay") {
-        video.suppressPlay(true);
-        video.pause();
-      } else {
-        video.pause();
-      }
-      var resumeScreen = document.createElement("div");
-      resumeScreen.id = uuid;
-      resumeScreen.innerHTML = "" +
-      "<div id='" + uuid + "_content'>" +
-      "<div>It looks like you've watched<br />part of this video before!</div>" +
-      "<a href='#' id='" + uuid + "_resume_play'>" +
-      "  <span id='" + uuid + "_resume_play_arrow'>&nbsp;</span>" +
-      "  Watch from the beginning" +
-      "</a><a href='#' id='" + uuid + "_resume_skip'>" +
-      "  <span id='" + uuid + "_resume_skip_arrow'>&nbsp;</span>" +
-      "  Skip to where you left off" +
-      "</a>" +
-      "</div>";
-      video.grid.top_inside.appendChild(resumeScreen);
-      refreshCss();
-      centerVertically();
-      var resumePlayElem = document.getElementById(uuid + "_resume_play");
-      var resumeSkipElem = document.getElementById(uuid + "_resume_skip");
+    // the resumable lab doesn't work well with autoplay.
+    // The video might already be autoplaying by the time we get here,
+    // so don't attempt to show the resumable overlay.
+    if (video.options.autoPlay === false) {
+      removeOverlay();
+      if (resumeTime()) {
+        if (video.state() === "beforeplay") {
+          video.suppressPlay(true);
+          video.pause();
+        } else {
+          video.pause();
+        }
+        var resumeScreen = document.createElement("div");
+        resumeScreen.id = uuid;
+        resumeScreen.innerHTML = "" +
+        "<div id='" + uuid + "_content'>" +
+        "<div>It looks like you've watched<br />part of this video before!</div>" +
+        "<a href='#' id='" + uuid + "_resume_play'>" +
+        "  <span id='" + uuid + "_resume_play_arrow'>&nbsp;</span>" +
+        "  Watch from the beginning" +
+        "</a><a href='#' id='" + uuid + "_resume_skip'>" +
+        "  <span id='" + uuid + "_resume_skip_arrow'>&nbsp;</span>" +
+        "  Skip to where you left off" +
+        "</a>" +
+        "</div>";
+        video.grid.top_inside.appendChild(resumeScreen);
+        refreshCss();
+        centerVertically();
+        var resumePlayElem = document.getElementById(uuid + "_resume_play");
+        var resumeSkipElem = document.getElementById(uuid + "_resume_skip");
 
-      resumeSkipElem.onclick = function() {
-        video.suppressPlay(false);
-        jumpToResumeTime();
+        resumeSkipElem.onclick = function() {
+          video.suppressPlay(false);
+          jumpToResumeTime();
+          return false;
+        };
+        resumePlayElem.onclick = function() {
+          video.suppressPlay(false);
+          playFromBeginning();
+          return false;
+        };
+        return true;
+      }
+      else {
         return false;
-      };
-      resumePlayElem.onclick = function() {
-        video.suppressPlay(false);
-        playFromBeginning();
-        return false;
-      };
-      return true;
-    }
-    else {
-      return false;
+      }
     }
   }
 
