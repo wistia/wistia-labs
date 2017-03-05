@@ -41,7 +41,7 @@
 
       else if window.previewCode = W.EmbedCode.parse(embedCode)
         if previewCode instanceof W.ApiEmbedCode
-          # Set an extra handle `window.previewEmbed` on API embeds so we can 
+          # Set an extra handle `window.previewEmbed` on API embeds so we can
           # manipulate them regardless of their real handle.
           previewCode.handle("window.previewEmbed = " + previewCode.handle())
           targetElem.innerHTML = W.util.removeScriptTags(previewCode.toString())
@@ -51,8 +51,8 @@
           targetElem.innerHTML = W.util.removeScriptTags(previewCode.toString())
           W.util.execScriptTags(previewCode.toString())
         else if previewCode instanceof W.PopoverEmbedCode
-          # For popovers, show the thumbnail, and also get the iframe version 
-          # of the embed code via the Wistia oembed endpoint. Then we display 
+          # For popovers, show the thumbnail, and also get the iframe version
+          # of the embed code via the Wistia oembed endpoint. Then we display
           # both the thumbnail and the video in the preview.
           @fromOembed (embedType: 'iframe', autoPlay: false), (data) ->
             targetElem.innerHTML = W.util.removeScriptTags(previewCode.toString()) + "<br/>" + data.html
@@ -192,13 +192,13 @@
   # is returned in the typical oembed format,
   # [detailed in the Wistia docs](https://wistia.com/doc/oembed).
   W.EmbedCode.fromOembed = (hashedId, options = {}, callback) ->
-    $.getJSON "#{window.location.protocol}//#{W.constant.oembedHost}/oembed.json?callback=?",
+    $.getJSON "#{window.location.protocol}//#{W.Hosts.cdnFastWistiaComHost()}/oembed.json?callback=?",
       url: W.EmbedCode.oembedUrl(hashedId, options),
       (json) -> callback(json)
 
 
   W.EmbedCode.oembedUrl = (hashedId, options = {}) ->
-    "#{if options.ssl then "https:" else "http:"}//#{W.constant.embedHost}/embed/medias/#{hashedId}?#{W.url.jsonToParams(options)}"
+    "#{if options.ssl then "https:" else "http:"}//#{W.Hosts.cdnFastWistiaComHost()}/embed/medias/#{hashedId}?#{W.url.jsonToParams(options)}"
 
 
   W.EmbedCode._attrWhitelist =
@@ -667,7 +667,7 @@
       null
 
 
-  # Given a javascript object, convert it to JSON with unquoted keys 
+  # Given a javascript object, convert it to JSON with unquoted keys
   # (unless the key has punctuation in it).
   W.ApiEmbedCode.evilJsonStringify = (h) ->
     evilObj = W.ApiEmbedCode.evilDeepCopy h,
