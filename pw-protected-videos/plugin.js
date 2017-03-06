@@ -2,7 +2,7 @@
 2017-03-06 - Password protected video lab listing removed from labs page.
 
 Until we know that users are not using old pw-protected-videos embed codes, we'll need to
-keep the plugin around.
+keep the plugin around. Metric history: http://snowbeast.wistia.land/player/password-protected-lab-loaded
 */
 
 Wistia.plugin("passwordProtected", function(video, options) {
