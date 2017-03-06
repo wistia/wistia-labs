@@ -1,3 +1,10 @@
+/*
+2017-03-06 - Password protected video lab listing removed from labs page.
+
+Until we know that users are not using old pw-protected-videos embed codes, we'll need to
+keep the plugin around.
+*/
+
 Wistia.plugin("passwordProtected", function(video, options) {
   if (video._initializedPasswordProtected) {
     return;
@@ -182,7 +189,7 @@ Wistia.plugin("passwordProtected", function(video, options) {
       "font-size: 16px;" +
       "vertical-align: top;" +
       "}" +
-      
+
       "#" + uuid + "_password_submit {" +
       "border: 0;" +
       "border-radius: 0;" +
@@ -203,12 +210,12 @@ Wistia.plugin("passwordProtected", function(video, options) {
       "text-transform: uppercase;" +
       "vertical-align: top;" +
       "}" +
-      
+
       "#" + uuid + "_challenge_container {" +
       "margin-left: auto;" +
       "margin-right: auto;" +
       "}" +
-      
+
       "#" + uuid + "_error_text {" +
       "color: #f5d535;" +
       "margin:20px 0 0 0;" +
@@ -314,8 +321,8 @@ Wistia.plugin("passwordProtected", function(video, options) {
   // If the video dimensions change, update the overlay.
   video.bind("widthchange", fit).bind("heightchange", fit);
 
-  // We don't know when the font loads, and it looks horrible in 
-  // IE7 unless we fit after the font is ready. So let's just 
+  // We don't know when the font loads, and it looks horrible in
+  // IE7 unless we fit after the font is ready. So let's just
   // spam `fit()`.
   Wistia.timeout(video.uuid + "_pw_protected1", fit, 500)
   Wistia.timeout(video.uuid + "_pw_protected2", fit, 1500)
