@@ -149,7 +149,7 @@ Wistia.plugin("resumable", function(video, options) {
     // the resumable lab doesn't work well with autoplay.
     // The video might already be autoplaying by the time we get here,
     // so don't attempt to show the resumable overlay.
-    if (video.options.autoPlay === false) {
+    if (!(video.options.autoPlay == true)) {
       removeOverlay();
       if (resumeTime()) {
         if (video.state() === "beforeplay") {
@@ -199,7 +199,7 @@ Wistia.plugin("resumable", function(video, options) {
     if (!showOverlay()) {
       setTime(0);
     }
-    
+
     video.bind("secondchange", setTime)
 
     video.bind("end", function() {
