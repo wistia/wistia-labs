@@ -1,3 +1,10 @@
+/*
+2017-03-06 - Chaptering lab listing removed from labs page.
+
+Until we know that users are not using old chaptering embed codes, we'll need to
+keep the plugin around. Metric history: http://snowbeast.wistia.land/player/chapters-lab-loaded
+*/
+
 Wistia.plugin("chapters", function(video, options) {
   var uuid = Wistia.seqId();
   var chapterListCreated = false;
