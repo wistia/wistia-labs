@@ -238,24 +238,26 @@ Menu
 
             <label>Add the following code to the <strong>&lt;HEAD&gt;</strong> of all pages on your website</label>
             <textarea id="output_embed_code">
-<script src="//fast.wistia.com/static/embed_shepherd-v1.js"></script>
+<script src="//fast.wistia.com/assets/external/E-v1.js"></script>
 <script>
-//<![CDATA[
-wistiaEmbeds.onFind(function(video) {
+window._wq = window._wq || [];
+_wq.push({ id: "_all", onEmbedded: function(video) {
   var email = Wistia.localStorage("golden-ticket");
   if (email) {
-    video.setEmail(email);
+    video.email(email);
   }
-});
-wistiaEmbeds.bind("conversion", function(video, type, data) {
-  if (/^(pre|mid|post)-roll-email$/.test(type)) {
-    Wistia.localStorage("golden-ticket", data);
-    for (var i = 0; i < wistiaEmbeds.length; i++) {
-      wistiaEmbeds[i].setEmail(data);
+
+  video.bind("conversion", function(type, email, firstName, lastName) {
+    if (/^(pre|mid|post)-roll-email$/.test(type)) {
+      Wistia.localStorage("golden-ticket", email);
+      var videos = Wistia.api.all();
+      var length = videos.length;
+      for (var i = 0; i < length; i++) {
+        videos[i].email(email);
+      }
     }
-  }
-});
-//]]>
+  });
+}});
 </script></textarea><br/>
 
           <div id="preview_area">
